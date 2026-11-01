@@ -2251,15 +2251,31 @@
         41351737915
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 159,
+      "title": "Pin execution input reset vector-only method behavior",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/159",
+      "merge_commit": "0b61abcf2b03c28979f173a3cce30ec92f7bbd59",
+      "reviewed_head": "e8d20882db9ae13c751f8f7600a0787020852b4d",
+      "ci_runs": [
+        41355113122,
+        41355113158,
+        41355113093
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/reset-input-vector-contract",
+    "branch": "research/h83002-child-order",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Fourth framework method identity:input reset vectors versus physical state/queue comment",
+    "scope": "Pinned lexical configuration declarations;actual owner/reset order unverified",
     "validation": {
-      "python_tests": 95,
-      "framework_methods": 4,
+      "python_tests": 97,
+      "declarations": 22,
+      "pinned_archive": "match",
       "runtime_tests": "not_rerun_research_only"
     }
   },

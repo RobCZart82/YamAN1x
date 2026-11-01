@@ -214,3 +214,15 @@ This method-local observation supports retaining held-level test coverage;it
 must not be generalized to full reset event-order guarantees. Before an in-place
 machine reset,inspect actual child construction order,queued input callbacks and
 scheduler local-time handling. No engine reset API is added here.
+
+## H83002 declaration order — candidate 2026-11-01
+
+`tools/h83002_child_order.py --archive /absolute/path/to/mame-master.zip --check`
+checks the locked source/method identity and ordered configuration declarations.
+The22 declarations are INTC,ADC,DMA,DMA0,DMA1,ports4/6/7/8/9/A/B,timer16,
+its five channels,SCI0,SCI1,watchdog,refresh. This is lexical configuration order,
+not proof of direct-child hierarchy or device-list insertion/reset order.
+DMA channels and timer channels may belong to different owners;that must be
+resolved from device creation before flattening this list into reset operations.
+The embedded research bus still lacks ADC/timer/watchdog/refresh integration.
+Next inspect owner resolution/device insertion and local-time/input scheduling.

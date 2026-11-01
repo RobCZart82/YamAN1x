@@ -3,6 +3,16 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## H83002 perifériakonfiguráció — jelölt, 2026-11-01
+
+A #159 beolvadt0b61abcf2b03c28979f173a3cce30ec92f7bbd59;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. Az új leltár22 konfigurációs
+bejegyzés sorrendjét és eredeti forrásazonosságát ellenőrzi. Különbség:
+lexikai létrehozás nem egyenlő a tényleges szülő/gyerek resetbejárással.
+Két új regressziós teszt:sorrendcsere/duplikáció és hiányzó módszer.
+Motorkód nem változott;teljesgép-reset továbbra sincs. Következő:owner-feloldás,
+eszközlista-beillesztés és idő/bemeneti eseménykezelés.
+
 ## Execution input reset pontosítása — jelölt, 2026-11-01
 
 A #158 beolvadt a25f29c913c53e664d1019b6ce2d80dab694ee1e,
