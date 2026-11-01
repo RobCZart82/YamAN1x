@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+  "files": [
+    {
+      "path": "src/emu/device.cpp",
+      "bytes": 30856,
+      "sha256": "2b21433291d0abab7f06840137d01c17c0ab8dfcf56b76e1f6cc3a7e9eb753e5",
+      "methods": [
+        {
+          "name": "device_t::reset",
+          "bytes": 464,
+          "sha256": "d09126bbd016e7a05bb6e51b18fcf8448ab017edb17787ab35974f06e090178b"
+        }
+      ]
+    },
+    {
+      "path": "src/emu/diexec.cpp",
+      "bytes": 23150,
+      "sha256": "4205a1f2cc15ca8fa358646faea259c14dcbeaa83137ed996fe1ede8beb03fe7",
+      "methods": [
+        {
+          "name": "device_execute_interface::interface_pre_reset",
+          "bytes": 302,
+          "sha256": "486a895143509c71f0be6c280f8699f534b3ed269386246c592dac5f9ec82d73"
+        },
+        {
+          "name": "device_execute_interface::interface_post_reset",
+          "bytes": 761,
+          "sha256": "b45db1c73bab0a640c59f4f7c79957c5f56a4961acc31d5c6619a49bdf6180be"
+        }
+      ]
+    }
+  ],
+  "scope": "Framework method identities only;not child insertion order,input reset semantics or global time proof"
+}

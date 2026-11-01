@@ -165,3 +165,29 @@ must leave the engine idle with no event. A high at950 followed by a real frame
 must yield the literal byte,SSR C4,exactly one RX IRQ,no error and no deadline.
 DMA read then restores SSR84. The existing synthetic wire supplies independent
 start/data/stop bits. This does not prove whole-machine time/input reset ordering.
+
+## Framework traversal — candidate 2026-11-01
+
+`research/h8-reset-traversal.json` pins two original framework files and three
+methods from the same locked archive. Reproduce with:
+
+```sh
+python3 tools/h8_reset_traversal.py --archive /absolute/path/to/mame-master.zip --check
+```
+
+The original device reset traversal runs interface pre-reset hooks,device_reset,
+then recursively resets subdevices,then device_reset_after_children and interface
+post-reset hooks. This establishes parent-before-child method ordering,not the
+actual H83002 child insertion order or a whole-machine execution trace.
+
+The execution interface pre-reset clears totalcycles and manages suspension.
+Its post-reset resets input objects and configures interrupt timers. Therefore
+retention of a physical input in an H8 component method alone does not prove
+retention through the execution interface/framework. Next inspect input-object
+reset semantics,device child construction order and scheduler local-time handling.
+Do not implement global reset by merely calling the already-tested components.
+The existing cold reconstruction remains the supported recovery operation.
+
+Two new tests detect changed/missing method identities and verify that archive
+verification failure prevents framework ZIP access. No source bodies or ROM
+payload are copied into the report. This is lexical evidence,not execution proof.

@@ -1,7 +1,29 @@
 # YamAN1x fejlesztési napló
 
-Frissítve: 2026-10-31. Időzóna: Europe/Budapest.
+Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
+
+## README logó és teljes aktualizálás — jelölt, 2026-11-01
+
+A projektgazda átlátszó SVG-logója váltja a felső szöveges címet,520px szélességgel,
+YamAN1x alternatív szöveggel és H1 szerkezettel. Pontos fájlhash-kivétel védi
+az assetet;a forrás/engedély leírás frissült. A README tesztszámai89 CTest/94 Python,
+a beolvadt és jelölt állapot elkülönül,a korábbi audit történeti dátuma egyértelmű.
+A teljes README áttekintve;motor/ROM/GUI nem változott. A #154 része,még nem beolvadt.
+
+## Keretrendszer reset-sorrend — jelölt, 2026-11-01
+
+A #153 beolvadt1a2468855cf35ee5641d586bd1b6777a5e75f71f,
+2026-10-31T19:07:13Z;aktuális head8f314a5c93471300b7ac6a478416c4d0514cd005.
+Négy CI sikeres (41225516208,41225516296);sikeres automatikus review-t nem állítunk.
+Az új archívumellenőrző két eredeti framework-fájl/három módszer azonosságát
+rögzíti. Sorrend:interface pre-reset,szülő reset,gyerekek resetje,szülő utómunka,
+interface post-reset. Az execution-interface külön törli a ciklusszámlálót és
+reseteli a bemeneti objektumokat;ezért a komponensbemenet-megőrzési tesztek
+nem bizonyítják a teljes framework viselkedését. Következő:bemeneti objektumok,
+gyerek-létrehozási sorrend és scheduler-idő. Új melegreset-API nincs.
+94 Python sikeres;teljes runtime készletet kutatási változás miatt nem futtattunk újra.
+Az automatika továbbra is leállítva;ez a felhasználó által kért folytatás.
 
 ## README hardverfotó — jelölt, 2026-10-31
 

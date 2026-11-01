@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Keretrendszer reset-sorrend — jelölt, 2026-11-01
+
+A #153 beolvadt1a2468855cf35ee5641d586bd1b6777a5e75f71f,
+2026-10-31T19:07:13Z;aktuális head8f314a5c93471300b7ac6a478416c4d0514cd005.
+Négy CI sikeres (41225516208,41225516296);sikeres automatikus review-t nem állítunk.
+Az új archívumellenőrző két eredeti framework-fájl/három módszer azonosságát
+rögzíti. Sorrend:interface pre-reset,szülő reset,gyerekek resetje,szülő utómunka,
+interface post-reset. Az execution-interface külön törli a ciklusszámlálót és
+reseteli a bemeneti objektumokat;ezért a komponensbemenet-megőrzési tesztek
+nem bizonyítják a teljes framework viselkedését. Következő:bemeneti objektumok,
+gyerek-létrehozási sorrend és scheduler-idő. Új melegreset-API nincs.
+94 Python sikeres;teljes runtime készletet kutatási változás miatt nem futtattunk újra.
+Az automatika továbbra is leállítva;ez a felhasználó által kért folytatás.
+
 ## Aktuális összefoglaló az első REAPER-hangig — 2026-10-31
 
 A #152 beolvadt `8b2930234de7b0b512f8ecdb9f04414782f14a53`,

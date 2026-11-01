@@ -18,7 +18,8 @@ Merged #150 IRQ reset tests:four CI jobs and exact-head code review PASS.
 Merged #151 post-reset TX tests:four CI jobs and exact-head code review PASS.
 Merged #152 post-reset RX tests at8b2930234de7b0b512f8ecdb9f04414782f14a53.
 All four exact-head CI jobs PASS;automated review failed due to usage limit,not completed.
-Current candidate:documentation reconciliation and first-sound remaining milestones.
+Merged #153 documentation and original hardware illustration.
+Current candidate:framework reset traversal identities and ordering limits;94 Python tests PASS.
 Targeted ASan/UBSan PASS;no whole-machine warm reset API added.
 #146 documentation merged at41a1c1cea0b777653ede9e470ec5e6e7797b2ff2;all four CI jobs PASS.
 Engine implementation baseline remains #143.
