@@ -1,7 +1,16 @@
 # YamAN1x fejlesztési napló
 
-Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
+Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
+
+## H83002 konstruktorcímkék — jelölt, 2026-11-02
+
+A #160 beolvadt2b95cfe97bd6a292593871bbb51d0e407ab32988;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. A leltár most a konstruktor
+finder-címkéit is ellenőrzi:DMA dma:0/1,időzítők timer16:0…4.
+A SCI címkéit nem következteti ki a származtatott forrásból. Új független
+teszt vizsgálja a beágyazott címkét és a hiányzó finder elutasítását.
+Motorkód változatlan;a tényleges framework-owner/resetbejárás továbbra is nyitott.
 
 ## H83002 perifériakonfiguráció — jelölt, 2026-11-01
 

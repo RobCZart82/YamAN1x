@@ -1,4 +1,26 @@
 {
+  "constructor_tags": {
+    "m_intc": "intc",
+    "m_adc": "adc",
+    "m_dma": "dma",
+    "m_dma0": "dma:0",
+    "m_dma1": "dma:1",
+    "m_port4": "port4",
+    "m_port6": "port6",
+    "m_port7": "port7",
+    "m_port8": "port8",
+    "m_port9": "port9",
+    "m_porta": "porta",
+    "m_portb": "portb",
+    "m_timer16": "timer16",
+    "m_timer16_0": "timer16:0",
+    "m_timer16_1": "timer16:1",
+    "m_timer16_2": "timer16:2",
+    "m_timer16_3": "timer16:3",
+    "m_timer16_4": "timer16:4",
+    "m_watchdog": "watchdog",
+    "m_refresh": "refresh"
+  },
   "source_sha256": "2b422dc4081700cccc27d3a6f62307ae5f138f4f601181015ff1d6605ecf1e92",
   "method_body_sha256": "c14ff8987366a4c3e19ef87d6ba2804bfa05bc318dca61b2eeb7aec6322fbeca",
   "declarations": [

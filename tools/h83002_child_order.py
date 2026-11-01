@@ -12,7 +12,13 @@ def extract(raw):
     body=matches[0]
     calls=re.findall(r'^\s*(H8[A-Z0-9_]*)\(config,\s*(m_[a-z0-9_]+(?:\[[01]\])?),',body,re.M)
     if not calls or len({member for _,member in calls})!=len(calls):raise ValueError('Missing or duplicate configured member')
-    return dict(source_sha256=hashlib.sha256(raw).hexdigest(),method_body_sha256=hashlib.sha256(body.encode()).hexdigest(),
+    constructor=raw.decode().split('void h83002_device::map',1)[0]
+    tags=dict(re.findall(r'(m_[a-z0-9_]+)\(\*this, "([a-z0-9:]+)"\)',constructor))
+    for _,member in calls:
+        # SCI array tags originate in the base H8 constructor,not this source.
+        if member.startswith('m_sci['):continue
+        if member not in tags:raise ValueError('Missing constructor tag: '+member)
+    return dict(constructor_tags=tags,source_sha256=hashlib.sha256(raw).hexdigest(),method_body_sha256=hashlib.sha256(body.encode()).hexdigest(),
                 declarations=[dict(type=t,member=m) for t,m in calls],scope='Lexical declaration order only;not actual hierarchy or reset execution proof')
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--archive',type=Path,required=True);p.add_argument('--check',action='store_true');a=p.parse_args()

@@ -5,6 +5,15 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## H83002 konstruktorcímkék — jelölt, 2026-11-02
+
+A #160 beolvadt2b95cfe97bd6a292593871bbb51d0e407ab32988;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. A leltár most a konstruktor
+finder-címkéit is ellenőrzi:DMA dma:0/1,időzítők timer16:0…4.
+A SCI címkéit nem következteti ki a származtatott forrásból. Új független
+teszt vizsgálja a beágyazott címkét és a hiányzó finder elutasítását.
+Motorkód változatlan;a tényleges framework-owner/resetbejárás továbbra is nyitott.
+
 ## H83002 perifériakonfiguráció — jelölt, 2026-11-01
 
 A #159 beolvadt0b61abcf2b03c28979f173a3cce30ec92f7bbd59;öt CI sikeres,

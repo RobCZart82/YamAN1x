@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-01",
+  "recorded_date": "2026-11-02",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
   "baseline_commit": "301eec75c72028b8f377ee4e099fce0b1df4de5e",
@@ -2266,16 +2266,29 @@
         41355113093
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 160,
+      "title": "Pin H83002 configuration declaration order and hierarchy limits",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/160",
+      "merge_commit": "2b95cfe97bd6a292593871bbb51d0e407ab32988",
+      "reviewed_head": "9341d62c3f8b82411ec60088af119875a4e77675",
+      "ci_runs": [
+        41358539384,
+        41358539442,
+        41358539485
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/h83002-child-order",
+    "branch": "research/h83002-owner-tags",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Pinned lexical configuration declarations;actual owner/reset order unverified",
+    "scope": "Constructor finder tags and nested peripheral hierarchy evidence",
     "validation": {
-      "python_tests": 97,
-      "declarations": 22,
-      "pinned_archive": "match",
+      "python_tests": 98,
       "runtime_tests": "not_rerun_research_only"
     }
   },
