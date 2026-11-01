@@ -2209,16 +2209,32 @@
         41330079354
       ],
       "automated_review_at_merge": "not_rechecked_in_followup"
+    },
+    {
+      "pr": 156,
+      "title": "Fail stop on swallowed reentry and parse verified archive snapshots",
+      "status": "merged",
+      "kind": "bugfix",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/156",
+      "merge_commit": "a4f91cefc4ccfa7669e6dbc7eee3459d1137b43e",
+      "reviewed_head": "39c421da743feecb3e5aea808f4cd012c9c026b9",
+      "merged_at_utc": "2026-11-01T17:53:56Z",
+      "ci_runs": [
+        41332627309,
+        41332627313,
+        41332627395
+      ],
+      "automated_review_at_merge": "not_rechecked_in_ci_followup"
     }
   ],
   "active_change": {
-    "branch": "fix/failstop-and-source-identity",
+    "branch": "ci/reset-sanitizer-coverage",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Audit fix1:swallowed reentry poisoning and verified private archive snapshot",
+    "scope": "Audit fix2:eight reset/peripheral/failstop tests in ASan+UBSan Ubuntu CI",
     "validation": {
-      "python_tests": 95,
-      "targeted_asan_ubsan": "pass",
-      "ctest_groups": 90
+      "local_asan_ubsan_tests": 8,
+      "ci_regex_registered_tests": 8,
+      "full_runtime_suite": "not_rerun_ci_only"
     }
   },
   "pending_changes": []
