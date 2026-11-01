@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-10-31",
+  "recorded_date": "2026-11-01",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
   "baseline_commit": "301eec75c72028b8f377ee4e099fce0b1df4de5e",
@@ -2168,16 +2168,32 @@
       ],
       "automated_review_at_merge": "failed_usage_limit_not_completed",
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/152#issuecomment-6544784804"
+    },
+    {
+      "pr": 153,
+      "title": "Refresh first-sound documentation and illustrate README with original hardware",
+      "status": "merged",
+      "kind": "documentation",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/153",
+      "merge_commit": "1a2468855cf35ee5641d586bd1b6777a5e75f71f",
+      "reviewed_head": "8f314a5c93471300b7ac6a478416c4d0514cd005",
+      "merged_at_utc": "2026-10-31T19:07:13Z",
+      "ci_runs": [
+        41225516208,
+        41225516296
+      ],
+      "automated_review_at_merge": "no_successful_result_verified"
     }
   ],
   "active_change": {
-    "branch": "docs/current-first-sound-status",
-    "status": "documentation_candidate",
-    "scope": "Close PR152 metadata and summarize remaining M0-M6 first-sound work;original user-supplied hardware photo with explicit non-plugin caption and exact-hash upload exception",
+    "branch": "research/reset-traversal",
+    "status": "local_validation_passed_ci_pending",
+    "scope": "Framework traversal and execution interface reset identity evidence",
     "validation": {
-      "python_tests": 92,
-      "source_audit_files": 540,
-      "notice_covered_files": 229
+      "python_tests": 94,
+      "framework_files": 2,
+      "framework_methods": 3,
+      "runtime_tests": "not_rerun_research_only"
     }
   },
   "pending_changes": []
