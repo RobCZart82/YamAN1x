@@ -1,5 +1,4 @@
-<h1><img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520"></h1>
-
+<img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520"><br>
 Firmware-based Yamaha AN1x emulator research, preparing a future **VST3/AU**
 plugin. Repository name: **yaman1x**.
 
@@ -51,9 +50,11 @@ are merged through #152; **whole-machine warm reset is not implemented**.
 Full machine integration, firmware/MIDI/PKS acceptance, DSP/MEG behavior,
 offline audio, realtime rendering and VST3/REAPER acceptance remain open.
 
-Current work: [#154](https://github.com/RobCZart82/yaman1x/pull/154) pins framework
+Merged research: [#154](https://github.com/RobCZart82/yaman1x/pull/154) pins framework
 reset traversal identities and documents ordering limits; this README/logo
-refresh is part of the same open PR. Local Python validation:94 tests PASS.
+refresh was included there. Current documentation candidate replaces the top logo
+with the gold vector design and removes the heading gap. Local Python validation
+for the preceding research change:94 tests PASS.
 Final-head CI/review for the open PR remains pending. The source-only CTest
 inventory contains89 groups;the last full local run was #147 (89 PASS),while
 subsequent component test extensions were checked with targeted runs.

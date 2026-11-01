@@ -3,6 +3,13 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Arany vektorlogó a README elején — jelölt, 2026-11-01
+
+A projektgazda kérésére az arany,valódi vektoros logó került a legfelső sorba.
+A H1-blokk helyett kép és közvetlen sortörés következik,üres bekezdés nélkül;
+a projektleírás közvetlenül alatta kezdődik. Az SVG átlátszó,beágyazott PNG nélkül.
+Az asset ellenőrzőösszege és eredetleírása frissült. Motorkód változatlan.
+
 ## README logó és teljes aktualizálás — jelölt, 2026-11-01
 
 A projektgazda átlátszó SVG-logója váltja a felső szöveges címet,520px szélességgel,
