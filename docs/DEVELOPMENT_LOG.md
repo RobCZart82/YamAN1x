@@ -3,6 +3,20 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## #155 Windows SVG-hash javítás — 2026-11-01
+
+A Windows CI 88 tesztet teljesített,de a repository-audit az SVG hashét elutasította.
+A text=auto sortöréskonverzió módosította a bájtpontosan rögzített logót.
+A .gitattributes most kizárja ezt az egy SVG-t a szövegkonverzióból;az eredeti
+hash és az audit szigorúsága változatlan. A motor nem módosult.
+
+## Arany vektorlogó a README elején — jelölt, 2026-11-01
+
+A projektgazda kérésére az arany,valódi vektoros logó került a legfelső sorba.
+A H1-blokk helyett kép és közvetlen sortörés következik,üres bekezdés nélkül;
+a projektleírás közvetlenül alatta kezdődik. Az SVG átlátszó,beágyazott PNG nélkül.
+Az asset ellenőrzőösszege és eredetleírása frissült. Motorkód változatlan.
+
 ## README logó és teljes aktualizálás — jelölt, 2026-11-01
 
 A projektgazda átlátszó SVG-logója váltja a felső szöveges címet,520px szélességgel,

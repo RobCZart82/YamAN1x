@@ -15,7 +15,7 @@ import subprocess
 ALLOWED = {'.cpp', '.h', '.hpp', '.inc', '.py', '.md', '.txt', '.json', '.patch',
            '.cmake', '.yaml', '.yml', '.natvis'}
 # User-supplied original hardware photograph; exact asset exception only.
-APPROVED_IMAGES = {'docs/images/yaman1x-logo.svg': 'd26285b0fa4d4e38886dd248571364f9121e6aee53712ebae3854bc391e22299', 'docs/images/an1x-hardware.png': '7029e1998c09b6d6a4993242eb14a712b70a043da3cc6e7e55901a770779db07'}
+APPROVED_IMAGES = {'docs/images/yaman1x-logo.svg': 'c37268d6900dbe1244aa6af5e0d06c5be538c7c3e40dc6727a65d818a982e921', 'docs/images/an1x-hardware.png': '7029e1998c09b6d6a4993242eb14a712b70a043da3cc6e7e55901a770779db07'}
 NAMES = {'CMakeLists.txt', 'LICENSE', '.gitignore', '.gitattributes', '.gitkeep'}
 EXCLUDED_DIRS = {'work', 'private_runs', 'roms', 'vendor', '__pycache__'}
 PATTERNS = [

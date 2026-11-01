@@ -9,7 +9,7 @@ The project-wide licensing statement does not grant one.
 ## Project logo
 
 `yaman1x-logo.svg` is the project owner's supplied transparent vector logo,
-with the requested Y spacing and full-width cyan underline. Publication as the
-README heading was authorized by the owner. No separate redistribution license
+in gold original style,with seven vector letter paths and a smaller baseline-aligned x. Publication as the
+README top line was authorized by the owner. No separate redistribution license
 has been selected. The SVG has only embedded vector paths/gradients,no scripts,
 external references or font dependencies;its exact bytes are pinned by the audit.

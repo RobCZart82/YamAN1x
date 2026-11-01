@@ -2183,18 +2183,23 @@
         41225516296
       ],
       "automated_review_at_merge": "no_successful_result_verified"
+    },
+    {
+      "pr": 154,
+      "title": "Pin reset traversal evidence and refresh README with project logo",
+      "kind": "research-and-documentation",
+      "status": "merged",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/154",
+      "merge_commit": "31534073c0d026e000f84c5829689b947245f3bb",
+      "reviewed_head": "e24130631ae2cbf104429daee6a87412ebe5555c",
+      "merged_at_utc": "2026-11-01T09:16:59Z",
+      "automated_review_at_merge": "not_rechecked_in_logo_change"
     }
   ],
   "active_change": {
-    "branch": "research/reset-traversal",
-    "status": "local_validation_passed_ci_pending",
-    "scope": "Framework traversal and execution interface reset identity evidence;transparent logo heading and full README status/count/history reconciliation",
-    "validation": {
-      "python_tests": 94,
-      "framework_files": 2,
-      "framework_methods": 3,
-      "runtime_tests": "not_rerun_research_only"
-    }
+    "branch": "docs/gold-logo-heading",
+    "status": "documentation_candidate",
+    "scope": "Gold true-vector logo on first README line with direct text line break"
   },
   "pending_changes": []
 }
