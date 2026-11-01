@@ -2188,7 +2188,7 @@
   "active_change": {
     "branch": "research/reset-traversal",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Framework traversal and execution interface reset identity evidence",
+    "scope": "Framework traversal and execution interface reset identity evidence;transparent logo heading and full README status/count/history reconciliation",
     "validation": {
       "python_tests": 94,
       "framework_files": 2,

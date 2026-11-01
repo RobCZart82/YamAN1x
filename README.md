@@ -1,4 +1,4 @@
-# YamAN1x
+<h1><img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520"></h1>
 
 Firmware-based Yamaha AN1x emulator research, preparing a future **VST3/AU**
 plugin. Repository name: **yaman1x**.
@@ -25,7 +25,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **85 CTest groups and 87 Python cases**. Tests generate synthetic
+The source-only build defines **89 CTest groups and 94 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -36,34 +36,35 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current state
 
-Merged #147 cold CPU reset tests:89 CTest/91 Python PASS locally and four CI jobs PASS.
-Merged #148 GPIO retention tests;four exact-head CI jobs PASS.
-Merged #149 SCI reset tests:four CI jobs and exact-head code review PASS.
-Merged #150 IRQ reset tests:four CI jobs and exact-head code review PASS.
-Merged #151 post-reset TX tests:four CI jobs and exact-head code review PASS.
-Merged #152 post-reset RX tests at8b2930234de7b0b512f8ecdb9f04414782f14a53.
-All four exact-head CI jobs PASS;automated review failed due to usage limit,not completed.
-Merged #153 documentation and original hardware illustration.
-Current candidate:framework reset traversal identities and ordering limits;94 Python tests PASS.
-Pinned method research #145 and boundary documentation #146 are merged.
-No warm reset API added;final candidate CI/review pending.
+Recorded: **2026-11-01**. Latest merged revision:
+[#153](https://github.com/RobCZart82/yaman1x/pull/153),
+`1a2468855cf35ee5641d586bd1b6777a5e75f71f`.
+The engine implementation baseline remains #143; later merged increments add
+CPU reset, GPIO retention, SCI abort/recovery and IRQ/NMI retention tests.
+The selected H8/H8H profile contains 562 generated methods and selects 264
+eligible handlers, with zero missing eligible rows and 135 excluded encoding
+rows. This is not complete CPU or AN1x machine acceptance.
 
-Verified engine baseline:[#143](https://github.com/RobCZart82/yaman1x/pull/143),
-`301eec75c72028b8f377ee4e099fce0b1df4de5e`;tested head `d2da27c15c8ebf8c083f35bb4a2cef18eba4d8c4`.
-88 CTest/87 Python;[platform/UBSan](https://github.com/RobCZart82/yaman1x/actions/runs/41127313949),
-[MSan](https://github.com/RobCZart82/yaman1x/actions/runs/41127314006),
-[MAME](https://github.com/RobCZart82/yaman1x/actions/runs/41127313987):all five jobs PASS.
-Actual macOS runner15;historical required check name macos-14 retained for ruleset compatibility.
-No recorded automated review result at inspection;none claimed.
-[Cold research lifecycle](docs/an1x-research-lifecycle.md) owns stable CPU/bus epochs,immutable ROM and
-explicit NVRAM preserve/clear.401 cut-point restarts match fresh CPU/TX histories;
-full256KiB NVRAM retains across8 epochs;invalid replacement preserves old epoch.
-Failed/reentrant recovery and epoch-relative copied RX schedules tested;targeted ASan/UBSan PASS.
-Not hardware warm reset. Research candidate above verifies method identities only. Next:verify warm-reset
-retention/publication matrix and reset ordering/time/input semantics before adding
-an in-place reset API;test active SCI,IRQ pins,GPIO latches,RAM and pending events.
-Generated CPU bodies unchanged:562 methods,264 selected/0 missing/135 excluded rows.
-Complete machine,LCD/DSP/MEG,physical timing,firmware/MIDI/PKS/audio/REAPER remain open.
+The [cold research lifecycle](docs/an1x-research-lifecycle.md) owns CPU/bus epochs,
+immutable ROM and explicit NVRAM preserve/clear policy. Component reset tests
+are merged through #152; **whole-machine warm reset is not implemented**.
+Full machine integration, firmware/MIDI/PKS acceptance, DSP/MEG behavior,
+offline audio, realtime rendering and VST3/REAPER acceptance remain open.
+
+Current work: [#154](https://github.com/RobCZart82/yaman1x/pull/154) pins framework
+reset traversal identities and documents ordering limits; this README/logo
+refresh is part of the same open PR. Local Python validation:94 tests PASS.
+Final-head CI/review for the open PR remains pending. The source-only CTest
+inventory contains89 groups;the last full local run was #147 (89 PASS),while
+subsequent component test extensions were checked with targeted runs.
+
+The latest merged #153 head passed all four CI jobs
+([platform](https://github.com/RobCZart82/yaman1x/actions/runs/41225516208),
+[MSan](https://github.com/RobCZart82/yaman1x/actions/runs/41225516296)).
+Automatic review was quota-limited;no successful review is claimed.
+The macOS runner is macos-15;its historical required check name retains
+`macos-14` for ruleset compatibility. Separate MAME research builds and prior
+engine evidence are recorded in the development ledger.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.
@@ -93,8 +94,8 @@ AN1x clock and table-ROM scaling remain unresolved. These are recorded in
 [development status](docs/STATUS.md) and the [roadmap](docs/ROADMAP.md).
 
 The [development ledger](docs/DEVELOPMENT_LOG.md) records merged changes and
-maintenance rules. The [repository audit](docs/REPOSITORY_AUDIT_2026-10-28.md)
-lists verified checks, fixes and outstanding work. Contribution requirements
+maintenance rules. The [dated repository audit](docs/REPOSITORY_AUDIT_2026-10-28.md)
+preserves the October28 snapshot;the current status and ledger supersede it. Contribution requirements
 are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Local firmware research
@@ -125,7 +126,9 @@ open-source license for the project's own code has been selected yet.
 Upstream source files retain their licenses and copyright notices.
 
 `tools/repository_audit.py` checks candidate Git files, disallowed file types,
-binary/secret/path markers and every vendored source hash. It is an upload
+binary/secret/path markers and every vendored source hash. The original hardware
+photo and project logo are permitted only at their exact approved paths/hashes;
+see [asset provenance](docs/images/README.md). It is an upload
 check, not a guarantee of firmware authenticity or hardware fidelity.
 
 Product spelling is **YamAN1x**. Existing internal `yamanix` identifiers and the
@@ -183,4 +186,4 @@ Merged extension [unary/extension family](docs/h8-unary-extension.md) adds NOT/N
 
 Merged extension [fixed-profile TRAPA entry](docs/h8-trapa-entry.md) adds synchronous trap stack/vector handling; external IRQ/NMI remains separate.
 
-Candidate: [signed16 displacement memory moves](docs/h8-displacement16-memory.md).
+Historical extension: [signed16 displacement memory moves](docs/h8-displacement16-memory.md).
