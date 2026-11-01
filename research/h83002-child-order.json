@@ -1,0 +1,96 @@
+{
+  "source_sha256": "2b422dc4081700cccc27d3a6f62307ae5f138f4f601181015ff1d6605ecf1e92",
+  "method_body_sha256": "c14ff8987366a4c3e19ef87d6ba2804bfa05bc318dca61b2eeb7aec6322fbeca",
+  "declarations": [
+    {
+      "type": "H8H_INTC",
+      "member": "m_intc"
+    },
+    {
+      "type": "H8_ADC_3337",
+      "member": "m_adc"
+    },
+    {
+      "type": "H8H_DMA",
+      "member": "m_dma"
+    },
+    {
+      "type": "H8H_DMA_CHANNEL",
+      "member": "m_dma0"
+    },
+    {
+      "type": "H8H_DMA_CHANNEL",
+      "member": "m_dma1"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_port4"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_port6"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_port7"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_port8"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_port9"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_porta"
+    },
+    {
+      "type": "H8_PORT",
+      "member": "m_portb"
+    },
+    {
+      "type": "H8_TIMER16",
+      "member": "m_timer16"
+    },
+    {
+      "type": "H8H_TIMER16_CHANNEL",
+      "member": "m_timer16_0"
+    },
+    {
+      "type": "H8H_TIMER16_CHANNEL",
+      "member": "m_timer16_1"
+    },
+    {
+      "type": "H8H_TIMER16_CHANNEL",
+      "member": "m_timer16_2"
+    },
+    {
+      "type": "H8H_TIMER16_CHANNEL",
+      "member": "m_timer16_3"
+    },
+    {
+      "type": "H8H_TIMER16_CHANNEL",
+      "member": "m_timer16_4"
+    },
+    {
+      "type": "H8_SCI",
+      "member": "m_sci[0]"
+    },
+    {
+      "type": "H8_SCI",
+      "member": "m_sci[1]"
+    },
+    {
+      "type": "H8_WATCHDOG",
+      "member": "m_watchdog"
+    },
+    {
+      "type": "H8_REFRESH",
+      "member": "m_refresh"
+    }
+  ],
+  "scope": "Lexical declaration order only;not actual hierarchy or reset execution proof",
+  "upstream_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01"
+}
