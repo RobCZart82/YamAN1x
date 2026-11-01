@@ -56,7 +56,7 @@ acceptance remain open.
 
 Candidate validation: Windows MSVC Release; 27 locally runnable CTest groups PASS, with the complete Python group excluded due to the established symlink privilege restriction. Both new Python cases PASS. Complete candidate suite: 28 CTest groups / 76 Python cases; final #46 platform CI is tracked on the PR. Source provenance and notice audits PASS.
 
-## Reentry fail-stop audit fix — candidate 2026-11-01
+## Reentry fail-stop audit fix — merged #156,2026-11-01
 
 Reentering the runner poisons it before throwing. After each execution callback,
 the outer call checks that poison flag so swallowing the inner exception cannot

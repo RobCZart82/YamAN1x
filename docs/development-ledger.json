@@ -2225,17 +2225,23 @@
         41332627395
       ],
       "automated_review_at_merge": "not_rechecked_in_ci_followup"
+    },
+    {
+      "pr": 157,
+      "title": "Run reset peripheral and reentry checks under ASan and UBSan in CI",
+      "status": "merged",
+      "kind": "ci",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/157",
+      "merge_commit": "15217f7fe1ffa8e6894730b24357feac311c1c0d",
+      "reviewed_head": "49f64aa142409fef04fbf7393caeaada053971b0",
+      "merged_at_utc": "2026-11-01T19:52:16Z",
+      "automated_review_at_merge": "not_rechecked_in_documentation_followup"
     }
   ],
   "active_change": {
-    "branch": "ci/reset-sanitizer-coverage",
-    "status": "local_validation_passed_ci_pending",
-    "scope": "Audit fix2:eight reset/peripheral/failstop tests in ASan+UBSan Ubuntu CI",
-    "validation": {
-      "local_asan_ubsan_tests": 8,
-      "ci_regex_registered_tests": 8,
-      "full_runtime_suite": "not_rerun_ci_only"
-    }
+    "branch": "docs/reconcile-audit-closures",
+    "status": "documentation_candidate",
+    "scope": "Audit fix3:current/historical status and test evidence reconciliation"
   },
   "pending_changes": []
 }

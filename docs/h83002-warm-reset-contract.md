@@ -166,7 +166,7 @@ must yield the literal byte,SSR C4,exactly one RX IRQ,no error and no deadline.
 DMA read then restores SSR84. The existing synthetic wire supplies independent
 start/data/stop bits. This does not prove whole-machine time/input reset ordering.
 
-## Framework traversal — candidate 2026-11-01
+## Framework traversal — merged #154,2026-11-01
 
 `research/h8-reset-traversal.json` pins two original framework files and three
 methods from the same locked archive. Reproduce with:
@@ -192,7 +192,7 @@ Two new tests detect changed/missing method identities and verify that archive
 verification failure prevents framework ZIP access. No source bodies or ROM
 payload are copied into the report. This is lexical evidence,not execution proof.
 
-## Verified archive snapshot — audit fix candidate,2026-11-01
+## Verified archive snapshot — merged #156,2026-11-01
 
 Both identity tools now hash a private temporary snapshot while copying the source,
 then parse that same snapshot. Replacing the source path after verification cannot

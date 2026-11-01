@@ -3,6 +3,23 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Auditjavítás 3 — dokumentáció egységesítése, jelölt, 2026-11-01
+
+A #157 beolvadt15217f7fe1ffa8e6894730b24357feac311c1c0d,
+2026-11-01T19:52:16Z;pontos head49f64aa142409fef04fbf7393caeaada053971b0.
+README/státusz/roadmap aktuális összefoglalója90 CTest/95 Python leltárra,
+#154–157 beolvadt változásokra és a valóban nyitott gépintegrációs kapukra frissült.
+A régi jelölt/pending bejegyzések történeti állapotként elkülönítve maradnak.
+A teljes helyi90/95 bizonyíték #156-hoz,a nyolc sanitizer-csoport #157-hez tartozik.
+Ez csak dokumentáció;runtime tesztet nem futtatunk újra. Jelölt,nem beolvadt.
+Következő:execution-input reset,gyereksorrend és scheduler-idő kutatása/kis tesztelt
+integrációja. Gépszintű reset,firmware/MIDI/PKS és hang továbbra sincs elfogadva.
+
+## Historical development snapshots
+
+Earlier candidate descriptions below record their preparation-time state;
+merged status is tracked in development-ledger.json and the current summary.
+
 ## Auditjavítás 2 — sanitizer CI-lefedettség, jelölt, 2026-11-01
 
 A #156 beolvadt a4f91cefc4ccfa7669e6dbc7eee3459d1137b43e,

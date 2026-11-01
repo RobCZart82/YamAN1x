@@ -5,6 +5,23 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Auditjavítás 3 — dokumentáció egységesítése, jelölt, 2026-11-01
+
+A #157 beolvadt15217f7fe1ffa8e6894730b24357feac311c1c0d,
+2026-11-01T19:52:16Z;pontos head49f64aa142409fef04fbf7393caeaada053971b0.
+README/státusz/roadmap aktuális összefoglalója90 CTest/95 Python leltárra,
+#154–157 beolvadt változásokra és a valóban nyitott gépintegrációs kapukra frissült.
+A régi jelölt/pending bejegyzések történeti állapotként elkülönítve maradnak.
+A teljes helyi90/95 bizonyíték #156-hoz,a nyolc sanitizer-csoport #157-hez tartozik.
+Ez csak dokumentáció;runtime tesztet nem futtatunk újra. Jelölt,nem beolvadt.
+Következő:execution-input reset,gyereksorrend és scheduler-idő kutatása/kis tesztelt
+integrációja. Gépszintű reset,firmware/MIDI/PKS és hang továbbra sincs elfogadva.
+
+## Historical development snapshots
+
+Earlier candidate descriptions below record their preparation-time state;
+merged status is tracked in development-ledger.json and the current summary.
+
 ## Keretrendszer reset-sorrend — jelölt, 2026-11-01
 
 A #153 beolvadt1a2468855cf35ee5641d586bd1b6777a5e75f71f,
