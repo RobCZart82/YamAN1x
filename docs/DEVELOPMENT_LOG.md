@@ -3,6 +3,17 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Auditjavítás 2 — sanitizer CI-lefedettség, jelölt, 2026-11-01
+
+A #156 beolvadt a4f91cefc4ccfa7669e6dbc7eee3459d1137b43e,
+2026-11-01T17:53:56Z;öt CI sikeres a39c421da743feecb3e5aea808f4cd012c9c026b9 headen.
+Az új Ubuntu CI-lépés külön ASan+UBSan buildből futtatja a CPU-reset,SCI,
+IRQ,GPIO,runner,busz,dispatcher és újrabelépési regresszió nyolc tesztjét.
+A tesztszűrő nulla találatnál is hibát jelez (--no-tests=error).
+Helyi ASan/UBSan:8/8 sikeres;a CI-regex pontosan8 regisztrált tesztet választ.
+Motorkód változatlan;CI és napló módosul. A harmadik,dokumentációs egységesítési
+csomag csak ennek beolvadása után következik. Jelölt,nem beolvadt.
+
 ## Hibakezelés és forrásazonosság — jelölt, 2026-11-01
 
 A #155 beolvadt e581c7b36dad130efc3254fcd25b18c7f02ea5bb,
