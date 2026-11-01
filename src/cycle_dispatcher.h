@@ -23,7 +23,7 @@ public:
     // deadline failure, discard dispatcher AND owner: no rollback is possible.
     template<class Owner>
     Result advance_to(uint64_t horizon, std::size_t budget, Owner& owner) {
-        if (busy_) throw std::logic_error("Reentrant cycle dispatch");
+        if (busy_) { failed_=true;throw std::logic_error("Reentrant cycle dispatch"); }
         if (failed_) throw std::logic_error("Failed cycle dispatcher");
         if (horizon<now_) throw std::invalid_argument("Cycle horizon moves backwards");
         busy_=true;
@@ -31,6 +31,7 @@ public:
         try {
             for (;;) {
                 const std::optional<uint64_t> event=owner.next_event();
+                if(failed_)throw std::logic_error("Reentered cycle dispatch");
                 if (event && *event<now_)
                     throw std::logic_error("Owner deadline moves backwards");
                 if (!event || *event>horizon) {
@@ -43,6 +44,7 @@ public:
                 }
                 now_=*event;
                 owner.service(now_);
+                if(failed_)throw std::logic_error("Reentered cycle dispatch");
                 ++count;
             }
         } catch (...) {

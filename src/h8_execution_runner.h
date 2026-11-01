@@ -29,13 +29,15 @@ public:
     // On any execution failure discard runner AND owner (no rollback).
     template<class Owner>
     std::size_t run(uint64_t start, int cycles, std::size_t limit, Owner& owner) {
-        if(busy_ || failed_) throw std::logic_error("Unavailable H8 execution runner");
+        if(busy_){failed_=true;throw std::logic_error("Reentrant H8 execution runner");}
+        if(failed_) throw std::logic_error("Unavailable H8 execution runner");
         budget_.begin_slice(start,cycles); // Reject invalid caller input before callbacks.
         busy_=true;
         std::size_t calls=0;
         auto call=[&](auto action) {
             if(calls==limit) throw std::runtime_error("H8 execution callback limit");
             ++calls; action();
+            if(failed_)throw std::logic_error("Reentered H8 execution runner");
         };
         auto update=[&](uint64_t cycle) {
             call([&]{budget_.recompute_deadline(owner.update(cycle));});

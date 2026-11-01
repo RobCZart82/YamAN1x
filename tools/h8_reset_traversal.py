@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import zipfile
-from h8_reset_contract import from_archive, method_identity
+from h8_reset_contract import verified_archive, method_identity
 
 METHODS={
  'device.cpp':['device_t::reset'],
@@ -12,10 +12,9 @@ METHODS={
 }
 
 def report(archive,lock):
-    # Verify entire archive and existing H8 identities before reading framework files.
-    from_archive(archive,lock)
+    # Verify and process one immutable private archive snapshot.
     files=[]
-    with zipfile.ZipFile(archive) as z:
+    with verified_archive(archive,lock) as z:
         for leaf,names in METHODS.items():
             path='src/emu/'+leaf
             members=[n for n in z.namelist() if n.endswith('/'+path)]

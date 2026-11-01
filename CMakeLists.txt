@@ -294,3 +294,7 @@ add_test(NAME yamanix_live_bridge_optimized COMMAND ${Python3_EXECUTABLE} -O ${C
 add_executable(yamanix_h8_reset_check tests/h8_reset_execution_check.cpp)
 target_include_directories(yamanix_h8_reset_check PRIVATE src)
 add_test(NAME yamanix_h8_reset_execution COMMAND yamanix_h8_reset_check)
+
+add_executable(yamanix_reentry_failstop_check tests/reentry_failstop_check.cpp)
+target_include_directories(yamanix_reentry_failstop_check PRIVATE src)
+add_test(NAME yamanix_reentry_failstop COMMAND yamanix_reentry_failstop_check)

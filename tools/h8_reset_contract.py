@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import re
 import zipfile
+import tempfile
+from contextlib import contextmanager
 
 METHODS={
  'h8.cpp':['h8_device::device_reset'],
@@ -33,15 +35,23 @@ def report(files,commit):
     return dict(schema_version=1,upstream_commit=commit,files=result,
                 scope='Six original device_reset method identities only;not execution,global ordering,generated CPU reset,hardware fidelity or RAM retention proof.')
 
-def from_archive(path,lock):
+@contextmanager
+def verified_archive(path,lock):
+    # Process the exact private snapshot that was hashed;never reopen source path.
     digest=hashlib.sha256()
-    with path.open('rb') as stream:
-        for chunk in iter(lambda:stream.read(1024*1024),b''):
-            digest.update(chunk)
-    if digest.hexdigest()!=lock['archive_sha256']:
-        raise ValueError('Archive differs from locked source')
+    with tempfile.TemporaryFile() as snapshot:
+        with path.open('rb') as stream:
+            for chunk in iter(lambda:stream.read(1024*1024),b''):
+                digest.update(chunk);snapshot.write(chunk)
+        if digest.hexdigest()!=lock['archive_sha256']:
+            raise ValueError('Archive differs from locked source')
+        snapshot.seek(0)
+        with zipfile.ZipFile(snapshot) as archive:
+            yield archive
+
+def from_archive(path,lock):
     files={}
-    with zipfile.ZipFile(path) as archive:
+    with verified_archive(path,lock) as archive:
         for leaf in METHODS:
             key='src/devices/cpu/h8/'+leaf
             members=[n for n in archive.namelist() if n.endswith('/'+key)]
