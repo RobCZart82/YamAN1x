@@ -199,3 +199,18 @@ then parse that same snapshot. Replacing the source path after verification cann
 change report input. A regression test replaces the original with invalid bytes
 at ZIP-open time and requires the unchanged verified report. A private disk-backed
 snapshot avoids holding the complete source archive in memory.
+
+## Execution input reset — candidate 2026-11-01
+
+The locked framework report now also identifies
+`device_execute_interface::device_input::reset`. Its complete method assigns
+only current/stored vectors to the default IRQ vector. It does not assign the
+current physical state or queue index in that method. The broader post-reset
+comment says vectors and queues,but that comment is not proof of queue clearing.
+The earlier warning about framework input behavior is narrowed by this finding;
+retention through other framework operations and actual scheduling remains open.
+
+This method-local observation supports retaining held-level test coverage;it
+must not be generalized to full reset event-order guarantees. Before an in-place
+machine reset,inspect actual child construction order,queued input callbacks and
+scheduler local-time handling. No engine reset API is added here.

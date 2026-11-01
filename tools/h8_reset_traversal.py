@@ -8,7 +8,7 @@ from h8_reset_contract import verified_archive, method_identity
 
 METHODS={
  'device.cpp':['device_t::reset'],
- 'diexec.cpp':['device_execute_interface::interface_pre_reset','device_execute_interface::interface_post_reset'],
+ 'diexec.cpp':['device_execute_interface::interface_pre_reset','device_execute_interface::interface_post_reset','device_execute_interface::device_input::reset'],
 }
 
 def report(archive,lock):
@@ -34,6 +34,6 @@ def main():
     if a.check:
         if result!=json.loads((root/'research/h8-reset-traversal.json').read_text()):
             raise ValueError('Framework reset identity differs')
-        print('Two framework files/three reset methods match;global reset unverified')
+        print('Two framework files/four reset methods match;global reset unverified')
     else:print(json.dumps(result,indent=2))
 if __name__=='__main__':main()

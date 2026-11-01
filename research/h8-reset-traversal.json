@@ -28,6 +28,11 @@
           "name": "device_execute_interface::interface_post_reset",
           "bytes": 761,
           "sha256": "b45db1c73bab0a640c59f4f7c79957c5f56a4961acc31d5c6619a49bdf6180be"
+        },
+        {
+          "name": "device_execute_interface::device_input::reset",
+          "bytes": 131,
+          "sha256": "f0e19bc6e295203fe32d60cb0b3d5337e12e5f8fd18dc86b6de9260ecbf28982"
         }
       ]
     }

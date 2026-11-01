@@ -5,6 +5,17 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Execution input reset pontosítása — jelölt, 2026-11-01
+
+A #158 beolvadt a25f29c913c53e664d1019b6ce2d80dab694ee1e,
+2026-11-01T21:42:20Z;négy CI sikeres,nem volt rögzített automatikus review-eredmény.
+A negyedik rögzített framework-módszer a device_input::reset:csak az aktuális
+és tárolt IRQ-vektort állítja alaphelyzetbe. Bemeneti szintet vagy queue-indexet
+nem ír ebben a módszerben. A tágabb queue-törlési komment nem viselkedési bizonyíték.
+A teljes reset-sorrend/idővonal továbbra is nyitott;motorkód nem változott.
+95 Python sikeres;valódi lockolt archívum négy módszere egyezik.
+Következő:gyerekek konkrét sorrendje és ütemezett bemenet/idő kezelés.
+
 ## Auditjavítás 3 — dokumentáció egységesítése, jelölt, 2026-11-01
 
 A #157 beolvadt15217f7fe1ffa8e6894730b24357feac311c1c0d,
