@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **89 CTest groups and 94 Python cases**. Tests generate synthetic
+The source-only build defines **90 CTest groups and 95 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,39 +33,31 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current state
+## Current verified status — 2026-11-01
 
-Recorded: **2026-11-01**. Latest merged revision:
-[#153](https://github.com/RobCZart82/yaman1x/pull/153),
-`1a2468855cf35ee5641d586bd1b6777a5e75f71f`.
-The engine implementation baseline remains #143; later merged increments add
-CPU reset, GPIO retention, SCI abort/recovery and IRQ/NMI retention tests.
-The selected H8/H8H profile contains 562 generated methods and selects 264
-eligible handlers, with zero missing eligible rows and 135 excluded encoding
-rows. This is not complete CPU or AN1x machine acceptance.
+Latest merged change:[#157](https://github.com/RobCZart82/yaman1x/pull/157),
+`15217f7fe1ffa8e6894730b24357feac311c1c0d` (2026-11-01T19:52:16Z).
+The source-only suite contains **90 CTest groups and 95 Python tests**.
+The complete local build/90 CTest/95 Python validation belongs to #156;
+#157 additionally passed the eight selected local ASan/UBSan groups.
+CI and review evidence must be read for its exact revision;local results are
+not a claim of hardware fidelity or a completed review of this candidate.
 
-The [cold research lifecycle](docs/an1x-research-lifecycle.md) owns CPU/bus epochs,
-immutable ROM and explicit NVRAM preserve/clear policy. Component reset tests
-are merged through #152; **whole-machine warm reset is not implemented**.
-Full machine integration, firmware/MIDI/PKS acceptance, DSP/MEG behavior,
-offline audio, realtime rendering and VST3/REAPER acceptance remain open.
+Merged #154 pins framework reset identities;#155 supplies the gold vector README
+logo and preserves its bytes under Windows checkout. #156 fixes swallowed reentry
+in dispatcher/runner/bus and processes reset archives from a verified private
+snapshot. #157 adds automated ASan/UBSan coverage for eight reset/peripheral/guard
+groups. This third audit-fix candidate reconciles documentation only.
 
-Merged research: [#154](https://github.com/RobCZart82/yaman1x/pull/154) pins framework
-reset traversal identities and documents ordering limits; this README/logo
-refresh was included there. Current documentation candidate replaces the top logo
-with the gold vector design and removes the heading gap. Local Python validation
-for the preceding research change:94 tests PASS.
-Final-head CI/review for the open PR remains pending. The source-only CTest
-inventory contains89 groups;the last full local run was #147 (89 PASS),while
-subsequent component test extensions were checked with targeted runs.
+CPU/bus cold reconstruction and component reset tests exist;whole-machine warm
+reset and complete firmware boot are **not accepted**. Next inspect execution
+input reset semantics,actual child reset order and scheduler time before adding
+an in-place machine reset. Firmware MIDI/PKS acceptance,DSP/table/EG/audio routing,
+offline reference sound,realtime rendering,VST3 and REAPER acceptance remain open.
+No AN1x audio,VST3,AU or GUI is currently delivered. No project-wide release
+license has been selected. ROMs remain local and unchanged.
 
-The latest merged #153 head passed all four CI jobs
-([platform](https://github.com/RobCZart82/yaman1x/actions/runs/41225516208),
-[MSan](https://github.com/RobCZart82/yaman1x/actions/runs/41225516296)).
-Automatic review was quota-limited;no successful review is claimed.
-The macOS runner is macos-15;its historical required check name retains
-`macos-14` for ruleset compatibility. Separate MAME research builds and prior
-engine evidence are recorded in the development ledger.
+One PR at a time. Current candidate:documentation reconciliation;not yet merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.
