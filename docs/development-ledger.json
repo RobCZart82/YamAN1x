@@ -2236,12 +2236,32 @@
       "reviewed_head": "49f64aa142409fef04fbf7393caeaada053971b0",
       "merged_at_utc": "2026-11-01T19:52:16Z",
       "automated_review_at_merge": "not_rechecked_in_documentation_followup"
+    },
+    {
+      "pr": 158,
+      "title": "Reconcile audit closures and current development documentation",
+      "status": "merged",
+      "kind": "documentation",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/158",
+      "merge_commit": "a25f29c913c53e664d1019b6ce2d80dab694ee1e",
+      "reviewed_head": "2fccb72f3ce6fe704207d989fdaea76edfa98fdd",
+      "merged_at_utc": "2026-11-01T21:42:20Z",
+      "ci_runs": [
+        41351737890,
+        41351737915
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "docs/reconcile-audit-closures",
-    "status": "documentation_candidate",
-    "scope": "Audit fix3:current/historical status and test evidence reconciliation"
+    "branch": "research/reset-input-vector-contract",
+    "status": "local_validation_passed_ci_pending",
+    "scope": "Fourth framework method identity:input reset vectors versus physical state/queue comment",
+    "validation": {
+      "python_tests": 95,
+      "framework_methods": 4,
+      "runtime_tests": "not_rerun_research_only"
+    }
   },
   "pending_changes": []
 }
