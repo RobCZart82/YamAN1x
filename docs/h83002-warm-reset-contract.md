@@ -226,3 +226,13 @@ DMA channels and timer channels may belong to different owners;that must be
 resolved from device creation before flattening this list into reset operations.
 The embedded research bus still lacks ADC/timer/watchdog/refresh integration.
 Next inspect owner resolution/device insertion and local-time/input scheduling.
+
+## Constructor tag hierarchy — candidate 2026-11-02
+
+The pinned H83002 inventory now records constructor finder tags and rejects
+missing tags for non-SCI declarations. DMA channel tags are dma:0 and dma:1;
+timer channel tags are timer16:0 through timer16:4. The other recorded peripheral
+tags have no colon. SCI array tags are initialized in a base constructor and
+are deliberately not inferred here. The CPU/INTC argument to a configuration
+macro is not,by itself,evidence of device ownership. Framework tag resolution
+and actual insertion traversal still need inspection before a reset API.
