@@ -16,12 +16,12 @@ class TraversalTests(unittest.TestCase):
      for leaf,names in m.METHODS.items():
       text='\n'.join('void '+n+'()\n{\n '+('changed();' if change else 'original();')+'\n}\n' for n in names if not missing or n!=names[0])
       z.writestr('root/src/emu/'+leaf,text)
-   with patch.object(m,'from_archive') as verify:
+   with patch.object(m,'verified_archive',side_effect=lambda p,l:zipfile.ZipFile(p)) as verify:
     write();a=m.report(p,{'commit':'test'});verify.assert_called_once()
     write(True);self.assertNotEqual(a,m.report(p,{'commit':'test'}))
     write(missing=True)
     with self.assertRaises(ValueError):m.report(p,{'commit':'test'})
  def test_hash_failure_prevents_zip_open(self):
-  with patch.object(m,'from_archive',side_effect=ValueError('bad archive')),patch.object(m.zipfile,'ZipFile') as z:
+  with patch.object(m,'verified_archive',side_effect=ValueError('bad archive')),patch.object(m.zipfile,'ZipFile') as z:
    with self.assertRaises(ValueError):m.report(Path('unused'),{})
    z.assert_not_called()

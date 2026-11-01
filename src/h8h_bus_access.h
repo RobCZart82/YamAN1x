@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
 
 namespace yamanix {
 // Bus: read_instruction_word, read_byte, write_byte, read_word, write_word.
@@ -36,7 +37,7 @@ public:
     }
 private:
     template<class F> decltype(auto) access(F f) {
-        if(busy_) throw std::logic_error("Reentrant H8H bus access");
+        if(busy_) {failed_=true;throw std::logic_error("Reentrant H8H bus access");}
         if(failed_) throw std::logic_error("Failed H8H bus owner");
         if(remaining_<std::numeric_limits<int>::min()+2)
             throw std::overflow_error("H8H cycle counter underflow");
@@ -59,7 +60,12 @@ private:
                 }
                 bus_.bus_cycle(cycle);
             }
-            return f();
+            if(failed_)throw std::logic_error("Reentered H8H bus access");
+            if constexpr(std::is_void_v<std::invoke_result_t<F>>) {
+                f();if(failed_)throw std::logic_error("Reentered H8H bus access");return;
+            } else {
+                auto result=f();if(failed_)throw std::logic_error("Reentered H8H bus access");return result;
+            }
         } catch(...) { failed_=true; throw; }
     }
     Bus& bus_;

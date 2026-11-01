@@ -55,3 +55,12 @@ CPU ordering, complete CPU execution, M1 firmware MIDI, audio and REAPER
 acceptance remain open.
 
 Candidate validation: Windows MSVC Release; 27 locally runnable CTest groups PASS, with the complete Python group excluded due to the established symlink privilege restriction. Both new Python cases PASS. Complete candidate suite: 28 CTest groups / 76 Python cases; final #46 platform CI is tracked on the PR. Source provenance and notice audits PASS.
+
+## Reentry fail-stop audit fix — candidate 2026-11-01
+
+Reentering the runner poisons it before throwing. After each execution callback,
+the outer call checks that poison flag so swallowing the inner exception cannot
+turn the outer call into success. CycleDispatcher and H8hBusAccess apply the same
+rule;the bus checks after the time callback before invoking the data callback.
+A failed owner must be discarded. This is single-threaded misuse detection,not
+thread safety. Regression tests cover swallowed exceptions and rejected reuse.

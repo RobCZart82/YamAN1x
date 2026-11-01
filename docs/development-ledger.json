@@ -2194,12 +2194,32 @@
       "reviewed_head": "e24130631ae2cbf104429daee6a87412ebe5555c",
       "merged_at_utc": "2026-11-01T09:16:59Z",
       "automated_review_at_merge": "not_rechecked_in_logo_change"
+    },
+    {
+      "pr": 155,
+      "title": "Use gold vector logo with compact README introduction",
+      "status": "merged",
+      "kind": "documentation",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/155",
+      "merge_commit": "e581c7b36dad130efc3254fcd25b18c7f02ea5bb",
+      "reviewed_head": "f9e2ae067ab0bed312be895aebc59daf30224511",
+      "merged_at_utc": "2026-11-01T17:32:32Z",
+      "ci_runs": [
+        41330079239,
+        41330079354
+      ],
+      "automated_review_at_merge": "not_rechecked_in_followup"
     }
   ],
   "active_change": {
-    "branch": "docs/gold-logo-heading",
-    "status": "documentation_candidate",
-    "scope": "Gold true-vector logo on first README line with direct text line break"
+    "branch": "fix/failstop-and-source-identity",
+    "status": "local_validation_passed_ci_pending",
+    "scope": "Audit fix1:swallowed reentry poisoning and verified private archive snapshot",
+    "validation": {
+      "python_tests": 95,
+      "targeted_asan_ubsan": "pass",
+      "ctest_groups": 90
+    }
   },
   "pending_changes": []
 }

@@ -191,3 +191,11 @@ The existing cold reconstruction remains the supported recovery operation.
 Two new tests detect changed/missing method identities and verify that archive
 verification failure prevents framework ZIP access. No source bodies or ROM
 payload are copied into the report. This is lexical evidence,not execution proof.
+
+## Verified archive snapshot — audit fix candidate,2026-11-01
+
+Both identity tools now hash a private temporary snapshot while copying the source,
+then parse that same snapshot. Replacing the source path after verification cannot
+change report input. A regression test replaces the original with invalid bytes
+at ZIP-open time and requires the unchanged verified report. A private disk-backed
+snapshot avoids holding the complete source archive in memory.

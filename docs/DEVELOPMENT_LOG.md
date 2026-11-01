@@ -3,6 +3,19 @@
 Frissítve: 2026-11-01. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Hibakezelés és forrásazonosság — jelölt, 2026-11-01
+
+A #155 beolvadt e581c7b36dad130efc3254fcd25b18c7f02ea5bb,
+2026-11-01T17:32:32Z;négy CI sikeres a f9e2ae067ab0bed312be895aebc59daf30224511 headen.
+Az első auditjavító csomag a dispatcher,CPU-runner és buszsegéd elnyelt
+újrabelépési kivételét is végleges hibává teszi. A külső hívás sem adhat sikert,
+és a hibás owner újra nem használható. A resetarchívumot hash-ellenőrzött
+privát ideiglenes másolatból olvassuk;a forrásnév későbbi cseréje nem hat rá.
+Új regressziós C++/Python kontrollok;95 Python és célzott ASan/UBSan sikeres.
+Teljes build és90/90 CTest sikeres;95 Python sikeres;célzott ASan/UBSan sikeres.
+A regressziós teszt a korábbi kódot elutasítja. Jelölt,nem beolvadt. A CI-bővítés és általános
+állapotdokumentáció külön következő PR lesz,csak e csomag beolvadása után.
+
 ## #155 Windows SVG-hash javítás — 2026-11-01
 
 A Windows CI 88 tesztet teljesített,de a repository-audit az SVG hashét elutasította.
