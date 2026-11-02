@@ -2,11 +2,11 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#175](https://github.com/RobCZart82/yaman1x/pull/175),
-`fa6af2f88821960bddcb1bad3858ffde4c13c44c`.
-The merged baseline has **99 CTest groups and100 Python tests**;the stopped-timer
-candidate adds group100. All five final CI jobs passed on #175 head
-`fb41b93953de9badfd0bb2bdc1417047a75f2b5e`. No open review thread or change
+Latest merged change:[#176](https://github.com/RobCZart82/yaman1x/pull/176),
+`ba29551ec8c3d4ab4da6bb7ec38d48f4381b84bf`.
+The merged baseline has **100 CTest groups and100 Python tests**;the standalone
+active-timer candidate adds group101. All five final CI jobs passed on #176 head
+`00157c36bdc90f19f7c3ac6a797c3fad630bdbf5`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -32,10 +32,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current stopped refresh-timer candidate adds byte counter/compare storage,
-reset and clock-disabled controls. Running clocks/IRQ still reject. The local
-firmware requests /2 atFFFFAD,so boot does not advance in this preparatory step.
-See [stopped refresh timer scope](an1x-refresh-stopped.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate adds a standalone active refresh timer with independent
+cycle and pinned-original comparisons. It is not connected to the machine yet;
+the existing firmware /2 request atFFFFAD still rejects. No boot progress claimed.
+See [active timer policy](h8-refresh-timer.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots

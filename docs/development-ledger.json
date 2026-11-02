@@ -2512,20 +2512,39 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 176,
+      "title": "Add stopped refresh timer subset before active clock integration",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/176",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "ba29551ec8c3d4ab4da6bb7ec38d48f4381b84bf",
+      "merged_at_utc": "2026-11-02T13:53:22Z",
+      "reviewed_head": "00157c36bdc90f19f7c3ac6a797c3fad630bdbf5",
+      "ci_runs": [
+        41450001106,
+        41450001129,
+        41450001118
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0,
+      "infrastructure_note": "Hosted macOS arm64 capacity cancellations retried;all five final checks succeeded."
     }
   ],
   "active_change": {
-    "branch": "feat/refresh-timer-contract",
+    "branch": "feat/refresh-active-clock",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Stopped refresh timer only;active CKS and IRQ unsupported",
+    "scope": "Standalone pinned-MAME active timer;not machine-integrated",
     "validation": {
-      "ctest_groups": 100,
+      "ctest_groups": 101,
       "python_tests": 100,
-      "full_runtime_suite": "99 existing pass;new group passes after test exception-type correction",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 19,
-      "next_local_stop": "0xFFFFAD",
-      "boot_progress": false
+      "original_handler_comparisons": 524288,
+      "sanitizer_ci_selected_groups": 20,
+      "boot_progress": false,
+      "full_runtime_suite": "pass",
+      "ctest_seconds": 50.4
     }
   },
   "pending_changes": []

@@ -5,6 +5,19 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Önálló aktív refresh-timer — jelölt,2026-11-02
+
+Friss main,#176 után. Külön komponens,nincs még gépi/IRQ bekötés. Hét osztó,
+abszolút fázis,compare/CMF,CMIE kéréslekérdezés,reset és korlátos deadline.
+Független ciklusorákulum és16416 felosztás;524288 összehasonlítás változatlan,
+privát snapshotból fordított eredeti MAME-kezelőkkel strict ASan/UBSan alatt.
+Eltérő túlcsordulás/compare-fölötti számláló és CMF read-gate korlát dokumentált.
+FFFFAD gépi megállás változatlan. Következő:eseményidővonal/IRQ/CPU bekötés.
+Szerződés:[h8-refresh-timer.md](h8-refresh-timer.md).
+Helyi validáció:101/101 CTest (50,40s),100 Python,célzott és eredeti referencia
+ASan/UBSan PASS. Forrásaudit571 fájl,notice229 fájl/5 szöveg,diff-check PASS.
+CI sanitizer20 csoport;saját CI/review és merge függőben.
+
 ## Leállított refresh-timer alap — jelölt,2026-11-02
 
 Friss main,#175 után. RTMCSR csakCKS0/CMIE0 (16 raw érték),CMF szoftveresen
