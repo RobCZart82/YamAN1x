@@ -252,3 +252,20 @@ configuration overloads,base SCI tags and any configuration additions must also
 be checked before claiming an exhaustive concrete traversal. In particular,
 queued input callbacks and scheduler local-time behavior remain separate gates.
 No runtime warm-reset API or physical hardware equivalence is added.
+
+## Queued RESET line — candidate 2026-11-02
+
+The locked report now identifies the original empty_event_queue callback as well.
+It processes queued entries in order,updating current state/vector per entry.
+RESET ASSERT suspends execution;clearing a previously reset-suspended device
+calls device.reset then resumes RESET suspension. A source FIXME explicitly
+leaves peripheral output deactivation on assertion unresolved. Therefore do not
+present a direct device reset call as complete RESET pin emulation.
+
+Ordinary asserted/held lines call execute_set_input with ASSERT;clear passes
+CLEAR. Non-clear ordinary inputs trigger interrupt wakeups. The queue counter
+is cleared at callback end,not by the vector-only device_input::reset method.
+Reset invoked inside queue processing has additional ordering/reentrancy effects;
+this is source inspection,not proof of every multi-event reset case. Next pin
+scheduler synchronization/local-time behavior and define the supported reset API
+boundary before runtime implementation. No warm-reset API is introduced here.

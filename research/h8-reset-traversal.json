@@ -39,6 +39,11 @@
           "name": "device_execute_interface::device_input::reset",
           "bytes": 131,
           "sha256": "f0e19bc6e295203fe32d60cb0b3d5337e12e5f8fd18dc86b6de9260ecbf28982"
+        },
+        {
+          "name": "device_input::empty_event_queue",
+          "bytes": 2084,
+          "sha256": "867ebff96cc7dd258f2676b0b6764394b77b7eee333460ace5056cd5c597d87e"
         }
       ]
     }

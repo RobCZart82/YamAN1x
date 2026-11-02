@@ -5,6 +5,16 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Sorba állított RESET-vonal — jelölt, 2026-11-02
+
+A #162 beolvadt36b71314dfae075b046b5b0bde34b92f0acb3c9b;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. Az eredeti empty_event_queue
+callback azonossága is rögzítve. RESET ASSERT felfüggeszt,felengedés resetel,
+majd folytat. A perifériakimenetek assertion alatti kezelésére upstream FIXME van.
+A queue-index a callback végén törlődik,nem a device_input::reset-ben.
+Új callback-azonosság teszt:megváltozott/hiányzó/dupla definíció.99 Python sikeres.
+Motorkód változatlan;következő a scheduler-szinkronizáció és helyi idő vizsgálata.
+
 ## Framework owner-feloldás — jelölt, 2026-11-02
 
 A #161 beolvadt a5b73ac6da7276f5afa4bbb1794b40a319a6a41f;öt CI sikeres,

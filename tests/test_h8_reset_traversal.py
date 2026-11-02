@@ -15,6 +15,7 @@ class TraversalTests(unittest.TestCase):
     with zipfile.ZipFile(p,'w') as z:
      for leaf,names in m.METHODS.items():
       text='\n'.join('void '+n+'()\n{\n '+('changed();' if change else 'original();')+'\n}\n' for n in names if not missing or n!=names[0])
+      if leaf=='diexec.cpp':text+='\nTIMER_CALLBACK_MEMBER(device_execute_interface::device_input::empty_event_queue)\n{\n}\n'
       z.writestr('root/src/emu/'+leaf,text)
    with patch.object(m,'verified_archive',side_effect=lambda p,l:zipfile.ZipFile(p)) as verify:
     write();a=m.report(p,{'commit':'test'});verify.assert_called_once()
@@ -25,3 +26,10 @@ class TraversalTests(unittest.TestCase):
   with patch.object(m,'verified_archive',side_effect=ValueError('bad archive')),patch.object(m.zipfile,'ZipFile') as z:
    with self.assertRaises(ValueError):m.report(Path('unused'),{})
    z.assert_not_called()
+
+ def test_queued_callback_identity(self):
+  raw=b'TIMER_CALLBACK_MEMBER(device_execute_interface::device_input::empty_event_queue)\n{\n reset();\n}\n'
+  a=m.queued_reset_identity(raw)
+  self.assertNotEqual(a,m.queued_reset_identity(raw.replace(b'reset();',b'resume();')))
+  for invalid in [b'',raw+raw]:
+   with self.assertRaises(ValueError):m.queued_reset_identity(invalid)
