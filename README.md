@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **107 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **108 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,11 +35,11 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#182](https://github.com/RobCZart82/yaman1x/pull/182),
-`bdf0ff6d14f1e2eea7f4486f927177a056b22d93`.
-The merged baseline has **106 CTest groups and100 Python tests**;the stopped
-ITU general-register candidate adds group107. All five final CI jobs passed on #182 head
-`f4be4b9d717524c0290dfe2ecf271f8934ae1c3b`. No open review thread or change
+Latest merged change:[#183](https://github.com/RobCZart82/yaman1x/pull/183),
+`89267c4ef11dd5d08f286433baff32624cce52ba`.
+The merged baseline has **107 CTest groups and100 Python tests**;the stopped
+ITU control candidate adds group108. All five final CI jobs passed on #183 head
+`9603b0067c2e08e0f89e20e32d166f83667151d0`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -65,10 +65,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate adds stopped GRA/GRB storage for all five ITU channels,
-aligned words and independent big-endian byte lanes. Active counters/compare
-remain unsupported. Local firmware next stops atFFFF64 (TCR0),PC0xA76,cycle299.
-See [ITU general-register scope](an1x-itu-general.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate adds stopped clock/edge/clear configuration for all five
+ITU channels. Counter start/events remain unsupported. Local unchanged firmware
+next stops atFFFF65 (TIOR0),PC0xA7A,cycle307.
+See [ITU channel-control scope](an1x-itu-control.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)

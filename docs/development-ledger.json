@@ -2627,21 +2627,37 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 183,
+      "title": "Add stopped ITU general-register word and byte storage",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/183",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "89267c4ef11dd5d08f286433baff32624cce52ba",
+      "reviewed_head": "9603b0067c2e08e0f89e20e32d166f83667151d0",
+      "ci_runs": [
+        41516087446,
+        41516087367,
+        41516087375
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/itu-general-registers",
+    "branch": "feat/itu-channel-control",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Stopped GRA/GRB word/byte storage only,no active counters or compare events",
+    "scope": "Stopped five-channel TCR configuration only,no counter start or active edges/clearing",
     "validation": {
-      "ctest_groups": 107,
+      "ctest_groups": 108,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 26,
-      "next_local_stop": "0xFFFF64",
+      "sanitizer_ci_selected_groups": 27,
+      "next_local_stop": "0xFFFF65",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 65.44
+      "ctest_seconds": 95.67
     }
   },
   "pending_changes": []
