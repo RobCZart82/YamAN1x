@@ -5,6 +5,28 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Korlátos firmware-boot próba — jelölt, 2026-11-02
+
+A #169 beolvadt `4cdc916e3bdd6e31eda23adfb184955b753b4ac1` commitként;
+öt CI sikeres aza95352d262a4149ace591b908913ae5f76025938 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Új in-process CLI explicit raw/swap16 memórianézettel,szigorú ciklus/szelet/callback
+korlátokkal és JSON stopjelentéssel. A ROM csak olvasott,nem másoljuk repository-ba.
+Hibás buszhozzáférés cím/típus/szélesség metaadata látható;ismeretlen GPIO-input
+fail-closed. Nincs kitalált PKS/MIDI/LCD/DSP válasz vagy bootelfogadás.
+Szintetikus CLI-teszt ellenőrzi a progresszt,ROM/MMIO/GPIO hibát,dekóder/callback
+megállást,argumentumokat,bájtsorrendet,méretet és a változatlan bemeneti SHA-t.
+Az első dekóderkontroll FFFF-je érvényes MOV volt;javítva invalid EEPMOV-kiterjesztésre.
+Helyi1.04 ROM explicit swap16 nézetben reset0x9D8,első stop0xFFFFEC bájtírás,
+PC0x9EC,perifériaciklus30. Eredeti SHA előtte/utána azonos. A kezdeti nyersnézet
+bájtsorrendhibás kísérlet volt,nem firmware-bizonyíték;oddreset-őr bekerült.
+Részletes szerződés:[an1x-boot-probe.md](an1x-boot-probe.md). Következő0xFFFFEC
+forrás/hardver-szerződésének vizsgálata,majd célzott MMIO-fejlesztés.
+Release build és mind94 CTest sikeres (51,24s);100 Python és strict célzott
+ASan/UBSan CLI-teszt sikeres. CI sanitizer-szűrő pontosan13 csoportot választ.
+Forrásaudit555 fájl,notice229 fájl/5 szöveg és diff-check sikeres.
+CI/review és beolvasztás függőben;teljes boot/hang/plugin továbbra sincs elfogadva.
+
 ## Gépszintű támogatott reset — jelölt, 2026-11-02
 
 A #168 beolvadt `90e484efa59d66d7da0dae0ade34022afb11aefe` commitként;
