@@ -3,7 +3,28 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
-## Megtartott BRCR profil — jelölt, 2026-11-02
+## Megtartott RFSHCR profil — jelölt,2026-11-02
+
+A beolvadt #174 után friss mainből:gyártói7.2.1 alapján FFFFAC=RFSHCR.
+Csak00/02 írás fogadott,readback02;254 más érték elutasított. Timer/DRAM/PSRAM,
+refresh-pin/mux/ciklus nincs szimulálva. Eredeti MAME map nem kezeli RFSHCR-t;
+FFAD–FFAF timer címek továbbra tiltottak. 256 érték,alias/reset/RAM/idő/word
+és129 CPU-vágás ellenőrzés. Részletek:[an1x-refresh-profile.md](an1x-refresh-profile.md).
+Változatlan helyi ROM következő megállásaFFFFAD,PC0xA1C,perifériaciklus124;
+64 teljes szeletciklus/19 callback,nem teljes boot vagy hang.
+Helyi validáció:99/99 CTest (56,78s),100 Python és célzott strict ASan/UBSan PASS.
+Forrásaudit565 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer18 csoport.
+Saját CI/review és beolvasztás függőben.
+
+## BRCR lezárás — 2026-11-02
+
+A #174 beolvadt `e0bdde0048214930dc1a656b083b94af96147fc5` commitként.
+Ellenőrzött head: `80097f42a2380b584e511d31286d4f3ea303f988`;mind az öt CI sikeres.
+CI-futások:41435081433,41435081517,41435081672. Review-szál és változtatáskérés nincs;
+automatikus review-eredmény nem volt rögzítve,nem tekintjük sikeres automatikus review-nak.
+Következő lépés a 0xFFFFAC regiszter forrásalapú azonosítása friss mainből.
+
+## Megtartott BRCR profil — korábbi jelölt, 2026-11-02
 
 A #173 beolvadt `876050a1dd299dd44b9b95742d5b8067ecbc9404` commitként;
 öt végső CI sikeres az e6fe544f12d00e858bce536800147c18b81954ed headen.

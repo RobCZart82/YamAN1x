@@ -5,6 +5,19 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Megtartott RFSHCR profil — jelölt,2026-11-02
+
+A beolvadt #174 után friss mainből:gyártói7.2.1 alapján FFFFAC=RFSHCR.
+Csak00/02 írás fogadott,readback02;254 más érték elutasított. Timer/DRAM/PSRAM,
+refresh-pin/mux/ciklus nincs szimulálva. Eredeti MAME map nem kezeli RFSHCR-t;
+FFAD–FFAF timer címek továbbra tiltottak. 256 érték,alias/reset/RAM/idő/word
+és129 CPU-vágás ellenőrzés. Részletek:[an1x-refresh-profile.md](an1x-refresh-profile.md).
+Változatlan helyi ROM következő megállásaFFFFAD,PC0xA1C,perifériaciklus124;
+64 teljes szeletciklus/19 callback,nem teljes boot vagy hang.
+Helyi validáció:99/99 CTest (56,78s),100 Python és célzott strict ASan/UBSan PASS.
+Forrásaudit565 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer18 csoport.
+Saját CI/review és beolvasztás függőben.
+
 ## Megtartott BRCR profil — jelölt, 2026-11-02
 
 A #173 beolvadt `876050a1dd299dd44b9b95742d5b8067ecbc9404` commitként;
