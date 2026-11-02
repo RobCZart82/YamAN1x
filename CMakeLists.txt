@@ -302,3 +302,7 @@ add_test(NAME yamanix_reentry_failstop COMMAND yamanix_reentry_failstop_check)
 add_executable(yamanix_reset_time_domain_check tests/reset_time_domain_check.cpp)
 target_include_directories(yamanix_reset_time_domain_check PRIVATE src)
 add_test(NAME yamanix_reset_time_domain COMMAND yamanix_reset_time_domain_check)
+
+add_executable(yamanix_an1x_peripheral_reset_check tests/an1x_peripheral_reset_check.cpp)
+target_include_directories(yamanix_an1x_peripheral_reset_check PRIVATE src)
+add_test(NAME yamanix_an1x_peripheral_reset COMMAND yamanix_an1x_peripheral_reset_check)

@@ -28,6 +28,14 @@ public:
     std::size_t consumed_input()const{return timeline_.consumed_input();}
     std::vector<uint8_t> nvram_image()const{return memory_.nvram_image();}
     void load_nvram(std::span<const uint8_t> image){access([&]{memory_.load_nvram(image);});}
+    // Stopped-owner policy for the supported subset only. No CPU reset or time advance.
+    // Keep memory,physical input levels and pending RX schedule at their absolute times.
+    void reset_supported_peripherals(){access([&]{
+        syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
+        reset_port(4,port4_);reset_port(6,port6_);reset_port(7,port7_);
+        reset_port(8,port8_);reset_port(9,port9_);reset_port(10,porta_);reset_port(11,portb_);
+        sci_.reset(*this);
+    });}
     uint8_t peek_sci(uint32_t a){return access([&]{return sci_.read8(a&0xffffff,false);});}
     uint64_t update(uint64_t cycle){return access([&]{advance(cycle);return deadline();});}
     void bus_cycle(uint64_t cycle){access([&]{advance(cycle);now_=timeline_.cycle();});}
@@ -54,13 +62,19 @@ public:
         }else memory_.write_word(a,v);});}
     void exception_hook(int v){access([&]{if constexpr(requires{sink_.exception_hook(v);})sink_.exception_hook(v);});}
     // Timed timeline sink and untimed MMIO sink,sharing one outward clock.
-    void tx(unsigned c,uint64_t at,bool v){sink_.tx(c,at,v);}
-    void clock(unsigned c,uint64_t at,bool v){sink_.clock(c,at,v);}
+    void tx(unsigned c,uint64_t at,bool v){sink_.tx(c,at,v);require_callback_live();}
+    void clock(unsigned c,uint64_t at,bool v){sink_.clock(c,at,v);require_callback_live();}
     bool dma_request(unsigned v,uint64_t at){return sink_.dma_request(v,at);}
     void tx(unsigned c,bool v){tx(c,now_,v);}
     void clock(unsigned c,bool v){clock(c,now_,v);}
     bool dma_request(unsigned v){return dma_request(v,now_);}
 private:
+    void require_callback_live()const{if(failed_)throw std::logic_error("Reentered AN1x callback");}
+    void reset_port(unsigned id,H8DigitalPort& port){port.reset([&](uint8_t data,uint8_t direction){
+        if constexpr(requires{sink_.gpio_write(id,now_,data,direction);})sink_.gpio_write(id,now_,data,direction);
+        else throw std::logic_error("GPIO output sink unavailable");
+        require_callback_live();
+    });}
     template<class F>decltype(auto) access(F&& f){
         if(busy_||failed_){failed_=true;throw std::logic_error("Unavailable AN1x SCI bus");}
         busy_=true;

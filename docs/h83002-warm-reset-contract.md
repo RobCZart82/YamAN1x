@@ -334,3 +334,17 @@ generated sequence. Existing all256-CCR cold-reset checks remain. Pinned referen
 identities are unchanged;this policy is not an original whole-machine trace.
 The earlier no-CPU-reset-API statements are historical;whole-machine warm reset,
 peripheral ordering and RESET line acceptance remain unimplemented.
+
+## Supported bus peripheral reset candidate — 2026-11-02
+
+reset_supported_peripherals is guarded by the bus access owner. It neither advances
+the timeline nor consumes pending input. Memory and GPIO state are retained;SYSCR
+becomes09,IRQ state resets/re-latches held levels,then CPU filters are republished
+from retained CCR. Ports4/6/7/8/9/A/B reset in that order,then SCI0/SCI1. This is
+an explicit subset policy;omitted DMA/ADC/timer/watchdog/refresh devices and global
+RESET scheduling are not modeled by it. Each SCI emits clock high then TX high
+at now_,canceling old shift deadlines while retaining physical RX per component.
+GPIO reset publishes only first/changed outputs. Reentry from GPIO or SCI output
+fails before further outputs,even when the callback catches the inner error.
+No CPU request or machine warm-reset API is added. Fixed reference remains
+MAME706dbb73281320c54d7c2f16262c1c3786f2be01 and the pinned reset/child-order reports.
