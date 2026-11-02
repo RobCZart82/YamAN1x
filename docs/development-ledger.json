@@ -2462,23 +2462,39 @@
         41413760000
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 173,
+      "title": "Add selected programmable WCR and WCER wait profile",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/173",
+      "merge_commit": "876050a1dd299dd44b9b95742d5b8067ecbc9404",
+      "reviewed_head": "e6fe544f12d00e858bce536800147c18b81954ed",
+      "ci_runs": [
+        41421348072,
+        41421348033,
+        41421348098
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/173#issuecomment-6573719395",
+      "review_completed_at_utc": "2026-11-02T09:32:38Z",
+      "infrastructure_note": "Confirmed hosted macOS arm64 capacity cancellations were retried;final checks succeeded."
     }
   ],
   "active_change": {
-    "branch": "feat/programmed-wait-profile",
-    "status": "local_validation_passed_ci_pending",
-    "scope": "Selected WCR/WCER programmable waits;explicit inactive WAIT,no physical reset/pin-wait1/auto",
+    "branch": "feat/retained-brcr-profile",
+    "status": "locally_validated_awaiting_ci_review",
+    "scope": "Only unchanged BRCRFE normalized profile;no physical bus release or address-pin changes",
     "validation": {
-      "ctest_groups": 97,
+      "ctest_groups": 98,
       "python_tests": 100,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 16,
+      "sanitizer_ci_selected_groups": 17,
       "local_rom_unchanged": true,
-      "next_local_stop": "0xFFFFF3",
-      "source_audit_files": 561,
-      "notice_covered_files": 229,
-      "diff_check": "pass"
+      "next_local_stop": "0xFFFFAC",
+      "ctest_seconds": 50.51
     }
   },
   "pending_changes": []

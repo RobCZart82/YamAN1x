@@ -44,3 +44,8 @@ Probe swap16,100000 requested cycles/slice64/callback limit100000 now stops at
 byte write0xFFFFF3 (BRCR),PC0x0009FC,peripheral cycle60. No full64-cycle slice
 returned. This is subset progress,not a hardware cycle measurement or boot.
 Next inspect a bounded BRCR profile without pretending to release a physical bus.
+
+## Subsequent retained BRCR candidate
+
+The unchanged FE-profile candidate passes BRCR and next stops at0xFFFFAC/PC0xA18/
+cycle116 after one complete64-cycle slice. See [BRCR scope](an1x-bus-release.md).

@@ -5,6 +5,26 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Megtartott BRCR profil — jelölt, 2026-11-02
+
+A #173 beolvadt `876050a1dd299dd44b9b95742d5b8067ecbc9404` commitként;
+öt végső CI sikeres az e6fe544f12d00e858bce536800147c18b81954ed headen.
+A macOS feladatok igazolt hosted-arm64 kapacitáshiány után újrapróbálva sikerültek;
+kódhiba vagy szabálymegkerülés nem kellett. Automatikus review ugyanazon headen
+2026-11-02T09:32:38Z-kor találat nélkül kész;bizonyíték a PR botösszegzésében.
+Gyártói6.2.5 alapján BRCR0xFFFFF3 változatlanFE profil:16 tartalékbit-normalizált
+írás elfogadott,240 buszátadást/cím-pinfunkciót módosító érték elutasított.
+Nincs BREQ/BACK/arbitráció vagy fizikai pinmux-szimuláció;a logikai24-bit map marad.
+256 érték,alias/reset/memória/idő,word előzetes elutasítás és129 CPU-vágás tesztelt.
+A változatlan helyi ROM már64 teljes szeletciklust/19 callbacket teljesít,majd
+0xFFFFAC bájtírásnál áll meg,PC0xA18,perifériaciklus116,öt GPIO-outputjelzéssel.
+Ez nem teljes boot vagy hardveridő. Szerződés:[an1x-bus-release.md](an1x-bus-release.md).
+Következő0xFFFFAC forrás/hardver-szerződésének azonosítása és korlátos kezelése.
+Helyi validáció:98/98 CTest (50,51s),100 Python,célzott strict ASan/UBSan PASS.
+Forrásaudit563 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer17 csoport.
+Az IRQ-hole teszt korábbi BRCR-ismeretlencím elvárását frissítettük;word-őrök megmaradtak.
+Saját CI/review és beolvasztás függőben.
+
 ## Programozott wait-state részprofil — jelölt, 2026-11-02
 
 A #172 beolvadt `5aadb6279ea98f608550453b06953a7676e5372f` commitként;
