@@ -2562,21 +2562,38 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 179,
+      "title": "Add idle ADC configuration with strict conversion and IRQ rejection",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/179",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "48ed518157ae3850b2cae70e89aa8a4ae8a4f5e1",
+      "reviewed_head": "c7ea69da70b221046536b03a608099040ff03475",
+      "ci_runs": [
+        41474846838,
+        41474846627,
+        41474846596
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0,
+      "infrastructure_note": "Research macOS hosted runner capacity cancellation retried successfully."
     }
   ],
   "active_change": {
-    "branch": "feat/next-peripheral-contract",
+    "branch": "feat/itu-register-contract",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Idle ADCSR configuration only,no conversion/analog sample/IRQ",
+    "scope": "Retained independent-channel TSNC E0 only;explicitly differs from pinned TSYR stub",
     "validation": {
-      "ctest_groups": 103,
+      "ctest_groups": 104,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 22,
-      "next_local_stop": "0xFFFF61",
+      "sanitizer_ci_selected_groups": 23,
+      "next_local_stop": "0xFFFF62",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 58.11
+      "ctest_seconds": 58.03
     }
   },
   "pending_changes": []

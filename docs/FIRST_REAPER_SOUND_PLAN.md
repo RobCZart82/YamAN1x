@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Megtartott ITU-szinkronprofil — jelölt,2026-11-02
+
+Gyártói10.2.2 alapjánFFFF61 TSNC (MAME neveTSYR),readbackE0. Csak független
+csatornák,8 raw elfogadott/248 szinkronengedély elutasított. Az eredeti rögzített
+MAME-kezelő itt stub:read00/write ignored;ettől a gyártói profil tudatosan eltér.
+Nincs aktív ITU-szinkronizálás/counter/IRQ vagy eredeti runtime-differenciál állítva.
+256 érték,alias/reset/RAM/idő/word és129 CPU-vágás. Változatlan helyi firmwareE0
+írása teljesül,következő stopFFFF62 TMDR,PC0xA5A,perifériaciklus247;
+192 teljes szeletciklus/55 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-sync.md](an1x-itu-sync.md).
+Helyi validáció:104/104 CTest (58,03s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit577 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer23
+csoport;saját CI/review és merge függőben.
+
 ## Nyugalmi ADC-konfiguráció — jelölt,2026-11-02
 
 Friss main,#178 után. ADCSR FFFFE8 csakADST0/ADIE0:csatorna/scan/óra tárolt,

@@ -3,6 +3,31 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Megtartott ITU-szinkronprofil — jelölt,2026-11-02
+
+Gyártói10.2.2 alapjánFFFF61 TSNC (MAME neveTSYR),readbackE0. Csak független
+csatornák,8 raw elfogadott/248 szinkronengedély elutasított. Az eredeti rögzített
+MAME-kezelő itt stub:read00/write ignored;ettől a gyártói profil tudatosan eltér.
+Nincs aktív ITU-szinkronizálás/counter/IRQ vagy eredeti runtime-differenciál állítva.
+256 érték,alias/reset/RAM/idő/word és129 CPU-vágás. Változatlan helyi firmwareE0
+írása teljesül,következő stopFFFF62 TMDR,PC0xA5A,perifériaciklus247;
+192 teljes szeletciklus/55 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-sync.md](an1x-itu-sync.md).
+Helyi validáció:104/104 CTest (58,03s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit577 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer23
+csoport;saját CI/review és merge függőben.
+
+## Nyugalmi ADC lezárás — 2026-11-02
+
+A #179 beolvadt `48ed518157ae3850b2cae70e89aa8a4ae8a4f5e1` commitként.
+Ellenőrzött head:`c7ea69da70b221046536b03a608099040ff03475`;mind5 CI sikeres.
+Futások:41474846838,41474846627,41474846596. A research-macOS igazolt
+hosted-arm64 kapacitáshiba utáni újrapróbálása sikeres. Review-szál és
+változtatáskérés nincs;automatikus review-eredmény nem volt rögzítve.
+A #178 merge-commit main-futásainak két macOS kapacitáshibája is rendezett:
+41471009802 és41471009805 végső feladatai sikeresek,MSan korábban sikeres.
+Következő:FFFF61 ITU TSYR inicializálás szerződésének vizsgálata friss mainből.
+
 ## Nyugalmi ADC-konfiguráció — jelölt,2026-11-02
 
 Friss main,#178 után. ADCSR FFFFE8 csakADST0/ADIE0:csatorna/scan/óra tárolt,

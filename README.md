@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **103 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **104 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,11 +35,11 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#178](https://github.com/RobCZart82/yaman1x/pull/178),
-`51226f9524ca0c1cc39d487b8c31b7232c8ccddf`.
-The merged baseline has **102 CTest groups and100 Python tests**;the idle-ADC
-candidate adds group103. All five final CI jobs passed on #178 head
-`63e76d1f7cd3adc5fd0c5066311b5279e318f29e`. No open review thread or change
+Latest merged change:[#179](https://github.com/RobCZart82/yaman1x/pull/179),
+`48ed518157ae3850b2cae70e89aa8a4ae8a4f5e1`.
+The merged baseline has **103 CTest groups and100 Python tests**;the retained
+ITU-sync candidate adds group104. All five final CI jobs passed on #179 head
+`c7ea69da70b221046536b03a608099040ff03475`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -65,10 +65,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate handles idle ADC channel/scan/clock selection;conversion
-start and IRQ enable still reject. Local unchanged firmware next stops atFFFF61
-(ITU TSYR),PC0xA56,peripheral cycle239. Full boot/audio remains unaccepted.
-See [idle ADC scope](an1x-adc-idle.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate accepts only the retained independent-channel ITU TSNC
+profile atFFFF61;active synchronization/counters remain unsupported. The pinned
+MAME TSYR stub is documented separately. Local firmware next stops atFFFF62
+(TMDR),PC0xA5A,cycle247. See [ITU sync scope](an1x-itu-sync.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
