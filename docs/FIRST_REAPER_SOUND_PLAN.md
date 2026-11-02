@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Nyugalmi ADC-konfiguráció — jelölt,2026-11-02
+
+Friss main,#178 után. ADCSR FFFFE8 csakADST0/ADIE0:csatorna/scan/óra tárolt,
+ADF szoftveresen nem állítható.64 elfogadott/192 elutasított raw érték.
+Nincs analóg minta/konverzió/eredmény/trigger/IRQ;ADCR és páros word tiltott.
+Gyártói14.2.2 és rögzített eredeti ADC-kezelők alapján,aktív ADC-differenciál nélkül.
+256 érték,alias/reset/RAM/idő/no-effect/word és129 CPU-vágás. Firmware03 írása
+most teljesül,következő stopFFFF61 ITU TSYR,PC0xA56,perifériaciklus239;
+192 teljes szeletciklus/55 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-adc-idle.md](an1x-adc-idle.md).
+Helyi validáció:103/103 CTest (58,11s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit575 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer22
+csoport;saját CI/review és merge függőben.
+
 ## Aktív refresh buszóra — jelölt,2026-11-02
 
 A #177 beolvadt `3f0baf6696bedd423650dc2aeb094bddfd6f5aaf` commitként;

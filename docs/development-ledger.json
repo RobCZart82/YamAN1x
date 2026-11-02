@@ -2546,22 +2546,37 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 178,
+      "title": "Connect active refresh counting to absolute bus time without IRQ enable",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/178",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "51226f9524ca0c1cc39d487b8c31b7232c8ccddf",
+      "reviewed_head": "63e76d1f7cd3adc5fd0c5066311b5279e318f29e",
+      "ci_runs": [
+        41466453406,
+        41466453320,
+        41466453532
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/refresh-bus-clock",
+    "branch": "feat/next-peripheral-contract",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Active bus refresh clock,CMIE still rejected",
+    "scope": "Idle ADCSR configuration only,no conversion/analog sample/IRQ",
     "validation": {
-      "ctest_groups": 102,
+      "ctest_groups": 103,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "original_handler_comparisons": 524288,
-      "sanitizer_ci_selected_groups": 21,
-      "next_local_stop": "0xFFFFE8",
+      "sanitizer_ci_selected_groups": 22,
+      "next_local_stop": "0xFFFF61",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 63.59
+      "ctest_seconds": 58.11
     }
   },
   "pending_changes": []
