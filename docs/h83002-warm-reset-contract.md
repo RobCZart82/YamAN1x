@@ -269,3 +269,21 @@ Reset invoked inside queue processing has additional ordering/reentrancy effects
 this is source inspection,not proof of every multi-event reset case. Next pin
 scheduler synchronization/local-time behavior and define the supported reset API
 boundary before runtime implementation. No warm-reset API is introduced here.
+
+## Reset time domains — candidate 2026-11-02
+
+The locked framework report now includes schedule.cpp and exact identities of
+local_time,total_cycles,abort_timeslice and scheduler synchronize. During active
+execution,local_time adds elapsed-slice time to localtime,total_cycles adds the
+same elapsed cycles to totalcycles. interface_pre_reset clears totalcycles but
+does not itself assign localtime. These counters must not be conflated.
+abort_timeslice absorbs positive remaining cycles and zeros the execution count;
+synchronize creates a zero-delay temporary timer rather than directly invoking
+the callback in that method. Actual timer dispatch order needs separate proof.
+
+For the embedded engine,the accepted cold restart remains a new generation at
+cycle0. A future in-place reset must explicitly keep absolute peripheral time
+separate from reset-relative CPU counters and must define pending input/debt
+handling. Next implement a bounded time-domain policy with independent tests
+before exposing machine reset;do not copy the global scheduler implicitly.
+This is source-derived timing evidence,not a new runtime reset implementation.
