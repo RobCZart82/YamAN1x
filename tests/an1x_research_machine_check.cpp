@@ -14,5 +14,17 @@ int main(){
  {auto r=image();Sink s;Machine m(r,{},s);s.callback=[&]{try{m.cold_restart(Policy::clear);}catch(const std::logic_error&) {}};rejects([&]{m.run(400,10000);},"Suppressed callback restart still poisons outer execution");check(m.failed()&&m.generation()==0,"Reentry never destroys active CPU/bus");s.callback={};m.cold_restart(Policy::clear);m.run(400,10000);check(!m.failed(),"Recovery uses new epoch after reentry");}
  {auto r=image();Sink sa,sb;Machine a(r,{},sa),b(r,{},sb);r[0x101]^=0xff;a.write_byte(0x200000,1);a.cold_restart(Policy::preserve);a.run(400,10000);b.run(400,10000);check(a.snapshot()==b.snapshot()&&sa.txs==sb.txs&&b.read_byte(0x200000)==0,"Owned immutable ROM survives caller mutation;machines isolated");}
  {auto r=image();Sink s;std::vector<Machine::RxEvent>edges{{1000,0,false}};Machine m(r,edges,s);m.run(1100,10000);check(m.consumed_input()==1,"Original RX schedule consumed in first epoch");m.cold_restart(Policy::clear);m.run(1100,10000);check(!m.failed()&&m.consumed_input()==0,"Old pending input discarded when replacement schedule empty");std::vector<Machine::RxEvent>next{{0,1,false},{10,1,true}};m.cold_restart(Policy::preserve,next);next[0].channel=99;m.run(400,10000);check(m.consumed_input()==2&&!m.failed(),"Replacement RX schedule is epoch-relative and copied before caller mutation");}
+ // Every split retains CPU debt, absolute RX deadlines and wire timestamps.
+ for(unsigned cut=0;cut<=400;++cut){
+  auto r=image();Sink sa,sb;std::vector<Machine::RxEvent>edges{{0,1,false},{37,1,true},{399,1,false}};
+  Machine a(r,edges,sa),b(r,edges,sb);a.run(int(cut),10000);
+  check(a.cycle()==cut,"Integrated time advances by requested slice,not CPU callbacks");
+  a.run(0,10000);check(a.cycle()==cut,"Zero slice leaves absolute time unchanged");
+  a.run(int(400-cut),10000);b.run(400,10000);
+  check(a.cycle()==400&&b.cycle()==400&&a.snapshot()==b.snapshot()&&a.consumed_input()==3&&b.consumed_input()==3&&sa.txs==sb.txs,"401 split runs preserve CPU debt,input deadlines and wire history");
+  auto before=a.snapshot();rejects([&]{a.run(-1,10000);},"Negative slice rejected");
+  check(a.cycle()==400&&a.snapshot()==before&&!a.failed(),"Rejected range leaves integrated time and CPU live");
+  a.cold_restart(Policy::clear,edges);check(a.cycle()==0&&a.generation()==1,"Cold reconstruction starts a new absolute epoch");
+ }
  std::printf("Research lifecycle:401 partial/debt restarts,full NVRAM persistence/clear,invalid-input strong replacement,failed/reentrant epoch recovery,ROM/owner isolation:%u failures\n",failures);return failures?1:0;
 }
