@@ -330,3 +330,7 @@ add_test(NAME yamanix_an1x_wait_profile COMMAND yamanix_an1x_wait_profile_check)
 add_executable(yamanix_an1x_bus_release_check tests/an1x_bus_release_check.cpp)
 target_include_directories(yamanix_an1x_bus_release_check PRIVATE src)
 add_test(NAME yamanix_an1x_bus_release COMMAND yamanix_an1x_bus_release_check)
+
+add_executable(yamanix_an1x_refresh_profile_check tests/an1x_refresh_profile_check.cpp)
+target_include_directories(yamanix_an1x_refresh_profile_check PRIVATE src)
+add_test(NAME yamanix_an1x_refresh_profile COMMAND yamanix_an1x_refresh_profile_check)

@@ -2480,21 +2480,37 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/173#issuecomment-6573719395",
       "review_completed_at_utc": "2026-11-02T09:32:38Z",
       "infrastructure_note": "Confirmed hosted macOS arm64 capacity cancellations were retried;final checks succeeded."
+    },
+    {
+      "pr": 174,
+      "title": "Add retained BRCR profile without physical bus-release emulation",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/174",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "e0bdde0048214930dc1a656b083b94af96147fc5",
+      "reviewed_head": "80097f42a2380b584e511d31286d4f3ea303f988",
+      "ci_runs": [
+        41435081433,
+        41435081517,
+        41435081672
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/retained-brcr-profile",
+    "branch": "feat/next-boot-register",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Only unchanged BRCRFE normalized profile;no physical bus release or address-pin changes",
+    "scope": "Only retained RFSHCR02;timer registers and memory refresh remain unsupported",
     "validation": {
-      "ctest_groups": 98,
+      "ctest_groups": 99,
       "python_tests": 100,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 17,
+      "sanitizer_ci_selected_groups": 18,
       "local_rom_unchanged": true,
-      "next_local_stop": "0xFFFFAC",
-      "ctest_seconds": 50.51
+      "next_local_stop": "0xFFFFAD",
+      "ctest_seconds": 56.78
     }
   },
   "pending_changes": []

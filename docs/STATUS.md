@@ -2,13 +2,12 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#173](https://github.com/RobCZart82/yaman1x/pull/173),
-`876050a1dd299dd44b9b95742d5b8067ecbc9404`.
-The merged baseline has **97 CTest groups and 100 Python tests**;
-the BRCR candidate adds group98.
-All five final CI jobs passed on #173 head `e6fe544f12d00e858bce536800147c18b81954ed`;
-automatic review completed on that head without findings;no open review thread.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/173#issuecomment-6573719395).
+Latest merged change:[#174](https://github.com/RobCZart82/yaman1x/pull/174),
+`e0bdde0048214930dc1a656b083b94af96147fc5`.
+The merged baseline has **98 CTest groups and100 Python tests**;the RFSHCR
+candidate adds group99. All five final CI jobs passed on #174 head
+`80097f42a2380b584e511d31286d4f3ea303f988`. No open review thread or change
+request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -33,13 +32,11 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate accepts
-only the unchanged BRCRFE profile;bus release/address-pin changes still reject.
-Local unchanged1.04 swap16 input completes one64-cycle slice,then stops at byte
-write0xFFFFAC,peripheral cycle116. This is not full firmware boot or audio.
-Next identify that register from the pinned source/manual before implementing it.
-See [retained BRCR scope](an1x-bus-release.md).
-One PR at a time. Current candidate:retained BRCR profile;98/98 local CTest and100 Python pass;CI/review pending.
+reset/WAIT/pin-mode limitations remain documented. The current RFSHCR candidate accepts only unchanged02;refresh memory/pin modes
+and timer registers remain unsupported. Local unchanged1.04 swap16 input stops
+next atFFFFAD,PC0xA1C,peripheral cycle124. Full boot/audio remains unaccepted.
+See [retained refresh scope](an1x-refresh-profile.md).
+One PR at a time;current candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots
 
