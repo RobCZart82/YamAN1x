@@ -2,11 +2,11 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#179](https://github.com/RobCZart82/yaman1x/pull/179),
-`48ed518157ae3850b2cae70e89aa8a4ae8a4f5e1`.
-The merged baseline has **103 CTest groups and100 Python tests**;the retained
-ITU-sync candidate adds group104. All five final CI jobs passed on #179 head
-`c7ea69da70b221046536b03a608099040ff03475`. No open review thread or change
+Latest merged change:[#180](https://github.com/RobCZart82/yaman1x/pull/180),
+`7c3b7a05dc2bf19fe7e6da3c010196c633d67907`.
+The merged baseline has **104 CTest groups and100 Python tests**;the normal-mode
+ITU candidate adds group105. All five final CI jobs passed on #180 head
+`24244db847b0fac75afd9e0e4fb3bbb8e5df0b02`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -32,10 +32,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate accepts only the retained independent-channel ITU TSNC
-profile atFFFF61;active synchronization/counters remain unsupported. The pinned
-MAME TSYR stub is documented separately. Local firmware next stops atFFFF62
-(TMDR),PC0xA5A,cycle247. See [ITU sync scope](an1x-itu-sync.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate adds normal-mode TMDR with retained FDIR configuration and
+unbuffered TFCR;active ITU counters/PWM remain unsupported. Local unchanged
+firmware next stops atFFFF90 (output enable),PC0xA62,peripheral cycle263.
+See [ITU normal-mode scope](an1x-itu-mode.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots

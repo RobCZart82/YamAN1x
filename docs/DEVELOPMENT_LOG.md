@@ -3,6 +3,28 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## ITU normál mód és puffer nélküli funkció — jelölt,2026-11-02
+
+Gyártói10.2.3–10.2.4 alapjánTMDR csak normál mód,FDIR konfiguráció tárolt;
+4 raw elfogadott/252 tiltott. TFCR normál/puffer nélküli profil,szintén4/252.
+Eredeti rögzített MAME-kezelők itt read00/write-ignored stubok,nem aktív referencia.
+Nincs PWM/fázisszámlálás/buffertranszfer/counter/IRQ;FDIR még nem hajt overflow-t.
+512 regiszterérték,alias/reset/RAM/idő/word és129 CPU-vágás. FirmwareA0 írása
+most teljesül,következő stopFFFF90 output-enable,PC0xA62,perifériaciklus263;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-mode.md](an1x-itu-mode.md).
+Végleges helyi validáció:105/105 CTest (51,37s),100 Python,strict célzott
+ASan/UBSan PASS. Forrásaudit579 fájl,notice229 fájl/5 szöveg,diff-check PASS.
+CI sanitizer24 csoport;saját CI/review és merge függőben.
+
+## ITU-szinkronprofil lezárás — 2026-11-02
+
+A #180 beolvadt `7c3b7a05dc2bf19fe7e6da3c010196c633d67907` commitként.
+Ellenőrzött head:`24244db847b0fac75afd9e0e4fb3bbb8e5df0b02`;mind5 CI sikeres.
+Futások:41484649901,41484650551,41484649978. Review-szál és változtatáskérés
+nincs;automatikus review-eredmény nem volt rögzítve. Következő:FFFF62 TMDR
+módvezérlő gyártói szerződésének és eredeti stubkorlátjának vizsgálata friss mainből.
+
 ## Megtartott ITU-szinkronprofil — jelölt,2026-11-02
 
 Gyártói10.2.2 alapjánFFFF61 TSNC (MAME neveTSYR),readbackE0. Csak független

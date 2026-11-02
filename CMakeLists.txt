@@ -354,3 +354,7 @@ add_test(NAME yamanix_an1x_adc_idle COMMAND yamanix_an1x_adc_idle_check)
 add_executable(yamanix_an1x_itu_sync_check tests/an1x_itu_sync_check.cpp)
 target_include_directories(yamanix_an1x_itu_sync_check PRIVATE src)
 add_test(NAME yamanix_an1x_itu_sync COMMAND yamanix_an1x_itu_sync_check)
+
+add_executable(yamanix_an1x_itu_mode_check tests/an1x_itu_mode_check.cpp)
+target_include_directories(yamanix_an1x_itu_mode_check PRIVATE src)
+add_test(NAME yamanix_an1x_itu_mode COMMAND yamanix_an1x_itu_mode_check)

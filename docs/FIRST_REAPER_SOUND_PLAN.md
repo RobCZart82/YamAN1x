@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## ITU normál mód és puffer nélküli funkció — jelölt,2026-11-02
+
+Gyártói10.2.3–10.2.4 alapjánTMDR csak normál mód,FDIR konfiguráció tárolt;
+4 raw elfogadott/252 tiltott. TFCR normál/puffer nélküli profil,szintén4/252.
+Eredeti rögzített MAME-kezelők itt read00/write-ignored stubok,nem aktív referencia.
+Nincs PWM/fázisszámlálás/buffertranszfer/counter/IRQ;FDIR még nem hajt overflow-t.
+512 regiszterérték,alias/reset/RAM/idő/word és129 CPU-vágás. FirmwareA0 írása
+most teljesül,következő stopFFFF90 output-enable,PC0xA62,perifériaciklus263;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-mode.md](an1x-itu-mode.md).
+Végleges helyi validáció:105/105 CTest (51,37s),100 Python,strict célzott
+ASan/UBSan PASS. Forrásaudit579 fájl,notice229 fájl/5 szöveg,diff-check PASS.
+CI sanitizer24 csoport;saját CI/review és merge függőben.
+
 ## Megtartott ITU-szinkronprofil — jelölt,2026-11-02
 
 Gyártói10.2.2 alapjánFFFF61 TSNC (MAME neveTSYR),readbackE0. Csak független
