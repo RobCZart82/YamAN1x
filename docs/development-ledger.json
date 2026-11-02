@@ -2281,14 +2281,30 @@
         41358539485
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 161,
+      "title": "Pin constructor finder tags for nested H83002 peripherals",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/161",
+      "merge_commit": "a5b73ac6da7276f5afa4bbb1794b40a319a6a41f",
+      "reviewed_head": "5a7f0019b46ff7c35ed5dfa06017173ac1b79078",
+      "ci_runs": [
+        41361844721,
+        41361844644,
+        41361844704
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/h83002-owner-tags",
+    "branch": "research/framework-owner-resolution",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Constructor finder tags and nested peripheral hierarchy evidence",
+    "scope": "Pinned configuration framework file and owner/list insertion source inference",
     "validation": {
       "python_tests": 98,
+      "framework_files": 3,
       "runtime_tests": "not_rerun_research_only"
     }
   },

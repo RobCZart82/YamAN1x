@@ -236,3 +236,19 @@ tags have no colon. SCI array tags are initialized in a base constructor and
 are deliberately not inferred here. The CPU/INTC argument to a configuration
 macro is not,by itself,evidence of device ownership. Framework tag resolution
 and actual insertion traversal still need inspection before a reset API.
+
+## Framework owner resolution — candidate 2026-11-02
+
+The locked framework report additionally pins the complete src/emu/mconfig.cpp
+file (no method-body extraction for its non-void configuration methods).
+Source inspection:resolve_owner walks colon-separated tags through existing
+subdevice lists and rejects missing parents;add_device appends the new device
+to that resolved owner's list before invoking its own configuration additions.
+Together with recursive device_t::reset,this supports nested DMA/timer traversal
+rather than treating all22 declarations as direct H83002 children.
+
+This is a source-derived inference,not a captured runtime reset trace. Finder
+configuration overloads,base SCI tags and any configuration additions must also
+be checked before claiming an exhaustive concrete traversal. In particular,
+queued input callbacks and scheduler local-time behavior remain separate gates.
+No runtime warm-reset API or physical hardware equivalence is added.
