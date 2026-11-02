@@ -2341,16 +2341,37 @@
         41372364356
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 165,
+      "title": "Add bounded absolute and reset-relative time domain policy",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/165",
+      "merged_at_utc": "2026-11-02T02:42:54Z",
+      "merge_commit": "09af5e8f9850d356f72c3557aa5c4bceb5ed74fe",
+      "reviewed_head": "bedad28721aa1d838a799c759ee9da3cfb13220e",
+      "ci_runs": [
+        41375985889,
+        41375985947,
+        41375985901
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/reset-time-domain",
-    "status": "targeted_validation_passed_ci_pending",
-    "scope": "Standalone monotonic absolute/reset-relative time policy;not machine integrated",
+    "branch": "feat/machine-time-domain",
+    "status": "local_validation_passed_ci_pending",
+    "scope": "Integrate absolute time into cold machine lifecycle;no warm reset API",
     "validation": {
-      "targeted_asan_ubsan": "pass",
       "python_tests": 100,
-      "full_runtime_suite": "not_rerun_standalone_addition"
+      "ctest_groups": 91,
+      "full_runtime_suite": "pass",
+      "targeted_asan_ubsan": "pass",
+      "sanitizer_ci_selected_groups": 10,
+      "source_audit_files": 550,
+      "notice_covered_files": 229,
+      "diff_check": "pass"
     }
   },
   "pending_changes": []

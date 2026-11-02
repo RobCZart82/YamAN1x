@@ -5,6 +5,26 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Gépi időtartomány-integráció — jelölt, 2026-11-02
+
+A #165 beolvadt `09af5e8f9850d356f72c3557aa5c4bceb5ed74fe` commitként
+(2026-11-02T02:42:54Z). Öt CI sikeres a bedad28721aa1d838a799c759ee9da3cfb13220e
+headen;automatikus review-eredmény nincs rögzítve,nyitott review-szál nem volt.
+A gép korábbi cursor_ számlálóját ResetTimeDomain abszolút ideje váltja fel.
+Sikeres szelet végén frissül;hibás tartomány nem változtatja az időt,a részleges
+végrehajtási hiba továbbra is fail-stop. Hideg újraépítés új nullás időpéldányt
+kap,meglévő gépgenerációval. CPU-adósság és input-határidő nem kerül átírásra;
+reset_origin nincs meghívva,nincs új meleg-reset API vagy hardveres elfogadás.
+401 vágási ponton összevetjük az egyben/szétvágott CPU-állapotot,RX-fogyasztást
+és TX-idősort;nullás/negatív szeletek és hideg újraindítás is ellenőrzött.
+CI ASan/UBSan készlet bővül az idősegéddel és a teljes gépéletciklussal.
+Helyi Release build és mind91 CTest sikeres (73,52s);100 Python sikeres.
+Célzott strict ASan/UBSan gépteszt sikeres;CI-szűrő pontosan10 csoportot választ.
+Forrásaudit550 fájl,notice-lefedettség229 fájl/5 szöveg és diff-check sikeres.
+Távoli CI és végső review még függőben.
+Következő:korlátos reset-owner szerződés a fennmaradó input/scheduler feltételekkel,
+majd firmware-boot/MIDI és DSP-hangút;GUI és ROM-módosítás nélkül.
+
 ## Reset-időtartomány segéd — jelölt, 2026-11-02
 
 A #164 beolvadt e620483c7d95e07aeb2bce69431fdb2a87c1fd03;öt CI sikeres,

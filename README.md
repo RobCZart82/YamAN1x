@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **90 CTest groups and 95 Python cases**. Tests generate synthetic
+The source-only build defines **91 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,31 +33,34 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current verified status — 2026-11-01
+## Current verified status — 2026-11-02
 
-Latest merged change:[#157](https://github.com/RobCZart82/yaman1x/pull/157),
-`15217f7fe1ffa8e6894730b24357feac311c1c0d` (2026-11-01T19:52:16Z).
-The source-only suite contains **90 CTest groups and 95 Python tests**.
-The complete local build/90 CTest/95 Python validation belongs to #156;
-#157 additionally passed the eight selected local ASan/UBSan groups.
-CI and review evidence must be read for its exact revision;local results are
-not a claim of hardware fidelity or a completed review of this candidate.
+Latest merged change:[#165](https://github.com/RobCZart82/yaman1x/pull/165),
+`09af5e8f9850d356f72c3557aa5c4bceb5ed74fe` (2026-11-02T02:42:54Z).
+The source-only suite contains **91 CTest groups and 100 Python tests**.
+All five CI jobs passed on #165 head `bedad28721aa1d838a799c759ee9da3cfb13220e`;
+no automatic review result was recorded and no review thread was open at inspection.
 
-Merged #154 pins framework reset identities;#155 supplies the gold vector README
-logo and preserves its bytes under Windows checkout. #156 fixes swallowed reentry
-in dispatcher/runner/bus and processes reset archives from a verified private
-snapshot. #157 adds automated ASan/UBSan coverage for eight reset/peripheral/guard
-groups. This third audit-fix candidate reconciles documentation only.
+Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
+configuration,queued RESET and scheduler time contracts from the fixed MAME
+reference. #165 adds a tested standalone absolute/reset-relative time policy.
+The current candidate connects its absolute clock to research-machine execution
+and cold reconstruction,with split-run/input/wire regression tests and expanded
+ASan/UBSan coverage. It does not expose an in-place warm reset API.
 
 CPU/bus cold reconstruction and component reset tests exist;whole-machine warm
-reset and complete firmware boot are **not accepted**. Next inspect execution
-input reset semantics,actual child reset order and scheduler time before adding
-an in-place machine reset. Firmware MIDI/PKS acceptance,DSP/table/EG/audio routing,
-offline reference sound,realtime rendering,VST3 and REAPER acceptance remain open.
+reset and complete firmware boot are **not accepted**. The machine clock stays
+monotonic within each cold epoch;CPU debt and queued input remain owned by their
+existing components. Hardware reset ordering and assertion/release integration
+remain open. Firmware MIDI/PKS acceptance,DSP/table/EG/audio routing,offline
+reference sound,realtime rendering,VST3 and REAPER acceptance remain open.
 No AN1x audio,VST3,AU or GUI is currently delivered. No project-wide release
 license has been selected. ROMs remain local and unchanged.
 
-One PR at a time. Current candidate:documentation reconciliation;not yet merged.
+Current candidate passed a local Release build,all 91 CTest groups,100 Python
+tests and targeted strict ASan/UBSan machine validation. The sanitizer CI filter
+selects exactly ten groups. Remote CI and final review remain pending.
+One PR at a time. Current candidate:machine time-domain integration;not merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.

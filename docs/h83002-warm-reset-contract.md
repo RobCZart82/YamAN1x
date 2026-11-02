@@ -298,3 +298,18 @@ Only an owner-defined quiescent boundary may use it;integration remains open.
 Tests use literal expected times at three origins,300 repeated resets,backward
 rejection and UINT64_MAX conversion boundaries. This is policy,not MAME or physical
 RESET pin equivalence. Cold machine reconstruction remains a separate new epoch.
+
+## Machine clock integration candidate — 2026-11-02
+
+The research machine now stores its epoch cursor in ResetTimeDomain and supplies
+its absolute value to CPU execution. Only a successfully returned run advances
+the clock;execution failure poisons the epoch. Invalid ranges are rejected before
+execution. Cold reconstruction replaces the complete state and time domain after
+candidate validation;the external machine generation continues to label epochs.
+No reset_origin call is made:reset-relative timing and an in-place hardware reset
+remain unintegrated. Pending input deadlines and CPU debt retain existing semantics.
+The owner guard is the quiescent boundary for cold reconstruction and rejects
+callback reentry. 401 split points compare CPU state,input consumption and TX
+history against an independent unsplit machine,including zero and invalid slices.
+Reference source remains MAME706dbb73281320c54d7c2f16262c1c3786f2be01,with
+research/h8-reset-traversal.json identities;the time policy is project-owned.
