@@ -313,3 +313,24 @@ callback reentry. 401 split points compare CPU state,input consumption and TX
 history against an independent unsplit machine,including zero and invalid slices.
 Reference source remains MAME706dbb73281320c54d7c2f16262c1c3786f2be01,with
 research/h8-reset-traversal.json identities;the time policy is project-owned.
+
+## Deferred CPU reset request candidate — 2026-11-02
+
+request_reset_after_debt is an explicit project-owned transition between run calls.
+It preserves general registers,CCR and completed cycle debt,replaces instruction
+state/substate with RESET/0,and clears requested/taken IRQ bookkeeping. The runner
+is retained,including absolute slice continuity. Its normal carry application
+repays completed bus debt before dispatching new reset accesses. A swallowed
+callback request poisons the active run;failed runners cannot recover this way.
+Repeated requests before execution are idempotent. No host callback occurs at
+request time and no peripheral/RX/IRQ-controller state is implicitly reset.
+This does not implement MAME's scheduler RESET assertion/release semantics.
+
+Literal expected traces require vector reads at request_time+debt+2/+4,then CCR
+filter publication and first prefetch at +6. Three nonzero/zero time origins,
+21 old execution cuts and seven continuation cuts produce441 checks. Nonzero
+register values survive while CCR I is set and EXR becomes7F through the existing
+generated sequence. Existing all256-CCR cold-reset checks remain. Pinned reference
+identities are unchanged;this policy is not an original whole-machine trace.
+The earlier no-CPU-reset-API statements are historical;whole-machine warm reset,
+peripheral ordering and RESET line acceptance remain unimplemented.

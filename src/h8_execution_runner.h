@@ -22,6 +22,12 @@ public:
         if(!busy_ || failed_) throw std::logic_error("Unavailable H8 reschedule");
         budget_.recompute_deadline(event);return budget_.boundary();
     }
+    // Owner transitions may occur before the first run or between successful runs.
+    // Reentry poisons the active run even if the callback swallows the error.
+    void require_stopped() {
+        if(busy_){failed_=true;throw std::logic_error("Reentrant H8 owner transition");}
+        if(failed_)throw std::logic_error("Failed H8 owner transition");
+    }
     int debt() const { return budget_.debt(); }
     bool failed() const { return failed_; }
 

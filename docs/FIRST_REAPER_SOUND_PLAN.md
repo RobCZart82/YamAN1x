@@ -5,6 +5,27 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Halasztott CPU-reset — jelölt, 2026-11-02
+
+A #166 beolvadt `3bf3ed4dd4ff422b79918d8bc3889b812ec75e1f` commitként;
+öt CI sikeres a 2b8528c0c2d7b57c1baa7925ceab9701b920b614 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Új request_reset_after_debt CPU-átmenet csak álló,élő runneren:régi részutasítás
+eldobása,reset-dispatch kijelölése,kért/felvett IRQ-könyvelés törlése.
+Általános regiszterek,CCR és a már lezajlott buszhatások/ciklusadósság megmaradnak.
+A következő futás előbb visszafizeti az adósságot,utána kezd reset-vektort olvasni.
+Ez projektbeli halasztott CPU-szabály,nem fizikai RESET-vonal vagy teljesgép-reset.
+A hostnak kell a perifériák/bemenetek resetjét külön rendeznie;gépszintű API nincs.
+Független szó szerinti időnyom:3 abszolút kezdőidő,21 kérési pont,7 folytatási
+vágás (441 eset),nemnulla regisztermegőrzés,ismételt kérés és reentry fail-stop.
+Eredeti referencia változatlan:MAME706dbb73281320c54d7c2f16262c1c3786f2be01;
+research/h83002-reset-contract.json és generált resetkezelők. Nem új teljes MAME
+warm-reset runtime összevetés;az adaptációk eredetnyilvántartása frissítve.
+Release build és mind91 CTest sikeres (85,62s);100 Python sikeres.
+Strict célzott ASan/UBSan sikeres,a rögzített eredeti resetforrások egyeznek.
+Forrásaudit550 fájl,notice-lefedettség229 fájl/5 szöveg,diff-check sikeres.
+CI/review és beolvasztás még függőben.
+
 ## Gépi időtartomány-integráció — jelölt, 2026-11-02
 
 A #165 beolvadt `09af5e8f9850d356f72c3557aa5c4bceb5ed74fe` commitként
