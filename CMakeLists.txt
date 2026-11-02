@@ -298,3 +298,7 @@ add_test(NAME yamanix_h8_reset_execution COMMAND yamanix_h8_reset_check)
 add_executable(yamanix_reentry_failstop_check tests/reentry_failstop_check.cpp)
 target_include_directories(yamanix_reentry_failstop_check PRIVATE src)
 add_test(NAME yamanix_reentry_failstop COMMAND yamanix_reentry_failstop_check)
+
+add_executable(yamanix_reset_time_domain_check tests/reset_time_domain_check.cpp)
+target_include_directories(yamanix_reset_time_domain_check PRIVATE src)
+add_test(NAME yamanix_reset_time_domain COMMAND yamanix_reset_time_domain_check)

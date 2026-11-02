@@ -2326,16 +2326,31 @@
         41368643890
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 164,
+      "title": "Pin reset time domains and scheduler synchronization source contracts",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/164",
+      "merge_commit": "e620483c7d95e07aeb2bce69431fdb2a87c1fd03",
+      "reviewed_head": "9ae954713b486190aff815bead037f30c4cb0048",
+      "ci_runs": [
+        41372364295,
+        41372364296,
+        41372364356
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/reset-time-contract",
-    "status": "local_validation_passed_ci_pending",
-    "scope": "CPU reset-relative counters versus local time and synchronized callback identity",
+    "branch": "feat/reset-time-domain",
+    "status": "targeted_validation_passed_ci_pending",
+    "scope": "Standalone monotonic absolute/reset-relative time policy;not machine integrated",
     "validation": {
+      "targeted_asan_ubsan": "pass",
       "python_tests": 100,
-      "framework_files": 4,
-      "runtime_tests": "not_rerun_research_only"
+      "full_runtime_suite": "not_rerun_standalone_addition"
     }
   },
   "pending_changes": []
