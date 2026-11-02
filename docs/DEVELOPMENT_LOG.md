@@ -3,6 +3,29 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Önálló aktív refresh-timer — jelölt,2026-11-02
+
+Friss main,#176 után. Külön komponens,nincs még gépi/IRQ bekötés. Hét osztó,
+abszolút fázis,compare/CMF,CMIE kéréslekérdezés,reset és korlátos deadline.
+Független ciklusorákulum és16416 felosztás;524288 összehasonlítás változatlan,
+privát snapshotból fordított eredeti MAME-kezelőkkel strict ASan/UBSan alatt.
+Eltérő túlcsordulás/compare-fölötti számláló és CMF read-gate korlát dokumentált.
+FFFFAD gépi megállás változatlan. Következő:eseményidővonal/IRQ/CPU bekötés.
+Szerződés:[h8-refresh-timer.md](h8-refresh-timer.md).
+Helyi validáció:101/101 CTest (50,40s),100 Python,célzott és eredeti referencia
+ASan/UBSan PASS. Forrásaudit571 fájl,notice229 fájl/5 szöveg,diff-check PASS.
+CI sanitizer20 csoport;saját CI/review és merge függőben.
+
+## Leállított timer lezárás — 2026-11-02
+
+A #176 beolvadt `ba29551ec8c3d4ab4da6bb7ec38d48f4381b84bf` commitként,
+2026-11-02T13:53:22Z. Ellenőrzött head:`00157c36bdc90f19f7c3ac6a797c3fad630bdbf5`.
+Mind az öt végső CI sikeres;futások41450001106,41450001129,41450001118.
+Két korábbi macOS feladat hosted-arm64 kapacitáshiány miatt szakadt meg;
+célzott újrapróbálás után sikeresek. Review-szál/változtatáskérés nincs;
+automatikus review-eredmény nem volt rögzítve. Következő az aktív órajel,
+compare és IRQ függetlenül ellenőrzött szerződése friss mainből.
+
 ## Leállított refresh-timer alap — jelölt,2026-11-02
 
 Friss main,#175 után. RTMCSR csakCKS0/CMIE0 (16 raw érték),CMF szoftveresen
