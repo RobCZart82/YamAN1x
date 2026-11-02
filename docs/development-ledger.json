@@ -2296,15 +2296,29 @@
         41361844704
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 162,
+      "title": "Pin framework owner resolution source and insertion ordering limits",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/162",
+      "merge_commit": "36b71314dfae075b046b5b0bde34b92f0acb3c9b",
+      "reviewed_head": "adf08ed60244061a749db5b6b51606021b0235c6",
+      "ci_runs": [
+        41365170057,
+        41365170127,
+        41365170089
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/framework-owner-resolution",
+    "branch": "research/queued-reset-line",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Pinned configuration framework file and owner/list insertion source inference",
+    "scope": "Queued reset assertion/release source contract and callback identity",
     "validation": {
-      "python_tests": 98,
-      "framework_files": 3,
+      "python_tests": 99,
       "runtime_tests": "not_rerun_research_only"
     }
   },

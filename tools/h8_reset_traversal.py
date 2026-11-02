@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import zipfile
+import re
 from h8_reset_contract import verified_archive, method_identity
 
 METHODS={
@@ -11,6 +12,12 @@ METHODS={
  'device.cpp':['device_t::reset'],
  'diexec.cpp':['device_execute_interface::interface_pre_reset','device_execute_interface::interface_post_reset','device_execute_interface::device_input::reset'],
 }
+
+def queued_reset_identity(raw):
+    found=re.findall(r'^TIMER_CALLBACK_MEMBER\(device_execute_interface::device_input::empty_event_queue\)\n\{.*?^\}',raw.decode(),re.M|re.S)
+    if len(found)!=1:raise ValueError('Expected one queued input callback')
+    body=found[0].encode()
+    return dict(name='device_input::empty_event_queue',bytes=len(body),sha256=hashlib.sha256(body).hexdigest())
 
 def report(archive,lock):
     # Verify and process one immutable private archive snapshot.
@@ -21,8 +28,10 @@ def report(archive,lock):
             members=[n for n in z.namelist() if n.endswith('/'+path)]
             if len(members)!=1:raise ValueError('Expected unique framework file: '+path)
             raw=z.read(members[0])
+            identities=[method_identity(raw,n) for n in names]
+            if leaf=='diexec.cpp':identities.append(queued_reset_identity(raw))
             files.append(dict(path=path,bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest(),
-                              methods=[method_identity(raw,n) for n in names]))
+                              methods=identities))
     return dict(schema_version=1,upstream_commit=lock['commit'],files=files,
                 scope='Framework method identities only;not child insertion order,input reset semantics or global time proof')
 
@@ -35,6 +44,6 @@ def main():
     if a.check:
         if result!=json.loads((root/'research/h8-reset-traversal.json').read_text()):
             raise ValueError('Framework reset identity differs')
-        print('Three framework files/four reset methods match;global reset unverified')
+        print('Three framework files/four reset methods and queued input callback match;global reset unverified')
     else:print(json.dumps(result,indent=2))
 if __name__=='__main__':main()
