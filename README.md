@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **105 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **106 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,11 +35,11 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#180](https://github.com/RobCZart82/yaman1x/pull/180),
-`7c3b7a05dc2bf19fe7e6da3c010196c633d67907`.
-The merged baseline has **104 CTest groups and100 Python tests**;the normal-mode
-ITU candidate adds group105. All five final CI jobs passed on #180 head
-`24244db847b0fac75afd9e0e4fb3bbb8e5df0b02`. No open review thread or change
+Latest merged change:[#181](https://github.com/RobCZart82/yaman1x/pull/181),
+`45ffd942a8d95f223622533684fc42df30681bc6`.
+The merged baseline has **105 CTest groups and100 Python tests**;the output-disable
+candidate adds group106. All five final CI jobs passed on #181 head
+`1b75363ddc73461c807ddd910a40893f05ac8130`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -65,10 +65,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate adds normal-mode TMDR with retained FDIR configuration and
-unbuffered TFCR;active ITU counters/PWM remain unsupported. Local unchanged
-firmware next stops atFFFF90 (output enable),PC0xA62,peripheral cycle263.
-See [ITU normal-mode scope](an1x-itu-mode.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate supports only ITU all-output-disable writes;TOER cold/reset
+FF and disabledC0 readbacks are distinct. Enabling active pin functions rejects.
+Local unchanged firmware next stops at wordFFFF6A (GRA0),PC0xA6A,cycle277.
+See [ITU output-disable scope](an1x-itu-output.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)

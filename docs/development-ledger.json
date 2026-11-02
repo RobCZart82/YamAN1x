@@ -2595,21 +2595,37 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 181,
+      "title": "Add bounded ITU normal-mode and unbuffered function profiles",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/181",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "45ffd942a8d95f223622533684fc42df30681bc6",
+      "reviewed_head": "1b75363ddc73461c807ddd910a40893f05ac8130",
+      "ci_runs": [
+        41494316497,
+        41494316508,
+        41494316498
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/itu-mode-contract",
+    "branch": "feat/itu-output-contract",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Normal TMDR with FDIR configuration and unbuffered TFCR;no active ITU modes",
+    "scope": "TOER all-output-disable only;cold/reset FF distinct from supported C0 write",
     "validation": {
-      "ctest_groups": 105,
+      "ctest_groups": 106,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 24,
-      "next_local_stop": "0xFFFF90",
+      "sanitizer_ci_selected_groups": 25,
+      "next_local_stop": "0xFFFF6A word",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 51.37
+      "ctest_seconds": 59.64
     }
   },
   "pending_changes": []

@@ -3,6 +3,28 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## ITU-kimenetek letiltása — jelölt,2026-11-02
+
+Gyártói10.2.5 alapjánTOER hideg/resetFF,de a firmwareC0 írása minden kimeneti
+engedélyt töröl.4 raw elfogadott/252 engedélyező elutasított. Nincs aktív pinfunkció,
+outputcallback/PWM/counter/IRQ;TOCR és páros word tiltott. Eredeti MAME-kezelő
+read00/write-ignored stub,ettől a dokumentált kézikönyvi profil eltér.
+256 érték,hideg/tiltott/reset különbség,alias/RAM/idő/word és129 CPU-vágás.
+Firmware továbbjut,következő stopFFFF6A GRA0 szóírás,PC0xA6A,perifériaciklus277;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-output.md](an1x-itu-output.md).
+Helyi validáció:106/106 CTest (59,64s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit581 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer25
+csoport;saját CI/review és merge függőben.
+
+## ITU normálmód lezárás — 2026-11-02
+
+A #181 beolvadt `45ffd942a8d95f223622533684fc42df30681bc6` commitként.
+Ellenőrzött head:`1b75363ddc73461c807ddd910a40893f05ac8130`;mind5 CI sikeres.
+Futások:41494316497,41494316508,41494316498. Review-szál és változtatáskérés
+nincs;automatikus review-eredmény nem volt rögzítve. Következő:FFFF90 ITU
+kimenetengedélyező szerződése és fizikai kimeneti korlátok vizsgálata friss mainből.
+
 ## ITU normál mód és puffer nélküli funkció — jelölt,2026-11-02
 
 Gyártói10.2.3–10.2.4 alapjánTMDR csak normál mód,FDIR konfiguráció tárolt;
