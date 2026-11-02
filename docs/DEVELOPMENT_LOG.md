@@ -3,6 +3,30 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Leállított ITU általános regiszterek — jelölt,2026-11-02
+
+Tíz GRA/GRB tároló szó/bájt hozzáféréssel,FFFF cold/reset. Önálló big-endian
+bájtsávok,24-bit alias,páratlan szó előzetes elutasítás. Nincs aktív ITU-start,
+compare/capture/flag/buffer/IRQ;counter és vezérlők továbbra tiltottak.
+Rögzített eredeti tgr_r/w és gyártói10.2.8/10.3.1 alapján,aktív timer-differenciál
+nélkül.655360 szóérték,bájtsávok,regiszterizoláció,reset/RAM/idő/no-event és129
+CPU-vágás. Firmware következő stopFFFF64 TCR0,PC0xA76,perifériaciklus299;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-general.md](an1x-itu-general.md).
+Helyi validáció:107/107 CTest (65,44s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit583 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer
+szűrő pontosan26 csoport;saját CI/review és merge függőben.
+
+## ITU-kimenettiltás lezárás — 2026-11-02
+
+A #182 beolvadt `bdf0ff6d14f1e2eea7f4486f927177a056b22d93` commitként.
+Ellenőrzött head:`f4be4b9d717524c0290dfe2ecf271f8934ae1c3b`;mind5 CI sikeres.
+Futások:41503635803,41503636111,41503635895. A research-macOS várakozó
+feladatát nem indítottuk újra;végül sikeresen lefutott. Review-szál és
+változtatáskérés nincs;automatikus review-eredmény nem volt rögzítve.
+Következő:FFFF6A GRA0 és a leállított ITU általános regiszterek word/byte/reset
+szerződése friss mainből,aktív counter vagy compare-esemény feltételezése nélkül.
+
 ## ITU-kimenetek letiltása — jelölt,2026-11-02
 
 Gyártói10.2.5 alapjánTOER hideg/resetFF,de a firmwareC0 írása minden kimeneti
