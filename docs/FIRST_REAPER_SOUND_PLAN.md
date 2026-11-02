@@ -5,6 +5,17 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Framework owner-feloldás — jelölt, 2026-11-02
+
+A #161 beolvadt a5b73ac6da7276f5afa4bbb1794b40a319a6a41f;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. Az eredeti mconfig.cpp teljes
+fájlazonossága rögzítve. Forrásvizsgálat:resolve_owner kettőspontonként meglévő
+szülőt keres,add_device a szülő listájának végére illeszt,majd konfigurál.
+Ebből a nested DMA/timer-bejárás következik,nem22 közvetlen CPU-gyerek.
+Ez forrásból levont következtetés,nem teljes runtime resettrace;SCI-base címkék,
+konfigurációs overloadok és scheduler/bemeneti queue-idő továbbra is vizsgálandó.
+Motorkód változatlan;98 Python és lockolt forrásazonosság sikeres.
+
 ## H83002 konstruktorcímkék — jelölt, 2026-11-02
 
 A #160 beolvadt2b95cfe97bd6a292593871bbb51d0e407ab32988;öt CI sikeres,
