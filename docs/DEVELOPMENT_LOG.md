@@ -3,6 +3,28 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Programozott wait-state részprofil — jelölt, 2026-11-02
+
+A #172 beolvadt `5aadb6279ea98f608550453b06953a7676e5372f` commitként;
+öt CI sikeres aff9b87f42f56c806a3df3e3eb0e050df0a1d15b7 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Gyártói6.2.3/6.2.4 alapján WCR/WCER bájtoskezelés:programozott0–3 várakozó
+állapot vagy controller-wait nélkül;pin-wait1/auto írás elutasítva. WCER-disabled
+pin-wait0 ág explicit WAIT-inaktív kutatási feltétel,nem mért AN1x állapot.
+WCR felső bitek read-one,WCER minden bit tárolt;csak engedélyezett külső3-state
+ROM/SRAM kap3+count költséget. Kétállapotú/belső hozzáférés nem nyúlik meg.
+Buszköltség-őr2..6-ra bővül;hideg/reset profilASTCR00/WCRF4/WCERFF,nem fizikai
+alapállapot. Páros word és ismeretlen MMIO továbbra fail-closed.
+256 WCR/256 WCER érték,független területmaszk,idő/counter/alulcsordulás,
+reset/alias/word és257 CPU-vágás. Eredetnyilvántartás frissítve.
+A változatlan helyi ROM már BRCR0xFFFFF3 írásnál áll meg,PC0x9FC,
+perifériaciklus60. Teljes boot/hang/plugin továbbra sincs elfogadva.
+Szerződés:[an1x-wait-profile.md](an1x-wait-profile.md). Következő korlátos BRCR profil.
+Release build és mind97 CTest sikeres (81,60s);100 Python és strict célzott
+ASan/UBSan sikeres,UINT64_MAX/overflow időhatárral is. CI sanitizer-szűrő16
+csoportot választ. Forrásaudit561 fájl,notice229 fájl/5 szöveg,diff-check sikeres.
+CI/review és beolvasztás függőben.
+
 ## ASTCR kiválasztott hozzáférési idő — jelölt, 2026-11-02
 
 A #171 beolvadt `ecee85e7f8daf1039fac431e420072e8fe9e6491` commitként;

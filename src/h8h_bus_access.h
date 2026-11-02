@@ -11,7 +11,7 @@
 namespace yamanix {
 // Bus: read_instruction_word, read_byte, write_byte, read_word, write_word.
 // Bus and CPU-owned signed remaining-cycle counter must outlive this adapter.
-// Optional pure access_cycles(address,width) selects2/3 cycles;default2.
+// Optional pure access_cycles(address,width) selects2..6 cycles;default2.
 // No callback reentry or counter mutation. Failure requires discarding owner.
 template<class Bus> class H8hBusAccess {
 public:
@@ -48,6 +48,7 @@ private:
                 const auto selected=bus_.access_cycles(address,width);
                 if(failed_)throw std::logic_error("Reentered H8H access-cost query");
                 if(selected==2)cost=2;else if(selected==3)cost=3;
+                else if(selected==4)cost=4;else if(selected==5)cost=5;else if(selected==6)cost=6;
                 else throw std::logic_error("Unsupported H8H access cost");
             }catch(...){failed_=true;throw;}
         }

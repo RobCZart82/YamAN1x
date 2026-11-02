@@ -24,7 +24,7 @@ int main(){
   try{b.read8(0);}catch(const std::overflow_error&){bad=true;}
   check(bad&&!b.failed()&&low.data==0&&left==std::numeric_limits<int>::min()+cost-1,"Underflow before charge/data remains nonmutating");
  }
- for(int invalid:{-1,0,1,4}){Timed h;h.cost=invalid;int count=10;yamanix::H8hBusAccess<Timed>a(h,count);bool bad=false;try{a.read8(0);}catch(const std::logic_error&){bad=true;}check(bad&&a.failed()&&count==10&&h.data==0,"Unsupported costs fail before charge/data");}
+ for(int invalid:{-1,0,1,7}){Timed h;h.cost=invalid;int count=10;yamanix::H8hBusAccess<Timed>a(h,count);bool bad=false;try{a.read8(0);}catch(const std::logic_error&){bad=true;}check(bad&&a.failed()&&count==10&&h.data==0,"Unsupported costs fail before charge/data");}
  {Timed h;int count=10;yamanix::H8hBusAccess<Timed>a(h,count);h.callback=[&]{try{a.read8(0);}catch(const std::logic_error&){}};bool bad=false;try{a.read8(0);}catch(const std::logic_error&){bad=true;}check(bad&&a.failed()&&count==10&&h.data==0,"Swallowed cost-query reentry poisons without charging or data effects");}
  std::vector<uint8_t>rom(0x100000);Sink sink;
  for(unsigned value=0;value<256;++value){Bus b(rom,{},sink);b.write_byte(0xffffed,uint8_t(value));check(b.read_byte(0xffffed)==value,"All ASTCR bits read back");

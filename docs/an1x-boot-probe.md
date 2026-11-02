@@ -63,3 +63,8 @@ See [ABWCR contract](an1x-bus-width.md);the earlier cycle30 result remains histo
 
 The selected2/3-cycle ASTCR profile now stops at WCER0xFFFFEF/PC0x9F4/cycle44,
 with unchanged input. See [access-state contract](an1x-access-state.md).
+
+## Subsequent wait-profile candidate observation
+
+The selected WCR/WCER extension now stops at BRCR0xFFFFF3/PC0x9FC/cycle60,with
+unchanged input. See [wait profile](an1x-wait-profile.md).
