@@ -24,6 +24,9 @@ public:
     uint8_t syscr_value()const{return syscr_;}
     void sync_cpu_ccr(uint8_t ccr){cpu_ccr_=ccr;irq_.set_filter(H83002SyscrModes::irq_filter(syscr_,ccr),-1);}
     bool failed()const{return failed_;}
+    // Machine owner propagates fail-stop after rejected callback reentry.
+    // Does not recover or otherwise mutate peripheral state.
+    void poison_from_owner(){failed_=true;}
     uint64_t cycle()const{return timeline_.cycle();}
     std::size_t consumed_input()const{return timeline_.consumed_input();}
     std::vector<uint8_t> nvram_image()const{return memory_.nvram_image();}
