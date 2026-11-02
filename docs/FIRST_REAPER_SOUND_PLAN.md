@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Leállított ITU általános regiszterek — jelölt,2026-11-02
+
+Tíz GRA/GRB tároló szó/bájt hozzáféréssel,FFFF cold/reset. Önálló big-endian
+bájtsávok,24-bit alias,páratlan szó előzetes elutasítás. Nincs aktív ITU-start,
+compare/capture/flag/buffer/IRQ;counter és vezérlők továbbra tiltottak.
+Rögzített eredeti tgr_r/w és gyártói10.2.8/10.3.1 alapján,aktív timer-differenciál
+nélkül.655360 szóérték,bájtsávok,regiszterizoláció,reset/RAM/idő/no-event és129
+CPU-vágás. Firmware következő stopFFFF64 TCR0,PC0xA76,perifériaciklus299;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-general.md](an1x-itu-general.md).
+Helyi validáció:107/107 CTest (65,44s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit583 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer
+szűrő pontosan26 csoport;saját CI/review és merge függőben.
+
 ## ITU-kimenetek letiltása — jelölt,2026-11-02
 
 Gyártói10.2.5 alapjánTOER hideg/resetFF,de a firmwareC0 írása minden kimeneti

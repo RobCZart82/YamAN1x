@@ -2611,21 +2611,37 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 182,
+      "title": "Add bounded ITU all-output-disable profile",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/182",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "bdf0ff6d14f1e2eea7f4486f927177a056b22d93",
+      "reviewed_head": "f4be4b9d717524c0290dfe2ecf271f8934ae1c3b",
+      "ci_runs": [
+        41503635803,
+        41503636111,
+        41503635895
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/itu-output-contract",
+    "branch": "feat/itu-general-registers",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "TOER all-output-disable only;cold/reset FF distinct from supported C0 write",
+    "scope": "Stopped GRA/GRB word/byte storage only,no active counters or compare events",
     "validation": {
-      "ctest_groups": 106,
+      "ctest_groups": 107,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 25,
-      "next_local_stop": "0xFFFF6A word",
+      "sanitizer_ci_selected_groups": 26,
+      "next_local_stop": "0xFFFF64",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 59.64
+      "ctest_seconds": 65.44
     }
   },
   "pending_changes": []
