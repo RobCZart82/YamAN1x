@@ -374,3 +374,7 @@ add_test(NAME yamanix_an1x_itu_control COMMAND yamanix_an1x_itu_control_check)
 add_executable(yamanix_an1x_itu_io_check tests/an1x_itu_io_check.cpp)
 target_include_directories(yamanix_an1x_itu_io_check PRIVATE src)
 add_test(NAME yamanix_an1x_itu_io COMMAND yamanix_an1x_itu_io_check)
+
+add_executable(yamanix_an1x_itu_irq_idle_check tests/an1x_itu_irq_idle_check.cpp)
+target_include_directories(yamanix_an1x_itu_irq_idle_check PRIVATE src)
+add_test(NAME yamanix_an1x_itu_irq_idle COMMAND yamanix_an1x_itu_irq_idle_check)

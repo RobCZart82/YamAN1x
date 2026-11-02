@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-02",
+  "recorded_date": "2026-11-03",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
   "baseline_commit": "301eec75c72028b8f377ee4e099fce0b1df4de5e",
@@ -2661,21 +2661,42 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/184#issuecomment-6588496395",
       "review_completed_at_utc": "2026-11-02T21:09:22.713478Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 185,
+      "title": "Add bounded ITU no-output compare selection",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/185",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "74bd4e0990c02d3b084d40c62e98e71ee343a7c1",
+      "reviewed_head": "adaa6e3d0e7140cdbb149a02a270719a4443f882",
+      "ci_runs": [
+        41534258437,
+        41534258773,
+        41534258263
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/185#issuecomment-6589650975",
+      "review_completed_at_utc": "2026-11-02T22:08:31.050236Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/itu-io-control",
-    "status": "locally_validated_awaiting_ci_review",
-    "scope": "Five-channel TIOR no-output compare profile only,no waveform/capture/active compare",
+    "branch": "feat/itu-interrupt-contract",
+    "status": "locally_validated_candidate",
+    "scope": "Disabled ITU TIER and empty TSR on five stopped channels",
     "validation": {
-      "ctest_groups": 109,
-      "python_tests": 100,
-      "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 28,
-      "next_local_stop": "0xFFFF66",
-      "local_rom_unchanged": true,
-      "full_runtime_suite": "pass",
-      "ctest_seconds": 60.44
+      "ctest_groups_passed": 110,
+      "python_tests_passed": 100,
+      "targeted_asan_ubsan": "passed"
+    },
+    "automated_review": "pending",
+    "ci": "pending",
+    "local_rom_observation": {
+      "status": "cycle_limit",
+      "cycles_requested": 100000,
+      "peripheral_cycle": 100002,
+      "firmware_boot_accepted": false
     }
   },
   "pending_changes": []

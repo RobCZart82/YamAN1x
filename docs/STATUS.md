@@ -1,14 +1,14 @@
 # Development status
 
-## Current verified status — 2026-11-02
+## Current verified status — 2026-11-03
 
-Latest merged change:[#184](https://github.com/RobCZart82/yaman1x/pull/184),
-`3e005e001022c5ac11272eb754cee6a0cda75bfd`.
-The merged baseline has **108 CTest groups and100 Python tests**;the no-output
-TIOR candidate adds group109. All five final CI jobs passed on #184 head
-`41eb7461e9e530abe25b5f36118119e9f45fb719`. Automated code review completed
+Latest merged change:[#185](https://github.com/RobCZart82/yaman1x/pull/185),
+`74bd4e0990c02d3b084d40c62e98e71ee343a7c1`.
+The merged baseline has **109 CTest groups and 100 Python tests**;the idle
+TIER/TSR candidate adds group110. All five final CI jobs passed on #185 head
+`adaa6e3d0e7140cdbb149a02a270719a4443f882`. Automated code review completed
 on that head without findings;no open review thread or change request.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/184#issuecomment-6588496395).
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/185#issuecomment-6589650975).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -33,10 +33,12 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate supports TIOR no-output compare selection on all five
-stopped channels;output waveforms and capture remain unsupported. Local firmware
-next stops atFFFF66 (TIER0),PC0xA7E,cycle315.
-See [ITU I/O scope](an1x-itu-io.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate supports disabled ITU interrupt enables and empty
+status flags on all five stopped channels. Active counters/events/IRQs remain
+unsupported. The local unchanged-ROM probe completes100000 requested cycles
+without a fault (peripheral horizon100002);this is not accepted firmware boot
+or audio. Local110 CTest/100 Python and targeted ASan/UBSan pass;CI/review pending.
+See [idle ITU scope](an1x-itu-irq-idle.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots
