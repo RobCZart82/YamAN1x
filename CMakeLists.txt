@@ -366,3 +366,7 @@ add_test(NAME yamanix_an1x_itu_output COMMAND yamanix_an1x_itu_output_check)
 add_executable(yamanix_an1x_itu_general_check tests/an1x_itu_general_check.cpp)
 target_include_directories(yamanix_an1x_itu_general_check PRIVATE src)
 add_test(NAME yamanix_an1x_itu_general COMMAND yamanix_an1x_itu_general_check)
+
+add_executable(yamanix_an1x_itu_control_check tests/an1x_itu_control_check.cpp)
+target_include_directories(yamanix_an1x_itu_control_check PRIVATE src)
+add_test(NAME yamanix_an1x_itu_control COMMAND yamanix_an1x_itu_control_check)

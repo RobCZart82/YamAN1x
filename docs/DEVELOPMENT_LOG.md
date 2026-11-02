@@ -3,6 +3,27 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Leállított ITU-csatornavezérlők — jelölt,2026-11-02
+
+Öt TCR tárolja az óra/él/counter-clear konfigurációt,reserved bit7 read-one,
+reset80. TSTR továbbra tiltott,nincs aktív számláló/külső él/clear/IRQ/esemény.
+Gyártói10.2.10 és rögzített eredeti tcr_w/tcr_update alapján,aktív counter-
+differenciál nélkül.1280 érték,alias/owner/reset/no-event/word és129 CPU-vágás.
+Firmware83 írása teljesül,következő stopFFFF65 TIOR0,PC0xA7A,ciklus307;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-control.md](an1x-itu-control.md).
+Helyi validáció:108/108 CTest (95,67s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit585 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer
+szűrő pontosan27 csoport;saját CI/review és merge függőben.
+
+## ITU általános regiszterek lezárása — 2026-11-02
+
+A #183 beolvadt `89267c4ef11dd5d08f286433baff32624cce52ba` commitként.
+Ellenőrzött head:`9603b0067c2e08e0f89e20e32d166f83667151d0`;mind5 CI sikeres.
+Futások:41516087446,41516087367,41516087375. Review-szál és változtatáskérés
+nincs;automatikus review-eredmény nem volt rögzítve. Következő:FFFF64 TCR0
+óra/él/counter-clear konfigurációja leállított ITU-n,friss mainből.
+
 ## Leállított ITU általános regiszterek — jelölt,2026-11-02
 
 Tíz GRA/GRB tároló szó/bájt hozzáféréssel,FFFF cold/reset. Önálló big-endian
