@@ -9,6 +9,18 @@
       "methods": []
     },
     {
+      "path": "src/emu/schedule.cpp",
+      "bytes": 28970,
+      "sha256": "d7a54f21126144df71ba9a4b40fc3451c5bef1096fe96f89653922015b3c21f9",
+      "methods": [
+        {
+          "signature": "void device_scheduler::synchronize(timer_expired_delegate callback, s32 param)",
+          "bytes": 193,
+          "sha256": "9aac0f8383df515515bca85d3bdb72a4ab350d5c71911d327e3407d2bb614497"
+        }
+      ]
+    },
+    {
       "path": "src/emu/device.cpp",
       "bytes": 30856,
       "sha256": "2b21433291d0abab7f06840137d01c17c0ab8dfcf56b76e1f6cc3a7e9eb753e5",
@@ -44,6 +56,21 @@
           "name": "device_input::empty_event_queue",
           "bytes": 2084,
           "sha256": "867ebff96cc7dd258f2676b0b6764394b77b7eee333460ace5056cd5c597d87e"
+        },
+        {
+          "signature": "attotime device_execute_interface::local_time() const noexcept",
+          "bytes": 314,
+          "sha256": "ecc376f5507de457f134ecf76731d25e0cc1192d454e378c7b489ea69ffbfac4"
+        },
+        {
+          "signature": "u64 device_execute_interface::total_cycles() const noexcept",
+          "bytes": 219,
+          "sha256": "b2cecd56c8705f19b2940354ce861c439601eca01ea850681f28e6bf33a782e1"
+        },
+        {
+          "signature": "void device_execute_interface::abort_timeslice() noexcept",
+          "bytes": 309,
+          "sha256": "868323b39902264ec6ae41cbb5f8a8efa45944057d83e3ae1f1a0b1afbe93bbf"
         }
       ]
     }

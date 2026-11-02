@@ -16,6 +16,7 @@ class TraversalTests(unittest.TestCase):
      for leaf,names in m.METHODS.items():
       text='\n'.join('void '+n+'()\n{\n '+('changed();' if change else 'original();')+'\n}\n' for n in names if not missing or n!=names[0])
       if leaf=='diexec.cpp':text+='\nTIMER_CALLBACK_MEMBER(device_execute_interface::device_input::empty_event_queue)\n{\n}\n'
+      for signature in m.TIME_SIGNATURES.get(leaf,[]):text+='\n'+signature+'\n{\n}\n'
       z.writestr('root/src/emu/'+leaf,text)
    with patch.object(m,'verified_archive',side_effect=lambda p,l:zipfile.ZipFile(p)) as verify:
     write();a=m.report(p,{'commit':'test'});verify.assert_called_once()
@@ -33,3 +34,10 @@ class TraversalTests(unittest.TestCase):
   self.assertNotEqual(a,m.queued_reset_identity(raw.replace(b'reset();',b'resume();')))
   for invalid in [b'',raw+raw]:
    with self.assertRaises(ValueError):m.queued_reset_identity(invalid)
+
+ def test_time_signature_exact_identity(self):
+  signature='u64 cpu::total_cycles() const noexcept'
+  raw=(signature+'\n{\n return 10;\n}\n').encode()
+  self.assertNotEqual(m.time_identities(raw,[signature]),m.time_identities(raw.replace(b'10',b'11'),[signature]))
+  for invalid in [b'',raw+raw]:
+   with self.assertRaises(ValueError):m.time_identities(invalid,[signature])

@@ -5,6 +5,16 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Reset időtartományok — jelölt, 2026-11-02
+
+A #163 beolvadt d513d4fdf8ff7c9ba0eedc064fab9247a9355f64;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. Négy eredeti időkezelési módszer
+azonossága rögzítve:local_time,total_cycles,abort_timeslice,synchronize.
+A resetelt CPU-ciklusszám nem azonos az abszolút perifériaidővel;szinkronizáció
+zero-delay timerrel történik,nem közvetlen callbackkel. Következő:korlátos
+időtartomány-szabály független tesztje,majd resetintegráció. Motorkód változatlan.
+100 Python sikeres;teljes runtime készletet kutatási változás miatt nem futtattunk újra.
+
 ## Sorba állított RESET-vonal — jelölt, 2026-11-02
 
 A #162 beolvadt36b71314dfae075b046b5b0bde34b92f0acb3c9b;öt CI sikeres,

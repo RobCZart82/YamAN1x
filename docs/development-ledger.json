@@ -2311,14 +2311,30 @@
         41365170089
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 163,
+      "title": "Pin queued RESET line assertion and release callback contract",
+      "status": "merged",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/163",
+      "merge_commit": "d513d4fdf8ff7c9ba0eedc064fab9247a9355f64",
+      "reviewed_head": "f1c7e278164bf20fcb090b3c608e7093ffdf58d5",
+      "ci_runs": [
+        41368643766,
+        41368643851,
+        41368643890
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "research/queued-reset-line",
+    "branch": "research/reset-time-contract",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Queued reset assertion/release source contract and callback identity",
+    "scope": "CPU reset-relative counters versus local time and synchronized callback identity",
     "validation": {
-      "python_tests": 99,
+      "python_tests": 100,
+      "framework_files": 4,
       "runtime_tests": "not_rerun_research_only"
     }
   },
