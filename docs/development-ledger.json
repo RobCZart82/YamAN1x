@@ -2579,21 +2579,37 @@
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0,
       "infrastructure_note": "Research macOS hosted runner capacity cancellation retried successfully."
+    },
+    {
+      "pr": 180,
+      "title": "Add retained independent-channel ITU synchronization profile",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/180",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "7c3b7a05dc2bf19fe7e6da3c010196c633d67907",
+      "reviewed_head": "24244db847b0fac75afd9e0e4fb3bbb8e5df0b02",
+      "ci_runs": [
+        41484649901,
+        41484650551,
+        41484649978
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/itu-register-contract",
+    "branch": "feat/itu-mode-contract",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Retained independent-channel TSNC E0 only;explicitly differs from pinned TSYR stub",
+    "scope": "Normal TMDR with FDIR configuration and unbuffered TFCR;no active ITU modes",
     "validation": {
-      "ctest_groups": 104,
+      "ctest_groups": 105,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 23,
-      "next_local_stop": "0xFFFF62",
+      "sanitizer_ci_selected_groups": 24,
+      "next_local_stop": "0xFFFF90",
       "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 58.03
+      "ctest_seconds": 51.37
     }
   },
   "pending_changes": []
