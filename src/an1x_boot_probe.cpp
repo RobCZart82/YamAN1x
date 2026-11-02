@@ -29,6 +29,7 @@ struct Host {
  void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);});}
  void bus_cycle(uint64_t t){bus.bus_cycle(t);}
  uint64_t update(uint64_t t){return bus.update(t);}
+ int access_cycles(uint32_t a,unsigned w)const{return bus.access_cycles(a,w);}
  uint64_t next_bus_event()const{return bus.next_bus_event();}
  uint8_t syscr_value()const{return bus.syscr_value();}
  void sync_cpu_ccr(uint8_t v){bus.sync_cpu_ccr(v);}

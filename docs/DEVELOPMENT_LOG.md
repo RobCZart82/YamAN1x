@@ -3,6 +3,27 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## ASTCR kiválasztott hozzáférési idő — jelölt, 2026-11-02
+
+A #171 beolvadt `ecee85e7f8daf1039fac431e420072e8fe9e6491` commitként;
+öt CI sikeres ac71f992a2c03049e6da13413765afa167c43f458 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Gyártói kézikönyv6.2.2:ASTCR0xFFFFED területenként2/3 állapotot választ.
+A firmware0F-et ír,ezért a puszta latch nem lett volna elég. A buszsegéd új,
+őrözött,pure access_cycles lekérdezése2/3 ciklust számol;default host továbbra2.
+ROM/SRAM az ASTCR alsó bitjeit követi,belső területek régi2 ciklusos kutatási
+költsége marad. ASTCR minden256 értéke tárolt. Reset00 kifejezetten no-wait kutatási
+profil,NEM a kézikönyv fizikai FF resetje. WAIT/WCR/WCER késleltetés még nincs.
+Független idő/counter/címteszt mind5 buszműveletre,költséghatár/reentry/alulcsordulás,
+256 regiszterérték és193 CPU-vágás;adaptációs eredetnyilvántartás frissítve.
+A változatlan helyi ROM most WCER0xFFFFEF bájtírásnál áll meg,PC0x9F4,
+perifériaciklus44. Ez kutatási modell,nem hardveridő vagy bootelfogadás.
+Részletek:[an1x-access-state.md](an1x-access-state.md). Következő WCER/wait-state profil.
+Release build és mind96 CTest sikeres (72,86s);100 Python és strict célzott
+ASan/UBSan sikeres. CI sanitizer-szűrő pontosan15 csoportot választ.
+Forrásaudit559 fájl,notice229 fájl/5 szöveg és diff-check sikeres.
+CI/review és beolvasztás függőben.
+
 ## ABWCR leképezett-területi profil — jelölt, 2026-11-02
 
 A #170 beolvadt `a9c1a2d4c3b6924463269c8985f38f62e1aa8611` commitként;

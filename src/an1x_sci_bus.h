@@ -34,7 +34,7 @@ public:
     // Stopped-owner policy for the supported subset only. No CPU reset or time advance.
     // Keep memory,physical input levels and pending RX schedule at their absolute times.
     void reset_supported_peripherals(){access([&]{
-        abwcr_=0;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
+        abwcr_=astcr_=0;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
         reset_port(4,port4_);reset_port(6,port6_);reset_port(7,port7_);
         reset_port(8,port8_);reset_port(9,port9_);reset_port(10,porta_);reset_port(11,portb_);
         sci_.reset(*this);
@@ -43,9 +43,16 @@ public:
     uint64_t update(uint64_t cycle){return access([&]{advance(cycle);return deadline();});}
     void bus_cycle(uint64_t cycle){access([&]{advance(cycle);now_=timeline_.cycle();});}
     uint64_t next_bus_event()const{return deadline();}
+    // Pure selected no-wait profile;only mapped external ROM/SRAM use ASTCR.
+    int access_cycles(uint32_t raw,unsigned)const{
+        const auto region=An1xMemoryMap::region(raw);
+        if(region==An1xMemoryMap::Region::rom)return (astcr_&1)?3:2;
+        if(region==An1xMemoryMap::Region::nvram)return (astcr_&2)?3:2;
+        return 2;
+    }
     uint16_t read_instruction_word(uint32_t a){return access([&]{return memory_.read_instruction_word(a);});}
-    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xfffff2?syscr_:H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):memory_.read_byte(a);});}
-    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else memory_.write_byte(a,v);});}
+    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xfffff2?syscr_:H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):memory_.read_byte(a);});}
+    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else memory_.write_byte(a,v);});}
     uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;if(H83002SciMmio::mapped(a))return sci_.read16(a);
         if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
             require_irq_word(a);const auto high=read_irq(a);const auto low=read_irq(a+1);
@@ -144,7 +151,7 @@ private:
         now_=timeline_.cycle();
     }
     // ABWCR bits0/1 must stay16-bit for mapped ROM/SRAM;other areas remain unmapped.
-    uint8_t abwcr_=0; // Explicit research reset profile,not verified board mode pins.
+    uint8_t abwcr_=0,astcr_=0; // Explicit research reset profile,not verified board mode pins.
     uint8_t syscr_=H83002SyscrModes::cold_value,cpu_ccr_=0x80;
     An1xMemoryMap memory_;
     H8DigitalPort port4_;

@@ -58,3 +58,8 @@ The normal CTest target runs this contract;Ubuntu sanitizer CI includes it.
 The mapped-area ABWCR candidate accepts firmware write08 while preserving16-bit
 ROM/SRAM. The same unchanged input now stops at ASTCR0xFFFFED/PC0x9F0/cycle36.
 See [ABWCR contract](an1x-bus-width.md);the earlier cycle30 result remains historical.
+
+## Subsequent ASTCR candidate observation
+
+The selected2/3-cycle ASTCR profile now stops at WCER0xFFFFEF/PC0x9F4/cycle44,
+with unchanged input. See [access-state contract](an1x-access-state.md).

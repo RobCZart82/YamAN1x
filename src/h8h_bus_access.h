@@ -11,6 +11,7 @@
 namespace yamanix {
 // Bus: read_instruction_word, read_byte, write_byte, read_word, write_word.
 // Bus and CPU-owned signed remaining-cycle counter must outlive this adapter.
+// Optional pure access_cycles(address,width) selects2/3 cycles;default2.
 // No callback reentry or counter mutation. Failure requires discarding owner.
 template<class Bus> class H8hBusAccess {
 public:
@@ -21,27 +22,38 @@ public:
     void set_slice_end(uint64_t end) { slice_end_=end; timed_=true; }
     bool failed() const { return failed_; }
     uint16_t read16i(uint32_t address) {
-        return access([&]{return bus_.read_instruction_word(address & ~uint32_t{1});});
+        return access(address & ~uint32_t{1},2,[&]{return bus_.read_instruction_word(address & ~uint32_t{1});});
     }
     uint8_t read8(uint32_t address) {
-        return access([&]{return bus_.read_byte(address);});
+        return access(address,1,[&]{return bus_.read_byte(address);});
     }
     void write8(uint32_t address,uint8_t data) {
-        access([&]{bus_.write_byte(address,data);});
+        access(address,1,[&]{bus_.write_byte(address,data);});
     }
     uint16_t read16(uint32_t address) {
-        return access([&]{return bus_.read_word(address & ~uint32_t{1});});
+        return access(address & ~uint32_t{1},2,[&]{return bus_.read_word(address & ~uint32_t{1});});
     }
     void write16(uint32_t address,uint16_t data) {
-        access([&]{bus_.write_word(address & ~uint32_t{1},data);});
+        access(address & ~uint32_t{1},2,[&]{bus_.write_word(address & ~uint32_t{1},data);});
     }
 private:
-    template<class F> decltype(auto) access(F f) {
+    template<class F> decltype(auto) access(uint32_t address,unsigned width,F f) {
         if(busy_) {failed_=true;throw std::logic_error("Reentrant H8H bus access");}
         if(failed_) throw std::logic_error("Failed H8H bus owner");
-        if(remaining_<std::numeric_limits<int>::min()+2)
+        int cost=2;
+        if constexpr(requires(Bus& b){b.access_cycles(address,width);}) {
+            busy_=true;
+            try {
+                struct Guard{bool&busy;~Guard(){busy=false;}}guard{busy_};
+                const auto selected=bus_.access_cycles(address,width);
+                if(failed_)throw std::logic_error("Reentered H8H access-cost query");
+                if(selected==2)cost=2;else if(selected==3)cost=3;
+                else throw std::logic_error("Unsupported H8H access cost");
+            }catch(...){failed_=true;throw;}
+        }
+        if(remaining_<std::numeric_limits<int>::min()+cost)
             throw std::overflow_error("H8H cycle counter underflow");
-        remaining_-=2; // Charge before calling the bus, including across zero.
+        remaining_-=cost; // Charge before calling the bus, including across zero.
         busy_=true;
         try {
             // A guard also handles void operations without duplicating charge.

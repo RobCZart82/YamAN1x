@@ -318,3 +318,7 @@ add_test(NAME yamanix_an1x_boot_probe COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURR
 add_executable(yamanix_an1x_bus_width_check tests/an1x_bus_width_check.cpp)
 target_include_directories(yamanix_an1x_bus_width_check PRIVATE src)
 add_test(NAME yamanix_an1x_bus_width COMMAND yamanix_an1x_bus_width_check)
+
+add_executable(yamanix_an1x_access_state_check tests/an1x_access_state_check.cpp)
+target_include_directories(yamanix_an1x_access_state_check PRIVATE src)
+add_test(NAME yamanix_an1x_access_state COMMAND yamanix_an1x_access_state_check)
