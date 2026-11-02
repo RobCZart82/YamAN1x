@@ -310,3 +310,7 @@ add_test(NAME yamanix_an1x_peripheral_reset COMMAND yamanix_an1x_peripheral_rese
 add_executable(yamanix_an1x_supported_reset_check tests/an1x_supported_reset_check.cpp)
 target_include_directories(yamanix_an1x_supported_reset_check PRIVATE src)
 add_test(NAME yamanix_an1x_supported_reset COMMAND yamanix_an1x_supported_reset_check)
+
+add_executable(yamanix_an1x_boot_probe src/an1x_boot_probe.cpp)
+target_include_directories(yamanix_an1x_boot_probe PRIVATE src)
+add_test(NAME yamanix_an1x_boot_probe COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_an1x_boot_probe.py $<TARGET_FILE:yamanix_an1x_boot_probe>)

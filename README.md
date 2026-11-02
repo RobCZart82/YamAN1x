@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **93 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **94 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,10 +35,10 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#168](https://github.com/RobCZart82/yaman1x/pull/168),
-`90e484efa59d66d7da0dae0ade34022afb11aefe`.
-The source-only suite contains **93 CTest groups and 100 Python tests**.
-All five CI jobs passed on #168 head `777d562505fe0966f8353d063238b6caf3e62f15`;
+Latest merged change:[#169](https://github.com/RobCZart82/yaman1x/pull/169),
+`4cdc916e3bdd6e31eda23adfb184955b753b4ac1`.
+The source-only suite contains **94 CTest groups and 100 Python tests**.
+All five CI jobs passed on #169 head `a95352d262a4149ace591b908913ae5f76025938`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -60,14 +60,17 @@ No AN1x audio,VST3,AU or GUI is currently delivered. No project-wide release
 license has been selected. ROMs remain local and unchanged.
 
 Merged #168 resets supported bus peripherals without rewinding absolute time or
-pending RX. The current candidate coordinates CPU and bus subset reset only at
-a debt-free stopped boundary,with separate reset count/relative time. Invalid
-boundaries reject without mutation;callback reentry fails before further output.
-Physical RESET assertion/release and omitted-device fidelity remain unaccepted.
-Next:bounded firmware-boot diagnostics and missing machine MMIO/MIDI integration.
-Local Release build,all93 CTest groups,100 Python tests and targeted strict
-ASan/UBSan passed. Pinned reset/configuration-source checks still match.
-One PR at a time. Current candidate:supported machine reset;CI/review pending,not merged.
+pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundaries,
+with separate reset count/relative time and fail-stop reentry handling.
+The current candidate adds a bounded read-only in-process boot diagnostic with
+explicit raw/swap16 view,strict limits and structured stop/access metadata.
+Local1.04 swap16 observation stops at byte write0xFFFFEC,peripheral cycle30;
+the original file hash is unchanged. This is not successful firmware boot.
+Next inspect the pinned source/hardware contract for that MMIO address.
+See [boot probe contract](docs/an1x-boot-probe.md).
+Local Release build,all94 CTest groups,100 Python tests and strict targeted
+ASan/UBSan CLI checks passed. Original local ROM hash remains unchanged.
+One PR at a time. Current candidate:bounded boot probe;CI/review pending,not merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.

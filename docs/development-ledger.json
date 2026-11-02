@@ -2402,22 +2402,35 @@
         41390376810
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 169,
+      "title": "Coordinate supported machine reset at debt-free time boundaries",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/169",
+      "merge_commit": "4cdc916e3bdd6e31eda23adfb184955b753b4ac1",
+      "reviewed_head": "a95352d262a4149ace591b908913ae5f76025938",
+      "ci_runs": [
+        41396039830,
+        41396039791,
+        41396039812
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/machine-supported-reset",
+    "branch": "feat/bounded-boot-probe",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Debt-free supported CPU/bus machine reset;not physical RESET or omitted-device acceptance",
+    "scope": "Bounded explicit-view in-process CLI;first local swap16 stop at0xFFFFEC,not boot acceptance",
     "validation": {
-      "ctest_groups": 93,
+      "ctest_groups": 94,
       "python_tests": 100,
-      "accepted_cut_points": 41,
-      "rejected_debt_cut_points": 40,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 12,
-      "pinned_reset_and_child_order": "pass",
-      "source_audit_files": 552,
+      "sanitizer_ci_selected_groups": 13,
+      "local_rom_unchanged": true,
+      "source_audit_files": 555,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }
