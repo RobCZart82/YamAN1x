@@ -2,10 +2,10 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#170](https://github.com/RobCZart82/yaman1x/pull/170),
-`a9c1a2d4c3b6924463269c8985f38f62e1aa8611`.
-The source-only suite contains **95 CTest groups and 100 Python tests**.
-All five CI jobs passed on #170 head `19483ca548d73031933c523598568c9afda00fbd`;
+Latest merged change:[#171](https://github.com/RobCZart82/yaman1x/pull/171),
+`ecee85e7f8daf1039fac431e420072e8fe9e6491`.
+The source-only suite contains **96 CTest groups and 100 Python tests**.
+All five CI jobs passed on #171 head `c71f992a2c03049e6da13413765afa167c43f458`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -29,16 +29,16 @@ license has been selected. ROMs remain local and unchanged.
 Merged #168 resets supported bus peripherals without rewinding absolute time or
 pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundaries,
 with separate reset count/relative time and fail-stop reentry handling.
-Merged #170 adds bounded read-only in-process boot diagnostics with explicit
-raw/swap16 view and structured stop metadata. The current candidate handles
-ABWCR only while mapped ROM/SRAM remain16-bit;unmapped-area bits read back.
-Local unchanged1.04 swap16 input now passes ABWCR08 and stops at ASTCR0xFFFFED,
-peripheral cycle36. This is not successful firmware boot or hardware timing proof.
-Next inspect ASTCR and a deliberately supported bus timing profile.
-See [ABWCR scope](an1x-bus-width.md).
-Local Release build,all95 CTest groups,100 Python tests and strict targeted
+Merged #170 adds bounded read-only boot diagnostics;#171 handles ABWCR while
+mapped ROM/SRAM stay16-bit. The current ASTCR candidate selects2/3-cycle
+ROM/SRAM access through a guarded cost query;default hosts retain two cycles.
+It uses an explicit00 no-wait research reset profile,not hardware resetFF.
+Local unchanged1.04 swap16 input now stops at WCER0xFFFFEF,peripheral cycle44.
+WAIT/WCR/WCER timing and full firmware boot remain unaccepted.
+See [ASTCR scope](an1x-access-state.md).
+Local Release build,all96 CTest groups,100 Python tests and strict targeted
 ASan/UBSan passed. Original local ROM hash remains unchanged.
-One PR at a time. Current candidate:ABWCR mapped-area profile;CI/review pending,not merged.
+One PR at a time. Current candidate:ASTCR selected access timing;CI/review pending,not merged.
 
 ## Historical status snapshots
 

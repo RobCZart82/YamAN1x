@@ -2432,21 +2432,36 @@
         41400398926
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 171,
+      "title": "Add constrained ABWCR profile for mapped external areas",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/171",
+      "merge_commit": "ecee85e7f8daf1039fac431e420072e8fe9e6491",
+      "reviewed_head": "c71f992a2c03049e6da13413765afa167c43f458",
+      "ci_runs": [
+        41406811106,
+        41406811049,
+        41406810946
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/fixed-abwcr-profile",
+    "branch": "feat/astcr-access-timing",
     "status": "local_validation_passed_ci_pending",
-    "scope": "ABWCR bits0/1 stay16-bit;unmapped external-area bits latched,not8-bit emulated",
+    "scope": "Selected no-wait ASTCR2/3 mapped external costs;not physical reset or wait-state acceptance",
     "validation": {
-      "ctest_groups": 95,
+      "ctest_groups": 96,
       "python_tests": 100,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 14,
+      "sanitizer_ci_selected_groups": 15,
       "local_rom_unchanged": true,
-      "next_local_stop": "0xFFFFED",
-      "source_audit_files": 557,
+      "next_local_stop": "0xFFFFEF",
+      "source_audit_files": 559,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }

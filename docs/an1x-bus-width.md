@@ -40,3 +40,9 @@ previous first-stop result at0xFFFFEC/cycle30 for the updated candidate only.
 It does not establish firmware boot or hardware-cycle accuracy.
 Next:ASTCR contract and a deliberately supported timing profile,with fail-closed
 handling for modes the execution engine cannot implement.
+
+## Subsequent ASTCR candidate
+
+The selected no-wait ASTCR extension now passes firmware0F and next stops at
+WCER0xFFFFEF/cycle44. See [access-state scope](an1x-access-state.md). Paired word
+access remains unsupported;the prior ASTCR/cycle36 observation is historical.
