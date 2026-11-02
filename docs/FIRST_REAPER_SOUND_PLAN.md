@@ -5,6 +5,17 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Reset-időtartomány segéd — jelölt, 2026-11-02
+
+A #164 beolvadt e620483c7d95e07aeb2bce69431fdb2a87c1fd03;öt CI sikeres,
+automatikus review-eredmény nem volt rögzítve. Új önálló ResetTimeDomain:
+abszolút idő monoton,reset-origin/generáció külön,átváltási túlcsordulás elutasítva.
+Három kezdőidő,300 reset,visszalépés és64 bites határesetek független tesztje.
+Célzott strict ASan/UBSan sikeres. Még nincs bekötve a gépbe;CPU-adósságot,
+inputsort vagy perifériát nem módosít,nem teljesgép-reset. A kezdeti fordítási
+hiba hiányzó initializer_list fejléc volt,javítva. Következő a gép időkezelési
+integrációja definiált nyugalmi határon.
+
 ## Reset időtartományok — jelölt, 2026-11-02
 
 A #163 beolvadt d513d4fdf8ff7c9ba0eedc064fab9247a9355f64;öt CI sikeres,

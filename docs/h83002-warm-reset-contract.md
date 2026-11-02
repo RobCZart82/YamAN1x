@@ -287,3 +287,14 @@ separate from reset-relative CPU counters and must define pending input/debt
 handling. Next implement a bounded time-domain policy with independent tests
 before exposing machine reset;do not copy the global scheduler implicitly.
 This is source-derived timing evidence,not a new runtime reset implementation.
+
+## Bounded time-domain policy — candidate 2026-11-02
+
+ResetTimeDomain is a project-owned standalone arithmetic helper. advance_to is
+monotonic;reset_origin changes only the relative origin and generation,never
+absolute time. Relative-to-absolute conversion rejects overflow before mutation.
+It does not model CPU debt,execute instructions,consume inputs or reset devices.
+Only an owner-defined quiescent boundary may use it;integration remains open.
+Tests use literal expected times at three origins,300 repeated resets,backward
+rejection and UINT64_MAX conversion boundaries. This is policy,not MAME or physical
+RESET pin equivalence. Cold machine reconstruction remains a separate new epoch.
