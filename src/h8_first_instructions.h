@@ -35,6 +35,14 @@ public:
     std::size_t run(uint64_t start,int cycles,std::size_t limit) {
         Owner owner{*this};return runner_.run(start,cycles,limit,owner);
     }
+    // Project-owned deferred CPU transition,not a physical RESET line.
+    // Retain completed bus effects/debt;the runner repays debt before reset fetches.
+    // Host/IRQ/peripheral reset and input scheduling remain external responsibilities.
+    void request_reset_after_debt() {
+        runner_.require_stopped();
+        m_inst_state=0x10000;m_inst_substate=0;
+        m_irq_vector=0;m_taken_irq_vector=0;m_taken_irq_level=-1;
+    }
     bool failed() const {return runner_.failed();}
     Snapshot snapshot() const {
         return {m_R,m_PC,m_PPC,m_NPC,m_inst_state,m_inst_substate,m_TMP1,m_TMP2,

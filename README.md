@@ -35,18 +35,20 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#165](https://github.com/RobCZart82/yaman1x/pull/165),
-`09af5e8f9850d356f72c3557aa5c4bceb5ed74fe` (2026-11-02T02:42:54Z).
+Latest merged change:[#166](https://github.com/RobCZart82/yaman1x/pull/166),
+`3bf3ed4dd4ff422b79918d8bc3889b812ec75e1f`.
 The source-only suite contains **91 CTest groups and 100 Python tests**.
-All five CI jobs passed on #165 head `bedad28721aa1d838a799c759ee9da3cfb13220e`;
+All five CI jobs passed on #166 head `2b8528c0c2d7b57c1baa7925ceab9701b920b614`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
 reference. #165 adds a tested standalone absolute/reset-relative time policy.
-The current candidate connects its absolute clock to research-machine execution
-and cold reconstruction,with split-run/input/wire regression tests and expanded
-ASan/UBSan coverage. It does not expose an in-place warm reset API.
+Merged #166 connects the absolute clock to research-machine execution and cold
+reconstruction,with split-run/input/wire tests and ten ASan/UBSan CI groups.
+The current candidate adds a CPU-only deferred reset request between run calls:
+completed bus-cycle debt is retained and repaid before reset vector fetches.
+This project-owned policy is not a physical RESET line or machine reset API.
 
 CPU/bus cold reconstruction and component reset tests exist;whole-machine warm
 reset and complete firmware boot are **not accepted**. The machine clock stays
@@ -57,10 +59,9 @@ reference sound,realtime rendering,VST3 and REAPER acceptance remain open.
 No AN1x audio,VST3,AU or GUI is currently delivered. No project-wide release
 license has been selected. ROMs remain local and unchanged.
 
-Current candidate passed a local Release build,all 91 CTest groups,100 Python
-tests and targeted strict ASan/UBSan machine validation. The sanitizer CI filter
-selects exactly ten groups. Remote CI and final review remain pending.
-One PR at a time. Current candidate:machine time-domain integration;not merged.
+Current candidate passed the local Release build,all91 CTest groups,100 Python
+tests and targeted strict ASan/UBSan. Pinned reset-source identities still match.
+One PR at a time. Current candidate:deferred CPU reset;CI/review pending,not merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.

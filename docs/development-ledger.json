@@ -2357,18 +2357,34 @@
         41375985901
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 166,
+      "title": "Integrate absolute machine time and reconcile current development status",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/166",
+      "merge_commit": "3bf3ed4dd4ff422b79918d8bc3889b812ec75e1f",
+      "reviewed_head": "2b8528c0c2d7b57c1baa7925ceab9701b920b614",
+      "ci_runs": [
+        41381463078,
+        41381463071,
+        41381463135
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/machine-time-domain",
+    "branch": "feat/cpu-deferred-reset",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Integrate absolute time into cold machine lifecycle;no warm reset API",
+    "scope": "CPU-only stopped-owner reset request retains completed debt;not hardware RESET or machine reset",
     "validation": {
-      "python_tests": 100,
-      "ctest_groups": 91,
+      "deferred_split_cases": 441,
       "full_runtime_suite": "pass",
+      "ctest_groups": 91,
+      "python_tests": 100,
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 10,
+      "pinned_reset_source_check": "pass",
       "source_audit_files": 550,
       "notice_covered_files": 229,
       "diff_check": "pass"
