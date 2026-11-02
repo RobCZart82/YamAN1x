@@ -52,3 +52,9 @@ explicit swap16 and odd-vector rejection. Every supplied temporary file is hashe
 before and after. The first decoder-control test mistakenly usedFFFF,which is a
 valid immediate MOV opcode;the control now uses a known invalid EEPMOV extension.
 The normal CTest target runs this contract;Ubuntu sanitizer CI includes it.
+
+## Subsequent ABWCR candidate observation
+
+The mapped-area ABWCR candidate accepts firmware write08 while preserving16-bit
+ROM/SRAM. The same unchanged input now stops at ASTCR0xFFFFED/PC0x9F0/cycle36.
+See [ABWCR contract](an1x-bus-width.md);the earlier cycle30 result remains historical.

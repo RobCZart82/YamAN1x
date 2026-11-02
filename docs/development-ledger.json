@@ -2417,20 +2417,36 @@
         41396039812
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 170,
+      "title": "Add bounded explicit-view in-process boot diagnostics",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/170",
+      "merge_commit": "a9c1a2d4c3b6924463269c8985f38f62e1aa8611",
+      "reviewed_head": "19483ca548d73031933c523598568c9afda00fbd",
+      "ci_runs": [
+        41400398787,
+        41400398850,
+        41400398926
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/bounded-boot-probe",
+    "branch": "feat/fixed-abwcr-profile",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Bounded explicit-view in-process CLI;first local swap16 stop at0xFFFFEC,not boot acceptance",
+    "scope": "ABWCR bits0/1 stay16-bit;unmapped external-area bits latched,not8-bit emulated",
     "validation": {
-      "ctest_groups": 94,
+      "ctest_groups": 95,
       "python_tests": 100,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 13,
+      "sanitizer_ci_selected_groups": 14,
       "local_rom_unchanged": true,
-      "source_audit_files": 555,
+      "next_local_stop": "0xFFFFED",
+      "source_audit_files": 557,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }

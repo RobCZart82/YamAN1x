@@ -2,10 +2,10 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#169](https://github.com/RobCZart82/yaman1x/pull/169),
-`4cdc916e3bdd6e31eda23adfb184955b753b4ac1`.
-The source-only suite contains **94 CTest groups and 100 Python tests**.
-All five CI jobs passed on #169 head `a95352d262a4149ace591b908913ae5f76025938`;
+Latest merged change:[#170](https://github.com/RobCZart82/yaman1x/pull/170),
+`a9c1a2d4c3b6924463269c8985f38f62e1aa8611`.
+The source-only suite contains **95 CTest groups and 100 Python tests**.
+All five CI jobs passed on #170 head `19483ca548d73031933c523598568c9afda00fbd`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -29,15 +29,16 @@ license has been selected. ROMs remain local and unchanged.
 Merged #168 resets supported bus peripherals without rewinding absolute time or
 pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundaries,
 with separate reset count/relative time and fail-stop reentry handling.
-The current candidate adds a bounded read-only in-process boot diagnostic with
-explicit raw/swap16 view,strict limits and structured stop/access metadata.
-Local1.04 swap16 observation stops at byte write0xFFFFEC,peripheral cycle30;
-the original file hash is unchanged. This is not successful firmware boot.
-Next inspect the pinned source/hardware contract for that MMIO address.
-See [boot probe contract](an1x-boot-probe.md).
-Local Release build,all94 CTest groups,100 Python tests and strict targeted
-ASan/UBSan CLI checks passed. Original local ROM hash remains unchanged.
-One PR at a time. Current candidate:bounded boot probe;CI/review pending,not merged.
+Merged #170 adds bounded read-only in-process boot diagnostics with explicit
+raw/swap16 view and structured stop metadata. The current candidate handles
+ABWCR only while mapped ROM/SRAM remain16-bit;unmapped-area bits read back.
+Local unchanged1.04 swap16 input now passes ABWCR08 and stops at ASTCR0xFFFFED,
+peripheral cycle36. This is not successful firmware boot or hardware timing proof.
+Next inspect ASTCR and a deliberately supported bus timing profile.
+See [ABWCR scope](an1x-bus-width.md).
+Local Release build,all95 CTest groups,100 Python tests and strict targeted
+ASan/UBSan passed. Original local ROM hash remains unchanged.
+One PR at a time. Current candidate:ABWCR mapped-area profile;CI/review pending,not merged.
 
 ## Historical status snapshots
 

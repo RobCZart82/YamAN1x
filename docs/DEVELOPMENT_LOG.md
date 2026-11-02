@@ -3,6 +3,27 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## ABWCR leképezett-területi profil — jelölt, 2026-11-02
+
+A #170 beolvadt `a9c1a2d4c3b6924463269c8985f38f62e1aa8611` commitként;
+öt CI sikeres a19483ca548d73031933c523598568c9afda00fbd headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+A gyártói H8/3002 kézikönyv6.2.1 alapján0xFFFFEC az ABWCR. Projektprofil:
+ROM/SRAM terület0/1 marad16-bit,ezért alsó2 bit nem állítható;felső6 bit
+visszaolvasható,de az érintett külső területek továbbra sincsenek leképezve.
+64 érték támogatott,192 elutasított. Reset00 explicit kutatási mód,nem igazolt
+AN1x mode-pin állapot. Word/szomszédos ASTCR-hozzáférés továbbra is fail-closed.
+Az első00-only policy a firmware08 írását elutasította;csak a területazonosítás
+után bővült a megengedett profil. Forrás:[an1x-bus-width.md](an1x-bus-width.md).
+Független256 érték,alias/reset/word/szomszédteszt,129 CPU-folytatási vágás.
+A helyi változatlan ROM swap16 próbája már ASTCR0xFFFFED írásnál áll meg,
+PC0x9F0,perifériaciklus36 (korábbanABWCR30). Teljes boot/hang/plugin nincs.
+Release build és mind95 CTest sikeres (62,02s);100 Python és strict célzott
+ASan/UBSan sikeres. CI sanitizer-szűrő pontosan14 csoportot választ.
+Forrásaudit557 fájl,notice229 fájl/5 szöveg és diff-check sikeres.
+CI/review és beolvasztás függőben.
+Következő:ASTCR és támogatott buszidőzítési profil célzott vizsgálata.
+
 ## Korlátos firmware-boot próba — jelölt, 2026-11-02
 
 A #169 beolvadt `4cdc916e3bdd6e31eda23adfb184955b753b4ac1` commitként;
