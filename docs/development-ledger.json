@@ -2530,21 +2530,38 @@
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0,
       "infrastructure_note": "Hosted macOS arm64 capacity cancellations retried;all five final checks succeeded."
+    },
+    {
+      "pr": 177,
+      "title": "Add standalone active refresh timer with pinned original-handler comparison",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/177",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "3f0baf6696bedd423650dc2aeb094bddfd6f5aaf",
+      "reviewed_head": "934936237d7d8fcb9cfc24d8dc2b317afe12052d",
+      "ci_runs": [
+        41461942286,
+        41461942138,
+        41461942255
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/refresh-active-clock",
+    "branch": "feat/refresh-bus-clock",
     "status": "locally_validated_awaiting_ci_review",
-    "scope": "Standalone pinned-MAME active timer;not machine-integrated",
+    "scope": "Active bus refresh clock,CMIE still rejected",
     "validation": {
-      "ctest_groups": 101,
+      "ctest_groups": 102,
       "python_tests": 100,
       "targeted_asan_ubsan": "pass",
       "original_handler_comparisons": 524288,
-      "sanitizer_ci_selected_groups": 20,
-      "boot_progress": false,
+      "sanitizer_ci_selected_groups": 21,
+      "next_local_stop": "0xFFFFE8",
+      "local_rom_unchanged": true,
       "full_runtime_suite": "pass",
-      "ctest_seconds": 50.4
+      "ctest_seconds": 63.59
     }
   },
   "pending_changes": []

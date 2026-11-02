@@ -1,5 +1,6 @@
 #pragma once
 #include "an1x_memory_map.h"
+#include "h8_refresh_timer.h"
 #include "h83002_syscr_modes.h"
 #include "h8_digital_port.h"
 #include "sci_cycle_timeline.h"
@@ -34,7 +35,7 @@ public:
     // Stopped-owner policy for the supported subset only. No CPU reset or time advance.
     // Keep memory,physical input levels and pending RX schedule at their absolute times.
     void reset_supported_peripherals(){access([&]{
-        rtcnt_=0;rtcor_=0xff;abwcr_=astcr_=0;wcr_=0xf4;wcer_=0xff;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
+        refresh_.reset();abwcr_=astcr_=0;wcr_=0xf4;wcer_=0xff;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
         reset_port(4,port4_);reset_port(6,port6_);reset_port(7,port7_);
         reset_port(8,port8_);reset_port(9,port9_);reset_port(10,porta_);reset_port(11,portb_);
         sci_.reset(*this);
@@ -51,10 +52,10 @@ public:
         return 2;
     }
     uint16_t read_instruction_word(uint32_t a){return access([&]{return memory_.read_instruction_word(a);});}
-    // RFSHCR is retained at 02;refresh pins,memory mux and interval timer are not modeled.
+    // RFSHCR stays02;refresh pins/memory mux are not modeled.Timer IRQ enable rejects.
     // BRCR accepts only the retained FE profile;physical bus release/pin mux is not modeled.
-    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?uint8_t{7}:a==0xffffae?rtcnt_:a==0xffffaf?rtcor_:H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):memory_.read_byte(a);});}
-    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x78)throw std::logic_error("Unsupported refresh timer clock or IRQ enable");}else if(a==0xffffae){rtcnt_=v;}else if(a==0xffffaf){rtcor_=v;}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else memory_.write_byte(a,v);});}
+    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):memory_.read_byte(a);});}
+    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else memory_.write_byte(a,v);});}
     uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;if(H83002SciMmio::mapped(a))return sci_.read16(a);
         if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
             require_irq_word(a);const auto high=read_irq(a);const auto low=read_irq(a+1);
@@ -158,10 +159,11 @@ private:
         if(!timeline_.advance_to(target,limit_,*this).complete)
             throw std::runtime_error("AN1x SCI event budget exhausted");
         now_=timeline_.cycle();
+        refresh_.advance_to(now_);
     }
     // ABWCR bits0/1 must stay16-bit for mapped ROM/SRAM;other areas remain unmapped.
-    // Only stopped refresh timer:CMF stays clear,CKS=0,CMIE=0.
-    uint8_t rtcnt_=0,rtcor_=0xff;
+    // Selected active refresh clock;IRQ enable remains unsupported.
+    H8RefreshTimer refresh_;
     uint8_t wcr_=0xf4,wcer_=0xff; // No-wait research cold/reset profile,not hardware F3.
     uint8_t abwcr_=0,astcr_=0; // Explicit research reset profile,not verified board mode pins.
     uint8_t syscr_=H83002SyscrModes::cold_value,cpu_ccr_=0x80;
