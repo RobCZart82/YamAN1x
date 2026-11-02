@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **96 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **97 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,10 +35,10 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#171](https://github.com/RobCZart82/yaman1x/pull/171),
-`ecee85e7f8daf1039fac431e420072e8fe9e6491`.
-The source-only suite contains **96 CTest groups and 100 Python tests**.
-All five CI jobs passed on #171 head `c71f992a2c03049e6da13413765afa167c43f458`;
+Latest merged change:[#172](https://github.com/RobCZart82/yaman1x/pull/172),
+`5aadb6279ea98f608550453b06953a7676e5372f`.
+The source-only suite contains **97 CTest groups and 100 Python tests**.
+All five CI jobs passed on #172 head `ff9b87f42f56c806a3df3e3eb0e050df0a1d15b7`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -62,16 +62,17 @@ license has been selected. ROMs remain local and unchanged.
 Merged #168 resets supported bus peripherals without rewinding absolute time or
 pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundaries,
 with separate reset count/relative time and fail-stop reentry handling.
-Merged #170 adds bounded read-only boot diagnostics;#171 handles ABWCR while
-mapped ROM/SRAM stay16-bit. The current ASTCR candidate selects2/3-cycle
-ROM/SRAM access through a guarded cost query;default hosts retain two cycles.
-It uses an explicit00 no-wait research reset profile,not hardware resetFF.
-Local unchanged1.04 swap16 input now stops at WCER0xFFFFEF,peripheral cycle44.
-WAIT/WCR/WCER timing and full firmware boot remain unaccepted.
-See [ASTCR scope](docs/an1x-access-state.md).
-Local Release build,all96 CTest groups,100 Python tests and strict targeted
+Merged #170 adds boot diagnostics;#171 constrains ABWCR and#172 selects ASTCR2/3
+mapped external cycles. The current WCR/WCER candidate adds0–3 programmed waits
+only for enabled external three-state areas (checked total2..6). Pin-wait1/auto
+reject;WCER-disabled pinwait0 assumes an explicit inactive WAIT research profile.
+Research resetASTCR00/WCRF4/WCERFF is not a physical reset model.
+Local unchanged1.04 swap16 input now stops at BRCR0xFFFFF3,peripheral cycle60.
+Full firmware boot,physical WAIT/board timing and audio remain unaccepted.
+See [wait-state scope](docs/an1x-wait-profile.md).
+Local Release build,all97 CTest groups,100 Python tests and strict targeted
 ASan/UBSan passed. Original local ROM hash remains unchanged.
-One PR at a time. Current candidate:ASTCR selected access timing;CI/review pending,not merged.
+One PR at a time. Current candidate:programmed wait profile;CI/review pending,not merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.

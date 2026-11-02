@@ -2447,21 +2447,36 @@
         41406810946
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 172,
+      "title": "Add selected ASTCR two and three cycle access timing",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/172",
+      "merge_commit": "5aadb6279ea98f608550453b06953a7676e5372f",
+      "reviewed_head": "ff9b87f42f56c806a3df3e3eb0e050df0a1d15b7",
+      "ci_runs": [
+        41413760107,
+        41413760029,
+        41413760000
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/astcr-access-timing",
+    "branch": "feat/programmed-wait-profile",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Selected no-wait ASTCR2/3 mapped external costs;not physical reset or wait-state acceptance",
+    "scope": "Selected WCR/WCER programmable waits;explicit inactive WAIT,no physical reset/pin-wait1/auto",
     "validation": {
-      "ctest_groups": 96,
+      "ctest_groups": 97,
       "python_tests": 100,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 15,
+      "sanitizer_ci_selected_groups": 16,
       "local_rom_unchanged": true,
-      "next_local_stop": "0xFFFFEF",
-      "source_audit_files": 559,
+      "next_local_stop": "0xFFFFF3",
+      "source_audit_files": 561,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }
