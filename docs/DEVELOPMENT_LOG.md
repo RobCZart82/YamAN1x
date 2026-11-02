@@ -3,6 +3,30 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## ITU compare-mód kimenet nélkül — jelölt,2026-11-02
+
+Öt TIOR csak no-output compare profilt fogad:4 raw/252 tiltott csatornánként,
+readback/reset88. Nincs jelalak/capture/külső él/compare-event/IRQ,csatornák állnak.
+Gyártói10.2.11 alapján;eredeti MAME base TIOR read00/write-ignored stub,ebből
+nem állítunk aktív I/O referenciát.1280 csatornaérték,alias/reset/no-effect/word
+és129 CPU-vágás. Korábbi negatív kontroll a támogatott65 helyett69-et ellenőriz.
+Firmware88 írása teljesül,következő stopFFFF66 TIER0,PC0xA7E,ciklus315;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-io.md](an1x-itu-io.md).
+Helyi validáció:109/109 CTest (60,44s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit587 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer
+szűrő pontosan28 csoport;saját CI/review és merge függőben.
+
+## ITU-csatornavezérlők lezárása — 2026-11-02
+
+A #184 beolvadt `3e005e001022c5ac11272eb754cee6a0cda75bfd` commitként.
+Ellenőrzött head:`41eb7461e9e530abe25b5f36118119e9f45fb719`;mind5 CI sikeres.
+Futások:41525537583,41525537762,41525537584. Automatikus kódreview ugyanazon
+headen2026-11-02T21:09:22.713478Z-kor találat nélkül kész;bizonyíték:
+https://github.com/RobCZart82/yaman1x/pull/184#issuecomment-6588496395
+Nyitott review-szál és változtatáskérés nincs. Következő:FFFF65 TIOR0
+compare/no-output és capture korlátok vizsgálata friss mainből.
+
 ## Leállított ITU-csatornavezérlők — jelölt,2026-11-02
 
 Öt TCR tárolja az óra/él/counter-clear konfigurációt,reserved bit7 read-one,

@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## ITU compare-mód kimenet nélkül — jelölt,2026-11-02
+
+Öt TIOR csak no-output compare profilt fogad:4 raw/252 tiltott csatornánként,
+readback/reset88. Nincs jelalak/capture/külső él/compare-event/IRQ,csatornák állnak.
+Gyártói10.2.11 alapján;eredeti MAME base TIOR read00/write-ignored stub,ebből
+nem állítunk aktív I/O referenciát.1280 csatornaérték,alias/reset/no-effect/word
+és129 CPU-vágás. Korábbi negatív kontroll a támogatott65 helyett69-et ellenőriz.
+Firmware88 írása teljesül,következő stopFFFF66 TIER0,PC0xA7E,ciklus315;
+256 teljes szeletciklus/69 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-itu-io.md](an1x-itu-io.md).
+Helyi validáció:109/109 CTest (60,44s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit587 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer
+szűrő pontosan28 csoport;saját CI/review és merge függőben.
+
 ## Leállított ITU-csatornavezérlők — jelölt,2026-11-02
 
 Öt TCR tárolja az óra/él/counter-clear konfigurációt,reserved bit7 read-one,
