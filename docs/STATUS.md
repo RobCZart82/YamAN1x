@@ -2,11 +2,11 @@
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#177](https://github.com/RobCZart82/yaman1x/pull/177),
-`3f0baf6696bedd423650dc2aeb094bddfd6f5aaf`.
-The merged baseline has **101 CTest groups and100 Python tests**;the bus-clock
-candidate adds group102. All five final CI jobs passed on #177 head
-`934936237d7d8fcb9cfc24d8dc2b317afe12052d`. No open review thread or change
+Latest merged change:[#178](https://github.com/RobCZart82/yaman1x/pull/178),
+`51226f9524ca0c1cc39d487b8c31b7232c8ccddf`.
+The merged baseline has **102 CTest groups and100 Python tests**;the idle-ADC
+candidate adds group103. All five final CI jobs passed on #178 head
+`63e76d1f7cd3adc5fd0c5066311b5279e318f29e`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -32,10 +32,10 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate connects active refresh counting to bus absolute time;
-IRQ enable remains unsupported. Local unchanged firmware reaches192 completed
-slice cycles before byte writeFFFFE8 (ADC control/status),PC0xA44,cycle204.
-Full boot/audio remains unaccepted. See [bus timer scope](an1x-refresh-clock.md).
+reset/WAIT/pin-mode limitations remain documented. The current candidate handles idle ADC channel/scan/clock selection;conversion
+start and IRQ enable still reject. Local unchanged firmware next stops atFFFF61
+(ITU TSYR),PC0xA56,peripheral cycle239. Full boot/audio remains unaccepted.
+See [idle ADC scope](an1x-adc-idle.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots

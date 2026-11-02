@@ -346,3 +346,7 @@ add_test(NAME yamanix_h8_refresh_timer COMMAND yamanix_h8_refresh_timer_check)
 add_executable(yamanix_an1x_refresh_clock_check tests/an1x_refresh_clock_check.cpp)
 target_include_directories(yamanix_an1x_refresh_clock_check PRIVATE src)
 add_test(NAME yamanix_an1x_refresh_clock COMMAND yamanix_an1x_refresh_clock_check)
+
+add_executable(yamanix_an1x_adc_idle_check tests/an1x_adc_idle_check.cpp)
+target_include_directories(yamanix_an1x_adc_idle_check PRIVATE src)
+add_test(NAME yamanix_an1x_adc_idle COMMAND yamanix_an1x_adc_idle_check)

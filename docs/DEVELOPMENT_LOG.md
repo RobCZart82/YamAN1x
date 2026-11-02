@@ -3,6 +3,29 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Nyugalmi ADC-konfiguráció — jelölt,2026-11-02
+
+Friss main,#178 után. ADCSR FFFFE8 csakADST0/ADIE0:csatorna/scan/óra tárolt,
+ADF szoftveresen nem állítható.64 elfogadott/192 elutasított raw érték.
+Nincs analóg minta/konverzió/eredmény/trigger/IRQ;ADCR és páros word tiltott.
+Gyártói14.2.2 és rögzített eredeti ADC-kezelők alapján,aktív ADC-differenciál nélkül.
+256 érték,alias/reset/RAM/idő/no-effect/word és129 CPU-vágás. Firmware03 írása
+most teljesül,következő stopFFFF61 ITU TSYR,PC0xA56,perifériaciklus239;
+192 teljes szeletciklus/55 callback,9 GPIO. Nem teljes boot vagy hang.
+Szerződés:[an1x-adc-idle.md](an1x-adc-idle.md).
+Helyi validáció:103/103 CTest (58,11s),100 Python,strict célzott ASan/UBSan
+PASS. Forrásaudit575 fájl,notice229 fájl/5 szöveg,diff-check PASS. CI sanitizer22
+csoport;saját CI/review és merge függőben.
+
+## Aktív buszóra lezárás — 2026-11-02
+
+A #178 beolvadt `51226f9524ca0c1cc39d487b8c31b7232c8ccddf` commitként.
+Ellenőrzött head:`63e76d1f7cd3adc5fd0c5066311b5279e318f29e`;mind5 CI sikeres.
+Futások:41466453406,41466453320,41466453532. Nyitott review-szál és
+változtatáskérés nincs;automatikus review-eredmény nem volt rögzítve.
+Következő:FFFFE8 ADC-megállás szerződésének vizsgálata és a még hiányzó
+refresh IRQ/eseménybekötés logikus sorrendjének meghatározása friss mainből.
+
 ## Aktív refresh buszóra — jelölt,2026-11-02
 
 A #177 beolvadt `3f0baf6696bedd423650dc2aeb094bddfd6f5aaf` commitként;
