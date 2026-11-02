@@ -3,6 +3,31 @@
 Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Gépszintű támogatott reset — jelölt, 2026-11-02
+
+A #168 beolvadt `90e484efa59d66d7da0dae0ade34022afb11aefe` commitként;
+öt CI sikeres a777d562505fe0966f8353d063238b6caf3e62f15 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Új reset_supported_state gép-API:csak élő,álló gépen,CPU-adósság nélkül és nem
+előrefutó perifériaidővel. Érvénytelen határ módosítás nélkül visszautasítva.
+A jelen időpontra eső input előbb feldolgozódik,utána CPU-resetkérés,majd a
+#168 szerinti buszperiféria-reset. Siker után külön reset-origin/számláló frissül;
+abszolút idő,hideg generáció,RAM/GPIO és jövőbeli RX megmarad. Hideg újraépítés
+külön nullás időpéldányt és nullás támogatottreset-számlálót ad.
+Elkapott gépi reentry azonnal megjelöli a buszt is hibásnak,hogy ne legyenek
+utána további kimenetek. Részleges resethiba fail-stop;hideg újraépítés helyreállít.
+Teszt81 megállási pont:41 elfogadott,40 adósságos elutasítás;regiszter/RAM/idő,
+literális SCI-kimenetsorrend,ismétlés,jövőbeli és pont időhatáron eső RX,reentry.
+Ez a támogatott részhalmaz integrációja,nem fizikai RESET-assert/felengedés vagy
+minden AN1x-eszköz elfogadása. Eredeti referencia MAME706dbb73281320c54d7c2f16262c1c3786f2be01
+és rögzített reset/child-order források;új teljesgép upstream runtime trace nincs.
+CI ASan/UBSan szűrő pontosan12 csoportot választ. Release build és mind93 CTest
+sikeres (59,08s);100 Python és strict célzott ASan/UBSan sikeres. Elutasítás után
+a ciklusadósság visszafizetése és az újabb reset is tesztelt. Rögzített reset és
+konfigurációs források egyeznek;forrásaudit552 fájl,notice229 fájl/5 szöveg és
+diff-check sikeres. CI/review és beolvasztás függőben.
+Következő:korlátos firmware-boot diagnosztika és a hiányzó gépi MMIO/MIDI út felmérése.
+
 ## Támogatott buszperifériák resetje — jelölt, 2026-11-02
 
 A #167 beolvadt `e0b8c9037913a054a8f37e5ccba19a0a571409ac` commitként;

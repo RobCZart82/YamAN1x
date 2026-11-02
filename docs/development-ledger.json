@@ -2387,20 +2387,37 @@
         41385165740
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 168,
+      "title": "Reset supported bus peripherals without rewinding input time",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/168",
+      "merge_commit": "90e484efa59d66d7da0dae0ade34022afb11aefe",
+      "reviewed_head": "777d562505fe0966f8353d063238b6caf3e62f15",
+      "ci_runs": [
+        41390376903,
+        41390376819,
+        41390376810
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/bus-peripheral-reset",
+    "branch": "feat/machine-supported-reset",
     "status": "local_validation_passed_ci_pending",
-    "scope": "Supported SYSCR/IRQ/GPIO/SCI bus reset;not full hardware or machine reset",
+    "scope": "Debt-free supported CPU/bus machine reset;not physical RESET or omitted-device acceptance",
     "validation": {
-      "ctest_groups": 92,
+      "ctest_groups": 93,
       "python_tests": 100,
+      "accepted_cut_points": 41,
+      "rejected_debt_cut_points": 40,
       "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "sanitizer_ci_selected_groups": 11,
+      "sanitizer_ci_selected_groups": 12,
       "pinned_reset_and_child_order": "pass",
-      "source_audit_files": 551,
+      "source_audit_files": 552,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }

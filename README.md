@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **92 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **93 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,10 +35,10 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#167](https://github.com/RobCZart82/yaman1x/pull/167),
-`e0b8c9037913a054a8f37e5ccba19a0a571409ac`.
-The source-only suite contains **92 CTest groups and 100 Python tests**.
-All five CI jobs passed on #167 head `27ef4adae734e2beae33fb1611306c56242ccd10`;
+Latest merged change:[#168](https://github.com/RobCZart82/yaman1x/pull/168),
+`90e484efa59d66d7da0dae0ade34022afb11aefe`.
+The source-only suite contains **93 CTest groups and 100 Python tests**.
+All five CI jobs passed on #168 head `777d562505fe0966f8353d063238b6caf3e62f15`;
 no automatic review result was recorded and no review thread was open at inspection.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -59,13 +59,15 @@ reference sound,realtime rendering,VST3 and REAPER acceptance remain open.
 No AN1x audio,VST3,AU or GUI is currently delivered. No project-wide release
 license has been selected. ROMs remain local and unchanged.
 
-The current candidate resets the supported bus peripherals at current absolute
-time while retaining memory,GPIO registers,physical levels and pending RX input.
-Its SYSCR/IRQ/GPIO/SCI order is a bounded project-owned policy,not full hardware
-reset;CPU/peripheral reset coordination remains the next integration gate.
-Local Release build,all92 CTest groups,100 Python tests and targeted strict
-ASan/UBSan passed. Pinned reset/configuration-source checks passed.
-One PR at a time. Current candidate:bus peripheral reset;CI/review pending,not merged.
+Merged #168 resets supported bus peripherals without rewinding absolute time or
+pending RX. The current candidate coordinates CPU and bus subset reset only at
+a debt-free stopped boundary,with separate reset count/relative time. Invalid
+boundaries reject without mutation;callback reentry fails before further output.
+Physical RESET assertion/release and omitted-device fidelity remain unaccepted.
+Next:bounded firmware-boot diagnostics and missing machine MMIO/MIDI integration.
+Local Release build,all93 CTest groups,100 Python tests and targeted strict
+ASan/UBSan passed. Pinned reset/configuration-source checks still match.
+One PR at a time. Current candidate:supported machine reset;CI/review pending,not merged.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.

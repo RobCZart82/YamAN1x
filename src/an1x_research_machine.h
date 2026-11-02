@@ -4,7 +4,7 @@
 #include "reset_time_domain.h"
 #include <memory>
 namespace yamanix {
-// Project-owned cold reconstruction lifecycle,not hardware warm reset.
+// Project-owned cold lifecycle and bounded supported reset,not hardware RESET.
 // Sink outlives machine;no retained internal references,threads or callback reentry.
 template<class Sink>class An1xResearchMachine {
 public:
@@ -16,6 +16,8 @@ public:
  An1xResearchMachine& operator=(const An1xResearchMachine&)=delete;
  std::size_t consumed_input()const{return state_->bus.consumed_input();}
  uint64_t generation()const{return generation_;}uint64_t cycle()const{return time_.absolute();}
+ uint64_t reset_count()const{return time_.generation();}
+ uint64_t cycles_since_reset()const{return time_.since_reset();}
  bool failed()const{return poisoned_||state_->bus.failed()||state_->cpu.failed();}
  typename Cpu::Snapshot snapshot()const{return state_->cpu.snapshot();}
  std::vector<uint8_t> nvram_image()const{return state_->bus.nvram_image();}
@@ -25,6 +27,20 @@ public:
   if(cycles<0||uint64_t(cycles)>UINT64_MAX-time_.absolute())throw std::invalid_argument("Machine cycle range");
   try{auto calls=state_->cpu.run(time_.absolute(),cycles,limit);if(poisoned_)throw std::logic_error("Machine reentry");time_.advance_to(time_.absolute()+uint64_t(cycles));return calls;}
   catch(...){poisoned_=true;throw;}
+ }
+ // Bounded synchronous subset reset,not physical RESET assertion/release.
+ // Reject completed bus debt before mutation;settle input at current time first.
+ void reset_supported_state(){Guard g(*this);require_live();
+  if(state_->cpu.snapshot().debt || state_->bus.cycle()>time_.absolute())
+   throw std::invalid_argument("Supported reset requires a debt-free time boundary");
+  if(time_.generation()==UINT64_MAX)throw std::overflow_error("Reset generation overflow");
+  try{
+   state_->bus.update(time_.absolute());
+   state_->cpu.request_reset_after_debt();
+   state_->bus.reset_supported_peripherals();
+   if(poisoned_)throw std::logic_error("Machine reset reentry");
+   time_.reset_origin();
+  }catch(...){poisoned_=true;throw;}
  }
  // Replacement event schedule is epoch-relative;old pending edges are discarded.
  // Validation/allocation failure leaves the old epoch unchanged,including failure status.
@@ -38,11 +54,11 @@ public:
  }
 private:
  struct State{Bus bus;Cpu cpu;State(std::span<const uint8_t>rom,std::span<const RxEvent>input,Sink&sink):bus(rom,input,sink),cpu(bus,0,&bus.irq()) {}};
- struct Guard{An1xResearchMachine&m;explicit Guard(An1xResearchMachine&x):m(x){if(m.busy_){m.poisoned_=true;throw std::logic_error("Machine reentry");}m.busy_=true;}~Guard(){m.busy_=false;}};
+ struct Guard{An1xResearchMachine&m;explicit Guard(An1xResearchMachine&x):m(x){if(m.busy_){m.poisoned_=true;m.state_->bus.poison_from_owner();throw std::logic_error("Machine reentry");}m.busy_=true;}~Guard(){m.busy_=false;}};
  void require_live()const{if(failed())throw std::logic_error("Failed machine epoch");}
  static std::vector<uint8_t>copy_rom(std::span<const uint8_t>rom){if(rom.size()!=An1xMemoryMap::rom_size)throw std::invalid_argument("Machine ROM size");return {rom.begin(),rom.end()};}
  const std::vector<uint8_t>rom_;Sink&sink_;std::unique_ptr<State>state_;
- // Absolute time is monotonic within a cold epoch;reset-relative origin is not yet exposed.
+ // Absolute time is monotonic within a cold epoch;subset resets move only the origin.
  ResetTimeDomain time_;uint64_t generation_=0;bool busy_=false,poisoned_=false;
 };
 }

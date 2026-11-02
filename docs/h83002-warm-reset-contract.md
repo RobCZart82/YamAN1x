@@ -348,3 +348,23 @@ GPIO reset publishes only first/changed outputs. Reentry from GPIO or SCI output
 fails before further outputs,even when the callback catches the inner error.
 No CPU request or machine warm-reset API is added. Fixed reference remains
 MAME706dbb73281320c54d7c2f16262c1c3786f2be01 and the pinned reset/child-order reports.
+
+## Supported machine reset candidate — 2026-11-02
+
+reset_supported_state requires a live stopped machine with zero CPU debt and
+peripheral horizon no later than logical time. Otherwise it rejects before any
+mutation. It settles current-time RX first,requests the CPU deferred sequence,
+then resets the supported bus peripherals. Only after success does reset_origin
+move to logical time and its count increment. Absolute time/cold generation and
+retained memory/ports/future input do not rewind. A cold reconstruction replaces
+the time domain and resets this subset counter separately from cold generation.
+
+Machine reentry propagates poison_from_owner to the bus,allowing its output
+checkpoints to stop immediately even if an outer sink swallows the rejection.
+Reset failure is fail-stop and requires cold reconstruction. This does not model
+physical RESET hold/release,unsupported devices or prove hardware-global order.
+The earlier no-machine-reset-API statements are historical:this bounded subset
+API is distinct from unaccepted full hardware warm-reset semantics.
+Independent tests cover41 accepted and40 rejected cut points,literal reset wire
+timestamps,register/memory retention,relative origins,pending/current-time RX and
+reentry recovery. No new original whole-machine runtime differential is claimed.
