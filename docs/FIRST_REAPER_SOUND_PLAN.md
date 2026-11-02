@@ -5,6 +5,29 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Támogatott buszperifériák resetje — jelölt, 2026-11-02
+
+A #167 beolvadt `e0b8c9037913a054a8f37e5ccba19a0a571409ac` commitként;
+öt CI sikeres a27ef4adae734e2beae33fb1611306c56242ccd10 headen.
+Automatikus review-eredmény nem volt rögzítve,nyitott review-szál nem volt.
+Új busz API:reset_supported_peripherals álló tulajdonoson,SYSCR09/IRQ,majd
+port4/6/7/8/9/A/B,SCI0/SCI1 sorrenddel. Az IRQ-szűrőt a megtartott CPU CCR-ből
+újrapublikálja;fizikai szintek megmaradnak. RAM/GPIO-regiszter/inputütemezés és
+abszolút idő változatlan;régi SCI-shifteresemények törlődnek. Az újra publikált
+SCI órajel/TX-szintek a jelenlegi buszidőn jelennek meg. CPU-resetet nem indít.
+A részhalmaz sorrendje projektbeli integráció,nem teljes MAME-eszközbejárás:
+DMA/ADC/timer/watchdog/refresh és fizikai RESET-vonal nincs lefedve.
+GPIO/SCI callbackben elnyelt reentry azonnal megállítja a további kimeneteket.
+Független teszt3 abszolút kezdőidővel:szó szerinti kimenetsorrend,időbélyegek,
+regiszterprofil,RAM/GPIO-megőrzés,tartott IRQ újralatch,függő RX,idempotens
+GPIO-újrapublikálás és két reentry-határ. Az első elvárt nyom két GPIO-maszkját
+javítottuk (port6:7F,port8:10 irány);motorkód miatt nem kellett módosítani.
+A CI ASan/UBSan szűrő pontosan11 csoportot választ. Release build és mind92
+CTest sikeres (72,06s);100 Python és strict célzott ASan/UBSan sikeres.
+Rögzített reset/konfigurációforrások egyeznek;forrásaudit551 fájl,notice-lefedettség
+229 fájl/5 szöveg és diff-check sikeres. CI/review és beolvasztás függőben.
+Következő a CPU/busz reset összehangolása.
+
 ## Halasztott CPU-reset — jelölt, 2026-11-02
 
 A #166 beolvadt `3bf3ed4dd4ff422b79918d8bc3889b812ec75e1f` commitként;

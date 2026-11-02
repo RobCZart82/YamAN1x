@@ -2372,20 +2372,35 @@
         41381463135
       ],
       "automated_review_at_merge": "no_recorded_result_at_inspection"
+    },
+    {
+      "pr": 167,
+      "title": "Add deferred CPU reset request preserving completed cycle debt",
+      "status": "merged",
+      "kind": "engine",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/167",
+      "merge_commit": "e0b8c9037913a054a8f37e5ccba19a0a571409ac",
+      "reviewed_head": "27ef4adae734e2beae33fb1611306c56242ccd10",
+      "ci_runs": [
+        41385165758,
+        41385165772,
+        41385165740
+      ],
+      "automated_review_at_merge": "no_recorded_result_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/cpu-deferred-reset",
+    "branch": "feat/bus-peripheral-reset",
     "status": "local_validation_passed_ci_pending",
-    "scope": "CPU-only stopped-owner reset request retains completed debt;not hardware RESET or machine reset",
+    "scope": "Supported SYSCR/IRQ/GPIO/SCI bus reset;not full hardware or machine reset",
     "validation": {
-      "deferred_split_cases": 441,
-      "full_runtime_suite": "pass",
-      "ctest_groups": 91,
+      "ctest_groups": 92,
       "python_tests": 100,
+      "full_runtime_suite": "pass",
       "targeted_asan_ubsan": "pass",
-      "pinned_reset_source_check": "pass",
-      "source_audit_files": 550,
+      "sanitizer_ci_selected_groups": 11,
+      "pinned_reset_and_child_order": "pass",
+      "source_audit_files": 551,
       "notice_covered_files": 229,
       "diff_check": "pass"
     }
