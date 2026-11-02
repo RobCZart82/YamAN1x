@@ -5,8 +5,8 @@ using Bus=yamanix::An1xSciBus<Sink>;unsigned failures=0;
 void check(bool ok,const char*why){if(!ok&&++failures<12)std::fprintf(stderr,"%s\n",why);}
 int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
  for(unsigned v=0;v<256;++v){Sink s;Bus b(rom,{},s);bool bad=false;try{b.write_byte(0xffffad,uint8_t(v));}catch(const std::logic_error&){bad=true;}
-  bool supported=v<8||(v>=128&&v<136);check(bad!=supported&&b.failed()==!supported&&s.effects==0,"256 controls:only stopped clock,no IRQ;CMF cannot be software-set");if(supported){++accepted;check(b.read_byte(0xffffad)==7,"Read-one reserved bits and clear CMF");}}
- check(accepted==16,"16 supported raw controls");
+  bool supported=v<64||(v>=128&&v<192);check(bad!=supported&&b.failed()==!supported&&s.effects==0,"256 controls:all clocks allowed,no IRQ;CMF cannot be software-set");if(supported){++accepted;check(b.read_byte(0xffffad)==uint8_t((v&0x38)|7),"Read-one reserved bits and clear CMF");}}
+ check(accepted==128,"128 supported raw controls");
  {Sink s;Bus b(rom,{},s);check(b.read_byte(0xffffad)==7&&b.read_byte(0xffffae)==0&&b.read_byte(0xffffaf)==255,"Independent reset bytes");
   for(unsigned count=0;count<256;++count)for(unsigned compare=0;compare<256;++compare){b.write_byte(0x12ffffae,uint8_t(count));b.write_byte(0xffffaf,uint8_t(compare));b.update(1+256*count+compare);check(b.read_byte(0xffffae)==count&&b.read_byte(0x12ffffaf)==compare&&b.read_byte(0xffffad)==7&&b.next_bus_event()==0&&s.effects==0,"65536 count/compare pairs remain unchanged without a clock or match IRQ");}
   b.write_byte(0x200000,0x5a);b.reset_supported_peripherals();check(b.read_byte(0xffffae)==0&&b.read_byte(0xffffaf)==255&&b.cycle()==65536&&b.read_byte(0x200000)==0x5a,"Supported reset restores timer only,keeps time and RAM");}

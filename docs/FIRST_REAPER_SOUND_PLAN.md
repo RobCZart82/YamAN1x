@@ -5,6 +5,21 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Aktív refresh buszóra — jelölt,2026-11-02
+
+A #177 beolvadt `3f0baf6696bedd423650dc2aeb094bddfd6f5aaf` commitként;
+ellenőrzött head934936237d7d8fcb9cfc24d8dc2b317afe12052d,mind5 CI sikeres.
+Review-szál/változtatáskérés nincs,automatikus review-eredmény nincs rögzítve.
+Az önálló timer most a busz abszolút idejével halad,hét osztóval;CMIE továbbra
+elutasított. Nincs IRQ-deadline vagy fizikai refresh/DRAM. Reset megtartja az időt.
+Független hét ciklusorákulum,reset/CMF/debt és257 CPU-felosztás;eredeti524288
+összehasonlítás továbbra PASS. Változatlan helyi ROM192 teljes szeletciklus/55
+callback utánFFFFE8 ADC-írásnál áll meg,PC0xA44,perifériaciklus204,9 GPIO-jelzés.
+Nem teljes boot vagy hang. Szerződés:[an1x-refresh-clock.md](an1x-refresh-clock.md).
+Helyi validáció:102/102 CTest (63,59s),100 Python,célzott strict ASan/UBSan
+és524288 eredeti referencia-összehasonlítás PASS. Forrásaudit573 fájl,notice229
+fájl/5 szöveg,diff-check PASS. CI sanitizer21 csoport;saját CI/review függőben.
+
 ## Önálló aktív refresh-timer — jelölt,2026-11-02
 
 Friss main,#176 után. Külön komponens,nincs még gépi/IRQ bekötés. Hét osztó,
