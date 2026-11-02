@@ -19,7 +19,7 @@ int main(){
  for(uint32_t alias:{0xffffecu,0x12ffffecu,0xffffffecu}){Bus b(rom,{},sink);b.write_byte(alias,0);check(b.read_byte(alias)==0&&!b.failed(),"24-bit address aliases decode ABWCR");}
  for(bool write:{false,true}){Bus b(rom,{},sink);bool bad=false;try{if(write)b.write_word(0xffffec,0);else(void)b.read_word(0xffffec);}catch(const std::out_of_range&){bad=true;}
   check(bad&&b.failed(),"ABWCR/ASTCR word access remains deliberately unsupported");}
- {Bus b(rom,{},sink);bool bad=false;try{b.write_byte(0xfffff3,0);}catch(const std::out_of_range&){bad=true;}check(bad,"Unimplemented BRCR is not a permissive fallback");}
+ {Bus b(rom,{},sink);bool bad=false;try{b.write_byte(0xfffff0,0);}catch(const std::out_of_range&){bad=true;}check(bad,"Unimplemented neighboring register is not a permissive fallback");}
  // Literal synthetic program:MOV.L #00FFFFEC,ER0;MOV.B #8,R2L;MOV.B R2L,@ER0;BRA .
  rom[2]=1;const uint16_t code[]={0x7a00,0xff,0xffec,0xfa08,0x688a,0x40fe};
  for(unsigned i=0;i<6;++i){rom[256+2*i]=uint8_t(code[i]>>8);rom[257+2*i]=uint8_t(code[i]);}

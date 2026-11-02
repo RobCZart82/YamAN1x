@@ -68,3 +68,8 @@ with unchanged input. See [access-state contract](an1x-access-state.md).
 
 The selected WCR/WCER extension now stops at BRCR0xFFFFF3/PC0x9FC/cycle60,with
 unchanged input. See [wait profile](an1x-wait-profile.md).
+
+## Subsequent retained BRCR candidate observation
+
+The unchanged BRCRFE profile now reaches0xFFFFAC/PC0xA18/cycle116,with64 completed
+slice cycles and unchanged input. See [BRCR contract](an1x-bus-release.md).
