@@ -5,6 +5,20 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Leállított refresh-timer alap — jelölt,2026-11-02
+
+Friss main,#175 után. RTMCSR csakCKS0/CMIE0 (16 raw érték),CMF szoftveresen
+nem állítható;RTCNT/RTCOR bájtos tárolás és támogatott reset00/FF. Teljes256
+vezérlés,65536 számláló/compare pár,alias/word/reset és129 CPU-vágás.
+Eredeti rögzített MAME forrás és gyártói7.2.2–7.2.4 alapján;aktív timer
+referencia-differenciál még nincs. Futó óra/IRQ továbbra tiltott;a helyi ROM0F
+írásaFFFFAD címen ezért változatlanul megáll. Ez előkészítés,nem boot-előrelépés.
+Szerződés:[an1x-refresh-stopped.md](an1x-refresh-stopped.md).
+Validáció:teljes futás99 meglévő teszt PASS;az új teszt kivételtípus-javítás
+utáni célzott CTest is PASS (0,35s),így mind100 csoport ellenőrzött.
+100 Python,strict célzott ASan/UBSan,forrásaudit567 fájl,notice229 fájl/5 szöveg
+és diff-check PASS. CI sanitizer19 csoport;saját CI/review függőben.
+
 ## Megtartott RFSHCR profil — jelölt,2026-11-02
 
 A beolvadt #174 után friss mainből:gyártói7.2.1 alapján FFFFAC=RFSHCR.

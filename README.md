@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **99 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **100 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,11 +35,11 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-02
 
-Latest merged change:[#174](https://github.com/RobCZart82/yaman1x/pull/174),
-`e0bdde0048214930dc1a656b083b94af96147fc5`.
-The merged baseline has **98 CTest groups and100 Python tests**;the RFSHCR
-candidate adds group99. All five final CI jobs passed on #174 head
-`80097f42a2380b584e511d31286d4f3ea303f988`. No open review thread or change
+Latest merged change:[#175](https://github.com/RobCZart82/yaman1x/pull/175),
+`fa6af2f88821960bddcb1bad3858ffde4c13c44c`.
+The merged baseline has **99 CTest groups and100 Python tests**;the stopped-timer
+candidate adds group100. All five final CI jobs passed on #175 head
+`fb41b93953de9badfd0bb2bdc1417047a75f2b5e`. No open review thread or change
 request was recorded;no automated review result was recorded at merge.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
@@ -65,11 +65,11 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current RFSHCR candidate accepts only unchanged02;refresh memory/pin modes
-and timer registers remain unsupported. Local unchanged1.04 swap16 input stops
-next atFFFFAD,PC0xA1C,peripheral cycle124. Full boot/audio remains unaccepted.
-See [retained refresh scope](an1x-refresh-profile.md).
-One PR at a time;current candidate validation and CI/review are separate gates.
+reset/WAIT/pin-mode limitations remain documented. The current stopped refresh-timer candidate adds byte counter/compare storage,
+reset and clock-disabled controls. Running clocks/IRQ still reject. The local
+firmware requests /2 atFFFFAD,so boot does not advance in this preparatory step.
+See [stopped refresh timer scope](an1x-refresh-stopped.md).
+One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
 for the planned firmware, audio-engine and VST3 milestones and acceptance criteria.
