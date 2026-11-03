@@ -5,6 +5,22 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## LC7985 állapot és memória — jelölt,2026-11-03
+
+Önálló headless vezérlő80 bájt DDRAM-mal és64 bájt CGRAM-mal,cím/mód/entry/
+display/shift állapottal. A #189 busy-órát használja;utasítás busy alatt
+figyelmen kívül marad,de eredeti dr_r/dr_w szerint az adatút nem busy-gated.
+Egy/két soros címátmenetek,entry-shift,statuscím és reset kezelve. Nincs render,
+font-ROM vagy firmware-probe-bekötés. Érvénytelen DDRAM-adatindex elutasított,
+nem az eredeti potenciális tömbtúlindexelés reprodukciója.
+114688 független memóriaeset,cím/status/ready/reset/GPIO-latch célzott ASan/UBSan
+PASS.50000 művelet/állapot összevetés a hash-ellenőrzött eredeti MAME kilenc
+változatlan metódusával PASS,biztonságos címprofilban. Ideiglenes harness,nincs
+repo-ba másolt eredeti implementáció vagy Yamaha-adat. Ez nem hardverelfogadás.
+Szerződés:[lc7985-controller.md](lc7985-controller.md). CI/review függőben.
+Helyi113/113 CTest (50,56s),100 Python,strict ASan/UBSan és eredeti referencia
+PASS;forrásaudit599 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer32 csoport.
+
 ## LC7985 busy-óra — jelölt,2026-11-03
 
 Önálló időkomponens:reset10000µs,beküldött utasítás busy alatt teljesen

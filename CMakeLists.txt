@@ -386,3 +386,7 @@ add_test(NAME yamanix_an1x_lcd_gpio COMMAND yamanix_an1x_lcd_gpio_check)
 add_executable(yamanix_lc7985_busy_clock_check tests/lc7985_busy_clock_check.cpp)
 target_include_directories(yamanix_lc7985_busy_clock_check PRIVATE src)
 add_test(NAME yamanix_lc7985_busy_clock COMMAND yamanix_lc7985_busy_clock_check)
+
+add_executable(yamanix_lc7985_controller_check tests/lc7985_controller_check.cpp)
+target_include_directories(yamanix_lc7985_controller_check PRIVATE src)
+add_test(NAME yamanix_lc7985_controller COMMAND yamanix_lc7985_controller_check)

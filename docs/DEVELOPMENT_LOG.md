@@ -3,6 +3,32 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## LC7985 állapot és memória — jelölt,2026-11-03
+
+Önálló headless vezérlő80 bájt DDRAM-mal és64 bájt CGRAM-mal,cím/mód/entry/
+display/shift állapottal. A #189 busy-órát használja;utasítás busy alatt
+figyelmen kívül marad,de eredeti dr_r/dr_w szerint az adatút nem busy-gated.
+Egy/két soros címátmenetek,entry-shift,statuscím és reset kezelve. Nincs render,
+font-ROM vagy firmware-probe-bekötés. Érvénytelen DDRAM-adatindex elutasított,
+nem az eredeti potenciális tömbtúlindexelés reprodukciója.
+114688 független memóriaeset,cím/status/ready/reset/GPIO-latch célzott ASan/UBSan
+PASS.50000 művelet/állapot összevetés a hash-ellenőrzött eredeti MAME kilenc
+változatlan metódusával PASS,biztonságos címprofilban. Ideiglenes harness,nincs
+repo-ba másolt eredeti implementáció vagy Yamaha-adat. Ez nem hardverelfogadás.
+Szerződés:[lc7985-controller.md](lc7985-controller.md). CI/review függőben.
+Helyi113/113 CTest (50,56s),100 Python,strict ASan/UBSan és eredeti referencia
+PASS;forrásaudit599 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer32 csoport.
+
+## LC7985 busy-óra lezárása — 2026-11-03
+
+A #189 beolvadt `d95364222f124ba6cec967de50f7b3427a0ff086` commitként.
+Pontos head:`8cb6d09029aa55d9d33ef38246352e45088a9614`;mind5 CI sikeres.
+Futások:41570074733,41570074872,41570074684. Automatikus review-eredmény
+nem rögzített;nem állítunk sikeres automatikus review-t. Formális review és
+nyitott review-szál nincs,konfliktus nincs,GitHub merge-state clean.
+Következő:LC7985 cím/mód/memória állapotkezelés,előbb main CI ellenőrzése.
+A busy-óra önálló komponens,firmware-probe-ba még nincs bekötve.
+
 ## LC7985 busy-óra — jelölt,2026-11-03
 
 Önálló időkomponens:reset10000µs,beküldött utasítás busy alatt teljesen
