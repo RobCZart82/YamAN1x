@@ -3,6 +3,35 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## VOP3 teljes szavas hostadapter — jelölt,2026-11-03
+
+Önálló template adapter a két kanonikus440000/480000,egyenként100 bájtos
+ablakot chip/regiszter/full-word backendhívásra képezi. Páratlan cím,részmaszk,
+tükör és ablakon kívüli cím előzetesen elutasított. Reg1 feltöltésvezérlés csak
+explicit experimental_firmware_contract módban,a korábbi UploadControlContract
+újrahasználatával:chipenként külön bit15 státusz,csak0/1 command. A write a
+backendhez is eljut;egyéb input csak a modellben implementált EG_STATUS21.
+Nem gyártunk alap nullás választ22-re vagy más ismeretlen olvasásra.
+Backendhiba vagy elnyelt újrabelépési kísérlet mérgező,nem folytatható.
+65024 route/value eset,chip controls,bounds/mask/read/fail-stop/reentry strict
+ASan/UBSan PASS. Tesztbackend szintetikus,nem firmware/élő VOP3 integráció.
+Szerződés:[vop3-host-word-adapter.md](vop3-host-word-adapter.md).
+Helyi121/121 CTest (51,28s),100 Python,strict célzott ASan/UBSan PASS.
+Audit624 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer40 csoport.
+Saját CI/review függőben. Következő:natív híd és kutatási
+busz explicit bekötése;MEG fizikai státusz és valódi hang továbbra nyitott.
+
+## MEG forrás-stub kísérlet lezárása — 2026-11-03
+
+A #198 beolvadt `94bf3fe1e8c708b4a2fa31fd7d4081f080d439db` commitként.
+Pontos head:`7dc0b587d8ae45ef036f26de5f4ecc451486c2fe`;mind5 CI sikeres.
+Futások:41664675511,41664675355,41664675306. Automatikus kódreview ugyanazon
+headen találat nélkül kész2026-11-03T15:35:16.405619Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/198#issuecomment-6607930821
+Nyitott review-szál vagy konfliktus nincs. Következő:VOP3-host kapcsolat
+kutatása az explicit forrás-stub profilban;MEG fizikai státusz továbbra ismeretlen.
+Új lépés előtt main CI ellenőrzése szükséges;boot/effekt/hang nem elfogadott.
+
 ## Explicit eredeti MEG-stub státuszkísérlet — jelölt,2026-11-03
 
 MEG fizikai státusz/kézfogás szerződés továbbra ismeretlen. Rögzített eredeti

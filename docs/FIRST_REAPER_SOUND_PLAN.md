@@ -5,6 +5,24 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## VOP3 teljes szavas hostadapter — jelölt,2026-11-03
+
+Önálló template adapter a két kanonikus440000/480000,egyenként100 bájtos
+ablakot chip/regiszter/full-word backendhívásra képezi. Páratlan cím,részmaszk,
+tükör és ablakon kívüli cím előzetesen elutasított. Reg1 feltöltésvezérlés csak
+explicit experimental_firmware_contract módban,a korábbi UploadControlContract
+újrahasználatával:chipenként külön bit15 státusz,csak0/1 command. A write a
+backendhez is eljut;egyéb input csak a modellben implementált EG_STATUS21.
+Nem gyártunk alap nullás választ22-re vagy más ismeretlen olvasásra.
+Backendhiba vagy elnyelt újrabelépési kísérlet mérgező,nem folytatható.
+65024 route/value eset,chip controls,bounds/mask/read/fail-stop/reentry strict
+ASan/UBSan PASS. Tesztbackend szintetikus,nem firmware/élő VOP3 integráció.
+Szerződés:[vop3-host-word-adapter.md](vop3-host-word-adapter.md).
+Helyi121/121 CTest (51,28s),100 Python,strict célzott ASan/UBSan PASS.
+Audit624 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer40 csoport.
+Saját CI/review függőben. Következő:natív híd és kutatási
+busz explicit bekötése;MEG fizikai státusz és valódi hang továbbra nyitott.
+
 ## Explicit eredeti MEG-stub státuszkísérlet — jelölt,2026-11-03
 
 MEG fizikai státusz/kézfogás szerződés továbbra ismeretlen. Rögzített eredeti

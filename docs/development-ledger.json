@@ -2890,42 +2890,47 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/197#issuecomment-6606002728",
       "review_completed_at_utc": "2026-11-03T14:11:35.408230Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 198,
+      "title": "Add separately named original MEG status-stub experiment",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/198",
+      "kind": "engine-research-experiment",
+      "status": "merged",
+      "merge_commit": "94bf3fe1e8c708b4a2fa31fd7d4081f080d439db",
+      "reviewed_head": "7dc0b587d8ae45ef036f26de5f4ecc451486c2fe",
+      "ci_runs": [
+        41664675511,
+        41664675355,
+        41664675306
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/198#issuecomment-6607930821",
+      "review_completed_at_utc": "2026-11-03T15:35:16.405619Z",
+      "review_threads_at_merge": 0,
+      "main_infrastructure_retry": {
+        "run": 41670606221,
+        "cancelled_job": 126037631454,
+        "reason": "hosted macOS arm64 runner capacity,not acquired",
+        "requested_retry": "only cancelled job after workflow completion",
+        "final_macos_job": 126061808073,
+        "result": "success"
+      }
     }
   ],
   "active_change": {
-    "branch": "research/meg-status-contract",
+    "branch": "research/vop3-host-integration-contract",
     "status": "locally_validated_candidate",
-    "scope": "Separate explicitly named original-MAME zero-read stub experiment;physical status unknown,strict profiles preserved",
+    "scope": "Standalone VOP3 full-word backend adapter with explicit existing experimental upload control;not yet native/CPU connected",
     "ci": "pending",
     "automated_review": "pending",
-    "original_reference": {
-      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "unchanged_methods": 24,
-      "zero_stub_comparisons": 768,
-      "storage_comparisons": 720896,
-      "control_comparisons": 1536,
-      "scope": "source stub only,not readiness",
-      "result": "passed"
-    },
-    "local_rom_observation": {
-      "profile": "lcd-meg-source-stubs-16mhz",
-      "slice_sizes": [
-        4096,
-        1000000
-      ],
-      "fault": "data_write_word_0x440002",
-      "pc": 353780,
-      "peripheral_cycle": 10832302,
-      "source_status_reads": 1,
-      "observed_controls": 5,
-      "firmware_boot_accepted": false
-    },
-    "physical_meg_status": "requires independent primary specification or timed hardware capture",
+    "targeted_asan_ubsan": "passed_65024_routes_and_negative_reentry_controls",
+    "reference": "Established MAME research bridge patch on locked 706dbb73281320c54d7c2f16262c1c3786f2be01;no new original runtime differential",
     "validation": {
-      "ctest_groups_passed": 120,
+      "ctest_groups_passed": 121,
       "python_tests_passed": 100,
-      "source_audit_files": 621,
-      "sanitizer_ci_groups": 39
+      "source_audit_files": 624,
+      "sanitizer_ci_groups": 40
     }
   },
   "pending_changes": []
