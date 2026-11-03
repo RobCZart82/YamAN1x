@@ -5,6 +5,24 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## MEG hostcím-adapter — jelölt,2026-11-03
+
+A helyi szervizrajz51.PDF-oldalán IC10 MEG A0..A4 a CPU A1..A5 hálózataira
+csatlakozik,D0..D7 az alsó adatbájtra;LWR/RD/MEGCS külön jelzett. Kanonikus
+kutatási ablak:400001+2*offset,offset0..18.400007 így3-as vezérlőoffset.
+A teljes chip-select engedély és címtükrözés továbbra nincs igazolva.
+Önálló MegHostWriteAdapter nem köti be a CPU-buszt. Alapból a nem implementált
+vezérlők hibáznak;külön explicit observe_original_stubs módban hat eredeti
+logging-only írás csak számlált megfigyelés,nincs hatás/status/ready/audio.
+Minden nem támogatott bájtsáv/lyuk/tükör/offset elutasított,tároló állapotát nem
+módosítja.1536 vezérlőérték,65536 tárolópár,ablak/lane/reset kontroll strict
+ASan/UBSan PASS. Eredeti21 metódussal720896 tároló+1536 logging-only összevetés
+PASS. Szerződés:[meg-host-write-adapter.md](meg-host-write-adapter.md).
+Helyi118/118 CTest (51,59s),100 Python,strict ASan/UBSan és referencia PASS.
+Audit615 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer37 csoport.
+Saját CI/review függőben.
+Következő:explicit kutatási sink-bekötés,szigorú ismeretlen olvasásokkal.
+
 ## MEG önálló regisztertárolás — jelölt,2026-11-03
 
 A400000 körüli effektinterfész a korábbi rajzi/firmware-kutatás jelöltje;

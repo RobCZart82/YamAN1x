@@ -16,7 +16,8 @@ def main():
     root = Path(__file__).resolve().parents[1]
     lock = json.loads((root/'research/mame-source-lock.json').read_text())
     banks = [(4,'4'),(5,'5'),(8,'8'),(9,'9'),(14,'e'),(15,'f'),(20,'14'),(22,'16'),(23,'17'),(24,'18')]
-    names = ['select_w']+['s'+name+'_w' for _,name in banks]+['consth_w','constl_w','offseth_w','offsetl_w']
+    controls = [(1,'s1_w'),(2,'s2_w'),(3,'s3_w'),(7,'s7_w'),(10,'sa_w'),(21,'s15_w')]
+    names = ['select_w']+['s'+name+'_w' for _,name in banks]+['consth_w','constl_w','offseth_w','offsetl_w']+[name for _,name in controls]
     with verified_archive(args.archive, lock) as archive:
         members = [n for n in archive.namelist() if n.endswith('/src/devices/sound/meg.cpp')]
         if len(members) != 1:
@@ -28,12 +29,14 @@ def main():
         if len(found) != 1:
             raise ValueError('Expected one original storage method: '+name)
         methods.append(found[0])
-    prefix = '#include "meg_register_storage.h"\n#include <cstdio>\nusing u8=uint8_t;\n#define logerror(...) ((void)0)\nstruct meg_device {\n'
+    prefix = '#include "meg_register_storage.h"\n#include "meg_host_write_adapter.h"\n#include <cstring>\n#include <cstdio>\nusing u8=uint8_t;\n#define logerror(...) ((void)0)\nstruct meg_device {\n'
     prefix += 'u8 m_reg=0;'+''.join('u8 m_r'+name+'[256]{};' for _,name in banks)
     prefix += 'std::array<int16_t,256>m_const{},m_offset{};'
     prefix += ''.join('void '+name+'(u8);' for name in names)+'};\n'
     checks = '\n'.join('case '+str(offset)+':ref.s'+name+'_w(uint8_t(value));break;' for offset,name in banks)
     arrays = ','.join('ref.m_r'+name for _,name in banks)
+    saved_arrays = ','.join('saved.m_r'+name for _,name in banks)
+    control_calls = '\n'.join('case '+str(offset)+':ref.'+name+'(uint8_t(value));break;' for offset,name in controls)
     suffix = r'''
 int main(){meg_device ref;yamanix::MegRegisterStorage model;unsigned comparisons=0;
  const unsigned offsets[]={4,5,8,9,14,15,20,22,23,24};
@@ -54,9 +57,21 @@ int main(){meg_device ref;yamanix::MegRegisterStorage model;unsigned comparisons
   if(model.state().constants[137]!=uint16_t(ref.m_const[137])||model.state().offsets[137]!=uint16_t(ref.m_offset[137]))
    throw std::runtime_error("Original MEG word lane mismatch");++comparisons;
  }
+ yamanix::MegHostWriteAdapter host(yamanix::MegHostWriteAdapter::ControlPolicy::observe_original_stubs);
+ for(unsigned offset:{1u,2u,3u,7u,10u,21u})for(unsigned value=0;value<256;++value){
+  auto saved=ref;auto model_before=host.state();
+  switch(offset){CONTROL_CALLS}
+  host.write_byte(0x400001+2*offset,uint8_t(value));
+  uint8_t*original[]={ARRAYS};uint8_t*prior[]={SAVED_ARRAYS};
+  for(unsigned bank=0;bank<10;++bank)if(std::memcmp(original[bank],prior[bank],256))throw std::runtime_error("Original control changed bank");
+  if(ref.m_reg!=saved.m_reg||ref.m_const!=saved.m_const||ref.m_offset!=saved.m_offset||host.state()!=model_before)
+   throw std::runtime_error("Original control storage mismatch");
+ }
+ if(host.observation().count!=1536)throw std::runtime_error("Missing explicit control observation");
+ std::puts("1536 locked original logging-only control comparisons PASS;no command effects proven");
  std::printf("%u locked original MEG storage comparisons PASS;explicit matching initial state,no status/audio proof\n",comparisons);
 }
-'''.replace('CHECKS',checks).replace('ARRAYS',arrays)
+'''.replace('CHECKS',checks).replace('SAVED_ARRAYS',saved_arrays).replace('CONTROL_CALLS',control_calls).replace('ARRAYS',arrays)
     with tempfile.TemporaryDirectory(prefix='yamanix-meg-reference-') as temp:
         source = Path(temp)/'check.cpp'
         binary = Path(temp)/'check'
