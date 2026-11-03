@@ -3,6 +3,33 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## P9 kutatási bemeneti profil — jelölt,2026-11-03
+
+A korábbi LCD MAME-patch kifejezetten read_port9=FF szintet ad,a rögzített
+eredeti h8_device::port_default_r szinténFF-et ad nem bekötött portokra.
+Csak az explicit LCD research sink P9 bemenetén vezetjük be ezt a headless
+kutatási profilt. Nem fizikai huzalozásbizonyítás,nem általános GPIO-fallback.
+A H8 portmodell DDR/kimenet/reserved bit keverése megmarad,más ismeretlen
+bemenet továbbra mérgező hibát okoz. Alapértelmezett no-LCD probe nem változik.
+Független bites oracle minden65536 DDR/data kombinációra,alias/idő/reset és
+más portok fail-stop kontrolljai. Szerződés:[an1x-p9-input.md](an1x-p9-input.md).
+Helyi115/115 CTest (52,63s),100 Python és strict ASan/UBSan PASS;
+az optimalizált fixture újrafordítva,célzott CTest ismét PASS. CI/review függőben.
+Audit604 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer34 csoport.
+500000 ciklus1/64/257 szelettel hiba nélkül,azonos PC/state/periféria/22 GPIO;
+hosszabb próbák callback-limitnél álltak meg,nem eszközhibánál. ROM változatlan.
+Nem boot/hangelfogadás;következő további korlátos firmware- és eseménydiagnosztika.
+
+## LCD-sink integráció lezárása — 2026-11-03
+
+A #191 beolvadt `0952306f918f57582f928aea8f44fff5123d0749` commitként.
+Pontos head:`5ffe1075fb8860d76cd6fa9b16470328e4622681`;mind5 CI sikeres.
+Futások:41585964104,41585964059,41585963977. Automatikus kódreview ugyanazon
+headen találat nélkül kész2026-11-03T05:49:09.070883Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/191#issuecomment-6596475450
+Nyitott review-szál vagy konfliktus nincs. Következő:P9 bemenetek bekötési
+szerződése bizonyíték alapján;előbb main CI ellenőrzése.
+
 ## LCD-sink gépintegráció — jelölt,2026-11-03
 
 Saját LCD-sink kapcsolja össze a portadaptert és a headless vezérlőt;explicit

@@ -2763,32 +2763,60 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 191,
+      "title": "Integrate LCD research sink and explicit bounded probe profile",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/191",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "0952306f918f57582f928aea8f44fff5123d0749",
+      "reviewed_head": "5ffe1075fb8860d76cd6fa9b16470328e4622681",
+      "ci_runs": [
+        41585964104,
+        41585964059,
+        41585963977
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/191#issuecomment-6596475450",
+      "review_completed_at_utc": "2026-11-03T05:49:09.070883Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/lcd-machine-integration",
+    "branch": "research/p9-input-contract",
     "status": "locally_validated_candidate",
-    "scope": "Owned LCD research sink and optional lcd-16mhz probe;strict unknown inputs",
+    "scope": "P9-only FF inputs in explicit LCD research profile;not physical wiring proof",
     "ci": "pending",
     "automated_review": "pending",
-    "targeted_asan_ubsan": "passed_GPIO_reset_failstop_129_CPU_partitions",
+    "evidence": [
+      "locked h8.cpp port_default_r returns FF",
+      "established mame-lcd-controller.patch read_port9 returns FF"
+    ],
+    "targeted_asan_ubsan": "passed_65536_DDR_data_cases",
     "local_rom_observation": {
       "profile": "lcd-16mhz",
+      "cycles_requested": 500000,
       "slice_sizes": [
         1,
         64,
         257
       ],
-      "fault": "data_read_0xFFFFD2",
-      "pc": "0x3F66A",
-      "peripheral_cycle": 482170,
-      "firmware_boot_accepted": false
+      "status": "cycle_limit",
+      "peripheral_cycle": 500000,
+      "pc": 270856,
+      "instruction_state": 22640,
+      "instruction_substate": 2,
+      "gpio_writes": 22,
+      "firmware_boot_accepted": false,
+      "longer_run_stop": "callback_limit_not_device_fault"
     },
     "validation": {
-      "ctest_groups_passed": 114,
+      "ctest_groups_passed": 115,
       "python_tests_passed": 100,
-      "source_audit_files": 602,
-      "sanitizer_ci_groups": 33
+      "source_audit_files": 604,
+      "sanitizer_ci_groups": 34,
+      "optimized_fixture_rebuilt_targeted_ctest": "passed"
     }
   },
   "pending_changes": []
