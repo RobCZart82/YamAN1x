@@ -12,7 +12,7 @@ yamanix_an1x_boot_probe /absolute/path/to/local-ROM.bin 100000 64 100000 swap16
 ```
 
 Arguments are total requested cycles,slice cycles,global callback limit,and view.
-Strict positive integer caps:100000000/1000000/1000000. No implicit GPIO input,
+Strict positive integer caps:100000000/1000000/20000000. No implicit GPIO input,
 MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
 No RX input schedule is supplied by this initial CLI.
@@ -20,6 +20,9 @@ No RX input schedule is supplied by this initial CLI.
 One JSON report is written to stdout. Exit0 means the requested bounded cycle
 budget completed;exit2 means execution stopped;exit1 means invalid arguments or
 input. None means boot acceptance:firmware_boot_accepted is always false.
+Valid execution reports add `stop_reason` (cycle_limit/callback_limit/execution_error)
+and `callback_limit_requested`. The callback-limit classification matches the
+runner's explicit guard error;it does not infer a device fault from CPU failure.
 `completed_slice_cycles` and `completed_slice_callbacks` count only successfully
 returned slices;work within a failed slice remains committed and can advance
 `peripheral_cycle` beyond that count. CPU PC/state/substate and exact failed

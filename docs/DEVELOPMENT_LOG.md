@@ -3,6 +3,35 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Firmware-próba:korlát és valódi ITU-stop — jelölt,2026-11-03
+
+A probe callback-korlátja továbbra explicit és véges,de legfeljebb20000000
+lehet;a ciklus/szelet limitek változatlanok. Jelentés új mezői:stop_reason
+(cycle_limit/callback_limit/execution_error),callback_limit_requested.
+A callback-limit továbbra mérgező fail-stop,nem folytatható költségkeret.
+A korábbi1000000 korlátnál mért megállás nem eszközhiba volt.
+
+100000000 kért ciklus/20000000 callback,swap16,lcd-16mhz és4096/1000000
+szelet mellett azonos valódi stop:FFFF94 TIER4 byte write,PC0x40A62,
+perifériaciklus8798299,5269 GPIO,0 TX/clock él. Hiba:Unsupported ITU interrupt
+enable;firmware_boot_accepted=false. ROM hash előtte/utána változatlan.
+Következő a leállított TIER4 engedély és tényleges ITU flag/IRQ szükséglet
+vizsgálata rögzített eredeti forrásból,nem az elutasítás egyszerű kikapcsolása.
+Szerződés:[an1x-firmware-event-diagnostics.md](an1x-firmware-event-diagnostics.md).
+Saját CI/review függőben. Helyi115/115 CTest (50,22s),100 Python PASS;
+audit605 fájl,notice229 fájl/5 szöveg,diff-check PASS. CPU/periféria változatlan.
+
+## P9 kutatási profil lezárása — 2026-11-03
+
+A #192 beolvadt `8d53be572aab80db6bda2f9629366002b252bc2d` commitként.
+Pontos head:`23dd23fba4d221b7e413e2377282745a458de94f`;mind5 CI sikeres.
+Futások:41594348384,41594348397,41594348298. Automatikus kódreview ugyanazon
+headen találat nélkül kész2026-11-03T07:11:33.760494Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/192#issuecomment-6597624180
+Nyitott review-szál vagy konfliktus nincs. Következő:korlátos firmware/esemény-
+diagnosztika az LCD/P9 után;callback-limit nem eszközhiba és nem bootelfogadás.
+Új lépés előtt main CI ellenőrzése szükséges.
+
 ## P9 kutatási bemeneti profil — jelölt,2026-11-03
 
 A korábbi LCD MAME-patch kifejezetten read_port9=FF szintet ad,a rögzített

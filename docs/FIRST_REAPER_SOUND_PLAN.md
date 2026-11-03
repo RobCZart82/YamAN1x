@@ -5,6 +5,24 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Firmware-próba:korlát és valódi ITU-stop — jelölt,2026-11-03
+
+A probe callback-korlátja továbbra explicit és véges,de legfeljebb20000000
+lehet;a ciklus/szelet limitek változatlanok. Jelentés új mezői:stop_reason
+(cycle_limit/callback_limit/execution_error),callback_limit_requested.
+A callback-limit továbbra mérgező fail-stop,nem folytatható költségkeret.
+A korábbi1000000 korlátnál mért megállás nem eszközhiba volt.
+
+100000000 kért ciklus/20000000 callback,swap16,lcd-16mhz és4096/1000000
+szelet mellett azonos valódi stop:FFFF94 TIER4 byte write,PC0x40A62,
+perifériaciklus8798299,5269 GPIO,0 TX/clock él. Hiba:Unsupported ITU interrupt
+enable;firmware_boot_accepted=false. ROM hash előtte/utána változatlan.
+Következő a leállított TIER4 engedély és tényleges ITU flag/IRQ szükséglet
+vizsgálata rögzített eredeti forrásból,nem az elutasítás egyszerű kikapcsolása.
+Szerződés:[an1x-firmware-event-diagnostics.md](an1x-firmware-event-diagnostics.md).
+Saját CI/review függőben. Helyi115/115 CTest (50,22s),100 Python PASS;
+audit605 fájl,notice229 fájl/5 szöveg,diff-check PASS. CPU/periféria változatlan.
+
 ## P9 kutatási bemeneti profil — jelölt,2026-11-03
 
 A korábbi LCD MAME-patch kifejezetten read_port9=FF szintet ad,a rögzített
