@@ -1,5 +1,28 @@
 # Development status
 
+## VOP3 CPU word-bus integration — candidate,2026-11-03
+
+Explicit optional sink hooks route only full-word data access in canonical
+440000..4400FF and480000..4800FF windows after CPU24-bit normalization.
+Byte/instruction accesses and sinks without opt-in stay strict. Odd addresses
+and unsupported reads reject through the existing adapter. Pure wait query
+uses external area2 only for selected VOP3 words;32 ASTCR/WCER/WCR combinations
+are checked independently. No permissive MMIO fallback added.
+An1xVop3ResearchSink composes LCD/MEG with privately owned native dual VOP3,
+sharing the monotonic sink epoch and fail-stop policy. Upload status defaults
+to reject;the pre-existing firmware-contract experiment requires explicit choice.
+Subset bus reset retains external chips;explicit stopped-owner cold_reset
+reconstructs both chips and the LCD/MEG epoch. No samples are advanced.
+1024 independent coefficient/address/value cases,aliases,counters,read/width/
+opt-in rejection,swallowed reentry,reset/rewind and129 synthetic CPU run cuts
+check the integration. A MOV.W executed by CPU writes a verified BE coefficient.
+No firmware CLI profile change,ROM access,boot/MIDI/audio acceptance or physical
+clock/status proof. Existing pinned original MAME source lock is unchanged;
+this step composes existing project adapters,not a new upstream-method port.
+Next:explicit bounded firmware-probe profile with separate assumption labels.
+Own remote CI/review pending.
+
+
 ## Native VOP3 register backend — candidate,2026-11-03
 
 A noncopyable/nonmovable RAII owner connects the existing ABI2 bridge to the
@@ -24,16 +47,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#199](https://github.com/RobCZart82/yaman1x/pull/199),
-`6f761b3027f2de27c7321d39c83f6e6e0c8c2e49`.
-The merged baseline has **121 CTest groups and 100 Python tests**. All five
-final PR-head and main jobs passed. Automated code review completed without
-findings on head `51366589a6828b06c952ff354b7b3fadc62952df`;no open review
-threads or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619).
-Candidate connects the native VOP3 bridge to the standalone host adapter,
-test groups122–123. CPU bus integration and physical MEG status remain open.
-[Backend contract](vop3-native-backend.md).
+Latest merged change:[#200](https://github.com/RobCZart82/yaman1x/pull/200),
+`97e4cf6cf504aec3116510284d2042548bbfa91b`.
+The merged baseline has **123 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed. One confirmed main macOS hosted-capacity cancellation
+was retried only after its workflow completed;the retry passed. No automatic
+review result recorded;no open review threads or conflict at merge.
+Candidate adds explicit VOP3 word-bus/native-sink integration,test group124.
+Firmware probe integration,physical MEG status and audio remain open.
+[Bus composition contract](an1x-vop3-research.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

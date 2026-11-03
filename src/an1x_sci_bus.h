@@ -15,7 +15,8 @@ namespace yamanix {
 // GPIO access requires gpio_read(port,cycle)/gpio_write(port,cycle,data,direction).
 // Optional exception_hook(vector). No real-time threading/reentry support.
 // MEG writes require both pure meg_write_enabled() and meg_write_byte(address,cycle,value).
-// Only canonical byte window is forwarded;no read/word/instruction fallback.
+// MEG has only explicit byte routing. VOP3 requires pure vop3_word_enabled()
+// plus vop3_read_word/write_word(address,cycle[,value]);never byte/instruction fallback.
 template<class Sink>class An1xSciBus {
 public:
     using RxEvent=SciCycleTimeline::RxEvent;
@@ -48,13 +49,17 @@ public:
     void bus_cycle(uint64_t cycle){access([&]{advance(cycle);now_=timeline_.cycle();});}
     uint64_t next_bus_event()const{return deadline();}
     // Pure selected profile;only mapped external ROM/SRAM use ASTCR/WCR/WCER.
-    int access_cycles(uint32_t raw,unsigned)const{
+    int access_cycles(uint32_t raw,unsigned width)const{
         const auto region=An1xMemoryMap::region(raw);
         if(region==An1xMemoryMap::Region::rom)return external_access_cycles(0);
         if(region==An1xMemoryMap::Region::nvram)return external_access_cycles(1);
         if((raw&0xffffff)>=0x400000&&(raw&0xffffff)<=0x40003f){
             if constexpr(requires(const Sink& s){s.meg_write_enabled();})
                 if(std::as_const(sink_).meg_write_enabled())return external_access_cycles(2);
+        }
+        if(width==2&&vop3_window(raw&0xffffff)){
+            if constexpr(requires(const Sink& s){s.vop3_word_enabled();})
+                if(std::as_const(sink_).vop3_word_enabled())return external_access_cycles(2);
         }
         return 2;
     }
@@ -77,14 +82,14 @@ public:
             require_gpio_word(a,false);const auto high=read_gpio(a);
             if(failed_)throw std::logic_error("Reentered GPIO word read");
             const auto low=read_gpio(a+1);return uint16_t((uint16_t(high)<<8)|low);
-        }return memory_.read_word(a);});}
+        }return read_external_word(a);});}
     void write_word(uint32_t raw,uint16_t v){access([&]{const auto a=raw&0xffffff;if(itu_general_index(a&~1u)>=0){if(a&1)throw std::invalid_argument("Unaligned ITU general word");itu_general_[itu_general_index(a)]=v;}else if(H83002SciMmio::mapped(a))sci_.write16(a,v,0xffff,now_,*this);else if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
             require_irq_word(a);write_irq(a,uint8_t(v>>8));write_irq(a+1,uint8_t(v));
         }else if(gpio_mapped(a)||gpio_mapped((a+1)&0xffffff)){
             require_gpio_word(a,true);write_gpio(a,uint8_t(v>>8));
             if(failed_)throw std::logic_error("Reentered GPIO word write");
             write_gpio(a+1,uint8_t(v));
-        }else memory_.write_word(a,v);});}
+        }else write_external_word(a,v);});}
     void exception_hook(int v){access([&]{if constexpr(requires{sink_.exception_hook(v);})sink_.exception_hook(v);});}
     // Timed timeline sink and untimed MMIO sink,sharing one outward clock.
     void tx(unsigned c,uint64_t at,bool v){sink_.tx(c,at,v);require_callback_live();}
@@ -94,6 +99,22 @@ public:
     void clock(unsigned c,bool v){clock(c,now_,v);}
     bool dma_request(unsigned v){return dma_request(v,now_);}
 private:
+    static bool vop3_window(uint32_t a){return (a>=0x440000&&a<0x440100)||(a>=0x480000&&a<0x480100);}
+    uint16_t read_external_word(uint32_t a){
+        if(vop3_window(a)){
+            if constexpr(requires{std::as_const(sink_).vop3_word_enabled();sink_.vop3_read_word(a,now_);})
+                if(std::as_const(sink_).vop3_word_enabled())return sink_.vop3_read_word(a,now_);
+        }
+        return memory_.read_word(a);
+    }
+    void write_external_word(uint32_t a,uint16_t value){
+        if(vop3_window(a)){
+            if constexpr(requires{std::as_const(sink_).vop3_word_enabled();sink_.vop3_write_word(a,now_,value);}){
+                if(std::as_const(sink_).vop3_word_enabled()){sink_.vop3_write_word(a,now_,value);return;}
+            }
+        }
+        memory_.write_word(a,value);
+    }
     uint8_t read_external_byte(uint32_t a){
         if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{std::as_const(sink_).meg_read_enabled();sink_.meg_read_byte(a,now_);})

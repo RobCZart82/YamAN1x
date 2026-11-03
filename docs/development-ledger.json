@@ -2934,23 +2934,56 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619",
       "review_completed_at_utc": "2026-11-03T17:10:43.532192Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 200,
+      "title": "Connect register-only native VOP3 backend to host adapter",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/200",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "97e4cf6cf504aec3116510284d2042548bbfa91b",
+      "reviewed_head": "bcdaec33f8d8704b55e68db994044049c99e4bfb",
+      "ci_check_ids": [
+        126120491755,
+        126120490224,
+        126120489976,
+        126120489916,
+        126120489506
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0,
+      "main_infrastructure_retry": {
+        "run": 41700030181,
+        "cancelled_job": 126140567756,
+        "reason": "hosted macOS arm64 runner capacity; job not acquired after multiple attempts",
+        "requested_retry": "only cancelled research job after containing workflow completed",
+        "result": "success",
+        "final_research_job": 126151506376
+      },
+      "ci_runs": [
+        41694251413,
+        41694251103,
+        41694251122
+      ]
     }
   ],
   "active_change": {
-    "branch": "feat/vop3-native-research-backend",
+    "branch": "feat/vop3-word-bus-routing",
     "status": "candidate",
-    "scope": "Register-only RAII ABI2 backend plus independent snapshot/counter/lifecycle/isolation tests; no CPU bus or audio",
+    "scope": "Explicit optional word bus hooks and native research sink; no firmware probe or audio",
     "validation": {
-      "native_coefficient_cases": 1024,
-      "fresh_owner_epochs": 32,
-      "fault_injection": "ABI/allocation and four internal-error paths;not a real hardware fault",
+      "address_value_cases": 1024,
+      "wait_profiles": 32,
+      "cpu_split_cases": 129,
       "remote_ci": "pending",
       "automatic_review": "pending",
-      "ctest": "122/122 full pass plus added group123 individually pass",
-      "python": 100,
-      "targeted_sanitizers": "both new groups PASS",
-      "audit_files": 628,
-      "ci_sanitizer_groups": 42
+      "targeted_asan_ubsan": "PASS",
+      "strict_compile": "PASS",
+      "audit_files": 631,
+      "ci_sanitizer_groups": 43,
+      "ctest": "124/124 PASS;extended fixture rebuilt/targeted PASS",
+      "python": 100
     }
   },
   "pending_changes": []

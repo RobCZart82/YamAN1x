@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **123 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **124 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,16 +35,15 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#199](https://github.com/RobCZart82/yaman1x/pull/199),
-`6f761b3027f2de27c7321d39c83f6e6e0c8c2e49`.
-The merged baseline has **121 CTest groups and 100 Python tests**. All five
-final PR-head and main jobs passed. Automated code review completed without
-findings on head `51366589a6828b06c952ff354b7b3fadc62952df`;no open review
-threads or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619).
-Candidate connects the native VOP3 bridge to the standalone host adapter,
-test groups122–123. CPU bus integration and physical MEG status remain open.
-[Backend contract](docs/vop3-native-backend.md).
+Latest merged change:[#200](https://github.com/RobCZart82/yaman1x/pull/200),
+`97e4cf6cf504aec3116510284d2042548bbfa91b`.
+The merged baseline has **123 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed. One confirmed main macOS hosted-capacity cancellation
+was retried only after its workflow completed;the retry passed. No automatic
+review result recorded;no open review threads or conflict at merge.
+Candidate adds explicit VOP3 word-bus/native-sink integration,test group124.
+Firmware probe integration,physical MEG status and audio remain open.
+[Bus composition contract](docs/an1x-vop3-research.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
