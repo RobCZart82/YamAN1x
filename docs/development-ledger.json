@@ -2916,21 +2916,41 @@
         "final_macos_job": 126061808073,
         "result": "success"
       }
+    },
+    {
+      "pr": 199,
+      "title": "Add strict VOP3 full-word host adapter with explicit upload experiment",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/199",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "6f761b3027f2de27c7321d39c83f6e6e0c8c2e49",
+      "reviewed_head": "51366589a6828b06c952ff354b7b3fadc62952df",
+      "ci_runs": [
+        41681455942,
+        41681455958,
+        41681455950
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619",
+      "review_completed_at_utc": "2026-11-03T17:10:43.532192Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/vop3-host-integration-contract",
-    "status": "locally_validated_candidate",
-    "scope": "Standalone VOP3 full-word backend adapter with explicit existing experimental upload control;not yet native/CPU connected",
-    "ci": "pending",
-    "automated_review": "pending",
-    "targeted_asan_ubsan": "passed_65024_routes_and_negative_reentry_controls",
-    "reference": "Established MAME research bridge patch on locked 706dbb73281320c54d7c2f16262c1c3786f2be01;no new original runtime differential",
+    "branch": "feat/vop3-native-research-backend",
+    "status": "candidate",
+    "scope": "Register-only RAII ABI2 backend plus independent snapshot/counter/lifecycle/isolation tests; no CPU bus or audio",
     "validation": {
-      "ctest_groups_passed": 121,
-      "python_tests_passed": 100,
-      "source_audit_files": 624,
-      "sanitizer_ci_groups": 40
+      "native_coefficient_cases": 1024,
+      "fresh_owner_epochs": 32,
+      "fault_injection": "ABI/allocation and four internal-error paths;not a real hardware fault",
+      "remote_ci": "pending",
+      "automatic_review": "pending",
+      "ctest": "122/122 full pass plus added group123 individually pass",
+      "python": 100,
+      "targeted_sanitizers": "both new groups PASS",
+      "audit_files": 628,
+      "ci_sanitizer_groups": 42
     }
   },
   "pending_changes": []

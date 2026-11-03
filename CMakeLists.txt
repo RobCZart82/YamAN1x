@@ -422,3 +422,13 @@ add_test(NAME yamanix_meg_source_status COMMAND yamanix_meg_source_status_check)
 add_executable(yamanix_vop3_host_word_adapter_check tests/vop3_host_word_adapter_check.cpp)
 target_include_directories(yamanix_vop3_host_word_adapter_check PRIVATE src)
 add_test(NAME yamanix_vop3_host_word_adapter COMMAND yamanix_vop3_host_word_adapter_check)
+
+add_executable(yamanix_vop3_native_backend_check tests/vop3_native_backend_check.cpp)
+target_include_directories(yamanix_vop3_native_backend_check PRIVATE src)
+target_link_libraries(yamanix_vop3_native_backend_check PRIVATE yamanix_vop3_bridge)
+add_test(NAME yamanix_vop3_native_backend COMMAND yamanix_vop3_native_backend_check)
+
+# Fault-injected ABI fixture intentionally does not link the native bridge.
+add_executable(yamanix_vop3_native_failure_check tests/vop3_native_failure_check.cpp)
+target_include_directories(yamanix_vop3_native_failure_check PRIVATE src)
+add_test(NAME yamanix_vop3_native_failure COMMAND yamanix_vop3_native_failure_check)
