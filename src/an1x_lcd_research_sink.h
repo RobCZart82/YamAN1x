@@ -16,7 +16,9 @@ public:
     bool failed() const {return state_->failed;}
     const Lc7985Controller::State& lcd_state() const {return state_->controller.state();}
     uint8_t gpio_read(unsigned port,uint64_t cycle){
-        return access(cycle,[&]{return state_->gpio.read(port);});
+        // P9 only:the established headless MAME LCD profile leaves inputs high.
+        // H8DigitalPort still merges driven output bits;other inputs stay strict.
+        return access(cycle,[&]{return port==9?uint8_t{0xff}:state_->gpio.read(port);});
     }
     void gpio_write(unsigned port,uint64_t cycle,uint8_t value,uint8_t){
         access(cycle,[&]{(void)state_->gpio.write(port,cycle,value);});

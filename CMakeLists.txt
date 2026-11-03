@@ -394,3 +394,7 @@ add_test(NAME yamanix_lc7985_controller COMMAND yamanix_lc7985_controller_check)
 add_executable(yamanix_an1x_lcd_machine_check tests/an1x_lcd_machine_check.cpp)
 target_include_directories(yamanix_an1x_lcd_machine_check PRIVATE src)
 add_test(NAME yamanix_an1x_lcd_machine COMMAND yamanix_an1x_lcd_machine_check)
+
+add_executable(yamanix_an1x_p9_input_check tests/an1x_p9_input_check.cpp)
+target_include_directories(yamanix_an1x_p9_input_check PRIVATE src)
+add_test(NAME yamanix_an1x_p9_input COMMAND yamanix_an1x_p9_input_check)
