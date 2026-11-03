@@ -93,4 +93,3 @@ Következő:Port B külső eszköz/protokoll szerződés vizsgálata meglévő k
 forrásokból,majd explicit bemeneti modell és független tesztek. A hibajelzést
 nem oldjuk fel bizonyítatlan fix bemenettel. ROM SHA előtte/utána azonos:
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
-
