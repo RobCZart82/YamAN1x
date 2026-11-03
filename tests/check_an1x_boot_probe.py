@@ -79,6 +79,21 @@ def main(binary):
         require(code == 2 and report["fault_access"]["kind"] == "data_read", "MEG profile never invents status")
         code, report = run([64,8,10000], profile="lcd-meg-source-stubs-16mhz")
         require(code == 0 and report["meg_source_status_reads"] == 1, "Explicit original-source stub experiment is separately counted")
+        native = "lcd-meg-vop3-register-experiment-16mhz"
+        # Two distinct chip coefficient writes,then the explicit upload command.
+        image([0x7a00,0x44,0x16,0x7901,0x1234,0x6981,
+               0x7a00,0x48,0x16,0x6981,0x7a00,0x44,2,0x7901,1,0x6981,0x40fe])
+        for slice_size in (1,8,64):
+            code, report = run([128,slice_size,10000], profile=native)
+            require(code == 0 and report["vop3_writes"] == [2,1] and report["vop3_metrics_available"], "Native two-chip writes and explicit upload control")
+            require(report["vop3_sample_passes"] == [0,0] and report["audio_accepted"] is False, "Register-only experiment never claims samples/audio")
+            require(report["vop3_profile"] == "native-registers-experimental-upload" and report["lcd_profile"] == native, "Explicit assumptions in report")
+        code, report = run([128,8,10000], profile="lcd-meg-source-stubs-16mhz")
+        require(code == 2 and report["vop3_profile"] == "disabled" and report["vop3_writes"] == [0,0], "Old profile remains strict")
+        for address,width,write in ((0x440044,2,False),(0x440000,1,True)):
+            image([0x7a00,address>>16,address&65535,0xfa5a,0x688a if write else 0x6901,0x40fe])
+            code, report = run([64,8,10000], profile=native)
+            require(code == 2 and report["fault_access"]["address"] == address and report["fault_access"]["width"] == width, "Native experiment keeps unsupported read/byte strict")
         image([0x7b5c, 0])
         code, report = run([64, 8, 10000])
         require(code == 2 and report["fault_access"] is None, "Decoder stop is not a bus fault")

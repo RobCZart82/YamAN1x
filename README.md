@@ -35,15 +35,15 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#200](https://github.com/RobCZart82/yaman1x/pull/200),
-`97e4cf6cf504aec3116510284d2042548bbfa91b`.
-The merged baseline has **123 CTest groups and 100 Python tests**. All five
-PR-head/main checks passed. One confirmed main macOS hosted-capacity cancellation
-was retried only after its workflow completed;the retry passed. No automatic
-review result recorded;no open review threads or conflict at merge.
-Candidate adds explicit VOP3 word-bus/native-sink integration,test group124.
-Firmware probe integration,physical MEG status and audio remain open.
-[Bus composition contract](docs/an1x-vop3-research.md).
+Latest merged change:[#201](https://github.com/RobCZart82/yaman1x/pull/201),
+`91f0e7cf05efd054aee5e454940b77d0a17beb61`.
+The merged baseline has **124 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed. No automatic review result recorded;no open
+review threads or conflict at merge.
+Candidate adds an explicit native VOP3 register-only firmware probe profile.
+Local unchanged1.04 ROM performs10236 chip0 writes,then stops at unimplemented
+word read440044;two slices agree on PC/cycle. No boot or audio acceptance.
+[Probe evidence and assumptions](docs/an1x-vop3-firmware-probe.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

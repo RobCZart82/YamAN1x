@@ -313,6 +313,7 @@ add_test(NAME yamanix_an1x_supported_reset COMMAND yamanix_an1x_supported_reset_
 
 add_executable(yamanix_an1x_boot_probe src/an1x_boot_probe.cpp)
 target_include_directories(yamanix_an1x_boot_probe PRIVATE src)
+target_link_libraries(yamanix_an1x_boot_probe PRIVATE yamanix_vop3_bridge)
 add_test(NAME yamanix_an1x_boot_probe COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/check_an1x_boot_probe.py $<TARGET_FILE:yamanix_an1x_boot_probe>)
 
 add_executable(yamanix_an1x_bus_width_check tests/an1x_bus_width_check.cpp)
