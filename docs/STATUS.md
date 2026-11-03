@@ -2,13 +2,15 @@
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#186](https://github.com/RobCZart82/yaman1x/pull/186),
-`d869fa7de2246e1e4001ede06c2288488acb067e`.
-The merged baseline has **110 CTest groups and 100 Python tests**. All five
-PR-head and subsequent main CI jobs passed. Automated code review completed
-without findings on head`0573354bb2be692d45ce8c3eda12645a25faad4c`;
-no unresolved review thread or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/186#issuecomment-6590790696).
+Latest merged change:[#187](https://github.com/RobCZart82/yaman1x/pull/187),
+`cddf9afa7cad0e23c45e66223b4cf87f31d27c1d`.
+The merged baseline has **110 CTest groups and 100 Python tests**. All four
+applicable #187 PR-head and main jobs passed;research build was not triggered
+for documentation-only paths. Code review completed without findings on head
+`6ac84539108e9c567a8d79f715bbae21bb9a287c`;no unresolved threads at merge.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/187#issuecomment-6592328238).
+Current candidate adds an isolated LCD GPIO/controller adapter and test group111.
+Controller busy/memory/timing implementation and machine integration remain open.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

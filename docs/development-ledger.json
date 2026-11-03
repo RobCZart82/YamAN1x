@@ -2697,28 +2697,39 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/186#issuecomment-6590790696",
       "review_completed_at_utc": "2026-11-02T23:09:25.034545Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 187,
+      "title": "Record reproducible Port B firmware execution boundary",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/187",
+      "kind": "documentation",
+      "status": "merged",
+      "merge_commit": "cddf9afa7cad0e23c45e66223b4cf87f31d27c1d",
+      "reviewed_head": "6ac84539108e9c567a8d79f715bbae21bb9a287c",
+      "ci_runs": [
+        41555012549,
+        41555012530
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/187#issuecomment-6592328238",
+      "review_completed_at_utc": "2026-11-03T00:45:49.831659Z",
+      "review_threads_at_merge": 0,
+      "research_build": "not_triggered_documentation_only"
     }
   ],
   "active_change": {
-    "branch": "research/boot-checkpoint-contract",
-    "status": "documented_research_candidate",
-    "scope": "Longer bounded ROM observation identifies Port B external-input boundary; no implementation or boot acceptance",
+    "branch": "research/port-b-input-contract",
+    "status": "locally_validated_candidate",
+    "scope": "Isolated LCD GPIO/controller adapter;controller supplied explicitly,not implemented or connected to boot probe",
+    "targeted_asan_ubsan": "passed_512_byte_rs_cases",
     "ci": "pending",
     "automated_review": "pending",
-    "observations": {
-      "cycles_requested": 10000000,
-      "slice_sizes": [
-        1,
-        64,
-        257
-      ],
-      "fault_address": "0xFFFFD6",
-      "fault_kind": "data_read",
-      "pc": "0x3F666",
-      "peripheral_cycle": 482160,
-      "firmware_boot_accepted": false
-    },
-    "next_step": "Establish Port B external wiring/protocol from available research sources before explicit input modeling"
+    "validation": {
+      "ctest_groups_passed": 111,
+      "python_tests_passed": 100,
+      "source_audit_files": 592,
+      "sanitizer_ci_groups": 30
+    }
   },
   "pending_changes": []
 }

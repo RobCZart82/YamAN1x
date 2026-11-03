@@ -3,6 +3,32 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## LCD GPIO–vezérlő adapter — jelölt,2026-11-03
+
+A meglévő LcdBus bekötést ciklusjelölt vezérlőhívásokhoz kapcsoló önálló
+adapter készült. PA/PB/P9 kimeneti szinteket fogad,status/data readet E-felfutás,
+command/data writeot E-lefutás indít;azonos szint nem ismétel tranzakciót.
+Olvasott érték latchelt;nem LCD-bemenet hibázik,más portkimenet kezeletlenként
+jelzett. A busy flag,memória és időkonverzió a későbbi vezérlő feladata.
+512 független bájt/RS eset,él/latchelt adat/idő/routing ellenőrzés strict
+ASan/UBSan alatt PASS. A fake vezérlő csak tesztfixture,nem LCD-emuláció.
+Nincs firmware-probe bekötés vagy új bootelfogadás. Következő:LC7985 állapot/
+busy időzítés szerződés a rögzített eredeti forrásból,majd integráció.
+Szerződés:[an1x-lcd-gpio.md](an1x-lcd-gpio.md). CI/review függőben.
+Helyi111/111 CTest (78,59s),100 Python,ASan/UBSan PASS;sanitizer CI30 csoport.
+Forrásaudit592 fájl,notice229 fájl/5 szöveg és diff-check PASS.
+
+## Port B diagnosztika lezárása — 2026-11-03
+
+A #187 beolvadt `cddf9afa7cad0e23c45e66223b4cf87f31d27c1d` commitként.
+Pontos head:`6ac84539108e9c567a8d79f715bbae21bb9a287c`;mind4 CI sikeres.
+Futások:41555012549,41555012530. Kutatási build útvonalszűrő miatt nem indult
+(kizárólag dokumentáció). Automatikus kódreview ugyanazon headen találat nélkül
+kész2026-11-03T00:45:49.831659Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/187#issuecomment-6592328238
+Nyitott review-szál vagy konfliktus nincs. Következő:Port B külső protokoll
+bizonyítékának vizsgálata;új fejlesztés előtt a main CI ellenőrzése szükséges.
+
 ## Hosszabb boot-diagnosztika — 2026-11-03
 
 A #186 utáni main mind5 CI-ellenőrzése sikeres. Változatlan1.04 ROM,privát
