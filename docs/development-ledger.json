@@ -2856,32 +2856,48 @@
         "final_macos_job": 125896759096,
         "result": "success"
       }
+    },
+    {
+      "pr": 196,
+      "title": "Add MEG host write adapter with explicit control observation policy",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/196",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "7e93410925450aa1715a65fca9babba395bd9128",
+      "reviewed_head": "651cad9f8d72210479484d2477b3ef94cd552a18",
+      "ci_runs": [
+        41638949671,
+        41638949433,
+        41638949383
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/meg-host-map-contract",
+    "branch": "feat/meg-research-write-integration",
     "status": "locally_validated_candidate",
-    "scope": "Standalone canonical odd-byte MEG write adapter;explicit observation-only original stub controls;no machine integration",
+    "scope": "Explicit observational MEG byte-write integration;unknown reads/words strict",
     "ci": "pending",
     "automated_review": "pending",
-    "schematic_evidence": {
-      "pdf_page": 51,
-      "source_sha256": "d31d48f74f8bded246b1f75f5c04b28b4c4bab375ab4d50a22ce248d277a9167",
-      "scope": "IC10 address/data pins;full select/mirrors unverified"
+    "targeted_asan_ubsan": "passed_bus_wait_reset_strict_129_CPU_partitions",
+    "local_rom_observation": {
+      "profile": "lcd-meg-observe-16mhz",
+      "slice_sizes": [
+        4096,
+        1000000
+      ],
+      "fault": "data_read_0x400005",
+      "pc": "0xDA0C",
+      "peripheral_cycle": 10814942,
+      "observed_controls": 4,
+      "firmware_boot_accepted": false
     },
-    "original_reference": {
-      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "unchanged_methods": 21,
-      "storage_comparisons": 720896,
-      "logging_only_controls": 1536,
-      "result": "passed"
-    },
-    "next_step": "Explicit research sink integration with unknown input/status strict",
     "validation": {
-      "ctest_groups_passed": 118,
+      "ctest_groups_passed": 119,
       "python_tests_passed": 100,
-      "source_audit_files": 615,
-      "sanitizer_ci_groups": 37
+      "source_audit_files": 618,
+      "sanitizer_ci_groups": 38
     }
   },
   "pending_changes": []
