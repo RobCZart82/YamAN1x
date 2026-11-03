@@ -2799,32 +2799,55 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/192#issuecomment-6597624180",
       "review_completed_at_utc": "2026-11-03T07:11:33.760494Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 193,
+      "title": "Distinguish probe limits and identify the next ITU interrupt boundary",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/193",
+      "kind": "engine-diagnostics",
+      "status": "merged",
+      "merge_commit": "9a56f7ab5acab3d33f64e206cefdd9debe9bcbc8",
+      "reviewed_head": "d0864c1642eb1ec2e1c38f4afc98c763e5e82bac",
+      "ci_runs": [
+        41603324777,
+        41603324735,
+        41603324731
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/193#issuecomment-6598885247",
+      "review_completed_at_utc": "2026-11-03T08:27:56.524295Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/firmware-event-diagnostics",
+    "branch": "research/itu-active-irq-contract",
     "status": "locally_validated_candidate",
-    "scope": "Explicit finite larger callback guard and distinct stop reason;no CPU/peripheral change",
+    "scope": "Stored TIER enables on stopped channels only;empty TSR,no active flags/events/IRQ",
     "ci": "pending",
     "automated_review": "pending",
+    "targeted_asan_ubsan": "passed",
+    "original_reference": {
+      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "unchanged_methods": 3,
+      "comparisons": 1280,
+      "scope": "TIER storage and empty TSR only",
+      "result": "passed"
+    },
     "local_rom_observation": {
-      "cycles_requested": 100000000,
-      "callback_limit": 20000000,
+      "fault": "data_write_0x400007",
+      "pc": "0xD9F2",
+      "peripheral_cycle": 9555129,
       "slice_sizes": [
         4096,
         1000000
       ],
-      "stop_reason": "execution_error",
-      "fault": "data_write_0xFFFF94",
-      "pc": "0x40A62",
-      "peripheral_cycle": 8798299,
-      "gpio_writes": 5269,
       "firmware_boot_accepted": false
     },
     "validation": {
-      "ctest_groups_passed": 115,
+      "ctest_groups_passed": 116,
       "python_tests_passed": 100,
-      "source_audit_files": 605
+      "source_audit_files": 608,
+      "sanitizer_ci_groups": 35
     }
   },
   "pending_changes": []
