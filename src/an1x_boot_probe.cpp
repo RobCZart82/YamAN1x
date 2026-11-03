@@ -1,4 +1,5 @@
 #include "an1x_sci_bus.h"
+#include "an1x_lcd_research_sink.h"
 #include "h8_first_instructions.h"
 #include <charconv>
 #include <fstream>
@@ -8,12 +9,14 @@
 
 namespace {
 struct Sink {
+ std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
+ explicit Sink(bool enabled){if(enabled)lcd=std::make_unique<yamanix::An1xLcdResearchSink>(16);}
  uint64_t tx_count=0,clock_count=0,gpio_writes=0;
  void tx(unsigned,uint64_t,bool){++tx_count;}
  void clock(unsigned,uint64_t,bool){++clock_count;}
  bool dma_request(unsigned,uint64_t){return false;}
- uint8_t gpio_read(unsigned,uint64_t){throw std::logic_error("Unmodeled external GPIO input");}
- void gpio_write(unsigned,uint64_t,uint8_t,uint8_t){++gpio_writes;}
+ uint8_t gpio_read(unsigned p,uint64_t t){if(lcd)return lcd->gpio_read(p,t);throw std::logic_error("Unmodeled external GPIO input");}
+ void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(lcd)lcd->gpio_write(p,t,v,d);}
 };
 struct Host {
  yamanix::An1xSciBus<Sink> bus;
@@ -50,19 +53,22 @@ std::vector<uint8_t>load(const char*path){
 }
 int main(int argc,char**argv){
  try{
-  if(argc!=6)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16");
+  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz]");
   const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],1000000);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
+  const bool lcd_enabled=argc==7;
+  if(lcd_enabled&&std::string_view(argv[6])!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink;Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
   }}catch(const std::exception&e){error=e.what();}
   const auto state=cpu.snapshot();
   std::cout<<"{\"schema_version\":1,\"status\":"<<std::quoted(error.empty()?"cycle_limit":"stopped")
+   <<",\"lcd_profile\":"<<std::quoted(lcd_enabled?"lcd-16mhz":"disabled")
    <<",\"firmware_boot_accepted\":false,\"rom_view\":"<<std::quoted(view)<<",\"reset_target\":"<<reset_target<<",\"cycles_requested\":"<<cycles<<",\"completed_slice_cycles\":"<<completed
    <<",\"completed_slice_callbacks\":"<<calls<<",\"peripheral_cycle\":"<<host.bus.cycle()
    <<",\"pc\":"<<state.pc<<",\"instruction_state\":"<<state.state<<",\"instruction_substate\":"<<state.substate

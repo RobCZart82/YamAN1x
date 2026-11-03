@@ -3,6 +3,38 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## LCD-sink gépintegráció — jelölt,2026-11-03
+
+Saját LCD-sink kapcsolja össze a portadaptert és a headless vezérlőt;explicit
+ciklus/µs skálával. Nem-LCD bemenet továbbra hibázik,egyéb kimenet nem gyárt
+eszközválaszt. GPIO-idővisszalépés vagy eszközhiba mérgezi a sink-epochot;
+explicit cold_reset rekonstruálja. Gépi részreset megtartja a külső LCD-t.
+129 CPU-felosztás,busy/read-latch/command/DDR/reset/fail-stop célzott ASan/UBSan
+PASS. Az első fixture tévesen R/W-t és E-t egyszerre ejtette,ami valódi írásélt
+hozott létre és busy-t indított;helyes read-falling,majd RW-váltás sorrendre javítva.
+
+A probe opcionális lcd-16mhz profilja16 ciklus/µs-t használ;eredeti yman1x.cpp
+H83002(config,16_MHz_XTAL) alapján explicit kutatási profil,nem hardveridő-mérés.
+Alapértelmezett no-LCD működés megmarad. ROM-free CLI-tesztek mindkét profilt és
+ismeretlen profil elutasítását ellenőrzik. Valós helyi változatlan1.04 ROMmal
+szelet1/64/257 mellett azonos új stop:FFFFD2 P9 byte read,PC0x3F66A,
+perifériaciklus482170,10 GPIO,0 TX/clock él. KorábbiFFFFD6 olvasáson túljutott.
+Nem teljes boot vagy hang. Következő:P9 bemenetek bekötési szerződése bizonyíték
+alapján,majd új korlátos próba. Szerződés:[an1x-lcd-machine.md](an1x-lcd-machine.md).
+CI/review függőben.
+Helyi114/114 CTest (50,76s),100 Python,célzott strict ASan/UBSan PASS.
+Forrásaudit602 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer33 csoport.
+
+## LC7985 állapot/memória lezárása — 2026-11-03
+
+A #190 beolvadt `0186721943c8243203ca58391317a69cc0dc0253` commitként.
+Pontos head:`62279dac4602d6c3a5ede47a999e770da491eab4`;mind5 CI sikeres.
+Futások:41578172689,41578172934,41578172711. Automatikus review-eredmény
+nem rögzített;nem állítunk sikeres automatikus review-t. Formális review és
+nyitott review-szál nincs,konfliktus nincs,GitHub merge-state clean.
+Következő:explicit órajelű LCD-sink bekötés,GPIO/reset/fail-stop tesztek,
+majd változatlan helyi firmware megfigyelése;előbb main CI ellenőrzése.
+
 ## LC7985 állapot és memória — jelölt,2026-11-03
 
 Önálló headless vezérlő80 bájt DDRAM-mal és64 bájt CGRAM-mal,cím/mód/entry/

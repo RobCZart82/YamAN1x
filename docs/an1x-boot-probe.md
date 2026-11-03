@@ -93,3 +93,10 @@ Következő:Port B külső eszköz/protokoll szerződés vizsgálata meglévő k
 forrásokból,majd explicit bemeneti modell és független tesztek. A hibajelzést
 nem oldjuk fel bizonyítatlan fix bemenettel. ROM SHA előtte/utána azonos:
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+## Optional LCD profile — 2026-11-03
+
+Append `lcd-16mhz` to explicitly connect the headless LCD at16 cycles/us.
+JSON reports lcd_profile;default is disabled. This remains a bounded diagnostic,
+not hardware boot acceptance. New stop and ownership/reset limits are documented
+in [LCD machine integration](an1x-lcd-machine.md).

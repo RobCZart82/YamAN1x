@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **113 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **114 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,13 +35,13 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#189](https://github.com/RobCZart82/yaman1x/pull/189),
-`d95364222f124ba6cec967de50f7b3427a0ff086`.
-The merged baseline has **112 CTest groups and 100 Python tests**. All five
+Latest merged change:[#190](https://github.com/RobCZart82/yaman1x/pull/190),
+`0186721943c8243203ca58391317a69cc0dc0253`.
+The merged baseline has **113 CTest groups and 100 Python tests**. All five
 PR-head and main CI jobs passed. No automated review result was recorded for
-head`8cb6d09029aa55d9d33ef38246352e45088a9614`;no unresolved review threads
-or conflict at merge. Current candidate adds headless LCD controller state/memory
-and test group113. GPIO/machine/probe integration remains open;no boot acceptance.
+head`62279dac4602d6c3a5ede47a999e770da491eab4`;no unresolved review threads
+or conflict at merge. Current candidate integrates the LCD research sink and
+optional bounded probe profile,test group114. No accepted boot or audio.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -68,11 +68,11 @@ Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
 reset/WAIT/pin-mode limitations remain documented. Merged #186 supports disabled ITU interrupt enables and empty status flags
 on five stopped channels;active timer events/IRQs remain unsupported.
-A longer local unchanged-ROM probe stops on Port B input atFFFFD6,
-PC0x3F666,peripheral cycle482160 with three slice sizes. No boot or audio
-acceptance follows from this observation. Next establish external input wiring
-and protocol evidence before extending the model.
-See [bounded boot diagnostics](docs/an1x-boot-probe.md).
+The LCD-enabled candidate probe passes the former Port B read and stops on
+unmodeled P9 input atFFFFD2,PC0x3F66A,cycle482170 across three slice sizes.
+Default no-LCD diagnostics retain their earlier behavior. Next establish P9
+input wiring from evidence;no general input fallback is introduced.
+See [LCD machine integration](docs/an1x-lcd-machine.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)

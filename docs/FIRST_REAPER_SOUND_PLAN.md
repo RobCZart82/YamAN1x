@@ -5,6 +5,28 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## LCD-sink gépintegráció — jelölt,2026-11-03
+
+Saját LCD-sink kapcsolja össze a portadaptert és a headless vezérlőt;explicit
+ciklus/µs skálával. Nem-LCD bemenet továbbra hibázik,egyéb kimenet nem gyárt
+eszközválaszt. GPIO-idővisszalépés vagy eszközhiba mérgezi a sink-epochot;
+explicit cold_reset rekonstruálja. Gépi részreset megtartja a külső LCD-t.
+129 CPU-felosztás,busy/read-latch/command/DDR/reset/fail-stop célzott ASan/UBSan
+PASS. Az első fixture tévesen R/W-t és E-t egyszerre ejtette,ami valódi írásélt
+hozott létre és busy-t indított;helyes read-falling,majd RW-váltás sorrendre javítva.
+
+A probe opcionális lcd-16mhz profilja16 ciklus/µs-t használ;eredeti yman1x.cpp
+H83002(config,16_MHz_XTAL) alapján explicit kutatási profil,nem hardveridő-mérés.
+Alapértelmezett no-LCD működés megmarad. ROM-free CLI-tesztek mindkét profilt és
+ismeretlen profil elutasítását ellenőrzik. Valós helyi változatlan1.04 ROMmal
+szelet1/64/257 mellett azonos új stop:FFFFD2 P9 byte read,PC0x3F66A,
+perifériaciklus482170,10 GPIO,0 TX/clock él. KorábbiFFFFD6 olvasáson túljutott.
+Nem teljes boot vagy hang. Következő:P9 bemenetek bekötési szerződése bizonyíték
+alapján,majd új korlátos próba. Szerződés:[an1x-lcd-machine.md](an1x-lcd-machine.md).
+CI/review függőben.
+Helyi114/114 CTest (50,76s),100 Python,célzott strict ASan/UBSan PASS.
+Forrásaudit602 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer33 csoport.
+
 ## LC7985 állapot és memória — jelölt,2026-11-03
 
 Önálló headless vezérlő80 bájt DDRAM-mal és64 bájt CGRAM-mal,cím/mód/entry/

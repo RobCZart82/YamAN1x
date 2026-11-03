@@ -21,9 +21,9 @@ def main(binary):
             for offset, word in enumerate(words):
                 data[256 + 2*offset:258 + 2*offset] = word.to_bytes(2, "big")
             path.write_bytes(data)
-        def run(args, view="raw"):
+        def run(args, view="raw", profile=None):
             before = hashlib.sha256(path.read_bytes()).hexdigest()
-            result = subprocess.run([binary, str(path), *map(str, args), view], capture_output=True, text=True, timeout=20)
+            result = subprocess.run([binary, str(path), *map(str, args), view, *([] if profile is None else [profile])], capture_output=True, text=True, timeout=20)
             require(hashlib.sha256(path.read_bytes()).hexdigest() == before, "Input must remain byte-identical")
             report = json.loads(result.stdout)
             require(report["firmware_boot_accepted"] is False, "Bounded progress is never boot acceptance")
@@ -55,6 +55,15 @@ def main(binary):
         code, report = run([64,8,10000])
         require(code == 2 and report["fault_access"] == {"kind": "data_read", "address": 0xffffc7, "width": 1}, "Unknown GPIO input fails closed")
         require("GPIO input" in report["error"], "No invented pin values")
+        code, report = run([64,8,10000], profile="lcd-16mhz")
+        require(code == 2 and report["fault_access"]["address"] == 0xffffc7, "LCD profile does not invent other inputs")
+        image([0x7a00, 0xff, 0xffd6, 0x680a, 0x40fe])
+        code, report = run([64,8,10000], profile="lcd-16mhz")
+        require(code == 0 and report["lcd_profile"] == "lcd-16mhz", "Explicit LCD profile supports Port B inputs")
+        code, report = run([64,8,10000])
+        require(code == 2 and report["lcd_profile"] == "disabled", "Default keeps strict no-LCD profile")
+        code, report = run([64,8,10000], profile="always-ready")
+        require(code == 1, "Unknown LCD profiles reject")
         image([0x7b5c, 0])
         code, report = run([64, 8, 10000])
         require(code == 2 and report["fault_access"] is None, "Decoder stop is not a bus fault")

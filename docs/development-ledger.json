@@ -2747,29 +2747,48 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 190,
+      "title": "Add headless LC7985 controller state and memory",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/190",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "0186721943c8243203ca58391317a69cc0dc0253",
+      "reviewed_head": "62279dac4602d6c3a5ede47a999e770da491eab4",
+      "ci_runs": [
+        41578172689,
+        41578172934,
+        41578172711
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/lc7985-controller-state",
+    "branch": "feat/lcd-machine-integration",
     "status": "locally_validated_candidate",
-    "scope": "Headless LCD controller address/mode/memory;no machine or probe integration",
+    "scope": "Owned LCD research sink and optional lcd-16mhz probe;strict unknown inputs",
     "ci": "pending",
     "automated_review": "pending",
-    "targeted_asan_ubsan": "passed_114688_memory_cases",
-    "original_runtime_reference": {
-      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "path": "src/devices/video/lc7985.cpp",
-      "sha256": "29370236ef63d52d5c4ba87873af401c84cf1766fa56d023d531aa06b280a8f0",
-      "unchanged_methods": 9,
-      "operations_compared": 50000,
-      "scope": "safe address profile only",
-      "result": "passed"
+    "targeted_asan_ubsan": "passed_GPIO_reset_failstop_129_CPU_partitions",
+    "local_rom_observation": {
+      "profile": "lcd-16mhz",
+      "slice_sizes": [
+        1,
+        64,
+        257
+      ],
+      "fault": "data_read_0xFFFFD2",
+      "pc": "0x3F66A",
+      "peripheral_cycle": 482170,
+      "firmware_boot_accepted": false
     },
     "validation": {
-      "ctest_groups_passed": 113,
+      "ctest_groups_passed": 114,
       "python_tests_passed": 100,
-      "source_audit_files": 599,
-      "sanitizer_ci_groups": 32
+      "source_audit_files": 602,
+      "sanitizer_ci_groups": 33
     }
   },
   "pending_changes": []
