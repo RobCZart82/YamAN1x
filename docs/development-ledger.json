@@ -2817,37 +2817,45 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/193#issuecomment-6598885247",
       "review_completed_at_utc": "2026-11-03T08:27:56.524295Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 194,
+      "title": "Store ITU interrupt enables while channels remain stopped",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/194",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "1e67c1b379aebe0bec94dbac39e9b199adca9d3f",
+      "reviewed_head": "2681fdc5494aa6f8d2c792be406306ffcc40d16b",
+      "ci_runs": [
+        41614096928,
+        41614096943,
+        41614096814
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/itu-active-irq-contract",
+    "branch": "research/peripheral-400007-contract",
     "status": "locally_validated_candidate",
-    "scope": "Stored TIER enables on stopped channels only;empty TSR,no active flags/events/IRQ",
+    "scope": "Standalone MEG register storage only;400007 still unmapped,no status/control/audio",
     "ci": "pending",
     "automated_review": "pending",
-    "targeted_asan_ubsan": "passed",
+    "targeted_asan_ubsan": "passed_720896_cases_and_65536_word_patterns",
     "original_reference": {
       "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "unchanged_methods": 3,
-      "comparisons": 1280,
-      "scope": "TIER storage and empty TSR only",
+      "path": "src/devices/sound/meg.cpp",
+      "unchanged_methods": 15,
+      "comparisons": 720896,
+      "scope": "storage writes from explicit matching zero initialization",
       "result": "passed"
     },
-    "local_rom_observation": {
-      "fault": "data_write_0x400007",
-      "pc": "0xD9F2",
-      "peripheral_cycle": 9555129,
-      "slice_sizes": [
-        4096,
-        1000000
-      ],
-      "firmware_boot_accepted": false
-    },
+    "next_step": "Establish exact MEG host byte-lane/control mapping before CPU integration",
     "validation": {
-      "ctest_groups_passed": 116,
+      "ctest_groups_passed": 117,
       "python_tests_passed": 100,
-      "source_audit_files": 608,
-      "sanitizer_ci_groups": 35
+      "source_audit_files": 612,
+      "sanitizer_ci_groups": 36
     }
   },
   "pending_changes": []
