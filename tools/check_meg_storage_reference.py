@@ -17,7 +17,7 @@ def main():
     lock = json.loads((root/'research/mame-source-lock.json').read_text())
     banks = [(4,'4'),(5,'5'),(8,'8'),(9,'9'),(14,'e'),(15,'f'),(20,'14'),(22,'16'),(23,'17'),(24,'18')]
     controls = [(1,'s1_w'),(2,'s2_w'),(3,'s3_w'),(7,'s7_w'),(10,'sa_w'),(21,'s15_w')]
-    names = ['select_w']+['s'+name+'_w' for _,name in banks]+['consth_w','constl_w','offseth_w','offsetl_w']+[name for _,name in controls]
+    names = ['select_w']+['s'+name+'_w' for _,name in banks]+['consth_w','constl_w','offseth_w','offsetl_w']+[name for _,name in controls]+['s2_r','s10_r','s11_r']
     with verified_archive(args.archive, lock) as archive:
         members = [n for n in archive.namelist() if n.endswith('/src/devices/sound/meg.cpp')]
         if len(members) != 1:
@@ -25,14 +25,14 @@ def main():
         raw = archive.read(members[0]).decode()
     methods = []
     for name in names:
-        found = re.findall(r'^void meg_device::'+name+r'\(u8 data\)\n\{.*?^\}',raw,re.M|re.S)
+        found = re.findall(r'^(?:void|u8) meg_device::'+name+r'\([^\n]*\)\n\{.*?^\}',raw,re.M|re.S)
         if len(found) != 1:
             raise ValueError('Expected one original storage method: '+name)
         methods.append(found[0])
-    prefix = '#include "meg_register_storage.h"\n#include "meg_host_write_adapter.h"\n#include <cstring>\n#include <cstdio>\nusing u8=uint8_t;\n#define logerror(...) ((void)0)\nstruct meg_device {\n'
+    prefix = '#include "meg_register_storage.h"\n#include "meg_host_write_adapter.h"\n#include "meg_source_status.h"\n#include <cstring>\n#include <cstdio>\nusing u8=uint8_t;\n#define logerror(...) ((void)0)\nstruct meg_device {\n'
     prefix += 'u8 m_reg=0;'+''.join('u8 m_r'+name+'[256]{};' for _,name in banks)
     prefix += 'std::array<int16_t,256>m_const{},m_offset{};'
-    prefix += ''.join('void '+name+'(u8);' for name in names)+'};\n'
+    prefix += ''.join(('u8 '+name+'();') if name.endswith('_r') else ('void '+name+'(u8);') for name in names)+'};\n'
     checks = '\n'.join('case '+str(offset)+':ref.s'+name+'_w(uint8_t(value));break;' for offset,name in banks)
     arrays = ','.join('ref.m_r'+name for _,name in banks)
     saved_arrays = ','.join('saved.m_r'+name for _,name in banks)
@@ -69,6 +69,12 @@ int main(){meg_device ref;yamanix::MegRegisterStorage model;unsigned comparisons
  }
  if(host.observation().count!=1536)throw std::runtime_error("Missing explicit control observation");
  std::puts("1536 locked original logging-only control comparisons PASS;no command effects proven");
+ yamanix::MegSourceStatus status(yamanix::MegSourceStatus::Policy::original_zero_stubs);
+ for(unsigned repeat=0;repeat<256;++repeat){
+  if(status.read_byte(0x400005)!=ref.s2_r()||status.read_byte(0x400021)!=ref.s10_r()||status.read_byte(0x400023)!=ref.s11_r())
+   throw std::runtime_error("Original MEG stub status mismatch");
+ }
+ std::puts("768 locked original zero-read stub comparisons PASS;not physical readiness");
  std::printf("%u locked original MEG storage comparisons PASS;explicit matching initial state,no status/audio proof\n",comparisons);
 }
 '''.replace('CHECKS',checks).replace('SAVED_ARRAYS',saved_arrays).replace('CONTROL_CALLS',control_calls).replace('ARRAYS',arrays)

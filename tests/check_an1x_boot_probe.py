@@ -77,6 +77,8 @@ def main(binary):
         image([0x7a00, 0x40, 5, 0x680a])
         code, report = run([64,8,10000], profile="lcd-meg-observe-16mhz")
         require(code == 2 and report["fault_access"]["kind"] == "data_read", "MEG profile never invents status")
+        code, report = run([64,8,10000], profile="lcd-meg-source-stubs-16mhz")
+        require(code == 0 and report["meg_source_status_reads"] == 1, "Explicit original-source stub experiment is separately counted")
         image([0x7b5c, 0])
         code, report = run([64, 8, 10000])
         require(code == 2 and report["fault_access"] is None, "Decoder stop is not a bus fault")

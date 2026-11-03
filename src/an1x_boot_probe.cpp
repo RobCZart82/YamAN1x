@@ -12,7 +12,9 @@ namespace {
 struct Sink {
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
- explicit Sink(bool enabled,bool meg_enabled){if(meg_enabled)meg=std::make_unique<yamanix::An1xMegResearchSink>(16);else if(enabled)lcd=std::make_unique<yamanix::An1xLcdResearchSink>(16);}
+ explicit Sink(bool enabled,bool meg_enabled,bool source_status){if(meg_enabled)meg=std::make_unique<yamanix::An1xMegResearchSink>(16,source_status?yamanix::MegSourceStatus::Policy::original_zero_stubs:yamanix::MegSourceStatus::Policy::reject);else if(enabled)lcd=std::make_unique<yamanix::An1xLcdResearchSink>(16);}
+ bool meg_read_enabled()const{return meg&&meg->meg_read_enabled();}
+ uint8_t meg_read_byte(uint32_t a,uint64_t t){if(!meg)throw std::out_of_range("MEG profile disabled");return meg->meg_read_byte(a,t);}
  bool meg_write_enabled()const{return bool(meg);}
  void meg_write_byte(uint32_t a,uint64_t t,uint8_t v){if(!meg)throw std::out_of_range("MEG profile disabled");meg->meg_write_byte(a,t,v);}
  uint64_t tx_count=0,clock_count=0,gpio_writes=0;
@@ -57,16 +59,17 @@ std::vector<uint8_t>load(const char*path){
 }
 int main(int argc,char**argv){
  try{
-  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz|lcd-meg-observe-16mhz]");
+  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz|lcd-meg-observe-16mhz|lcd-meg-source-stubs-16mhz]");
   const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],20000000);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   const bool lcd_enabled=argc==7;
-  const bool meg_enabled=lcd_enabled&&std::string_view(argv[6])=="lcd-meg-observe-16mhz";
+  const bool source_status=lcd_enabled&&std::string_view(argv[6])=="lcd-meg-source-stubs-16mhz";
+  const bool meg_enabled=source_status||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-observe-16mhz");
   if(lcd_enabled&&!meg_enabled&&std::string_view(argv[6])!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -75,8 +78,9 @@ int main(int argc,char**argv){
   const char*stop_reason=error.empty()?"cycle_limit":error=="H8 execution callback limit"?"callback_limit":"execution_error";
   std::cout<<"{\"schema_version\":1,\"status\":"<<std::quoted(error.empty()?"cycle_limit":"stopped")
    <<",\"stop_reason\":"<<std::quoted(stop_reason)<<",\"callback_limit_requested\":"<<limit
-   <<",\"lcd_profile\":"<<std::quoted(meg_enabled?"lcd-meg-observe-16mhz":lcd_enabled?"lcd-16mhz":"disabled")
+   <<",\"lcd_profile\":"<<std::quoted(source_status?"lcd-meg-source-stubs-16mhz":meg_enabled?"lcd-meg-observe-16mhz":lcd_enabled?"lcd-16mhz":"disabled")
    <<",\"meg_observed_controls\":"<<(sink.meg?sink.meg->meg_observation().count:0)
+   <<",\"meg_source_status_reads\":"<<(sink.meg?sink.meg->meg_status_reads():0)
    <<",\"firmware_boot_accepted\":false,\"rom_view\":"<<std::quoted(view)<<",\"reset_target\":"<<reset_target<<",\"cycles_requested\":"<<cycles<<",\"completed_slice_cycles\":"<<completed
    <<",\"completed_slice_callbacks\":"<<calls<<",\"peripheral_cycle\":"<<host.bus.cycle()
    <<",\"pc\":"<<state.pc<<",\"instruction_state\":"<<state.state<<",\"instruction_substate\":"<<state.substate

@@ -110,3 +110,10 @@ Profile lcd-meg-observe-16mhz opts into canonical MEG byte writes,including
 explicitly observed original logging-only controls. JSON adds meg_observed_controls.
 No status reads are supplied. Default and lcd-16mhz remain strict for MEG.
 See [ownership,tests and next stop](an1x-meg-research.md).
+
+## Separate original MEG status-stub experiment — 2026-11-03
+
+lcd-meg-source-stubs-16mhz additionally opts into the original MAME zero-read
+stubs at MEG offsets2/10/11. It is not physical status/ready behavior. JSON adds
+meg_source_status_reads. Existing profiles stay strict. See
+[scope and evidence](meg-source-status-experiment.md).
