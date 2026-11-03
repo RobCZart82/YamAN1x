@@ -54,7 +54,7 @@ std::vector<uint8_t>load(const char*path){
 int main(int argc,char**argv){
  try{
   if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz]");
-  const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],1000000);
+  const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],20000000);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   const bool lcd_enabled=argc==7;
   if(lcd_enabled&&std::string_view(argv[6])!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
@@ -67,7 +67,9 @@ int main(int argc,char**argv){
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
   }}catch(const std::exception&e){error=e.what();}
   const auto state=cpu.snapshot();
+  const char*stop_reason=error.empty()?"cycle_limit":error=="H8 execution callback limit"?"callback_limit":"execution_error";
   std::cout<<"{\"schema_version\":1,\"status\":"<<std::quoted(error.empty()?"cycle_limit":"stopped")
+   <<",\"stop_reason\":"<<std::quoted(stop_reason)<<",\"callback_limit_requested\":"<<limit
    <<",\"lcd_profile\":"<<std::quoted(lcd_enabled?"lcd-16mhz":"disabled")
    <<",\"firmware_boot_accepted\":false,\"rom_view\":"<<std::quoted(view)<<",\"reset_target\":"<<reset_target<<",\"cycles_requested\":"<<cycles<<",\"completed_slice_cycles\":"<<completed
    <<",\"completed_slice_callbacks\":"<<calls<<",\"peripheral_cycle\":"<<host.bus.cycle()

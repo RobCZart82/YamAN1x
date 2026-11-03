@@ -2781,42 +2781,50 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/191#issuecomment-6596475450",
       "review_completed_at_utc": "2026-11-03T05:49:09.070883Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 192,
+      "title": "Add scoped P9 inputs to the explicit LCD research profile",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/192",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "8d53be572aab80db6bda2f9629366002b252bc2d",
+      "reviewed_head": "23dd23fba4d221b7e413e2377282745a458de94f",
+      "ci_runs": [
+        41594348384,
+        41594348397,
+        41594348298
+      ],
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/192#issuecomment-6597624180",
+      "review_completed_at_utc": "2026-11-03T07:11:33.760494Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/p9-input-contract",
+    "branch": "research/firmware-event-diagnostics",
     "status": "locally_validated_candidate",
-    "scope": "P9-only FF inputs in explicit LCD research profile;not physical wiring proof",
+    "scope": "Explicit finite larger callback guard and distinct stop reason;no CPU/peripheral change",
     "ci": "pending",
     "automated_review": "pending",
-    "evidence": [
-      "locked h8.cpp port_default_r returns FF",
-      "established mame-lcd-controller.patch read_port9 returns FF"
-    ],
-    "targeted_asan_ubsan": "passed_65536_DDR_data_cases",
     "local_rom_observation": {
-      "profile": "lcd-16mhz",
-      "cycles_requested": 500000,
+      "cycles_requested": 100000000,
+      "callback_limit": 20000000,
       "slice_sizes": [
-        1,
-        64,
-        257
+        4096,
+        1000000
       ],
-      "status": "cycle_limit",
-      "peripheral_cycle": 500000,
-      "pc": 270856,
-      "instruction_state": 22640,
-      "instruction_substate": 2,
-      "gpio_writes": 22,
-      "firmware_boot_accepted": false,
-      "longer_run_stop": "callback_limit_not_device_fault"
+      "stop_reason": "execution_error",
+      "fault": "data_write_0xFFFF94",
+      "pc": "0x40A62",
+      "peripheral_cycle": 8798299,
+      "gpio_writes": 5269,
+      "firmware_boot_accepted": false
     },
     "validation": {
       "ctest_groups_passed": 115,
       "python_tests_passed": 100,
-      "source_audit_files": 604,
-      "sanitizer_ci_groups": 34,
-      "optimized_fixture_rebuilt_targeted_ctest": "passed"
+      "source_audit_files": 605
     }
   },
   "pending_changes": []

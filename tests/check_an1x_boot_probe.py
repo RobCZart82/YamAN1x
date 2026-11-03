@@ -54,7 +54,7 @@ def main(binary):
         image([0x7a00, 0xff, 0xffc7, 0x680a])
         code, report = run([64,8,10000])
         require(code == 2 and report["fault_access"] == {"kind": "data_read", "address": 0xffffc7, "width": 1}, "Unknown GPIO input fails closed")
-        require("GPIO input" in report["error"], "No invented pin values")
+        require("GPIO input" in report["error"] and report["stop_reason"] == "execution_error", "No invented pin values or callback-limit misclassification")
         code, report = run([64,8,10000], profile="lcd-16mhz")
         require(code == 2 and report["fault_access"]["address"] == 0xffffc7, "LCD profile does not invent other inputs")
         image([0x7a00, 0xff, 0xffd6, 0x680a, 0x40fe])
@@ -74,8 +74,11 @@ def main(binary):
         require(code == 2 and report["fault_access"] is None, "Decoder stop is not a bus fault")
         image([0x40fe])
         code, report = run([64, 8, 1])
-        require(code == 2 and "limit" in report["error"], "Global callback bound stops execution")
-        for args in ([0,8,100], [-1,8,100], [100000001,8,100], [64,0,100], [64,1000001,100], [64,8,1000001], ["NaN",8,100], ["18446744073709551616",8,100]):
+        require(code == 2 and "limit" in report["error"] and report["stop_reason"] == "callback_limit"
+                and report["callback_limit_requested"] == 1, "Global callback bound is explicitly classified")
+        code, report = run([64,8,20000000])
+        require(code == 0 and report["stop_reason"] == "cycle_limit" and report["callback_limit_requested"] == 20000000, "Larger finite callback guard is explicit")
+        for args in ([0,8,100], [-1,8,100], [100000001,8,100], [64,0,100], [64,1000001,100], [64,8,20000001], [64,8,0], ["NaN",8,100], ["18446744073709551616",8,100]):
             code, report = run(args)
             require(code == 1 and report["status"] == "input_error", "Strict finite CLI limits")
         for size in (1, 1048577):
