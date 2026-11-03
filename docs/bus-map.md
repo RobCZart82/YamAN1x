@@ -37,3 +37,10 @@ Legfrissebb vizsgálat: [EG-szint és mintaszámláló](eg-readback-milestone.md
 [Új projektkód és szintetikus CPU-próba](an1x-memory-map.md):a fenti három
 memóriatartomány összekötve,MMIO és ismeretlen címek fail-closed. Nem teljes gép,
 nem firmware-indítás és nem fizikai reset/open-bus bizonyíték.
+
+## MEG kanonikus írási adapter — 2026-11-03
+
+IC10 A0..A4=H8 A1..A5 és alsó adatbájt ellenőrizve az51.PDF-oldal nagyított
+rajzán. Szűk kutatási címzés400001+2*offset,széles tükrözés nélkül.
+Önálló adapter,nem bekötött CPU-periféria;logging-only vezérlőmegfigyelés csak
+explicit módban. [Részletes bizonyíték és korlátok](meg-host-write-adapter.md).

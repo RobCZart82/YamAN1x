@@ -2833,29 +2833,55 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 195,
+      "title": "Add standalone MEG register storage with original reference checks",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/195",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "1c5d35fcaa0110cbae0dab6f280f0020b24105e7",
+      "reviewed_head": "d2f9dfec15e3fabc102a21164453bb1441ff6a3c",
+      "ci_runs": [
+        41624961321,
+        41624961195,
+        41624961011
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0,
+      "infrastructure_retry": {
+        "cancelled_job": 125879878868,
+        "reason": "hosted macOS arm64 runner not acquired due to capacity",
+        "requested_retry": "single cancelled job after workflow completed",
+        "final_macos_job": 125896759096,
+        "result": "success"
+      }
     }
   ],
   "active_change": {
-    "branch": "research/peripheral-400007-contract",
+    "branch": "research/meg-host-map-contract",
     "status": "locally_validated_candidate",
-    "scope": "Standalone MEG register storage only;400007 still unmapped,no status/control/audio",
+    "scope": "Standalone canonical odd-byte MEG write adapter;explicit observation-only original stub controls;no machine integration",
     "ci": "pending",
     "automated_review": "pending",
-    "targeted_asan_ubsan": "passed_720896_cases_and_65536_word_patterns",
+    "schematic_evidence": {
+      "pdf_page": 51,
+      "source_sha256": "d31d48f74f8bded246b1f75f5c04b28b4c4bab375ab4d50a22ce248d277a9167",
+      "scope": "IC10 address/data pins;full select/mirrors unverified"
+    },
     "original_reference": {
       "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "path": "src/devices/sound/meg.cpp",
-      "unchanged_methods": 15,
-      "comparisons": 720896,
-      "scope": "storage writes from explicit matching zero initialization",
+      "unchanged_methods": 21,
+      "storage_comparisons": 720896,
+      "logging_only_controls": 1536,
       "result": "passed"
     },
-    "next_step": "Establish exact MEG host byte-lane/control mapping before CPU integration",
+    "next_step": "Explicit research sink integration with unknown input/status strict",
     "validation": {
-      "ctest_groups_passed": 117,
+      "ctest_groups_passed": 118,
       "python_tests_passed": 100,
-      "source_audit_files": 612,
-      "sanitizer_ci_groups": 36
+      "source_audit_files": 615,
+      "sanitizer_ci_groups": 37
     }
   },
   "pending_changes": []
