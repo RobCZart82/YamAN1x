@@ -5,6 +5,22 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## MEG önálló regisztertárolás — jelölt,2026-11-03
+
+A400000 körüli effektinterfész a korábbi rajzi/firmware-kutatás jelöltje;
+a rögzített eredeti AN1x driver nem térképezi fel,ezért400007 buszelérését
+most nem engedjük át. Önálló MegRegisterStorage:8-bit selector,tíz256-bájtos
+bank,két256-szavas constant/offset bank független high/low lane-nel.
+Nincs státuszolvasás,audio vagy vezérlőparancs-szimuláció;a logging-only
+MAME-stubok nem bizonyítanak elfogadható választ. Nem támogatott offset hibázik.
+Cold zero projektpolitika (eredeti start/reset üres);reset megtartja a tárolót.
+720896 független bank/lane eset,65536 szóérték,isolation/strict/reset strict
+ASan/UBSan PASS.15 eredeti metódussal720896 összevetés,azonos explicit kezdő-
+állapotból;nem hardveres reset-/busz-/hangelfogadás. Szerződés:
+[meg-register-storage.md](meg-register-storage.md). Helyi117/117 CTest (50,57s),100 Python,strict ASan/UBSan és eredeti
+referencia PASS. Audit612 fájl,notice229 fájl/5 szöveg,diff-check PASS;
+CI sanitizer36 csoport. Saját CI/review függőben. Következő:hostcím/vezérlőoffset bekötés bizonyítékának tisztázása.
+
 ## Leállított ITU TIER-tárolás — jelölt,2026-11-03
 
 Öt TIER önállóan tárolja a három engedélyező bitet,reserved read-oneF8,

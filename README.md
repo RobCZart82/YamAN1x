@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **116 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **117 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,13 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#193](https://github.com/RobCZart82/yaman1x/pull/193),
-`9a56f7ab5acab3d33f64e206cefdd9debe9bcbc8`.
-The merged baseline has **115 CTest groups and 100 Python tests**. All five
-PR-head and main CI jobs passed. Automated code review completed without
-findings on head`d0864c1642eb1ec2e1c38f4afc98c763e5e82bac`;no unresolved
-review threads or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/193#issuecomment-6598885247).
-Current candidate stores stopped-channel TIER enables;test group116 added.
-TSR remains empty;counter start,active flags/events/IRQ delivery remain unsupported.
+Latest merged change:[#194](https://github.com/RobCZart82/yaman1x/pull/194),
+`1e67c1b379aebe0bec94dbac39e9b199adca9d3f`.
+The merged baseline has **116 CTest groups and 100 Python tests**. All five
+PR-head and main CI jobs passed. No automated review result was recorded for
+head`2681fdc5494aa6f8d2c792be406306ffcc40d16b`;no unresolved review threads
+or conflict at merge. Current candidate adds standalone MEG register storage,
+test group117. No MEG CPU mapping,status/control or audio implementation yet.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

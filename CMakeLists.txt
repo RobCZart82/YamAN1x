@@ -402,3 +402,7 @@ add_test(NAME yamanix_an1x_p9_input COMMAND yamanix_an1x_p9_input_check)
 add_executable(yamanix_an1x_itu_tier_check tests/an1x_itu_tier_check.cpp)
 target_include_directories(yamanix_an1x_itu_tier_check PRIVATE src)
 add_test(NAME yamanix_an1x_itu_tier COMMAND yamanix_an1x_itu_tier_check)
+
+add_executable(yamanix_meg_register_storage_check tests/meg_register_storage_check.cpp)
+target_include_directories(yamanix_meg_register_storage_check PRIVATE src)
+add_test(NAME yamanix_meg_register_storage COMMAND yamanix_meg_register_storage_check)
