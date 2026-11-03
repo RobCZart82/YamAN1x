@@ -1,7 +1,46 @@
 # YamAN1x fejlesztési napló
 
+## Native VOP3 register backend — candidate,2026-11-03
+
+Validation: full122/122 CTest PASS (63.57s),then added fault group123
+individually PASS;100 Python PASS. Both new groups strict ASan/UBSan PASS;
+-Wall -Wextra -Werror compilation PASS. Audit628 files,notice229 files/5
+texts,diff-check PASS;CI sanitizer selects42 groups. Native/source bridge
+unchanged. No ROM opened or modified. Own remote CI/review pending.
+
+A noncopyable/nonmovable RAII owner connects the existing ABI2 bridge to the
+standalone full-word host adapter. Both chips belong to one private handle;
+no raw handle escapes. Internal bridge error -3 destroys the handle and later
+calls fail closed. Invalid arguments/masks preserve native state. Construction
+checks ABI2 and allocation. Backend must outlive its referencing host adapter.
+1024 independent coefficient/address/value cases check fixed BE snapshot offsets,
+exact write/read counters,strict read rejection,two-chip and owner isolation;
+32 reconstruction epochs check fresh state and unrelated-owner preservation.
+A separate fault-injected ABI fixture verifies ABI/allocation rejection,four
+internal-error paths,exact destruction and no callbacks after failure. It does
+not simulate a real DSP fault. No samples are advanced,so sample counters remain zero. No clock,CPU bus,
+firmware boot,MIDI,table ROM or audio acceptance is added. Control status remains
+only the explicitly selected firmware-contract experiment from #199.
+The pinned original MAME reference in research/mame-source-lock.json is unchanged;
+this integration reuses the existing project bridge,not a new original-MAME
+method implementation or physical YSS236 proof. Next: explicit CPU word-bus/sink
+routing and bounded firmware diagnostics. Local/remote validation recorded in
+DEVELOPMENT_LOG; own PR CI and automatic review pending.
+
+
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
+
+## VOP3 hostadapter lezárása — 2026-11-03
+
+A #199 beolvadt `6f761b3027f2de27c7321d39c83f6e6e0c8c2e49` commitként.
+Pontos head:`51366589a6828b06c952ff354b7b3fadc62952df`;mind5 CI sikeres.
+Futások:41681455942,41681455958,41681455950. Automatikus kódreview ugyanazon
+headen találat nélkül kész2026-11-03T17:10:43.532192Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619
+Nyitott review-szál vagy konfliktus nincs. Következő:natív VOP3-híd és adapter
+összekötése,lifecycle/metrics/fail-stop tesztekkel,CPU-buszbekötés előtt.
+Új lépés előtt main CI ellenőrzése szükséges;boot/effekt/hang nem elfogadott.
 
 ## VOP3 teljes szavas hostadapter — jelölt,2026-11-03
 

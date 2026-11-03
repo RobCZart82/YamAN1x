@@ -1,17 +1,39 @@
 # Development status
 
+## Native VOP3 register backend — candidate,2026-11-03
+
+A noncopyable/nonmovable RAII owner connects the existing ABI2 bridge to the
+standalone full-word host adapter. Both chips belong to one private handle;
+no raw handle escapes. Internal bridge error -3 destroys the handle and later
+calls fail closed. Invalid arguments/masks preserve native state. Construction
+checks ABI2 and allocation. Backend must outlive its referencing host adapter.
+1024 independent coefficient/address/value cases check fixed BE snapshot offsets,
+exact write/read counters,strict read rejection,two-chip and owner isolation;
+32 reconstruction epochs check fresh state and unrelated-owner preservation.
+A separate fault-injected ABI fixture verifies ABI/allocation rejection,four
+internal-error paths,exact destruction and no callbacks after failure. It does
+not simulate a real DSP fault. No samples are advanced,so sample counters remain zero. No clock,CPU bus,
+firmware boot,MIDI,table ROM or audio acceptance is added. Control status remains
+only the explicitly selected firmware-contract experiment from #199.
+The pinned original MAME reference in research/mame-source-lock.json is unchanged;
+this integration reuses the existing project bridge,not a new original-MAME
+method implementation or physical YSS236 proof. Next: explicit CPU word-bus/sink
+routing and bounded firmware diagnostics. Local/remote validation recorded in
+DEVELOPMENT_LOG; own PR CI and automatic review pending.
+
+
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#198](https://github.com/RobCZart82/yaman1x/pull/198),
-`94bf3fe1e8c708b4a2fa31fd7d4081f080d439db`.
-The merged baseline has **120 CTest groups and 100 Python tests**. All five
-final PR-head/main jobs passed;one confirmed main macOS capacity cancellation
-was retried after workflow completion. Automated code review completed without
-findings on head`7dc0b587d8ae45ef036f26de5f4ecc451486c2fe`;no open threads
-or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/198#issuecomment-6607930821).
-Candidate adds standalone VOP3 full-word host routing,test group121. Native
-bridge and CPU integration remain open;physical MEG status is still unknown.
+Latest merged change:[#199](https://github.com/RobCZart82/yaman1x/pull/199),
+`6f761b3027f2de27c7321d39c83f6e6e0c8c2e49`.
+The merged baseline has **121 CTest groups and 100 Python tests**. All five
+final PR-head and main jobs passed. Automated code review completed without
+findings on head `51366589a6828b06c952ff354b7b3fadc62952df`;no open review
+threads or conflict at merge.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/199#issuecomment-6610502619).
+Candidate connects the native VOP3 bridge to the standalone host adapter,
+test groups122–123. CPU bus integration and physical MEG status remain open.
+[Backend contract](vop3-native-backend.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
