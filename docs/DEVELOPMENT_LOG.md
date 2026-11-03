@@ -1,6 +1,44 @@
 # YamAN1x fejlesztési napló
 
-## Native VOP3 register backend — candidate,2026-11-03
+## VOP3 CPU word-bus integration — candidate,2026-11-03
+
+Validation:124/124 full CTest PASS;100 Python PASS. After the new test
+fixture was extended with wait/reentry cases,it was rebuilt and passed again
+in Release and strict ASan/UBSan;strict compiler PASS. Initial fixture edit
+placed a loop after a const token and failed compilation;fixed before these
+results,no stale-binary pass counted. Audit631 files,notice229 files/5 texts,
+diff-check PASS. CI sanitizer selects43 groups. No ROM accessed.
+
+Explicit optional sink hooks route only full-word data access in canonical
+440000..4400FF and480000..4800FF windows after CPU24-bit normalization.
+Byte/instruction accesses and sinks without opt-in stay strict. Odd addresses
+and unsupported reads reject through the existing adapter. Pure wait query
+uses external area2 only for selected VOP3 words;32 ASTCR/WCER/WCR combinations
+are checked independently. No permissive MMIO fallback added.
+An1xVop3ResearchSink composes LCD/MEG with privately owned native dual VOP3,
+sharing the monotonic sink epoch and fail-stop policy. Upload status defaults
+to reject;the pre-existing firmware-contract experiment requires explicit choice.
+Subset bus reset retains external chips;explicit stopped-owner cold_reset
+reconstructs both chips and the LCD/MEG epoch. No samples are advanced.
+1024 independent coefficient/address/value cases,aliases,counters,read/width/
+opt-in rejection,swallowed reentry,reset/rewind and129 synthetic CPU run cuts
+check the integration. A MOV.W executed by CPU writes a verified BE coefficient.
+No firmware CLI profile change,ROM access,boot/MIDI/audio acceptance or physical
+clock/status proof. Existing pinned original MAME source lock is unchanged;
+this step composes existing project adapters,not a new upstream-method port.
+Next:explicit bounded firmware-probe profile with separate assumption labels.
+Own remote CI/review pending.
+
+
+## #200 merged — 2026-11-03
+
+Merge97e4cf6cf504aec3116510284d2042548bbfa91b;exact tested head
+bcdaec33f8d8704b55e68db994044049c99e4bfb. All five PR checks successful,
+no unresolved review threads or conflict. No automatic review result recorded;
+no successful-review claim. Fresh main pulled. Main CI pending;next step is
+explicit CPU word-bus routing to native VOP3 sink.
+
+## Native VOP3 register backend — historical candidate #200,2026-11-03
 
 Validation: full122/122 CTest PASS (63.57s),then added fault group123
 individually PASS;100 Python PASS. Both new groups strict ASan/UBSan PASS;
@@ -2502,3 +2540,11 @@ elhagyása kontroll seed6/slice5 felismerve. Jelölt:65 CTest/87 Python,512 upst
 Hosszú szó32-eltolással továbbra is nyitott. Linux UBSan kiterjesztve; CI függőben.
 [Szerződés és hatókör](h8-displacement32-memory.md). M0 részleges; firmware/MIDI/hang/plugin
 elfogadás nincs. Yamaha-adat nem került be.
+
+## #200 main infrastructure retry — 2026-11-03
+
+Research run41700030181/job126140567756 was not acquired by hosted runner
+after multiple attempts;annotations explicitly report macOS arm64 capacity.
+After containing workflow completed,requested only that cancelled job retry.
+Retry job126151506376 succeeded;Ubuntu also passed without restart.
+All five main checks now successful. No code failure established.
