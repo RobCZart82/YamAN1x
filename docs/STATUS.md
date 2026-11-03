@@ -2,13 +2,13 @@
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#185](https://github.com/RobCZart82/yaman1x/pull/185),
-`74bd4e0990c02d3b084d40c62e98e71ee343a7c1`.
-The merged baseline has **109 CTest groups and 100 Python tests**;the idle
-TIER/TSR candidate adds group110. All five final CI jobs passed on #185 head
-`adaa6e3d0e7140cdbb149a02a270719a4443f882`. Automated code review completed
-on that head without findings;no open review thread or change request.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/185#issuecomment-6589650975).
+Latest merged change:[#186](https://github.com/RobCZart82/yaman1x/pull/186),
+`d869fa7de2246e1e4001ede06c2288488acb067e`.
+The merged baseline has **110 CTest groups and 100 Python tests**. All five
+PR-head and subsequent main CI jobs passed. Automated code review completed
+without findings on head`0573354bb2be692d45ce8c3eda12645a25faad4c`;
+no unresolved review thread or conflict at merge.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/186#issuecomment-6590790696).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -33,12 +33,13 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. The current candidate supports disabled ITU interrupt enables and empty
-status flags on all five stopped channels. Active counters/events/IRQs remain
-unsupported. The local unchanged-ROM probe completes100000 requested cycles
-without a fault (peripheral horizon100002);this is not accepted firmware boot
-or audio. Local110 CTest/100 Python and targeted ASan/UBSan pass;CI/review pending.
-See [idle ITU scope](an1x-itu-irq-idle.md).
+reset/WAIT/pin-mode limitations remain documented. Merged #186 supports disabled ITU interrupt enables and empty status flags
+on five stopped channels;active timer events/IRQs remain unsupported.
+A longer local unchanged-ROM probe stops on Port B input atFFFFD6,
+PC0x3F666,peripheral cycle482160 with three slice sizes. No boot or audio
+acceptance follows from this observation. Next establish external input wiring
+and protocol evidence before extending the model.
+See [bounded boot diagnostics](an1x-boot-probe.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots

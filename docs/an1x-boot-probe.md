@@ -73,3 +73,24 @@ unchanged input. See [wait profile](an1x-wait-profile.md).
 
 The unchanged BRCRFE profile now reaches0xFFFFAC/PC0xA18/cycle116,with64 completed
 slice cycles and unchanged input. See [BRCR contract](an1x-bus-release.md).
+
+## Hosszabb boot-diagnosztika — 2026-11-03
+
+A #186 utáni main mind5 CI-ellenőrzése sikeres. Változatlan1.04 ROM,privát
+swap16,10000000 kért ciklus,1000000 callback-limit mellett a próba482160.
+perifériaciklusnál megáll:byte data_readFFFFD6 (Port B),PC0x3F666,
+instruction_state1864224/substate0. Szeletméret1/64/257 esetén azonos fault,
+PC és perifériaidő;teljes visszatért szeletciklus rendre482158/482112/482132,
+callback739440/116288/104976.9 GPIO,0 TX/clock él. A hibás szelet munkája nem
+szerepel a completed_slice számlálóban,ezért ezek eltérése önmagában nem hiba.
+Ez diagnosztikai részprofil,nem firmware-boot-,hardver- vagy hangelfogadás.
+
+Rögzített eredeti MAME706dbb73281320c54d7c2f16262c1c3786f2be01,
+h83002.cpp132. sor:FFFFD6 portb port_r/dr_w;159. sor utáni konfiguráció
+PORT_B,resetDDR00,mask00. Ellenőrzött privát archívumpillanatképből olvasva.
+A chipcímtér nem bizonyítja az AN1x külső huzalozását vagy bemeneti értékét.
+Következő:Port B külső eszköz/protokoll szerződés vizsgálata meglévő kutatási
+forrásokból,majd explicit bemeneti modell és független tesztek. A hibajelzést
+nem oldjuk fel bizonyítatlan fix bemenettel. ROM SHA előtte/utána azonos:
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+

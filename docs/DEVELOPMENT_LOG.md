@@ -3,6 +3,37 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Hosszabb boot-diagnosztika — 2026-11-03
+
+A #186 utáni main mind5 CI-ellenőrzése sikeres. Változatlan1.04 ROM,privát
+swap16,10000000 kért ciklus,1000000 callback-limit mellett a próba482160.
+perifériaciklusnál megáll:byte data_readFFFFD6 (Port B),PC0x3F666,
+instruction_state1864224/substate0. Szeletméret1/64/257 esetén azonos fault,
+PC és perifériaidő;teljes visszatért szeletciklus rendre482158/482112/482132,
+callback739440/116288/104976.9 GPIO,0 TX/clock él. A hibás szelet munkája nem
+szerepel a completed_slice számlálóban,ezért ezek eltérése önmagában nem hiba.
+Ez diagnosztikai részprofil,nem firmware-boot-,hardver- vagy hangelfogadás.
+
+Rögzített eredeti MAME706dbb73281320c54d7c2f16262c1c3786f2be01,
+h83002.cpp132. sor:FFFFD6 portb port_r/dr_w;159. sor utáni konfiguráció
+PORT_B,resetDDR00,mask00. Ellenőrzött privát archívumpillanatképből olvasva.
+A chipcímtér nem bizonyítja az AN1x külső huzalozását vagy bemeneti értékét.
+Következő:Port B külső eszköz/protokoll szerződés vizsgálata meglévő kutatási
+forrásokból,majd explicit bemeneti modell és független tesztek. A hibajelzést
+nem oldjuk fel bizonyítatlan fix bemenettel. ROM SHA előtte/utána azonos:
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+## ITU üres státuszprofil lezárása — 2026-11-03
+
+A #186 beolvadt `d869fa7de2246e1e4001ede06c2288488acb067e` commitként.
+Pontos head:`0573354bb2be692d45ce8c3eda12645a25faad4c`;mind5 CI sikeres.
+Futások:41542980274,41542980458,41542980204. Automatikus kódreview találat
+nélkül kész ugyanazon headen2026-11-02T23:09:25.034545Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/186#issuecomment-6590790696
+Nyitott review-szál és konfliktus nincs. Friss mainből következő kutatás:
+ellenőrizhető boot-checkpoint és hosszabb korlátos diagnosztika;100000 ciklus
+önmagában továbbra nem boot- vagy hangelfogadás. A main mind5 CI-ellenőrzése is sikeres.
+
 ## ITU megszakítások letiltott állapota — jelölt,2026-11-03
 
 Öt TIER csak letiltott IRQ-profilt fogad:32 raw elfogadott/224 tiltott érték
