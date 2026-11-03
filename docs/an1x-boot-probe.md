@@ -103,3 +103,10 @@ Append `lcd-16mhz` to explicitly connect the headless LCD at16 cycles/us.
 JSON reports lcd_profile;default is disabled. This remains a bounded diagnostic,
 not hardware boot acceptance. New stop and ownership/reset limits are documented
 in [LCD machine integration](an1x-lcd-machine.md).
+
+## Explicit MEG write observation — 2026-11-03
+
+Profile lcd-meg-observe-16mhz opts into canonical MEG byte writes,including
+explicitly observed original logging-only controls. JSON adds meg_observed_controls.
+No status reads are supplied. Default and lcd-16mhz remain strict for MEG.
+See [ownership,tests and next stop](an1x-meg-research.md).

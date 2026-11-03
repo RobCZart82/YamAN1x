@@ -5,6 +5,27 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## MEG megfigyelő buszprofil — jelölt,2026-11-03
+
+MEG külső byte write csak explicit sink opt-in mellett a400000..40003F
+szűk ablakban továbbítható;a hostadapter továbbra ellenőrzi az odd lane/offsetet.
+Read/word/instruction továbbra strict,nincs generikus MMIO-fallback.
+A tiszta enable-query mellett area2 ASTCR/WCR/WCER időzítés használatos,
+24-bit alias költséggel együtt. An1xMegResearchSink saját MEG-tárolót birtokol,
+közös LCD/MEG idő- és fail-stop epochot használ;subset reset megtartja,külön
+cold_reset újraépíti. Probe csak új explicit lcd-meg-observe-16mhz módban
+kapcsolja be;a régi alap/lcd profil nem változik. meg_observed_controls számláló
+csak log-only megfigyelés,nem parancshatás vagy működő effekt.
+
+256 bank/control,alias/wait/reset/strict/poison és129 CPU-felosztás strict
+ASan/UBSan PASS. CLI explicit/profilnegatív és olvasási hibakontroll PASS.
+Változatlan helyi ROM4096/1000000 szelettel:négy megfigyelt vezérlőírás után
+azonos stop400005 byte read,PC0xDA0C,perifériaciklus10814942,6316 GPIO,
+0 TX/clock él. Nincs fake MEG-ready és boot/hangelfogadás.
+Szerződés:[an1x-meg-research.md](an1x-meg-research.md). Helyi119/119 CTest (71,81s),100 Python,strict célzott ASan/UBSan PASS.
+Audit618 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer38 csoport.
+Saját CI/review függőben. Következő a MEG státusz-szerződés bizonyítékának vizsgálata.
+
 ## MEG hostcím-adapter — jelölt,2026-11-03
 
 A helyi szervizrajz51.PDF-oldalán IC10 MEG A0..A4 a CPU A1..A5 hálózataira

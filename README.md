@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **118 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **119 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,14 +35,13 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#195](https://github.com/RobCZart82/yaman1x/pull/195),
-`1c5d35fcaa0110cbae0dab6f280f0020b24105e7`.
-The merged baseline has **117 CTest groups and 100 Python tests**. All five
-final PR-head and main jobs passed;one confirmed hosted-macOS capacity
-cancellation was retried after the workflow completed. No automated review
-result recorded for head`d2f9dfec15e3fabc102a21164453bb1441ff6a3c`;
-no unresolved review thread/conflict at merge. Candidate adds standalone MEG
-canonical host write adapter,test group118;CPU/probe integration remains open.
+Latest merged change:[#196](https://github.com/RobCZart82/yaman1x/pull/196),
+`7e93410925450aa1715a65fca9babba395bd9128`.
+The merged baseline has **118 CTest groups and 100 Python tests**. All five
+PR-head and main CI jobs passed. No automated review result recorded for
+head`651cad9f8d72210479484d2477b3ef94cd552a18`;no unresolved review
+thread/conflict at merge. Candidate adds explicit observational MEG byte-write
+bus/probe integration,test group119. Unknown read/status/word access stays strict.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -69,10 +68,11 @@ Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
 reset/WAIT/pin-mode limitations remain documented. Merged #186 introduced disabled ITU interrupt enables and empty status flags
 on five stopped channels;active timer events/IRQs remain unsupported.
-With stopped TIER storage,the unchanged local firmware next stops on byte
-write400007,PC0xD9F2,cycle9555129 with two slice sizes. No complete boot/audio
-acceptance. Next inspect that peripheral in the pinned original machine map.
-See [stopped TIER scope](docs/an1x-itu-tier-stopped.md).
+With the explicit MEG-observation candidate profile,the unchanged local firmware
+passes four control writes then stops on status read400005,PC0xDA0C,
+cycle10814942 with two slice sizes. No fabricated readiness,complete boot/audio
+or effects acceptance. Next inspect the actual MEG status/handshake contract.
+See [MEG research integration](docs/an1x-meg-research.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)

@@ -33,6 +33,7 @@ private:
         uint64_t cycle=0;bool failed=false;
         explicit State(uint64_t scale):controller(scale),gpio(controller){}
     };
+protected:
     template<class F>auto access(uint64_t cycle,F operation) -> decltype(operation()){
         if(state_->failed)throw std::logic_error("Failed LCD sink epoch");
         try{
@@ -40,6 +41,7 @@ private:
             state_->cycle=cycle;return operation();
         }catch(...){state_->failed=true;throw;}
     }
+private:
     uint64_t scale_;
     std::unique_ptr<State> state_;
 };
