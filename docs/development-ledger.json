@@ -2715,20 +2715,42 @@
       "review_completed_at_utc": "2026-11-03T00:45:49.831659Z",
       "review_threads_at_merge": 0,
       "research_build": "not_triggered_documentation_only"
+    },
+    {
+      "pr": 188,
+      "title": "Add isolated LCD GPIO controller adapter with timed transfers",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/188",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "93e4180be0948501845ccc7303b7b53008fa271d",
+      "reviewed_head": "e9eb1cefae3078ab56c9b5572f8607a4619b00e4",
+      "ci_runs": [
+        41562056261,
+        41562056282,
+        41562056303
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/port-b-input-contract",
+    "branch": "research/lc7985-controller-contract",
     "status": "locally_validated_candidate",
-    "scope": "Isolated LCD GPIO/controller adapter;controller supplied explicitly,not implemented or connected to boot probe",
-    "targeted_asan_ubsan": "passed_512_byte_rs_cases",
+    "scope": "Standalone LC7985 busy clock;explicit scale,no controller or machine connection",
+    "targeted_asan_ubsan": "passed_768_command_rate_cases_10001_partitions",
     "ci": "pending",
     "automated_review": "pending",
+    "original_reference": {
+      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "path": "src/devices/video/lc7985.cpp",
+      "sha256": "29370236ef63d52d5c4ba87873af401c84cf1766fa56d023d531aa06b280a8f0",
+      "runtime_differential": false
+    },
     "validation": {
-      "ctest_groups_passed": 111,
+      "ctest_groups_passed": 112,
       "python_tests_passed": 100,
-      "source_audit_files": 592,
-      "sanitizer_ci_groups": 30
+      "source_audit_files": 595,
+      "sanitizer_ci_groups": 31
     }
   },
   "pending_changes": []
