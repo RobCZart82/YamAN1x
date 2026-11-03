@@ -2,15 +2,16 @@
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#197](https://github.com/RobCZart82/yaman1x/pull/197),
-`d7f08c1eee2ebf306cd35aeaa9b26434b0913e41`.
-The merged baseline has **119 CTest groups and 100 Python tests**. All five
-PR-head and main CI jobs passed. Automated code review completed without
-findings on head`a45dc7c595c091bae5111feb648f479ce5ec1267`;no unresolved
-review threads/conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/197#issuecomment-6606002728).
-Candidate adds a separate explicit original-MAME zero-read stub experiment,
-test group120. Physical MEG status/handshake remains unimplemented and unverified.
+Latest merged change:[#198](https://github.com/RobCZart82/yaman1x/pull/198),
+`94bf3fe1e8c708b4a2fa31fd7d4081f080d439db`.
+The merged baseline has **120 CTest groups and 100 Python tests**. All five
+final PR-head/main jobs passed;one confirmed main macOS capacity cancellation
+was retried after workflow completion. Automated code review completed without
+findings on head`7dc0b587d8ae45ef036f26de5f4ecc451486c2fe`;no open threads
+or conflict at merge.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/198#issuecomment-6607930821).
+Candidate adds standalone VOP3 full-word host routing,test group121. Native
+bridge and CPU integration remain open;physical MEG status is still unknown.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
