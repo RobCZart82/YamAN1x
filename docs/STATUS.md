@@ -1,5 +1,33 @@
 # Development status
 
+## Native VOP3 firmware-probe profile — candidate,2026-11-03
+
+New explicit lcd-meg-vop3-register-experiment-16mhz profile combines LCD16MHz,
+original MEG zero-read stubs and experimental firmware upload control with the
+native register-only dual VOP3 sink. Older profiles remain strict at VOP3.
+JSON names the profile and reports per-chip writes/reads/sample_passes plus
+audio_accepted=false;metrics availability is explicit (null counters if a native
+handle failed),preserving the original execution-stop diagnosis;firmware_boot_accepted remains false. No DSP sample is
+advanced;the model48kHz assumption is not silently applied to the CPU clock.
+Synthetic CLI tests cover both chips,upload command,three slices,old-profile
+rejection and unsupported read/byte faults,with unchanged input hashes.
+
+Read-only local1.04 ROM (SHA2564f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe)
+with swap16,100M cycles/20M callback cap and4096/1000000 slices yields identical
+physical stop:cycle11260853,PC345720(0x54678),data_read440044 word,
+error Unimplemented VOP3 register read. Native writes[10236,0],reads[0,0],
+sample_passes[0,0],MEG controls5/status_reads1,GPIO6316,TX/clock0.
+Completed-slice cycles11259904/11000000 and callbacks1886465/1839738 differ by
+slice boundary as designed;they exclude work committed in the failed slice.
+ROM SHA unchanged before/after. Counts show accepted core callbacks,not all
+register semantics implemented or hardware-equivalent DSP program acceptance.
+The next blocker is reg22 readback evidence/selected-index/timing semantics;
+no zero fallback or undocumented ready response added. Existing bridge has an
+experimental EG-readback path,but this profile deliberately keeps it disabled.
+Pinned original MAME source lock unchanged;this is project integration,not new
+original-method code. No boot,MIDI or audio acceptance. Own CI/review pending.
+
+
 ## VOP3 CPU word-bus integration — candidate,2026-11-03
 
 Explicit optional sink hooks route only full-word data access in canonical
@@ -47,15 +75,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#200](https://github.com/RobCZart82/yaman1x/pull/200),
-`97e4cf6cf504aec3116510284d2042548bbfa91b`.
-The merged baseline has **123 CTest groups and 100 Python tests**. All five
-PR-head/main checks passed. One confirmed main macOS hosted-capacity cancellation
-was retried only after its workflow completed;the retry passed. No automatic
-review result recorded;no open review threads or conflict at merge.
-Candidate adds explicit VOP3 word-bus/native-sink integration,test group124.
-Firmware probe integration,physical MEG status and audio remain open.
-[Bus composition contract](an1x-vop3-research.md).
+Latest merged change:[#201](https://github.com/RobCZart82/yaman1x/pull/201),
+`91f0e7cf05efd054aee5e454940b77d0a17beb61`.
+The merged baseline has **124 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed. No automatic review result recorded;no open
+review threads or conflict at merge.
+Candidate adds an explicit native VOP3 register-only firmware probe profile.
+Local unchanged1.04 ROM performs10236 chip0 writes,then stops at unimplemented
+word read440044;two slices agree on PC/cycle. No boot or audio acceptance.
+[Probe evidence and assumptions](an1x-vop3-firmware-probe.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

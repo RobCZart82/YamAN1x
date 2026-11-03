@@ -2966,24 +2966,68 @@
         41694251103,
         41694251122
       ]
+    },
+    {
+      "pr": 201,
+      "title": "Route explicit VOP3 word accesses through native research sink",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/201",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "91f0e7cf05efd054aee5e454940b77d0a17beb61",
+      "reviewed_head": "dfd6ba01a51dce0e335b0fb2f66fa331c82045a9",
+      "ci_runs": [
+        41706757086,
+        41706757211,
+        41706757071
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/vop3-word-bus-routing",
+    "branch": "feat/vop3-firmware-probe-profile",
     "status": "candidate",
-    "scope": "Explicit optional word bus hooks and native research sink; no firmware probe or audio",
+    "scope": "Explicit register-only VOP3 firmware probe; MEG zero stubs and upload experiment labelled",
+    "observation": {
+      "profile": "lcd-meg-vop3-register-experiment-16mhz",
+      "peripheral_cycle": 11260853,
+      "pc": 345720,
+      "fault_address": 4456516,
+      "fault_width": 2,
+      "vop3_writes": [
+        10236,
+        0
+      ],
+      "vop3_reads": [
+        0,
+        0
+      ],
+      "vop3_sample_passes": [
+        0,
+        0
+      ],
+      "rom_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "slices": [
+        4096,
+        1000000
+      ]
+    },
+    "remote_ci": "pending",
+    "automatic_review": "pending",
     "validation": {
-      "address_value_cases": 1024,
-      "wait_profiles": 32,
-      "cpu_split_cases": 129,
-      "remote_ci": "pending",
-      "automatic_review": "pending",
+      "ctest": "124/124 PASS;final CLI targeted PASS",
+      "python": 100,
       "targeted_asan_ubsan": "PASS",
       "strict_compile": "PASS",
-      "audit_files": 631,
-      "ci_sanitizer_groups": 43,
-      "ctest": "124/124 PASS;extended fixture rebuilt/targeted PASS",
-      "python": 100
+      "audit_files": 632,
+      "rom_hash_before_after": "unchanged",
+      "final_probe_slices": [
+        4096,
+        1000000
+      ]
     }
   },
   "pending_changes": []
