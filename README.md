@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **111 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **112 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,13 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#187](https://github.com/RobCZart82/yaman1x/pull/187),
-`cddf9afa7cad0e23c45e66223b4cf87f31d27c1d`.
-The merged baseline has **110 CTest groups and 100 Python tests**. All four
-applicable #187 PR-head and main jobs passed;research build was not triggered
-for documentation-only paths. Code review completed without findings on head
-`6ac84539108e9c567a8d79f715bbae21bb9a287c`;no unresolved threads at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/187#issuecomment-6592328238).
-Current candidate adds an isolated LCD GPIO/controller adapter and test group111.
-Controller busy/memory/timing implementation and machine integration remain open.
+Latest merged change:[#188](https://github.com/RobCZart82/yaman1x/pull/188),
+`93e4180be0948501845ccc7303b7b53008fa271d`.
+The merged baseline has **111 CTest groups and 100 Python tests**. All five
+PR-head and main CI jobs passed. No automated review result was recorded for
+head`e9eb1cefae3078ab56c9b5572f8607a4619b00e4`;no unresolved review threads
+or conflict at merge. Current candidate adds standalone LCD busy timing and
+test group112. Controller memory/state and machine/probe integration remain open.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

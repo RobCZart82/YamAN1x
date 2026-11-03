@@ -3,6 +3,32 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## LC7985 busy-óra — jelölt,2026-11-03
+
+Önálló időkomponens:reset10000µs,beküldött utasítás busy alatt teljesen
+figyelmen kívül hagyandó;00 nem indít busy-t,01/02/03=16400µs,minden04..FF
+utasítás40µs a rögzített eredeti MAME ir_w prioritása alapján. Adathozzáférés
+nem használja ezt az API-t;az eredeti dr_r/dr_w nem indít busy-t.
+Explicit egész ciklus/µs skála,határpillanatban kész,monoton idő,overflow
+előzetes elutasítás állapotváltozás nélkül. Nincs LCD-memória vagy teljes
+vezérlő/probe-integráció;ez még nem oldja fel a Port B boot-megállást.
+768 parancs/skála eset,10001 időfelosztás,reset/határ/overflow strict ASan/UBSan
+PASS. Rögzített eredeti LC7985 teljes fájlhash ellenőrizve,aktív differenciál
+nem készült. Szerződés:[lc7985-busy-clock.md](lc7985-busy-clock.md).
+Saját CI/review függőben;következő a vezérlő állapot/memória szerződése.
+Helyi112/112 CTest (50,86s),100 Python,strict ASan/UBSan PASS.
+Forrásaudit595 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer31 csoport.
+
+## LCD GPIO adapter lezárása — 2026-11-03
+
+A #188 beolvadt `93e4180be0948501845ccc7303b7b53008fa271d` commitként.
+Pontos head:`e9eb1cefae3078ab56c9b5572f8607a4619b00e4`;mind5 CI sikeres.
+Futások:41562056261,41562056282,41562056303. Automatikus review-eredmény
+nem rögzített;nem állítunk sikeres automatikus review-t. Formális review és
+nyitott review-szál nincs,konfliktus nincs,GitHub merge-state clean.
+Következő:LC7985 vezérlőállapot/busy ciklusszerződés a rögzített eredetiből,
+majd kis tesztelt implementáció;előbb main CI ellenőrzése.
+
 ## LCD GPIO–vezérlő adapter — jelölt,2026-11-03
 
 A meglévő LcdBus bekötést ciklusjelölt vezérlőhívásokhoz kapcsoló önálló
