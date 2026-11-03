@@ -31,3 +31,7 @@ no CPU fault. firmware_boot_accepted remains false. This bounded observation
 proves neither meaningful boot progress nor audio. No ROM bytes are exported.
 Next establish a boot checkpoint/longer bounded diagnostic and required input
 or missing-device evidence before extending active peripherals.
+
+Follow-up stopped TIER storage supersedes the disabled-only restriction:
+[an1x-itu-tier-stopped.md](an1x-itu-tier-stopped.md). TSR remains empty and
+TSTR/counter start remains unsupported;active IRQ acceptance is still open.

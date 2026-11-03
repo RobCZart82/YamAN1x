@@ -398,3 +398,7 @@ add_test(NAME yamanix_an1x_lcd_machine COMMAND yamanix_an1x_lcd_machine_check)
 add_executable(yamanix_an1x_p9_input_check tests/an1x_p9_input_check.cpp)
 target_include_directories(yamanix_an1x_p9_input_check PRIVATE src)
 add_test(NAME yamanix_an1x_p9_input COMMAND yamanix_an1x_p9_input_check)
+
+add_executable(yamanix_an1x_itu_tier_check tests/an1x_itu_tier_check.cpp)
+target_include_directories(yamanix_an1x_itu_tier_check PRIVATE src)
+add_test(NAME yamanix_an1x_itu_tier COMMAND yamanix_an1x_itu_tier_check)

@@ -3,6 +3,36 @@
 Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
 
+## Leállított ITU TIER-tárolás — jelölt,2026-11-03
+
+Öt TIER önállóan tárolja a három engedélyező bitet,reserved read-oneF8,
+resetF8. Minden1280 csatorna/raw kombináció elfogadott és visszaolvasható.
+Ez konfigurációtárolás,nem aktív ITU IRQ-szolgáltatás:TSTR továbbra tiltott,
+TSR üres,nincs counter/capture/event ami flaget vagy IRQ-t kelthetne.
+Az eredeti tier_update m_tier|F8,IER A/B/V megfeleltetés és üres ISR alapján;
+a számlálóindítás vagy külső esemény támogatása előtt aktív flag/IRQ kell.
+A régi idle-teszt tiltáselvárását tároláselvárás váltja,de disabled/reset/status/
+word kontrolljai megmaradnak. Új1280 érték,owner/reset/time/start-negatív és129
+CPU-felosztás strict ASan/UBSan PASS.1280 eredeti TIER/üres-TSR összevetés PASS.
+
+Változatlan helyi ROM,100000000 ciklus/20000000 callback,lcd-16mhz,
+4096/1000000 szelet:következő stop400007 byte write,PC0xD9F2,
+perifériaciklus9555129,6316 GPIO,0 TX/clock él. Nem boot vagy hangelfogadás.
+Szerződés:[an1x-itu-tier-stopped.md](an1x-itu-tier-stopped.md). Helyi116/116 CTest (85,95s),100 Python,strict célzott ASan/UBSan és
+eredeti referencia PASS. Audit608 fájl,notice229 fájl/5 szöveg,diff-check PASS;
+CI sanitizer35 csoport. Saját CI/review függőben. Következő a400007 periféria eredeti címtér-szerződése.
+
+## Firmware-diagnosztika lezárása — 2026-11-03
+
+A #193 beolvadt `9a56f7ab5acab3d33f64e206cefdd9debe9bcbc8` commitként.
+Pontos head:`d0864c1642eb1ec2e1c38f4afc98c763e5e82bac`;mind5 CI sikeres.
+Futások:41603324777,41603324735,41603324731. Automatikus kódreview ugyanazon
+headen találat nélkül kész2026-11-03T08:27:56.524295Z-kor:
+https://github.com/RobCZart82/yaman1x/pull/193#issuecomment-6598885247
+Nyitott review-szál vagy konfliktus nincs. Következő:TIER4 IRQ-engedély és
+szükséges ITU flag/aktív állapot szerződésének vizsgálata rögzített eredetiből.
+Új lépés előtt main CI ellenőrzése szükséges;boot/hang továbbra nem elfogadott.
+
 ## Firmware-próba:korlát és valódi ITU-stop — jelölt,2026-11-03
 
 A probe callback-korlátja továbbra explicit és véges,de legfeljebb20000000

@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **115 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **116 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,15 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#192](https://github.com/RobCZart82/yaman1x/pull/192),
-`8d53be572aab80db6bda2f9629366002b252bc2d`.
+Latest merged change:[#193](https://github.com/RobCZart82/yaman1x/pull/193),
+`9a56f7ab5acab3d33f64e206cefdd9debe9bcbc8`.
 The merged baseline has **115 CTest groups and 100 Python tests**. All five
 PR-head and main CI jobs passed. Automated code review completed without
-findings on head`23dd23fba4d221b7e413e2377282745a458de94f`;no unresolved
+findings on head`d0864c1642eb1ec2e1c38f4afc98c763e5e82bac`;no unresolved
 review threads or conflict at merge.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/192#issuecomment-6597624180).
-Current candidate distinguishes callback exhaustion from execution errors and
-allows an explicit finite20000000 callback cap;no CPU or peripheral change.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/193#issuecomment-6598885247).
+Current candidate stores stopped-channel TIER enables;test group116 added.
+TSR remains empty;counter start,active flags/events/IRQ delivery remain unsupported.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -68,13 +68,12 @@ pending RX. #169 coordinates CPU/bus subset reset at debt-free stopped boundarie
 with separate reset count/relative time and fail-stop reentry handling.
 Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
-reset/WAIT/pin-mode limitations remain documented. Merged #186 supports disabled ITU interrupt enables and empty status flags
+reset/WAIT/pin-mode limitations remain documented. Merged #186 introduced disabled ITU interrupt enables and empty status flags
 on five stopped channels;active timer events/IRQs remain unsupported.
-With the larger bounded guard,the unchanged local firmware stops on unsupported
-TIER4 IRQ enable atFFFF94,PC0x40A62,cycle8798299 with two slice sizes.
-This is the next real device boundary;no complete boot or audio acceptance.
-Next inspect ITU flag/interrupt requirements using the pinned original reference.
-See [firmware diagnostics](docs/an1x-firmware-event-diagnostics.md).
+With stopped TIER storage,the unchanged local firmware next stops on byte
+write400007,PC0xD9F2,cycle9555129 with two slice sizes. No complete boot/audio
+acceptance. Next inspect that peripheral in the pinned original machine map.
+See [stopped TIER scope](docs/an1x-itu-tier-stopped.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 See the [development plan through the first sound in REAPER (Hungarian)](docs/FIRST_REAPER_SOUND_PLAN.md)
