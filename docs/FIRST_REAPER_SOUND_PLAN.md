@@ -5,6 +5,27 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## Explicit eredeti MEG-stub státuszkísérlet — jelölt,2026-11-03
+
+MEG fizikai státusz/kézfogás szerződés továbbra ismeretlen. Rögzített eredeti
+MAME s2_r/s10_r/s11_r mind00-t adó log-stub,nem ready-bit modell.
+Ezért csak új explicit lcd-meg-source-stubs-16mhz profil kapcsolja a három
+kanonikus olvasást00-ra,számlált megfigyeléssel. Alap/lcd/write-observe profil
+szigorú marad;minden más read/word továbbra hibázik. Nincs fizikai vagy audio-
+elfogadás.768 policy/read,lyuk/alias/word/reset/isolation és129 CPU-felosztás
+strict ASan/UBSan PASS;768 eredeti zero-read összevetés PASS.
+
+Ideiglenes,repo-n kívüli kontrollban00 válasszal VOP3-ig jut,FF állandó
+válasszal100M ciklusig várakozó útvonal marad;ez nem mért hardveres válasz.
+Új explicit profil:4096/1000000 szeletnél egy stubolvasás/öt vezérlőmegfigyelés
+után azonos440002 word write stop,perifériaciklus10832302,PC353780,
+6316 GPIO,0 TX/clock él. ROM változatlan. Szerződés:
+[meg-source-status-experiment.md](meg-source-status-experiment.md).
+Helyi120/120 CTest (62,25s),100 Python,strict ASan/UBSan és eredeti referencia
+PASS. Audit621 fájl,notice229 fájl/5 szöveg,diff-check PASS;CI sanitizer39 csoport.
+Saját CI/review függőben. Következő:VOP3-host kapcsolat
+kutatása;MEG fizikai státuszhoz külön elsődleges specifikáció/mérés szükséges.
+
 ## MEG megfigyelő buszprofil — jelölt,2026-11-03
 
 MEG külső byte write csak explicit sink opt-in mellett a400000..40003F

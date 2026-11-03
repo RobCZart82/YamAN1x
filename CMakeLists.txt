@@ -414,3 +414,7 @@ add_test(NAME yamanix_meg_host_write_adapter COMMAND yamanix_meg_host_write_adap
 add_executable(yamanix_an1x_meg_research_check tests/an1x_meg_research_check.cpp)
 target_include_directories(yamanix_an1x_meg_research_check PRIVATE src)
 add_test(NAME yamanix_an1x_meg_research COMMAND yamanix_an1x_meg_research_check)
+
+add_executable(yamanix_meg_source_status_check tests/meg_source_status_check.cpp)
+target_include_directories(yamanix_meg_source_status_check PRIVATE src)
+add_test(NAME yamanix_meg_source_status COMMAND yamanix_meg_source_status_check)

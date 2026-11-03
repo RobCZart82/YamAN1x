@@ -2,13 +2,15 @@
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#196](https://github.com/RobCZart82/yaman1x/pull/196),
-`7e93410925450aa1715a65fca9babba395bd9128`.
-The merged baseline has **118 CTest groups and 100 Python tests**. All five
-PR-head and main CI jobs passed. No automated review result recorded for
-head`651cad9f8d72210479484d2477b3ef94cd552a18`;no unresolved review
-thread/conflict at merge. Candidate adds explicit observational MEG byte-write
-bus/probe integration,test group119. Unknown read/status/word access stays strict.
+Latest merged change:[#197](https://github.com/RobCZart82/yaman1x/pull/197),
+`d7f08c1eee2ebf306cd35aeaa9b26434b0913e41`.
+The merged baseline has **119 CTest groups and 100 Python tests**. All five
+PR-head and main CI jobs passed. Automated code review completed without
+findings on head`a45dc7c595c091bae5111feb648f479ce5ec1267`;no unresolved
+review threads/conflict at merge.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/197#issuecomment-6606002728).
+Candidate adds a separate explicit original-MAME zero-read stub experiment,
+test group120. Physical MEG status/handshake remains unimplemented and unverified.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
@@ -35,11 +37,11 @@ Merged #170 adds boot diagnostics;#171–173 add constrained ABWCR,ASTCR and
 programmed WCR/WCER profiles with checked2..6-cycle access costs. Physical
 reset/WAIT/pin-mode limitations remain documented. Merged #186 introduced disabled ITU interrupt enables and empty status flags
 on five stopped channels;active timer events/IRQs remain unsupported.
-With the explicit MEG-observation candidate profile,the unchanged local firmware
-passes four control writes then stops on status read400005,PC0xDA0C,
-cycle10814942 with two slice sizes. No fabricated readiness,complete boot/audio
-or effects acceptance. Next inspect the actual MEG status/handshake contract.
-See [MEG research integration](an1x-meg-research.md).
+The separate source-stub candidate profile reaches VOP3 word write440002 at
+cycle10832302. Existing observational/default profiles remain strict on MEG reads.
+No physical MEG readiness,complete boot,audio or effects acceptance follows.
+Next inspect VOP3 host integration;MEG status needs independent specification/capture.
+See [source-stub experiment](meg-source-status-experiment.md).
 One PR at a time;candidate validation and CI/review are separate gates.
 
 ## Historical status snapshots
