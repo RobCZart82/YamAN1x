@@ -5,6 +5,21 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## LCD GPIO–vezérlő adapter — jelölt,2026-11-03
+
+A meglévő LcdBus bekötést ciklusjelölt vezérlőhívásokhoz kapcsoló önálló
+adapter készült. PA/PB/P9 kimeneti szinteket fogad,status/data readet E-felfutás,
+command/data writeot E-lefutás indít;azonos szint nem ismétel tranzakciót.
+Olvasott érték latchelt;nem LCD-bemenet hibázik,más portkimenet kezeletlenként
+jelzett. A busy flag,memória és időkonverzió a későbbi vezérlő feladata.
+512 független bájt/RS eset,él/latchelt adat/idő/routing ellenőrzés strict
+ASan/UBSan alatt PASS. A fake vezérlő csak tesztfixture,nem LCD-emuláció.
+Nincs firmware-probe bekötés vagy új bootelfogadás. Következő:LC7985 állapot/
+busy időzítés szerződés a rögzített eredeti forrásból,majd integráció.
+Szerződés:[an1x-lcd-gpio.md](an1x-lcd-gpio.md). CI/review függőben.
+Helyi111/111 CTest (78,59s),100 Python,ASan/UBSan PASS;sanitizer CI30 csoport.
+Forrásaudit592 fájl,notice229 fájl/5 szöveg és diff-check PASS.
+
 ## Hosszabb boot-diagnosztika — 2026-11-03
 
 A #186 utáni main mind5 CI-ellenőrzése sikeres. Változatlan1.04 ROM,privát
