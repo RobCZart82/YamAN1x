@@ -2731,26 +2731,45 @@
       ],
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 189,
+      "title": "Add bounded LC7985 busy timing with checked cycle deadlines",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/189",
+      "kind": "engine-integration",
+      "status": "merged",
+      "merge_commit": "d95364222f124ba6cec967de50f7b3427a0ff086",
+      "reviewed_head": "8cb6d09029aa55d9d33ef38246352e45088a9614",
+      "ci_runs": [
+        41570074733,
+        41570074872,
+        41570074684
+      ],
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/lc7985-controller-contract",
+    "branch": "feat/lc7985-controller-state",
     "status": "locally_validated_candidate",
-    "scope": "Standalone LC7985 busy clock;explicit scale,no controller or machine connection",
-    "targeted_asan_ubsan": "passed_768_command_rate_cases_10001_partitions",
+    "scope": "Headless LCD controller address/mode/memory;no machine or probe integration",
     "ci": "pending",
     "automated_review": "pending",
-    "original_reference": {
+    "targeted_asan_ubsan": "passed_114688_memory_cases",
+    "original_runtime_reference": {
       "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "path": "src/devices/video/lc7985.cpp",
       "sha256": "29370236ef63d52d5c4ba87873af401c84cf1766fa56d023d531aa06b280a8f0",
-      "runtime_differential": false
+      "unchanged_methods": 9,
+      "operations_compared": 50000,
+      "scope": "safe address profile only",
+      "result": "passed"
     },
     "validation": {
-      "ctest_groups_passed": 112,
+      "ctest_groups_passed": 113,
       "python_tests_passed": 100,
-      "source_audit_files": 595,
-      "sanitizer_ci_groups": 31
+      "source_audit_files": 599,
+      "sanitizer_ci_groups": 32
     }
   },
   "pending_changes": []
