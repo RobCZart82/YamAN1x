@@ -5,6 +5,19 @@ Ez végrehajtási terv; az alábbi, még nyitott mérföldkövek nem kész funkc
 Állapotellenőrzés:2026-10-30,motoralap:#143 (`301eec75c72028b8f377ee4e099fce0b1df4de5e`).
 A működő H8H-részhalmaz nem teljes CPU- vagy firmware-elfogadás.
 
+## ITU megszakítások letiltott állapota — jelölt,2026-11-03
+
+Öt TIER csak letiltott IRQ-profilt fogad:32 raw elfogadott/224 tiltott érték
+csatornánként. Öt TSR üres jelzőállapotot ad;mind256 írás utánF8 marad,
+szoftver nem állíthat flaget. TSTR tiltott,nincs aktív counter/event/IRQ.
+Gyártói10.2.12–13 és rögzített eredeti tier_update/isr_update/isr_to_sr alapján.
+2560 értékeset,alias/reset/no-effect/word és129 CPU-vágás ellenőrizve.
+Helyi validáció:110/110 CTest (60,27s),100 Python,strict ASan/UBSan PASS.
+A változatlan helyi ROM swap16 próbája100000 kért ciklust teljesít hiba nélkül:
+25339 callback,perifériaciklus100002,PC634348,9 GPIO,0 TX/clock él.
+Ez korlátos futási megfigyelés,nem teljes firmware-boot vagy hangelfogadás.
+Szerződés:[an1x-itu-irq-idle.md](an1x-itu-irq-idle.md). Saját CI/review függőben.
+
 ## ITU compare-mód kimenet nélkül — jelölt,2026-11-02
 
 Öt TIOR csak no-output compare profilt fogad:4 raw/252 tiltott csatornánként,

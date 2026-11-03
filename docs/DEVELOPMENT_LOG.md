@@ -1,7 +1,31 @@
 # YamAN1x fejlesztési napló
 
-Frissítve: 2026-11-02. Időzóna: Europe/Budapest.
+Frissítve: 2026-11-03. Időzóna: Europe/Budapest.
 Ellenőrzött motoralap: `301eec75c72028b8f377ee4e099fce0b1df4de5e` (#143).
+
+## ITU megszakítások letiltott állapota — jelölt,2026-11-03
+
+Öt TIER csak letiltott IRQ-profilt fogad:32 raw elfogadott/224 tiltott érték
+csatornánként. Öt TSR üres jelzőállapotot ad;mind256 írás utánF8 marad,
+szoftver nem állíthat flaget. TSTR tiltott,nincs aktív counter/event/IRQ.
+Gyártói10.2.12–13 és rögzített eredeti tier_update/isr_update/isr_to_sr alapján.
+2560 értékeset,alias/reset/no-effect/word és129 CPU-vágás ellenőrizve.
+Helyi validáció:110/110 CTest (60,27s),100 Python,strict ASan/UBSan PASS.
+A változatlan helyi ROM swap16 próbája100000 kért ciklust teljesít hiba nélkül:
+25339 callback,perifériaciklus100002,PC634348,9 GPIO,0 TX/clock él.
+Ez korlátos futási megfigyelés,nem teljes firmware-boot vagy hangelfogadás.
+Szerződés:[an1x-itu-irq-idle.md](an1x-itu-irq-idle.md). Saját CI/review függőben.
+Forrásaudit589 fájl,notice229 fájl/5 szöveg,diff-check PASS;ROM SHA változatlan.
+
+## ITU I/O-profil lezárása — 2026-11-02
+
+A #185 beolvadt `74bd4e0990c02d3b084d40c62e98e71ee343a7c1` commitként.
+Ellenőrzött head:`adaa6e3d0e7140cdbb149a02a270719a4443f882`;mind5 CI sikeres.
+Futások:41534258437,41534258773,41534258263. Automatikus kódreview ugyanazon
+headen2026-11-02T22:08:31.050236Z-kor találat nélkül kész;bizonyíték:
+https://github.com/RobCZart82/yaman1x/pull/185#issuecomment-6589650975
+Nyitott review-szál és változtatáskérés nincs. Következő:FFFF66 TIER0 és a
+leállított ITU statusflag/IRQ-engedély határok vizsgálata friss mainből.
 
 ## ITU compare-mód kimenet nélkül — jelölt,2026-11-02
 

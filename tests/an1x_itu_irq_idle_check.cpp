@@ -1,0 +1,13 @@
+#include "an1x_research_machine.h"
+#include <cstdio>
+struct Sink{unsigned effects=0;void tx(unsigned,uint64_t,bool){++effects;}void clock(unsigned,uint64_t,bool){++effects;}bool dma_request(unsigned,uint64_t){return false;}uint8_t gpio_read(unsigned,uint64_t){return 0;}void gpio_write(unsigned,uint64_t,uint8_t,uint8_t){++effects;}};
+using Bus=yamanix::An1xSciBus<Sink>;unsigned failures=0;
+void check(bool ok,const char*why){if(!ok&&++failures<10)std::fprintf(stderr,"%s\n",why);}
+int main(){std::vector<uint8_t>rom(0x100000);const uint32_t enables[]={0xffff66,0xffff70,0xffff7a,0xffff84,0xffff94};unsigned accepted=0;
+ for(auto a:enables)for(unsigned raw=0;raw<256;++raw){Sink s;Bus b(rom,{},s);check(b.read_byte(a)==248&&b.read_byte(a+1)==248,"Five independent reset TIER/TSR pairs");bool bad=false;try{b.write_byte(0x12000000|a,uint8_t(raw));}catch(const std::logic_error&){bad=true;}bool supported=raw%8==0;check(bad!=supported&&b.failed()==!supported&&s.effects==0,"1280 enables:only all-disabled profile,independent arithmetic oracle");if(supported){++accepted;check(b.read_byte(a)==248,"Reserved bits read one");b.update(1000);check(b.read_byte(a+1)==248&&b.next_bus_event()==0&&s.effects==0,"No timer status or IRQ invented while stopped");}}
+ check(accepted==160,"32 normalized disables per channel");
+ {Sink s;Bus b(rom,{},s);for(auto a:enables)for(unsigned raw=0;raw<256;++raw){b.write_byte(a+1,uint8_t(raw));check(b.read_byte(a+1)==248,"1280 status writes cannot software-set clear flags");}b.write_byte(0x200000,0x5a);b.update(10000);b.reset_supported_peripherals();for(auto a:enables)check(b.read_byte(a)==248&&b.read_byte(a+1)==248,"Supported reset keeps disabled/clear flags");check(b.read_byte(0x200000)==0x5a&&b.cycle()==10000,"Reset keeps memory/time");}
+ for(auto a:enables)for(bool write:{false,true}){Sink s;Bus b(rom,{},s);bool bad=false;try{if(write)b.write_word(a,0);else(void)b.read_word(a);}catch(const std::out_of_range&){bad=true;}check(bad&&b.failed()&&s.effects==0,"Paired enable/status words still unsupported");}
+ rom[2]=1;const uint16_t code[]={0x7a00,0xff,0xff66,0xfaf8,0x688a,0x40fe};for(unsigned i=0;i<6;++i){rom[256+2*i]=uint8_t(code[i]>>8);rom[257+2*i]=uint8_t(code[i]);}
+ using Machine=yamanix::An1xResearchMachine<Sink>;Sink s;Machine whole(rom,{},s);whole.run(128,10000);for(unsigned cut=0;cut<=128;++cut){Machine part(rom,{},s);part.run(int(cut),10000);part.run(128-int(cut),10000);check(part.snapshot()==whole.snapshot()&&part.read_byte(0xffff66)==248&&part.read_byte(0xffff67)==248,"129 CPU partitions preserve disabled IRQ/clear status");}
+ std::printf("Idle ITU IRQ:2560 controls/status values,reset/alias/word,129 partitions:%u failures\n",failures);return failures?1:0;}
