@@ -1,5 +1,25 @@
 # Development status
 
+## Isolated internal-clock ITU counter — candidate,2026-11-04
+
+New H8ItuCounter owns monotonic absolute time,count,enable,divider/phase and
+explicit cycle1..65536. It settles old time before enable/count/config changes;
+invalid profile/time rejects without mutation. Disabled time does not accumulate
+later catch-up. Internal shifts0..3,zero/half phase,wrap and starts beyond new
+clear boundary supported. No flags,IRQ,deadlines,MMIO or firmware start enabled.
+Independent per-tick oracle covers2097152 initial-count/profile cases;258 splits,
+stop/restart/reconfigure,invalid retention and uint64 time extremes tested.
+Tick quotient avoids now+phase overflow;counter arithmetic avoids count+delta
+overflow. These large-time extensions are independently checked,not claimed
+original-method comparisons at overflowing source arithmetic.
+131072 value comparisons with the unchanged locked update_counter PASS under
+ASan/UBSan in a temporary harness. TGR count0/IER0 deliberately excludes flag/
+IRQ behavior;cycle and clock configured directly. Original source never copied
+into repository. Next:compare/overflow flags and disabled-IRQ polling tests,
+then bounded deadlines/dispatch before bus integration. No ROM/audio acceptance.
+Own CI/review pending.
+
+
 ## Active ITU source contract — candidate,2026-11-04
 
 Three locked original files/19 exact method identities checked through the
@@ -144,16 +164,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#205](https://github.com/RobCZart82/yaman1x/pull/205),
-`2191a82ce0a7d98b9b25e1a82c7f7f9c4a43d3a1`.
-The merged baseline has **125 CTest groups and 100 Python tests**. All five
+Latest merged change:[#206](https://github.com/RobCZart82/yaman1x/pull/206),
+`84930a1b98b88bb28300dd6f40f0ac09dc8360b6`.
+The merged baseline has **125 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on headea23632073847f523cc0efe313ac1b834ddc7aad;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493).
-Current explicit level probe stops at active ITU startFFFF60 after native
-writes[11557,516],reads[448,0],samples[0,0]. Candidate pins the original active
-ITU source contract and implementation gates;no active MMIO or boot/audio change.
-[Active ITU contract](an1x-active-itu-contract.md).
+on head5722afdd6b8d159501aef8f47146d4898f249be0;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/206#issuecomment-6628054317).
+Candidate adds isolated internal-clock ITU counter,test group126. Flags/IRQ/
+deadline/MMIO integration remains open;firmware still stops atFFFF60.
+[Counter contract](h8-itu-counter.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
