@@ -1,5 +1,23 @@
 # Development status
 
+## Free-running ITU counter events — candidate,2026-11-04
+
+New H8ItuFreeRunning composes the monotonic counter and H8H latch for the
+restricted cycle65536 internal-clock profile. Absolute tick-distance crossings
+set compareA/B and overflow flags even when interrupts are disabled. TGRFFFF
+compares at wrapped target0. Polling reads settle elapsed time;count/compare/
+enable/status changes settle old state first. Invalid configuration/index/time
+rejects without mutation. No IRQ callbacks,deadlines,auto-clear,capture or MMIO.
+Independent per-tick oracle covers262144 initial/target cases;2064 divider/phase/
+split cases,disabled polling/clear/reenable/stop and uint64 limits tested.
+A locked unchanged original update_counter harness compares131072 free-running
+value/flag cases with two TGRs and IER0. No original code saved in repository.
+Counter exposes pure elapsed_ticks to share overflow-safe time conversion.
+Next:auto-clear event semantics/boundaries if needed,then bounded deadlines and
+IRQ dispatch before bus start. Firmware still stopsFFFF60;no boot/audio proof.
+Own CI/review pending.
+
+
 ## Isolated H8H ITU status latch — candidate,2026-11-04
 
 New H8ItuStatus explicitly latches compareA/compareB/overflow events independent
@@ -181,15 +199,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#207](https://github.com/RobCZart82/yaman1x/pull/207),
-`04bb10ae8e31c1b681196eee923bbf12b4f7e388`.
-The merged baseline has **126 CTest groups and 103 Python tests**. All five
+Latest merged change:[#208](https://github.com/RobCZart82/yaman1x/pull/208),
+`96df5e102387f1490253e821f127a44049743dee`.
+The merged baseline has **127 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head3315d2899e5f2d9ff11ca5046ab0e3e3f817c51c;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169).
-Candidate adds isolated H8H status latch,test group127. Counter event detection,
-IRQ/deadline/MMIO integration remain open;firmware still stops atFFFF60.
-[Status latch contract](h8-itu-status.md).
+on head6b638f8a711c0c6fa90f6b254f08d2521c111de6;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673).
+Candidate connects free-running counter events to status,test group128.
+Auto-clear events,IRQ/deadline/MMIO integration remain open;firmware stopsFFFF60.
+[Free-running event contract](h8-itu-free-running.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

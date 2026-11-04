@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **127 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **128 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,15 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#207](https://github.com/RobCZart82/yaman1x/pull/207),
-`04bb10ae8e31c1b681196eee923bbf12b4f7e388`.
-The merged baseline has **126 CTest groups and 103 Python tests**. All five
+Latest merged change:[#208](https://github.com/RobCZart82/yaman1x/pull/208),
+`96df5e102387f1490253e821f127a44049743dee`.
+The merged baseline has **127 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head3315d2899e5f2d9ff11ca5046ab0e3e3f817c51c;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169).
-Candidate adds isolated H8H status latch,test group127. Counter event detection,
-IRQ/deadline/MMIO integration remain open;firmware still stops atFFFF60.
-[Status latch contract](docs/h8-itu-status.md).
+on head6b638f8a711c0c6fa90f6b254f08d2521c111de6;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673).
+Candidate connects free-running counter events to status,test group128.
+Auto-clear events,IRQ/deadline/MMIO integration remain open;firmware stopsFFFF60.
+[Free-running event contract](docs/h8-itu-free-running.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

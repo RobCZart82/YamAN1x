@@ -8,9 +8,10 @@ public:
  struct State {uint64_t time=0;uint16_t count=0;unsigned shift=0,phase=0;uint32_t cycle=65536;bool enabled=false;
   bool operator==(const State&)const=default;};
  const State& state()const{return state_;}
+ uint64_t elapsed_ticks(uint64_t now)const{require_time(now);return state_.enabled?ticks(now)-ticks(state_.time):0;}
  void advance(uint64_t now){
-  require_time(now);
-  if(state_.enabled){const auto delta=ticks(now)-ticks(state_.time);
+  const auto delta=elapsed_ticks(now);
+  if(state_.enabled){
    if(state_.count>=state_.cycle){
     const auto until_wrap=uint64_t(65536-state_.count);
     state_.count=delta>=until_wrap?uint16_t((delta-until_wrap)%state_.cycle):uint16_t(state_.count+delta);

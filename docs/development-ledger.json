@@ -3092,24 +3092,43 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169",
       "review_completed_at_utc": "2026-11-04T11:08:47.838803Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 208,
+      "title": "Add isolated H8H ITU compare and overflow status latch",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/208",
+      "kind": "engine-component",
+      "status": "merged",
+      "merge_commit": "96df5e102387f1490253e821f127a44049743dee",
+      "reviewed_head": "6b638f8a711c0c6fa90f6b254f08d2521c111de6",
+      "ci_runs": [
+        41829048600,
+        41829048580,
+        41829048565
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673",
+      "review_completed_at_utc": "2026-11-04T12:26:09.848108Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-status-flags",
+    "branch": "feat/h8-itu-counter-events",
     "status": "candidate",
-    "scope": "Isolated explicit-event A/B/overflow latch and enable/clear semantics;no counter event generation/IRQ delivery",
+    "scope": "Restricted free-running internal counter-to-status event detection;no auto-clear/IRQ/deadline/MMIO",
     "validation": {
-      "independent_cases": 524288,
-      "original_method_comparisons": 524288,
-      "original_methods": 3,
+      "independent_tick_event_cases": 262144,
+      "phase_split_cases": 2064,
+      "original_value_flag_cases": 131072,
       "remote_ci": "pending",
       "automatic_review": "pending",
-      "ctest": "127/127 PASS,53.18s",
+      "ctest": "128/128 PASS,51.34s",
       "python": 103,
       "targeted_asan_ubsan": "PASS",
       "strict_compile": "PASS",
-      "audit_files": 649,
-      "ci_sanitizer_groups": 46
+      "audit_files": 653,
+      "ci_sanitizer_groups": 47
     }
   },
   "pending_changes": []
