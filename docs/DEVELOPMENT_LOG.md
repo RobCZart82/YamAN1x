@@ -1,6 +1,35 @@
 # YamAN1x fejlesztési napló
 
-## Firmware level-read experiment — candidate,2026-11-04
+## Active ITU source contract — candidate,2026-11-04
+
+Validation:locked archive identity check PASS (3 files/19 methods);103 Python
+tests PASS,including3 new extraction/negative tests and optimized-mode targeted
+PASS. Audit641 files,notice229 files/5 texts,diff-check PASS. Initial checker
+used a nonexistent lock key upstream_commit;corrected to the existing commit
+key before manifest generation and final checks. No motor/runtime change;
+CTest runtime suite not rerun. No ROM accessed. Own CI/review pending.
+
+Three locked original files/19 exact method identities checked through the
+private verified archive snapshot. TSTR settles counters before enable changes;
+compare flags may change with IRQ disabled;absolute divider/phase time,clear/
+wrap boundaries,TGRFFFF u16 comparison and reset-after-children order require
+independent tests. No active timer behavior enabled. Next:isolated monotonic
+internal-clock counter,then flags/IRQ/deadlines,before MMIO/firmware acceptance.
+[Contract and gates](an1x-active-itu-contract.md). Own CI/review pending.
+
+
+## #205 merged — 2026-11-04
+
+Merge2191a82ce0a7d98b9b25e1a82c7f7f9c4a43d3a1;tested head
+ea23632073847f523cc0efe313ac1b834ddc7aad. Five checks passed
+(runs41801773189/41801773168/41801773266). Automatic code review completed
+without findings on that head at2026-11-04T08:46:35.513939Z,
+https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493.
+No unresolved threads/conflict. Fresh main pulled;main checks pending.
+Next:pin active ITU TSTR/counter/flag/IRQ/time behavior from original source
+before enabling the firmware stopFFFF60. No boot or audio acceptance.
+
+## Firmware level-read experiment — candidate #205,2026-11-04
 
 Validation:125/125 CTest PASS (52.68s),100 Python PASS. Extended sink/CLI
 Release and strict ASan/UBSan PASS;strict compiler PASS. Audit637 files,

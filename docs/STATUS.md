@@ -1,5 +1,16 @@
 # Development status
 
+## Active ITU source contract — candidate,2026-11-04
+
+Three locked original files/19 exact method identities checked through the
+private verified archive snapshot. TSTR settles counters before enable changes;
+compare flags may change with IRQ disabled;absolute divider/phase time,clear/
+wrap boundaries,TGRFFFF u16 comparison and reset-after-children order require
+independent tests. No active timer behavior enabled. Next:isolated monotonic
+internal-clock counter,then flags/IRQ/deadlines,before MMIO/firmware acceptance.
+[Contract and gates](an1x-active-itu-contract.md). Own CI/review pending.
+
+
 ## Firmware level-read experiment — candidate,2026-11-04
 
 New explicit lcd-meg-vop3-level-experiment-16mhz profile configures the native
@@ -133,16 +144,16 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#204](https://github.com/RobCZart82/yaman1x/pull/204),
-`f0e159f5c1c76956f078e8c32e24a8e058c6b669`.
+Latest merged change:[#205](https://github.com/RobCZart82/yaman1x/pull/205),
+`2191a82ce0a7d98b9b25e1a82c7f7f9c4a43d3a1`.
 The merged baseline has **125 CTest groups and 100 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head3ca993d9153495146c0d613eed855e06e4923a23;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784).
-Candidate adds a separately named firmware level-read experiment. It performs
-writes[11557,516],reads[448,0],then stops at ITU TSTR byte writeFFFF60.
-No DSP samples,complete firmware boot or audio acceptance.
-[Probe evidence and limits](an1x-vop3-level-experiment.md).
+on headea23632073847f523cc0efe313ac1b834ddc7aad;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493).
+Current explicit level probe stops at active ITU startFFFF60 after native
+writes[11557,516],reads[448,0],samples[0,0]. Candidate pins the original active
+ITU source contract and implementation gates;no active MMIO or boot/audio change.
+[Active ITU contract](an1x-active-itu-contract.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
