@@ -12,6 +12,7 @@ extern "C" int yamanix_vop3_write(yamanix_vop3*,uint32_t,uint32_t,uint16_t,uint1
 extern "C" int yamanix_vop3_read(yamanix_vop3*,uint32_t,uint32_t,uint16_t,uint16_t*){++calls;return code;}
 extern "C" int yamanix_vop3_snapshot(yamanix_vop3*,uint8_t*,size_t){++calls;return code;}
 extern "C" int yamanix_vop3_get_metrics(yamanix_vop3*,yamanix_vop3_metrics*){++calls;return code;}
+extern "C" int yamanix_vop3_set_eg_readback(yamanix_vop3*,uint32_t){++calls;return code;}
 void check(bool ok){if(!ok)throw std::runtime_error("Native backend failure contract");}
 int main(){using B=yamanix::Vop3NativeBackend;
  abi=3;bool bad=false;try{B b;}catch(const std::runtime_error&){bad=true;}check(bad&&creates==0);abi=2;
@@ -26,6 +27,10 @@ int main(){using B=yamanix::Vop3NativeBackend;
   bad=false;try{(void)b.snapshot();}catch(const std::logic_error&){bad=true;}check(bad);
   bad=false;try{(void)b.metrics();}catch(const std::logic_error&){bad=true;}check(bad&&calls==count&&destroys==old+1);
  }
- check(destroys==4);code=0;{B b;check(!b.failed());}check(destroys==5);
+ check(destroys==4);
+ {const auto old=destroys;bool rejected=false;code=-3;
+  try{B b(yamanix::Vop3LevelReadPolicy::experimental_an1x_level);}catch(const std::runtime_error&){rejected=true;}
+  check(rejected&&destroys==old+1);}
+ code=0;{B b;check(!b.failed());}check(destroys==6);
  std::puts("Native backend ABI/allocation failure,4 internal failure paths,no post-failure callback,exact destruction PASS");
 }
