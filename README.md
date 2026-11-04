@@ -35,14 +35,16 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#203](https://github.com/RobCZart82/yaman1x/pull/203),
-`0a8af1d63d58de5bbe9e0fd29055063118402081`.
-The merged baseline has **124 CTest groups and 100 Python tests**. All four
-PR-head/main checks passed;research was not triggered for documentation-only.
-No automatic review result recorded;no open review threads/conflict at merge.
-Candidate adds explicit experimental native/host reg22 readback,test group125.
-Firmware probe still rejects22;clock and audio acceptance remain open.
-[Explicit readback policy](docs/vop3-explicit-level-readback.md).
+Latest merged change:[#204](https://github.com/RobCZart82/yaman1x/pull/204),
+`f0e159f5c1c76956f078e8c32e24a8e058c6b669`.
+The merged baseline has **125 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed;automatic code review completed without findings
+on head3ca993d9153495146c0d613eed855e06e4923a23;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784).
+Candidate adds a separately named firmware level-read experiment. It performs
+writes[11557,516],reads[448,0],then stops at ITU TSTR byte writeFFFF60.
+No DSP samples,complete firmware boot or audio acceptance.
+[Probe evidence and limits](docs/an1x-vop3-level-experiment.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

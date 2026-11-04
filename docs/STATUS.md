@@ -1,5 +1,30 @@
 # Development status
 
+## Firmware level-read experiment — candidate,2026-11-04
+
+New explicit lcd-meg-vop3-level-experiment-16mhz profile configures the native
+sink and host adapter for experimental_an1x_level;MEG zero stubs and upload
+contract remain explicit. Older register-only profile still rejects22. No sample
+advancement. Sink cold reconstruction preserves selected policy while clearing
+state;subset reset retains levels. Synthetic CLI checks three slices,selected
+read counters,old-profile rejection and invalid index;native sink verifies
+-256=>C000,subset retention and policy-preserving cold reset.
+
+Read-only unchanged1.04 ROM,swap16,100M cycles/20M callbacks,4096/1000000 slices:
+identical stop at cycle11925102,PC2912(0xB60),data_writeFFFF60 byte,
+Unmapped AN1x byte write. Native writes[11557,516],reads[448,0],samples[0,0];
+MEG controls5/status_reads1,GPIO6316,TX/clock0. Completed-slice cycles
+11923456/11000000,callbacks2000165/1839738 exclude the failed slice as designed.
+ROM SHA4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe
+unchanged before/after. Both-chip callbacks do not prove full upload acceptance;
+448 read callbacks do not alone prove scan ordering or the specialC000 branch.
+No complete boot,MIDI or audio acceptance. The next blocker is the ITU TSTR
+start path atFFFF60:active timer counter/flag/IRQ/time behavior needs original
+reference and independent tests before enabling it. Do not treat the old
+stopped-ITU storage profile as an active timer implementation.
+Pinned original MAME/bridge unchanged. Own CI/review pending.
+
+
 ## Explicit experimental native level readback — candidate,2026-11-04
 
 A shared Vop3LevelReadPolicy keeps default reject and separately names
@@ -108,14 +133,16 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#203](https://github.com/RobCZart82/yaman1x/pull/203),
-`0a8af1d63d58de5bbe9e0fd29055063118402081`.
-The merged baseline has **124 CTest groups and 100 Python tests**. All four
-PR-head/main checks passed;research was not triggered for documentation-only.
-No automatic review result recorded;no open review threads/conflict at merge.
-Candidate adds explicit experimental native/host reg22 readback,test group125.
-Firmware probe still rejects22;clock and audio acceptance remain open.
-[Explicit readback policy](vop3-explicit-level-readback.md).
+Latest merged change:[#204](https://github.com/RobCZart82/yaman1x/pull/204),
+`f0e159f5c1c76956f078e8c32e24a8e058c6b669`.
+The merged baseline has **125 CTest groups and 100 Python tests**. All five
+PR-head/main checks passed;automatic code review completed without findings
+on head3ca993d9153495146c0d613eed855e06e4923a23;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784).
+Candidate adds a separately named firmware level-read experiment. It performs
+writes[11557,516],reads[448,0],then stops at ITU TSTR byte writeFFFF60.
+No DSP samples,complete firmware boot or audio acceptance.
+[Probe evidence and limits](an1x-vop3-level-experiment.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

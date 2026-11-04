@@ -46,6 +46,12 @@ int main(){std::vector<uint8_t>rom(0x100000);S s(16);B bus(rom,{},s);unsigned ca
   b.bus_cycle(20);b.write_word(0x440002,1);check(b.read_word(0x440002)==0x8000&&b.read_word(0x480002)==0);
   bool bad=false;try{sink.vop3_write_word(0x440000,19,1);}catch(const std::invalid_argument&){bad=true;}check(bad&&sink.failed());
   sink.cold_reset();check(!sink.failed()&&sink.vop3_metrics().writes[0]==0);}
+ {S sink(16,S::Adapter::ControlPolicy::reject,yamanix::MegSourceStatus::Policy::reject,yamanix::Vop3LevelReadPolicy::experimental_an1x_level);B b(rom,{},sink);
+  b.write_word(0x440000,14);b.write_word(0x440058,0xff00);check(b.read_word(0x440044)==0xc000);
+  b.reset_supported_peripherals();check(b.read_word(0x440044)==0xc000);
+  sink.cold_reset();check(!sink.failed()&&sink.vop3_metrics().reads[0]==0);
+  check(sink.vop3_read_word(0x440044,0)==0); // policy survives reconstruction
+ }
  // MOV.L immediate address to ER0;MOV.W immediate to R1;MOV.W R1,@ER0;BRA self.
  rom[2]=1;const uint16_t code[]={0x7a00,0x44,0x16,0x7901,0x5a3c,0x6981,0x40fe};
  for(unsigned i=0;i<7;++i){rom[256+i*2]=uint8_t(code[i]>>8);rom[257+i*2]=uint8_t(code[i]);}
