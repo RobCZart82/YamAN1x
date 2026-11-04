@@ -447,3 +447,7 @@ add_test(NAME yamanix_vop3_level_readback COMMAND yamanix_vop3_level_readback_ch
 add_executable(yamanix_h8_itu_counter_check tests/h8_itu_counter_check.cpp)
 target_include_directories(yamanix_h8_itu_counter_check PRIVATE src)
 add_test(NAME yamanix_h8_itu_counter COMMAND yamanix_h8_itu_counter_check)
+
+add_executable(yamanix_h8_itu_status_check tests/h8_itu_status_check.cpp)
+target_include_directories(yamanix_h8_itu_status_check PRIVATE src)
+add_test(NAME yamanix_h8_itu_status COMMAND yamanix_h8_itu_status_check)
