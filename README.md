@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **125 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **125 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,16 +35,16 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#204](https://github.com/RobCZart82/yaman1x/pull/204),
-`f0e159f5c1c76956f078e8c32e24a8e058c6b669`.
+Latest merged change:[#205](https://github.com/RobCZart82/yaman1x/pull/205),
+`2191a82ce0a7d98b9b25e1a82c7f7f9c4a43d3a1`.
 The merged baseline has **125 CTest groups and 100 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head3ca993d9153495146c0d613eed855e06e4923a23;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784).
-Candidate adds a separately named firmware level-read experiment. It performs
-writes[11557,516],reads[448,0],then stops at ITU TSTR byte writeFFFF60.
-No DSP samples,complete firmware boot or audio acceptance.
-[Probe evidence and limits](docs/an1x-vop3-level-experiment.md).
+on headea23632073847f523cc0efe313ac1b834ddc7aad;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493).
+Current explicit level probe stops at active ITU startFFFF60 after native
+writes[11557,516],reads[448,0],samples[0,0]. Candidate pins the original active
+ITU source contract and implementation gates;no active MMIO or boot/audio change.
+[Active ITU contract](docs/an1x-active-itu-contract.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

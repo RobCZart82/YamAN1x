@@ -3035,45 +3035,41 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784",
       "review_completed_at_utc": "2026-11-04T07:28:03.224613Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 205,
+      "title": "Add separately named clockless VOP3 level firmware experiment",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/205",
+      "kind": "engine-research-experiment",
+      "status": "merged",
+      "merge_commit": "2191a82ce0a7d98b9b25e1a82c7f7f9c4a43d3a1",
+      "reviewed_head": "ea23632073847f523cc0efe313ac1b834ddc7aad",
+      "ci_runs": [
+        41801773189,
+        41801773168,
+        41801773266
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493",
+      "review_completed_at_utc": "2026-11-04T08:46:35.513939Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/vop3-level-firmware-experiment",
+    "branch": "research/an1x-active-itu-contract",
     "status": "candidate",
-    "scope": "Explicit sink/probe level-read experiment,no sample advancement",
-    "observation": {
-      "slices": [
-        4096,
-        1000000
-      ],
-      "peripheral_cycle": 11925102,
-      "pc": 2912,
-      "fault_address": 16777056,
-      "fault_width": 1,
-      "vop3_writes": [
-        11557,
-        516
-      ],
-      "vop3_reads": [
-        448,
-        0
-      ],
-      "vop3_sample_passes": [
-        0,
-        0
-      ],
-      "rom_unchanged": true,
-      "boot_accepted": false,
-      "audio_accepted": false
-    },
-    "remote_ci": "pending",
-    "automatic_review": "pending",
+    "scope": "Original active ITU identities and bounded implementation gates;no runtime change",
     "validation": {
-      "ctest": "125/125 PASS,52.68s",
-      "python": 100,
-      "targeted_asan_ubsan": "PASS",
-      "strict_compile": "PASS",
-      "audit_files": 637
+      "source_files": 3,
+      "original_method_identities": 19,
+      "execution_verified": false,
+      "remote_ci": "pending",
+      "automatic_review": "pending",
+      "python": 103,
+      "optimized_targeted_python": 3,
+      "audit_files": 641,
+      "runtime_ctest": "not rerun;source-identity tooling/docs only"
     }
   },
   "pending_changes": []

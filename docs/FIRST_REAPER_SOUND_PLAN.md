@@ -1,5 +1,16 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Active ITU source contract — candidate,2026-11-04
+
+Three locked original files/19 exact method identities checked through the
+private verified archive snapshot. TSTR settles counters before enable changes;
+compare flags may change with IRQ disabled;absolute divider/phase time,clear/
+wrap boundaries,TGRFFFF u16 comparison and reset-after-children order require
+independent tests. No active timer behavior enabled. Next:isolated monotonic
+internal-clock counter,then flags/IRQ/deadlines,before MMIO/firmware acceptance.
+[Contract and gates](an1x-active-itu-contract.md). Own CI/review pending.
+
+
 ## Firmware level-read experiment — candidate,2026-11-04
 
 New explicit lcd-meg-vop3-level-experiment-16mhz profile configures the native

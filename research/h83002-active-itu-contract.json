@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+  "files": [
+    {
+      "path": "src/devices/cpu/h8/h8_timer16.cpp",
+      "bytes": 18753,
+      "sha256": "7039beac99834b03ebd25fd20394c40f228cc9e33ee26c1e265a51c544da0c5c",
+      "methods": [
+        {
+          "name": "h8_timer16_device::tstr_r",
+          "bytes": 50,
+          "sha256": "ae153a524b71465a43bd294866346913d424047aa67e3b28e38148685ebfa69e"
+        },
+        {
+          "name": "h8_timer16_device::tstr_w",
+          "bytes": 181,
+          "sha256": "238146e5b9de1139c94baf14c5e6471012b21f3d092dce594b03f41b516efc8f"
+        },
+        {
+          "name": "h8_timer16_device::device_reset_after_children",
+          "bytes": 176,
+          "sha256": "195bd27eb53bbc0c4bc7cca2559e8717ba7ff6eedbd2d7dce35b0bc3a5df18de"
+        },
+        {
+          "name": "h8_timer16_channel_device::set_enable",
+          "bytes": 123,
+          "sha256": "c17599b15ac00fc749fd80b9a42ff08d972c1d69f4f0d821a80dc9958444b3ca"
+        },
+        {
+          "name": "h8_timer16_channel_device::device_reset",
+          "bytes": 430,
+          "sha256": "d7382b20296e2e94dda7e76e6dd3645dbcc61fce984f4a9ba836263a69ca9145"
+        },
+        {
+          "name": "h8_timer16_channel_device::tcr_w",
+          "bytes": 144,
+          "sha256": "83d6f08b465bd8918034fb6ce1b0fe819d7217fa8f83361e72f63dd9246c609f"
+        },
+        {
+          "name": "h8_timer16_channel_device::tier_w",
+          "bytes": 389,
+          "sha256": "d54247f78f23db8878a8b420138c692d0fcb09aa7dd6004d7509196a8336f685"
+        },
+        {
+          "name": "h8_timer16_channel_device::tsr_r",
+          "bytes": 122,
+          "sha256": "c7849fb28a5048e8581d2aaebd7d24ed48c48a2349aeff7d961c6f5fce577445"
+        },
+        {
+          "name": "h8_timer16_channel_device::tsr_w",
+          "bytes": 133,
+          "sha256": "1439e41f2b703e12e89b81674273a3d50766a3d083fe7f503c8184c66ed5605a"
+        },
+        {
+          "name": "h8_timer16_channel_device::tcnt_r",
+          "bytes": 119,
+          "sha256": "8ca96640f166cbf2e93bdd3f8c1849464a196092de0a5ec6701ccdd29e34c62c"
+        },
+        {
+          "name": "h8_timer16_channel_device::tcnt_w",
+          "bytes": 172,
+          "sha256": "563155e93c62c84df0f3d60f7eeea0c9f86068715bdac8ae612ace1e1c5f5020"
+        },
+        {
+          "name": "h8_timer16_channel_device::tgr_w",
+          "bytes": 198,
+          "sha256": "0e054e1aa235b167020aedb2311a4bae82ce3d7c6112f2834aef2afca6598ac9"
+        },
+        {
+          "name": "h8_timer16_channel_device::internal_update",
+          "bytes": 211,
+          "sha256": "4f43360ccccb0191116f98493ce409b2d01fe52f2ed01ef1bae3d3c05d8dbbca"
+        },
+        {
+          "name": "h8_timer16_channel_device::update_counter",
+          "bytes": 1911,
+          "sha256": "1579e4854ae8199f12950631c0947a690a37f0f0598bbf8f2c09e4acd254351c"
+        },
+        {
+          "name": "h8_timer16_channel_device::recalc_event",
+          "bytes": 1546,
+          "sha256": "9ebe53a2fcc323e98412f6ce9fbdec761083847a76c2aeb6cbb198e88d526434"
+        },
+        {
+          "name": "h8h_timer16_channel_device::tier_update",
+          "bytes": 179,
+          "sha256": "c907c6dcfd941659926179886ab3e493e7d6568feb97db229418f7600de51b3f"
+        },
+        {
+          "name": "h8h_timer16_channel_device::isr_update",
+          "bytes": 160,
+          "sha256": "eafa81c86f92f2b8a9cb6803a079df2bdea910af0e988b86111d9a80751c2c52"
+        },
+        {
+          "name": "h8h_timer16_channel_device::isr_to_sr",
+          "bytes": 144,
+          "sha256": "6aace0c18203f2fb79811d459123836681bb44794c8c07607bfa4951992fb6b1"
+        },
+        {
+          "name": "h8h_timer16_channel_device::tcr_update",
+          "bytes": 1088,
+          "sha256": "d4d2a472c2f0067e2e6138243e44cb2d3ddcd36614c7bb8652f7479157677f8a"
+        }
+      ]
+    },
+    {
+      "path": "src/devices/cpu/h8/h8_timer16.h",
+      "bytes": 8245,
+      "sha256": "c828bc4388aa33ab04a8ce0099a0399f1bb6b13dd8ae9bede32269c7ba19c7c0",
+      "methods": []
+    },
+    {
+      "path": "src/devices/cpu/h8/h83002.cpp",
+      "bytes": 16657,
+      "sha256": "2b422dc4081700cccc27d3a6f62307ae5f138f4f601181015ff1d6605ecf1e92",
+      "methods": []
+    }
+  ],
+  "scope": "Three original file and19 method identities only;not active timer execution,CPU integration or hardware acceptance."
+}
