@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **129 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **130 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,14 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#209](https://github.com/RobCZart82/yaman1x/pull/209),
-`8ffbef03db22f7bd573ce1e20c485fa1230fb2b0`.
-The merged baseline has **128 CTest groups and 103 Python tests**. All five
-PR-head/main checks passed;automatic code review completed without findings
-on head96a198bd5e26313a436f8ec10dcdb44da004193f;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771).
-Candidate adds internal-clock A/B auto-clear events,test group129.
-IRQ/deadline/MMIO integration remains open;firmware still stopsFFFF60.
-[Auto-clear event contract](docs/h8-itu-auto-clear.md).
+Latest merged change:[#210](https://github.com/RobCZart82/yaman1x/pull/210),
+`f37ed085c5f37e09cc84056e91d26eae1946ec3f`.
+The merged baseline has **129 CTest groups and 103 Python tests**. All five
+PR-head/main checks now passed after hosted macOS capacity recovered.
+No automatic review result recorded for210. No open PR at next-step start.
+Candidate adds pure next enabled ITU event deadline,test group130.
+IRQ dispatch/CPU/MMIO integration remains open;firmware still stopsFFFF60.
+[Deadline contract](docs/h8-itu-event-deadline.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
