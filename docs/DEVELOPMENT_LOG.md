@@ -1,6 +1,36 @@
 # YamAN1x fejlesztési napló
 
-## Native VOP3 firmware-probe profile — candidate,2026-11-03
+## Reg22 readback contract — candidate,2026-11-04
+
+Validation:clean temporary Release build of existing bridge/adapter/native
+checks;five selected CTest groups PASS (including normal/optimized VOP3 timing),
+three EG-consumer audit unit tests PASS. Audit633 files,notice229 files/5 texts,
+diff-check PASS. Previous /tmp build had been cleaned;new build used rather
+than claiming prior binaries ran. Runtime unchanged;full suite not rerun for
+this documentation-only change. No ROM accessed. Own remote CI/review pending.
+
+Earlier firmware-consumer evidence is reconciled with the current strict native
+stop. SELECT0..15,signed level and64 scaling are supported by prior analysis;
+physical rounding/saturation/EG timing remain unverified. Historical installed-
+DMS trace and current headless sink are distinct profiles. Snapshot PC54678
+and historical bus-next-PC54676 are different observation fields,not proof of
+instruction mismatch. Existing ABI2 profile1 is a labelled model experiment;
+strict adapter22 remains rejected. Next:explicit opt-in read policy with native
+profile selection and independent index/value tests,then separate firmware
+experiment;sample advancement remains another gated step. No runtime change.
+[Contract and evidence](vop3-readback-contract.md). Own CI/review pending.
+
+
+## #202 merged — 2026-11-03
+
+Merge127435b0d5bcb53934fdff6ee0582b924175493d;tested head
+bde252f5f4e10663a306175caecf755644d39af6. Five checks passed
+(runs41719234355/41719234464/41719234362). No automatic review result
+recorded;no unresolved review threads/conflict. Fresh main pulled.
+Main CI pending. Next investigate440044/reg22 selected-index/readback/time
+evidence;do not silently return zero or call the experimental model hardware proof.
+
+## Native VOP3 firmware-probe profile — candidate #202,2026-11-03
 
 Validation:124/124 CTest PASS;100 Python PASS. Final CLI targeted Release and
 strict ASan/UBSan PASS after metrics-unavailable reporting refinement;strict

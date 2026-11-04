@@ -1,5 +1,19 @@
 # Development status
 
+## Reg22 readback contract — candidate,2026-11-04
+
+Earlier firmware-consumer evidence is reconciled with the current strict native
+stop. SELECT0..15,signed level and64 scaling are supported by prior analysis;
+physical rounding/saturation/EG timing remain unverified. Historical installed-
+DMS trace and current headless sink are distinct profiles. Snapshot PC54678
+and historical bus-next-PC54676 are different observation fields,not proof of
+instruction mismatch. Existing ABI2 profile1 is a labelled model experiment;
+strict adapter22 remains rejected. Next:explicit opt-in read policy with native
+profile selection and independent index/value tests,then separate firmware
+experiment;sample advancement remains another gated step. No runtime change.
+[Contract and evidence](vop3-readback-contract.md). Own CI/review pending.
+
+
 ## Native VOP3 firmware-probe profile — candidate,2026-11-03
 
 New explicit lcd-meg-vop3-register-experiment-16mhz profile combines LCD16MHz,
@@ -75,15 +89,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#201](https://github.com/RobCZart82/yaman1x/pull/201),
-`91f0e7cf05efd054aee5e454940b77d0a17beb61`.
+Latest merged change:[#202](https://github.com/RobCZart82/yaman1x/pull/202),
+`127435b0d5bcb53934fdff6ee0582b924175493d`.
 The merged baseline has **124 CTest groups and 100 Python tests**. All five
 PR-head/main checks passed. No automatic review result recorded;no open
 review threads or conflict at merge.
-Candidate adds an explicit native VOP3 register-only firmware probe profile.
-Local unchanged1.04 ROM performs10236 chip0 writes,then stops at unimplemented
-word read440044;two slices agree on PC/cycle. No boot or audio acceptance.
-[Probe evidence and assumptions](an1x-vop3-firmware-probe.md).
+Current native probe performs10236 chip0 writes,then rejects word read440044.
+Candidate reconciles earlier reg22 evidence and defines the next explicit
+experimental read policy;no runtime or boot/audio acceptance change.
+[Readback contract](vop3-readback-contract.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

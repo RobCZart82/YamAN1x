@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-03",
+  "recorded_date": "2026-11-04",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
   "baseline_commit": "301eec75c72028b8f377ee4e099fce0b1df4de5e",
@@ -2983,51 +2983,37 @@
       "ci_result": "all_five_success",
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 202,
+      "title": "Add explicit register-only VOP3 firmware probe profile",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/202",
+      "kind": "engine-research-experiment",
+      "status": "merged",
+      "merge_commit": "127435b0d5bcb53934fdff6ee0582b924175493d",
+      "reviewed_head": "bde252f5f4e10663a306175caecf755644d39af6",
+      "ci_runs": [
+        41719234355,
+        41719234464,
+        41719234362
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/vop3-firmware-probe-profile",
+    "branch": "research/vop3-readback-contract",
     "status": "candidate",
-    "scope": "Explicit register-only VOP3 firmware probe; MEG zero stubs and upload experiment labelled",
-    "observation": {
-      "profile": "lcd-meg-vop3-register-experiment-16mhz",
-      "peripheral_cycle": 11260853,
-      "pc": 345720,
-      "fault_address": 4456516,
-      "fault_width": 2,
-      "vop3_writes": [
-        10236,
-        0
-      ],
-      "vop3_reads": [
-        0,
-        0
-      ],
-      "vop3_sample_passes": [
-        0,
-        0
-      ],
-      "rom_unchanged": true,
-      "boot_accepted": false,
-      "audio_accepted": false,
-      "slices": [
-        4096,
-        1000000
-      ]
-    },
+    "scope": "Reconcile existing signed/indexed reg22 consumer evidence and define strict opt-in experiment gates;no runtime change",
     "remote_ci": "pending",
     "automatic_review": "pending",
     "validation": {
-      "ctest": "124/124 PASS;final CLI targeted PASS",
-      "python": 100,
-      "targeted_asan_ubsan": "PASS",
-      "strict_compile": "PASS",
-      "audit_files": 632,
-      "rom_hash_before_after": "unchanged",
-      "final_probe_slices": [
-        4096,
-        1000000
-      ]
+      "fresh_build": "selected existing bridge/adapter/native targets PASS",
+      "ctest_groups": 5,
+      "eg_audit_unit_tests": 3,
+      "audit_files": 633,
+      "full_suite": "not rerun;documentation only"
     }
   },
   "pending_changes": []
