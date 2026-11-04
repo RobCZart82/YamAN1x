@@ -1,5 +1,19 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Reg22 readback contract — candidate,2026-11-04
+
+Earlier firmware-consumer evidence is reconciled with the current strict native
+stop. SELECT0..15,signed level and64 scaling are supported by prior analysis;
+physical rounding/saturation/EG timing remain unverified. Historical installed-
+DMS trace and current headless sink are distinct profiles. Snapshot PC54678
+and historical bus-next-PC54676 are different observation fields,not proof of
+instruction mismatch. Existing ABI2 profile1 is a labelled model experiment;
+strict adapter22 remains rejected. Next:explicit opt-in read policy with native
+profile selection and independent index/value tests,then separate firmware
+experiment;sample advancement remains another gated step. No runtime change.
+[Contract and evidence](vop3-readback-contract.md). Own CI/review pending.
+
+
 ## Native VOP3 firmware-probe profile — candidate,2026-11-03
 
 New explicit lcd-meg-vop3-register-experiment-16mhz profile combines LCD16MHz,
