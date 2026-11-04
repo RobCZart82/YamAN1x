@@ -1,5 +1,23 @@
 # Development status
 
+## Internal-clock ITU auto-clear events — candidate,2026-11-04
+
+New H8ItuAutoClear composes the existing counter/status for A/B-selected auto-
+clear. Cycle is selected TGR+1 in32 bits;comparison target is wrapped16-bit
+TGR+1. Tick distances capture A/B matches and overflow with IRQ disabled,
+including starts beyond clear boundary and TGRFFFF. Mutations settle old time;
+invalid configuration/index/time preserves state. No external clear/capture,
+deadline,IRQ delivery or MMIO start. Existing free-running component unchanged.
+1048576 independent initial/cycle/target tick cases,4128 A/B-source/phase/splits,
+polling/reconfigure/FFFF/uint64 tests.131072 comparisons with locked unchanged
+update_counter pass for values/flags,IER0;original source only in temporary
+private harness. Initial fixture assumed immediate clear after lowering threshold
+below current count;fixed to check continued count until full wrap,then explicit
+counter rewrite for the immediate-clear test. No implementation workaround.
+Next bounded deadlines/IRQ dispatch and selected MMIO integration;no firmware
+boot or audio acceptance. Original MAME reference unchanged. Own CI/review pending.
+
+
 ## Free-running ITU counter events — candidate,2026-11-04
 
 New H8ItuFreeRunning composes the monotonic counter and H8H latch for the
@@ -199,15 +217,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#208](https://github.com/RobCZart82/yaman1x/pull/208),
-`96df5e102387f1490253e821f127a44049743dee`.
-The merged baseline has **127 CTest groups and 103 Python tests**. All five
+Latest merged change:[#209](https://github.com/RobCZart82/yaman1x/pull/209),
+`8ffbef03db22f7bd573ce1e20c485fa1230fb2b0`.
+The merged baseline has **128 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head6b638f8a711c0c6fa90f6b254f08d2521c111de6;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673).
-Candidate connects free-running counter events to status,test group128.
-Auto-clear events,IRQ/deadline/MMIO integration remain open;firmware stopsFFFF60.
-[Free-running event contract](h8-itu-free-running.md).
+on head96a198bd5e26313a436f8ec10dcdb44da004193f;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771).
+Candidate adds internal-clock A/B auto-clear events,test group129.
+IRQ/deadline/MMIO integration remains open;firmware still stopsFFFF60.
+[Auto-clear event contract](h8-itu-auto-clear.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
