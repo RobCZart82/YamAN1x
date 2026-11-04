@@ -14,10 +14,11 @@ struct Sink {
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
  std::unique_ptr<yamanix::An1xVop3ResearchSink> vop3;
- explicit Sink(bool enabled,bool meg_enabled,bool source_status,bool native){
+ explicit Sink(bool enabled,bool meg_enabled,bool source_status,bool native,bool level){
   if(native)vop3=std::make_unique<yamanix::An1xVop3ResearchSink>(16,
    yamanix::An1xVop3ResearchSink::Adapter::ControlPolicy::experimental_firmware_contract,
-   yamanix::MegSourceStatus::Policy::original_zero_stubs);
+   yamanix::MegSourceStatus::Policy::original_zero_stubs,
+   level?yamanix::Vop3LevelReadPolicy::experimental_an1x_level:yamanix::Vop3LevelReadPolicy::reject);
   else if(meg_enabled)meg=std::make_unique<yamanix::An1xMegResearchSink>(16,source_status?yamanix::MegSourceStatus::Policy::original_zero_stubs:yamanix::MegSourceStatus::Policy::reject);
   else if(enabled)lcd=std::make_unique<yamanix::An1xLcdResearchSink>(16);
  }
@@ -71,18 +72,19 @@ std::vector<uint8_t>load(const char*path){
 }
 int main(int argc,char**argv){
  try{
-  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz|lcd-meg-observe-16mhz|lcd-meg-source-stubs-16mhz|lcd-meg-vop3-register-experiment-16mhz]");
+  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz|lcd-meg-observe-16mhz|lcd-meg-source-stubs-16mhz|lcd-meg-vop3-register-experiment-16mhz|lcd-meg-vop3-level-experiment-16mhz]");
   const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],20000000);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   const bool lcd_enabled=argc==7;
-  const bool native=lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-register-experiment-16mhz";
+  const bool level=lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-level-experiment-16mhz";
+  const bool native=level||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-register-experiment-16mhz");
   const bool source_status=native||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-source-stubs-16mhz");
   const bool meg_enabled=source_status||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-observe-16mhz");
   if(lcd_enabled&&!meg_enabled&&std::string_view(argv[6])!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -94,10 +96,10 @@ int main(int argc,char**argv){
   const char*stop_reason=error.empty()?"cycle_limit":error=="H8 execution callback limit"?"callback_limit":"execution_error";
   std::cout<<"{\"schema_version\":1,\"status\":"<<std::quoted(error.empty()?"cycle_limit":"stopped")
    <<",\"stop_reason\":"<<std::quoted(stop_reason)<<",\"callback_limit_requested\":"<<limit
-   <<",\"lcd_profile\":"<<std::quoted(native?"lcd-meg-vop3-register-experiment-16mhz":source_status?"lcd-meg-source-stubs-16mhz":meg_enabled?"lcd-meg-observe-16mhz":lcd_enabled?"lcd-16mhz":"disabled")
+   <<",\"lcd_profile\":"<<std::quoted(level?"lcd-meg-vop3-level-experiment-16mhz":native?"lcd-meg-vop3-register-experiment-16mhz":source_status?"lcd-meg-source-stubs-16mhz":meg_enabled?"lcd-meg-observe-16mhz":lcd_enabled?"lcd-16mhz":"disabled")
    <<",\"meg_observed_controls\":"<<(sink.meg_sink()?sink.meg_sink()->meg_observation().count:0)
    <<",\"meg_source_status_reads\":"<<(sink.meg_sink()?sink.meg_sink()->meg_status_reads():0)
-   <<",\"vop3_profile\":"<<std::quoted(native?"native-registers-experimental-upload":"disabled")
+   <<",\"vop3_profile\":"<<std::quoted(level?"native-registers-experimental-upload-and-level":native?"native-registers-experimental-upload":"disabled")
    <<",\"vop3_metrics_available\":"<<(metrics_available?"true":"false")
    <<",\"vop3_writes\":";pair(metrics.writes);
   std::cout<<",\"vop3_reads\":";pair(metrics.reads);

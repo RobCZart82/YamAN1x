@@ -94,6 +94,18 @@ def main(binary):
             image([0x7a00,address>>16,address&65535,0xfa5a,0x688a if write else 0x6901,0x40fe])
             code, report = run([64,8,10000], profile=native)
             require(code == 2 and report["fault_access"]["address"] == address and report["fault_access"]["width"] == width, "Native experiment keeps unsupported read/byte strict")
+        level = "lcd-meg-vop3-level-experiment-16mhz"
+        image([0x7a00,0x44,0,0x7901,3,0x6981,0x7a00,0x44,0x58,0x7901,0xff00,0x6981,
+               0x7a00,0x44,0x44,0x6901,0x40fe])
+        for slice_size in (1,8,64):
+            code, report = run([128,slice_size,10000], profile=level)
+            require(code == 0 and report["vop3_reads"] == [1,0] and report["vop3_writes"] == [2,0], "Explicit level profile routes actual selected channel read")
+            require(report["vop3_profile"] == "native-registers-experimental-upload-and-level" and report["vop3_sample_passes"] == [0,0], "Level experiment remains named and clockless")
+        code, report = run([128,8,10000], profile=native)
+        require(code == 2 and report["fault_access"]["address"] == 0x440044, "Register-only experiment remains strict at22")
+        image([0x7a00,0x44,0,0x7901,16,0x6981,0x7a00,0x44,0x44,0x6901])
+        code, report = run([128,8,10000], profile=level)
+        require(code == 2 and report["vop3_reads"] == [0,0] and report["fault_access"]["address"] == 0x440044, "Invalid selected index never fabricates a value")
         image([0x7b5c, 0])
         code, report = run([64, 8, 10000])
         require(code == 2 and report["fault_access"] is None, "Decoder stop is not a bus fault")

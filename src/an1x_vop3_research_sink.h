@@ -9,8 +9,9 @@ public:
  using Adapter=Vop3HostWordAdapter<Vop3NativeBackend>;
  explicit An1xVop3ResearchSink(uint64_t scale,
    Adapter::ControlPolicy control=Adapter::ControlPolicy::reject,
-   MegSourceStatus::Policy status=MegSourceStatus::Policy::reject)
-  :An1xMegResearchSink(scale,status),policy_(control),vop3_(std::make_unique<State>(control)){}
+   MegSourceStatus::Policy status=MegSourceStatus::Policy::reject,
+   Vop3LevelReadPolicy level=Vop3LevelReadPolicy::reject)
+  :An1xMegResearchSink(scale,status),policy_(control),level_(level),vop3_(std::make_unique<State>(control,level)){}
  bool vop3_word_enabled()const{return true;}
  void vop3_write_word(uint32_t address,uint64_t cycle,uint16_t value){
   access(cycle,[&]{vop3_->adapter.write_word(address,value);});
@@ -21,11 +22,11 @@ public:
  Vop3NativeBackend::Snapshot vop3_snapshot(){return vop3_->backend.snapshot();}
  yamanix_vop3_metrics vop3_metrics(){return vop3_->backend.metrics();}
  // External sink reset is explicit while machine stopped;subset bus reset retains it.
- void cold_reset(){auto next=std::make_unique<State>(policy_);An1xMegResearchSink::cold_reset();vop3_.swap(next);}
+ void cold_reset(){auto next=std::make_unique<State>(policy_,level_);An1xMegResearchSink::cold_reset();vop3_.swap(next);}
 private:
  struct State {Vop3NativeBackend backend;Adapter adapter;
-  explicit State(Adapter::ControlPolicy policy):adapter(backend,policy){}
+  explicit State(Adapter::ControlPolicy policy,Vop3LevelReadPolicy level):backend(level),adapter(backend,policy,level){}
  };
- Adapter::ControlPolicy policy_;std::unique_ptr<State> vop3_;
+ Adapter::ControlPolicy policy_;Vop3LevelReadPolicy level_;std::unique_ptr<State> vop3_;
 };
 }

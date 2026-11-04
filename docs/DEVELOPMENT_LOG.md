@@ -1,6 +1,47 @@
 # YamAN1x fejlesztési napló
 
-## Explicit experimental native level readback — candidate,2026-11-04
+## Firmware level-read experiment — candidate,2026-11-04
+
+Validation:125/125 CTest PASS (52.68s),100 Python PASS. Extended sink/CLI
+Release and strict ASan/UBSan PASS;strict compiler PASS. Audit637 files,
+notice229 files/5 texts,diff-check PASS. Read-only real-ROM probes at both
+slices agree on actual stop,counters and clockless profile;hash unchanged.
+Existing MAME reference and native bridge unchanged. Own CI/review pending.
+
+New explicit lcd-meg-vop3-level-experiment-16mhz profile configures the native
+sink and host adapter for experimental_an1x_level;MEG zero stubs and upload
+contract remain explicit. Older register-only profile still rejects22. No sample
+advancement. Sink cold reconstruction preserves selected policy while clearing
+state;subset reset retains levels. Synthetic CLI checks three slices,selected
+read counters,old-profile rejection and invalid index;native sink verifies
+-256=>C000,subset retention and policy-preserving cold reset.
+
+Read-only unchanged1.04 ROM,swap16,100M cycles/20M callbacks,4096/1000000 slices:
+identical stop at cycle11925102,PC2912(0xB60),data_writeFFFF60 byte,
+Unmapped AN1x byte write. Native writes[11557,516],reads[448,0],samples[0,0];
+MEG controls5/status_reads1,GPIO6316,TX/clock0. Completed-slice cycles
+11923456/11000000,callbacks2000165/1839738 exclude the failed slice as designed.
+ROM SHA4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe
+unchanged before/after. Both-chip callbacks do not prove full upload acceptance;
+448 read callbacks do not alone prove scan ordering or the specialC000 branch.
+No complete boot,MIDI or audio acceptance. The next blocker is the ITU TSTR
+start path atFFFF60:active timer counter/flag/IRQ/time behavior needs original
+reference and independent tests before enabling it. Do not treat the old
+stopped-ITU storage profile as an active timer implementation.
+Pinned original MAME/bridge unchanged. Own CI/review pending.
+
+
+## #204 merged — 2026-11-04
+
+Mergef0e159f5c1c76956f078e8c32e24a8e058c6b669;tested head
+3ca993d9153495146c0d613eed855e06e4923a23. Five checks passed
+(runs41792234321/41792234331/41792234326). Automatic code review completed
+without findings on that head at2026-11-04T07:28:03.224613Z,
+https://github.com/RobCZart82/yaman1x/pull/204#issuecomment-6625187784.
+No unresolved threads/conflict. Fresh main pulled;main CI pending.
+Next:separately named sink/probe level-read experiment with zero samples.
+
+## Explicit experimental native level readback — candidate #204,2026-11-04
 
 Validation:clean Release full build,125/125 CTest PASS (97.59s),100 Python
 PASS. New level and extended native-failure groups strict ASan/UBSan PASS;
