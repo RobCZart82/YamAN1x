@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **130 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **131 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,16 +33,16 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current verified status — 2026-11-03
+## Current verified status — 2026-11-04
 
-Latest merged change:[#210](https://github.com/RobCZart82/yaman1x/pull/210),
-`f37ed085c5f37e09cc84056e91d26eae1946ec3f`.
-The merged baseline has **129 CTest groups and 103 Python tests**. All five
-PR-head/main checks now passed after hosted macOS capacity recovered.
-No automatic review result recorded for210. No open PR at next-step start.
-Candidate adds pure next enabled ITU event deadline,test group130.
-IRQ dispatch/CPU/MMIO integration remains open;firmware still stopsFFFF60.
-[Deadline contract](docs/h8-itu-event-deadline.md).
+Latest merged change:[#211](https://github.com/RobCZart82/yaman1x/pull/211),
+`f00587194b70ba3a7489da9a486f9ac6cba65ce2`.
+Merged baseline:130 CTest/103 Python;all five PR/main checks PASS and automatic
+review completed without findings on the tested head (ledger records evidence).
+Candidate adds bounded exact-time ITU vector dispatch,test group131,with original
+MAME differential checks. Remote CI/review pending. CPU/MMIO integration remains
+open;firmware still stopsFFFF60 and no audio acceptance is claimed.
+[Dispatch contract](docs/h8-itu-bounded-dispatch.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

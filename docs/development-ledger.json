@@ -3167,25 +3167,57 @@
       ],
       "main_ci_result": "all_five_success",
       "infrastructure_history_final_resolution": "exact PR head and merged main all five checks success;historical retry observations retained"
+    },
+    {
+      "pr": 211,
+      "title": "Add pure next enabled ITU event deadline query",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/211",
+      "kind": "engine-component",
+      "status": "merged",
+      "merge_commit": "f00587194b70ba3a7489da9a486f9ac6cba65ce2",
+      "reviewed_head": "3c2c51af1d89da2df5c98d5310383d826e212214",
+      "ci_runs": [
+        41908190943,
+        41908191069,
+        41908191372
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/211#issuecomment-6641489795",
+      "review_completed_at_utc": "2026-11-04T20:37:38.555561Z",
+      "review_threads_at_merge": 0,
+      "main_ci_result": "all_five_success",
+      "local_validation": {
+        "independent_tick_search_cases": 2048,
+        "original_deadline_cases": 131072,
+        "ctest": "130/130 PASS,58.89s;final extended target rebuilt/PASS",
+        "python": 103,
+        "targeted_asan_ubsan": "PASS",
+        "strict_compile": "PASS",
+        "audit_files": 661,
+        "ci_sanitizer_groups": 49
+      }
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-event-deadline",
+    "branch": "feat/h8-itu-bounded-dispatch",
     "status": "candidate",
-    "scope": "Pure next enabled ITU event deadline;no IRQ dispatch/CPU/MMIO",
+    "scope": "Bounded exact-time channel vector dispatch;CPU/MMIO integration deferred",
+    "reference": "10240 vector/time/count/flag comparisons;locked unchanged update_counter/recalc_event/internal_update;ASan/UBSan PASS",
+    "automated_review": "pending_no_result_claimed",
+    "automation": "20-minute sequential heartbeat reactivated by explicit user request",
     "validation": {
-      "independent_tick_search_cases": 2048,
-      "original_deadline_cases": 131072,
-      "remote_ci": "pending",
-      "automatic_review": "pending",
-      "ctest": "130/130 PASS,58.89s;final extended target rebuilt/PASS",
+      "ctest": "131/131 PASS,54.12s",
       "python": 103,
-      "targeted_asan_ubsan": "PASS",
-      "strict_compile": "PASS",
-      "audit_files": 661,
-      "ci_sanitizer_groups": 49
-    },
-    "automation": "previous recurring automation remains deleted"
+      "strict_compile_asan_ubsan": "PASS",
+      "original_dispatch_cases": 10240,
+      "audit_files": 665,
+      "notice_files": 229,
+      "notice_texts": 5,
+      "ci_sanitizer_groups": 50,
+      "remote_ci": "pending",
+      "automatic_review": "pending"
+    }
   },
   "pending_changes": []
 }

@@ -1,6 +1,44 @@
 # YamAN1x fejlesztési napló
 
-## Pure ITU next-event deadline — candidate,2026-11-04
+## Dispatch candidate validation — 2026-11-04
+
+131/131 CTest PASS(54.12s),103 Python PASS,strict targeted ASan/UBSan PASS;
+10240 unchanged original dispatch comparisons PASS under ASan/UBSan.
+Audit665 files,notice229 files/5 texts,diff-check PASS;CI sanitizer50 groups.
+No ROM accessed. Own remote CI/review pending;not merged.
+
+
+## Bounded ITU dispatch — candidate,2026-11-04
+
+H8ItuBoundedDispatch owns one supported channel and emits exact-time A/B/overflow
+vectors for channels0–4. Timestamp budget bounds work;simultaneous events use one
+budget unit and at most three callbacks. Reentry,callback failure or exhausted
+budget permanently stops the owner. Mutations occur only at its settled time.
+Independent vector/time fixtures,129 split points,reconfiguration and fail-stop
+controls;10240 original MAME dispatch/vector/time/count/flag comparisons PASS
+under ASan/UBSan. Three unchanged methods extracted from the locked archive only
+into a private temporary harness. CPU interrupt-controller delivery,MMIO start,
+firmware boot and audio acceptance remain open. Next selected bus/CPU integration.
+Own remote CI/review pending;candidate is separate from merged baseline.
+
+Merged baseline:#211,f00587194b70ba3a7489da9a486f9ac6cba65ce2,130 CTest/103 Python;
+all five PR and main checks PASS. Automatic review completed without findings
+on3c2c51af1d89da2df5c98d5310383d826e212214;see development ledger evidence.
+Older candidate sections below are historical records,not current open PRs.
+
+
+## #211 merged — 2026-11-04
+
+Mergef00587194b70ba3a7489da9a486f9ac6cba65ce2;tested head
+3c2c51af1d89da2df5c98d5310383d826e212214. Five checks passed
+(runs41908190943/41908191069/41908191372). Automatic code review completed
+without findings on that head at2026-11-04T20:37:38.555561Z,
+https://github.com/RobCZart82/yaman1x/pull/211#issuecomment-6641489795.
+No unresolved threads/conflict. Fresh main pulled;all five main checks PASS.
+User explicitly reactivated the20-minute sequential heartbeat after prior
+capacity recovery. Next bounded exact-time dispatch before CPU/MMIO integration.
+
+## Pure ITU next-event deadline — candidate #211,2026-11-04
 
 Validation:130/130 CTest PASS (58.89s),103 Python PASS;extended final
 deadline test rebuilt and targeted Release/strict ASan/UBSan PASS,including
@@ -55,7 +93,7 @@ Merge8ffbef03db22f7bd573ce1e20c485fa1230fb2b0;tested head
 (runs41840927476/41840927537/41840927394). Automatic code review completed
 without findings on that head at2026-11-04T13:46:14.035182Z,
 https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771.
-No unresolved threads/conflict. Fresh main pulled;main checks pending.
+No unresolved threads/conflict. Fresh main pulled;all five main checks PASS.
 Next internal-clock auto-clear event boundaries with independent/original
 checks;bounded deadlines/IRQ/MMIO remain separate.
 
@@ -90,7 +128,7 @@ Merge96df5e102387f1490253e821f127a44049743dee;tested head
 (runs41829048600/41829048580/41829048565). Automatic code review completed
 without findings on that head at2026-11-04T12:26:09.848108Z,
 https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673.
-No unresolved threads/conflict. Fresh main pulled;main checks pending.
+No unresolved threads/conflict. Fresh main pulled;all five main checks PASS.
 Next counter-to-status compare/overflow event detection,boundary/polling tests
 and original reference;IRQ/deadline/MMIO integration remains separate.
 
@@ -124,7 +162,7 @@ Merge04bb10ae8e31c1b681196eee923bbf12b4f7e388;tested head
 (runs41818785929/41818785669/41818785632). Automatic code review completed
 without findings on that head at2026-11-04T11:08:47.838803Z,
 https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169.
-No unresolved threads/conflict. Fresh main pulled;main checks pending.
+No unresolved threads/conflict. Fresh main pulled;all five main checks PASS.
 Next isolated compare/overflow flags and H8H status-clear/enable behavior
 with disabled-IRQ polling tests;no MMIO start until deadlines/integration ready.
 
@@ -191,7 +229,7 @@ ea23632073847f523cc0efe313ac1b834ddc7aad. Five checks passed
 (runs41801773189/41801773168/41801773266). Automatic code review completed
 without findings on that head at2026-11-04T08:46:35.513939Z,
 https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493.
-No unresolved threads/conflict. Fresh main pulled;main checks pending.
+No unresolved threads/conflict. Fresh main pulled;all five main checks PASS.
 Next:pin active ITU TSTR/counter/flag/IRQ/time behavior from original source
 before enabling the firmware stopFFFF60. No boot or audio acceptance.
 
