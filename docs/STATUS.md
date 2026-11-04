@@ -1,5 +1,22 @@
 # Development status
 
+## Pure ITU next-event deadline — candidate,2026-11-04
+
+New next_itu_event computes the next enabled A/B/overflow event from supported
+free-running/auto-clear snapshots without advancing or mutating state. Equal
+edge distances combine event bits. Disabled/no reachable enabled event returns
+empty;already latched status does not suppress recurring events. Absolute
+phase/divider boundaries are used;unrepresentable future time throws without
+mutation. Unsupported snapshot clock/cycle values reject. No IRQ dispatch,
+CPU scheduler or MMIO integration added.
+2048 independent tick searches plus pure/simultaneous/recurring/time-overflow
+controls.131072 deadline comparisons with unchanged locked recalc_event PASS
+under ASan/UBSan,explicit current time and no CPU callback delivery. Original
+source only in private temporary harness. Next bounded dispatch and precise
+vector/time/reconfiguration tests before bus start. No ROM/boot/audio acceptance.
+Own remote CI/review pending.
+
+
 ## Internal-clock ITU auto-clear events — candidate,2026-11-04
 
 New H8ItuAutoClear composes the existing counter/status for A/B-selected auto-
@@ -217,15 +234,14 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#209](https://github.com/RobCZart82/yaman1x/pull/209),
-`8ffbef03db22f7bd573ce1e20c485fa1230fb2b0`.
-The merged baseline has **128 CTest groups and 103 Python tests**. All five
-PR-head/main checks passed;automatic code review completed without findings
-on head96a198bd5e26313a436f8ec10dcdb44da004193f;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771).
-Candidate adds internal-clock A/B auto-clear events,test group129.
-IRQ/deadline/MMIO integration remains open;firmware still stopsFFFF60.
-[Auto-clear event contract](h8-itu-auto-clear.md).
+Latest merged change:[#210](https://github.com/RobCZart82/yaman1x/pull/210),
+`f37ed085c5f37e09cc84056e91d26eae1946ec3f`.
+The merged baseline has **129 CTest groups and 103 Python tests**. All five
+PR-head/main checks now passed after hosted macOS capacity recovered.
+No automatic review result recorded for210. No open PR at next-step start.
+Candidate adds pure next enabled ITU event deadline,test group130.
+IRQ dispatch/CPU/MMIO integration remains open;firmware still stopsFFFF60.
+[Deadline contract](h8-itu-event-deadline.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

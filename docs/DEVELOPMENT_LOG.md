@@ -1,6 +1,30 @@
 # YamAN1x fejlesztési napló
 
-## Internal-clock ITU auto-clear events — candidate,2026-11-04
+## Pure ITU next-event deadline — candidate,2026-11-04
+
+Validation:130/130 CTest PASS (58.89s),103 Python PASS;extended final
+deadline test rebuilt and targeted Release/strict ASan/UBSan PASS,including
+invalid snapshot checks. Strict compiler PASS;original unchanged recalc_event
+131072 deadline comparisons PASS under ASan/UBSan. Audit661 files,notice229
+files/5 texts,diff-check PASS;CI sanitizer49 groups. No ROM accessed.
+Own remote CI/review pending.
+
+New next_itu_event computes the next enabled A/B/overflow event from supported
+free-running/auto-clear snapshots without advancing or mutating state. Equal
+edge distances combine event bits. Disabled/no reachable enabled event returns
+empty;already latched status does not suppress recurring events. Absolute
+phase/divider boundaries are used;unrepresentable future time throws without
+mutation. Unsupported snapshot clock/cycle values reject. No IRQ dispatch,
+CPU scheduler or MMIO integration added.
+2048 independent tick searches plus pure/simultaneous/recurring/time-overflow
+controls.131072 deadline comparisons with unchanged locked recalc_event PASS
+under ASan/UBSan,explicit current time and no CPU callback delivery. Original
+source only in private temporary harness. Next bounded dispatch and precise
+vector/time/reconfiguration tests before bus start. No ROM/boot/audio acceptance.
+Own remote CI/review pending.
+
+
+## Internal-clock ITU auto-clear events — candidate #210,2026-11-04
 
 Validation:129/129 CTest PASS (53.47s),103 Python PASS;targeted strict
 ASan/UBSan and -Wall -Wextra -Werror PASS. Locked unchanged update_counter
@@ -2868,3 +2892,37 @@ after multiple attempts;annotations explicitly report macOS arm64 capacity.
 After containing workflow completed,requested only that cancelled job retry.
 Retry job126151506376 succeeded;Ubuntu also passed without restart.
 All five main checks now successful. No code failure established.
+
+## #210 macOS capacity retries — 2026-11-04
+
+Both platform macOS job126658587970(run41854292121) and research job
+126658578105(run41854290293) were not acquired by hosted runners;annotations
+explicitly report arm64 capacity. After each containing workflow completed,
+requested only its cancelled job retry. Results pending;three other exact-head
+checks passed. Automatic review result not recorded. No code failure established.
+
+## #210 second platform macOS capacity retry — 2026-11-04
+
+Job126680596924 again was not acquired;annotations confirm hosted arm64
+capacity. Containing platform workflow completed before requesting only this
+cancelled job retry. Research job126680629483 remains queued and was not
+restarted. No code failure or automatic review result recorded.
+
+## #210 persistent external runner blocker — 2026-11-04
+
+Platform job126702161088 again not acquired;annotations confirm hosted macOS
+arm64 capacity. This is the third confirmed platform acquisition failure;
+no further retry requested. Research job126708964536 currently queued,untouched.
+Ubuntu/Windows/MSan passed;automatic review result absent. PR210 remains open
+and unmerged. Stop recurring automation per user persistent-blocker instruction;
+resume requires checking current remote state after capacity recovers.
+
+## #210 merge reconciled — 2026-11-04
+
+User reported all PRs merged;live GitHub confirms no open PRs and #210 merged
+at2026-11-04T19:40:14Z,commitf37ed085c5f37e09cc84056e91d26eae1946ec3f.
+All five checks on PR head4e82f082c8b1870487bd1eabc999d4f5897fadce now
+successful. No automatic review result recorded. Prior runner-capacity blocker
+has recovered;historical retry records retained. Fresh main pulled. Four main
+checks passed;Ubuntu still running. Next bounded deadlines/IRQ dispatch waits
+for that result. Previous recurring automation remains deleted,not recreated.

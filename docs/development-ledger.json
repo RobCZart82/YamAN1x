@@ -3130,25 +3130,62 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771",
       "review_completed_at_utc": "2026-11-04T13:46:14.035182Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 210,
+      "title": "Add internal-clock ITU auto-clear counter events",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/210",
+      "kind": "engine-component",
+      "status": "merged",
+      "merge_commit": "f37ed085c5f37e09cc84056e91d26eae1946ec3f",
+      "reviewed_head": "4e82f082c8b1870487bd1eabc999d4f5897fadce",
+      "merged_at_utc": "2026-11-04T19:40:14Z",
+      "ci_result": "all_five_PR_head_checks_success_verified_after_merge",
+      "automated_review_at_merge": "no_result_recorded",
+      "infrastructure_retry_history": [
+        {
+          "run": 41854292121,
+          "cancelled_job": 126658587970,
+          "reason": "hosted macOS arm64 capacity;not acquired",
+          "requested_retry": "only cancelled job after workflow completed",
+          "result": "pending"
+        },
+        {
+          "run": 41854290293,
+          "cancelled_job": 126658578105,
+          "reason": "hosted macOS arm64 capacity;not acquired",
+          "requested_retry": "only cancelled job after workflow completed",
+          "result": "pending"
+        },
+        {
+          "run": 41854292121,
+          "cancelled_job": 126680596924,
+          "reason": "hosted macOS arm64 capacity;not acquired on first retry",
+          "requested_retry": "only cancelled platform macOS job after workflow completed;research job still queued,untouched",
+          "result": "cancelled_again_hosted_runner_not_acquired"
+        }
+      ],
+      "main_ci_result": "all_five_success",
+      "infrastructure_history_final_resolution": "exact PR head and merged main all five checks success;historical retry observations retained"
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-auto-clear-events",
+    "branch": "feat/h8-itu-event-deadline",
     "status": "candidate",
-    "scope": "Internal-clock A/B auto-clear counter/status events;no IRQ/deadline/MMIO",
+    "scope": "Pure next enabled ITU event deadline;no IRQ dispatch/CPU/MMIO",
     "validation": {
-      "independent_tick_event_cases": 1048576,
-      "source_phase_split_cases": 4128,
-      "original_value_flag_cases": 131072,
+      "independent_tick_search_cases": 2048,
+      "original_deadline_cases": 131072,
       "remote_ci": "pending",
       "automatic_review": "pending",
-      "ctest": "129/129 PASS,53.47s",
+      "ctest": "130/130 PASS,58.89s;final extended target rebuilt/PASS",
       "python": 103,
       "targeted_asan_ubsan": "PASS",
       "strict_compile": "PASS",
-      "audit_files": 657,
-      "ci_sanitizer_groups": 48
-    }
+      "audit_files": 661,
+      "ci_sanitizer_groups": 49
+    },
+    "automation": "previous recurring automation remains deleted"
   },
   "pending_changes": []
 }
