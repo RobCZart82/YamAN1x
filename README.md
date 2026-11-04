@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **128 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **129 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,15 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#208](https://github.com/RobCZart82/yaman1x/pull/208),
-`96df5e102387f1490253e821f127a44049743dee`.
-The merged baseline has **127 CTest groups and 103 Python tests**. All five
+Latest merged change:[#209](https://github.com/RobCZart82/yaman1x/pull/209),
+`8ffbef03db22f7bd573ce1e20c485fa1230fb2b0`.
+The merged baseline has **128 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head6b638f8a711c0c6fa90f6b254f08d2521c111de6;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673).
-Candidate connects free-running counter events to status,test group128.
-Auto-clear events,IRQ/deadline/MMIO integration remain open;firmware stopsFFFF60.
-[Free-running event contract](docs/h8-itu-free-running.md).
+on head96a198bd5e26313a436f8ec10dcdb44da004193f;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771).
+Candidate adds internal-clock A/B auto-clear events,test group129.
+IRQ/deadline/MMIO integration remains open;firmware still stopsFFFF60.
+[Auto-clear event contract](docs/h8-itu-auto-clear.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

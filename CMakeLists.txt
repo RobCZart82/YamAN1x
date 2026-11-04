@@ -455,3 +455,7 @@ add_test(NAME yamanix_h8_itu_status COMMAND yamanix_h8_itu_status_check)
 add_executable(yamanix_h8_itu_free_running_check tests/h8_itu_free_running_check.cpp)
 target_include_directories(yamanix_h8_itu_free_running_check PRIVATE src)
 add_test(NAME yamanix_h8_itu_free_running COMMAND yamanix_h8_itu_free_running_check)
+
+add_executable(yamanix_h8_itu_auto_clear_check tests/h8_itu_auto_clear_check.cpp)
+target_include_directories(yamanix_h8_itu_auto_clear_check PRIVATE src)
+add_test(NAME yamanix_h8_itu_auto_clear COMMAND yamanix_h8_itu_auto_clear_check)

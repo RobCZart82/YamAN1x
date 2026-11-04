@@ -3111,24 +3111,43 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673",
       "review_completed_at_utc": "2026-11-04T12:26:09.848108Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 209,
+      "title": "Connect free-running ITU counter events to H8H status flags",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/209",
+      "kind": "engine-component",
+      "status": "merged",
+      "merge_commit": "8ffbef03db22f7bd573ce1e20c485fa1230fb2b0",
+      "reviewed_head": "96a198bd5e26313a436f8ec10dcdb44da004193f",
+      "ci_runs": [
+        41840927476,
+        41840927537,
+        41840927394
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771",
+      "review_completed_at_utc": "2026-11-04T13:46:14.035182Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-counter-events",
+    "branch": "feat/h8-itu-auto-clear-events",
     "status": "candidate",
-    "scope": "Restricted free-running internal counter-to-status event detection;no auto-clear/IRQ/deadline/MMIO",
+    "scope": "Internal-clock A/B auto-clear counter/status events;no IRQ/deadline/MMIO",
     "validation": {
-      "independent_tick_event_cases": 262144,
-      "phase_split_cases": 2064,
+      "independent_tick_event_cases": 1048576,
+      "source_phase_split_cases": 4128,
       "original_value_flag_cases": 131072,
       "remote_ci": "pending",
       "automatic_review": "pending",
-      "ctest": "128/128 PASS,51.34s",
+      "ctest": "129/129 PASS,53.47s",
       "python": 103,
       "targeted_asan_ubsan": "PASS",
       "strict_compile": "PASS",
-      "audit_files": 653,
-      "ci_sanitizer_groups": 47
+      "audit_files": 657,
+      "ci_sanitizer_groups": 48
     }
   },
   "pending_changes": []

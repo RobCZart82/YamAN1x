@@ -1,6 +1,41 @@
 # YamAN1x fejlesztési napló
 
-## Free-running ITU counter events — candidate,2026-11-04
+## Internal-clock ITU auto-clear events — candidate,2026-11-04
+
+Validation:129/129 CTest PASS (53.47s),103 Python PASS;targeted strict
+ASan/UBSan and -Wall -Wextra -Werror PASS. Locked unchanged update_counter
+131072 auto-clear value/flag comparisons PASS under ASan/UBSan.
+Audit657 files,notice229 files/5 texts,diff-check PASS;CI sanitizer48 groups.
+No ROM accessed. Own remote CI/review pending.
+
+New H8ItuAutoClear composes the existing counter/status for A/B-selected auto-
+clear. Cycle is selected TGR+1 in32 bits;comparison target is wrapped16-bit
+TGR+1. Tick distances capture A/B matches and overflow with IRQ disabled,
+including starts beyond clear boundary and TGRFFFF. Mutations settle old time;
+invalid configuration/index/time preserves state. No external clear/capture,
+deadline,IRQ delivery or MMIO start. Existing free-running component unchanged.
+1048576 independent initial/cycle/target tick cases,4128 A/B-source/phase/splits,
+polling/reconfigure/FFFF/uint64 tests.131072 comparisons with locked unchanged
+update_counter pass for values/flags,IER0;original source only in temporary
+private harness. Initial fixture assumed immediate clear after lowering threshold
+below current count;fixed to check continued count until full wrap,then explicit
+counter rewrite for the immediate-clear test. No implementation workaround.
+Next bounded deadlines/IRQ dispatch and selected MMIO integration;no firmware
+boot or audio acceptance. Original MAME reference unchanged. Own CI/review pending.
+
+
+## #209 merged — 2026-11-04
+
+Merge8ffbef03db22f7bd573ce1e20c485fa1230fb2b0;tested head
+96a198bd5e26313a436f8ec10dcdb44da004193f. Five checks passed
+(runs41840927476/41840927537/41840927394). Automatic code review completed
+without findings on that head at2026-11-04T13:46:14.035182Z,
+https://github.com/RobCZart82/yaman1x/pull/209#issuecomment-6632244771.
+No unresolved threads/conflict. Fresh main pulled;main checks pending.
+Next internal-clock auto-clear event boundaries with independent/original
+checks;bounded deadlines/IRQ/MMIO remain separate.
+
+## Free-running ITU counter events — candidate #209,2026-11-04
 
 Validation:128/128 CTest PASS (51.34s),103 Python PASS;targeted counter/event
 strict ASan/UBSan and -Wall -Wextra -Werror PASS. Original unchanged counter
