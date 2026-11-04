@@ -3054,22 +3054,43 @@
       "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/205#issuecomment-6626566493",
       "review_completed_at_utc": "2026-11-04T08:46:35.513939Z",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 206,
+      "title": "Pin active H83002 ITU source contract and implementation gates",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/206",
+      "kind": "source-contract-and-tooling",
+      "status": "merged",
+      "merge_commit": "84930a1b98b88bb28300dd6f40f0ac09dc8360b6",
+      "reviewed_head": "5722afdd6b8d159501aef8f47146d4898f249be0",
+      "ci_runs": [
+        41811877899,
+        41811878274,
+        41811877793
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "completed_no_findings_on_reviewed_head",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/206#issuecomment-6628054317",
+      "review_completed_at_utc": "2026-11-04T10:07:10.889187Z",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/an1x-active-itu-contract",
+    "branch": "feat/h8-itu-counter",
     "status": "candidate",
-    "scope": "Original active ITU identities and bounded implementation gates;no runtime change",
+    "scope": "Isolated monotonic internal-clock counter;no flags/IRQ/deadline/MMIO",
     "validation": {
-      "source_files": 3,
-      "original_method_identities": 19,
-      "execution_verified": false,
+      "independent_tick_cases": 2097152,
+      "original_counter_value_comparisons": 131072,
+      "split_cases": 258,
       "remote_ci": "pending",
       "automatic_review": "pending",
+      "ctest": "126/126 PASS,53.47s",
       "python": 103,
-      "optimized_targeted_python": 3,
-      "audit_files": 641,
-      "runtime_ctest": "not rerun;source-identity tooling/docs only"
+      "targeted_asan_ubsan": "PASS",
+      "strict_compile": "PASS",
+      "audit_files": 645,
+      "ci_sanitizer_groups": 45
     }
   },
   "pending_changes": []

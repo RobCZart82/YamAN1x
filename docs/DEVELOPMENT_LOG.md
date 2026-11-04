@@ -1,6 +1,44 @@
 # YamAN1x fejlesztési napló
 
-## Active ITU source contract — candidate,2026-11-04
+## Isolated internal-clock ITU counter — candidate,2026-11-04
+
+Validation:126/126 CTest PASS (53.47s),103 Python PASS;targeted strict
+ASan/UBSan and -Wall -Wextra -Werror PASS. Original unchanged method131072
+value comparisons PASS under ASan/UBSan. Audit645 files,notice229 files/
+5 texts,diff-check PASS;CI sanitizer45 groups. No ROM accessed.
+Own remote CI/review pending.
+
+New H8ItuCounter owns monotonic absolute time,count,enable,divider/phase and
+explicit cycle1..65536. It settles old time before enable/count/config changes;
+invalid profile/time rejects without mutation. Disabled time does not accumulate
+later catch-up. Internal shifts0..3,zero/half phase,wrap and starts beyond new
+clear boundary supported. No flags,IRQ,deadlines,MMIO or firmware start enabled.
+Independent per-tick oracle covers2097152 initial-count/profile cases;258 splits,
+stop/restart/reconfigure,invalid retention and uint64 time extremes tested.
+Tick quotient avoids now+phase overflow;counter arithmetic avoids count+delta
+overflow. These large-time extensions are independently checked,not claimed
+original-method comparisons at overflowing source arithmetic.
+131072 value comparisons with the unchanged locked update_counter PASS under
+ASan/UBSan in a temporary harness. TGR count0/IER0 deliberately excludes flag/
+IRQ behavior;cycle and clock configured directly. Original source never copied
+into repository. Next:compare/overflow flags and disabled-IRQ polling tests,
+then bounded deadlines/dispatch before bus integration. No ROM/audio acceptance.
+Own CI/review pending.
+
+
+## #206 merged — 2026-11-04
+
+Merge84930a1b98b88bb28300dd6f40f0ac09dc8360b6;tested head
+5722afdd6b8d159501aef8f47146d4898f249be0. Five checks passed
+(runs41811877899/41811878274/41811877793). Automatic code review completed
+without findings on that head at2026-11-04T10:07:10.889187Z,
+https://github.com/RobCZart82/yaman1x/pull/206#issuecomment-6628054317.
+No unresolved threads/conflict. Merge call timed out,but live PR confirmed
+closed/merged with the above SHA;no duplicate merge requested. Fresh main
+pulled;main checks pending. Next isolated internal-clock ITU counter before
+flags/IRQ/deadline/MMIO integration.
+
+## Active ITU source contract — candidate #206,2026-11-04
 
 Validation:locked archive identity check PASS (3 files/19 methods);103 Python
 tests PASS,including3 new extraction/negative tests and optimized-mode targeted
