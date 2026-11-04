@@ -1,5 +1,6 @@
 #pragma once
 #include "upload_control_contract.h"
+#include "vop3_level_read_policy.h"
 #include <array>
 #include <stdexcept>
 namespace yamanix {
@@ -9,8 +10,14 @@ template<class Backend>class Vop3HostWordAdapter {
 public:
  enum class ControlPolicy { reject, experimental_firmware_contract };
  struct Address {unsigned chip,reg;};
- explicit Vop3HostWordAdapter(Backend& backend,ControlPolicy policy=ControlPolicy::reject):backend_(backend),policy_(policy){
+ explicit Vop3HostWordAdapter(Backend& backend,ControlPolicy policy=ControlPolicy::reject,Vop3LevelReadPolicy level=Vop3LevelReadPolicy::reject):backend_(backend),policy_(policy),level_(level){
   if(policy!=ControlPolicy::reject&&policy!=ControlPolicy::experimental_firmware_contract)throw std::invalid_argument("Unknown VOP3 control policy");
+  if(level!=Vop3LevelReadPolicy::reject&&level!=Vop3LevelReadPolicy::experimental_an1x_level)throw std::invalid_argument("Unknown VOP3 level policy");
+  if(level==Vop3LevelReadPolicy::experimental_an1x_level){
+   if constexpr(requires(const Backend& b){b.experimental_level_read_enabled();}){
+    if(!backend.experimental_level_read_enabled())throw std::invalid_argument("VOP3 level backend not configured");
+   }else throw std::invalid_argument("VOP3 level backend capability unavailable");
+  }
  }
  Vop3HostWordAdapter(const Vop3HostWordAdapter&)=delete;
  Vop3HostWordAdapter& operator=(const Vop3HostWordAdapter&)=delete;
@@ -34,7 +41,7 @@ public:
   require_live();const auto a=decode(address);require_mask(mask);
   if(a.reg==1){require_control();return controls_[a.chip].status();}
   // Existing bridge returns zeros for other unimplemented reads;do not expose them.
-  if(a.reg!=0x21)throw std::out_of_range("Unimplemented VOP3 register read");
+  if(a.reg!=0x21&&!(a.reg==0x22&&level_==Vop3LevelReadPolicy::experimental_an1x_level))throw std::out_of_range("Unimplemented VOP3 register read");
   Guard guard(*this);uint16_t value=0;
   try{if(backend_.read(a.chip,a.reg,mask,value)!=0||failed_)throw std::runtime_error("VOP3 backend read failed");return value;}
   catch(...){failed_=true;throw;}
@@ -44,7 +51,7 @@ private:
  void require_live(){if(busy_){failed_=true;throw std::logic_error("VOP3 adapter reentry");}if(failed_)throw std::logic_error("Failed VOP3 adapter");}
  static void require_mask(uint16_t mask){if(mask!=0xffff)throw std::invalid_argument("Unsupported VOP3 partial word");}
  void require_control()const{if(policy_!=ControlPolicy::experimental_firmware_contract)throw std::logic_error("Unverified VOP3 upload status disabled");}
- Backend&backend_;ControlPolicy policy_;std::array<UploadControlContract,2>controls_;
+ Backend&backend_;ControlPolicy policy_;Vop3LevelReadPolicy level_;std::array<UploadControlContract,2>controls_;
  bool busy_=false,failed_=false;
 };
 }

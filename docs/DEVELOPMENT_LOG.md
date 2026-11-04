@@ -1,6 +1,41 @@
 # YamAN1x fejlesztési napló
 
-## Reg22 readback contract — candidate,2026-11-04
+## Explicit experimental native level readback — candidate,2026-11-04
+
+Validation:clean Release full build,125/125 CTest PASS (97.59s),100 Python
+PASS. New level and extended native-failure groups strict ASan/UBSan PASS;
+-Wall -Wextra -Werror PASS. CI sanitizer44 groups,audit636 files,notice229
+files/5 texts,diff-check PASS. Independent131072 signed-input/chip cases,
+32 valid channel/chip values and496 invalid indices. No ROM accessed.
+Own CI/review pending.
+
+A shared Vop3LevelReadPolicy keeps default reject and separately names
+experimental_an1x_level. Native owner chooses ABI profile1 once at construction;
+invalid policy or configuration failure rejects/destructs safely. Host adapter
+allows22 only with explicit policy and backend capability confirmation. Reg21
+remains separate. No unknown read fallback,no clock advance or firmware profile
+change. Default adapter rejects22 even on an experimental backend.
+Independent integer oracle checks131072 signed-input/chip cases,all16 channels
+on both chips,and496 invalid selected indices. Bad index poisons the adapter,
+backend read counters remain unchanged. Strict configuration/mask/enum controls
+and native configuration-failure destruction are tested. Existing timing tests
+cover fractional evolution and target/aim discrepancy;physical conversion is
+still experimental. Next:separately named bounded firmware experiment without
+sample advancement,then distinct clock/upload/timing work. Original bridge and
+pinned MAME reference unchanged;no ROM accessed or boot/audio acceptance.
+Own remote CI/review pending.
+
+
+## #203 merged — 2026-11-04
+
+Merge0a8af1d63d58de5bbe9e0fd29055063118402081;tested head
+0dfe222721a27e7804211e1bf41a15426b7a014b. Four required checks passed
+(runs41782923319/41782923279);research build not triggered for docs-only.
+No automatic review result recorded;no unresolved threads/conflict.
+Fresh main pulled;main checks pending. Next:explicit native/host experimental
+reg22 policy and independent signed-level/index tests;default stays strict.
+
+## Reg22 readback contract — candidate #203,2026-11-04
 
 Validation:clean temporary Release build of existing bridge/adapter/native
 checks;five selected CTest groups PASS (including normal/optimized VOP3 timing),

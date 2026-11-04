@@ -1,5 +1,24 @@
 # Development status
 
+## Explicit experimental native level readback — candidate,2026-11-04
+
+A shared Vop3LevelReadPolicy keeps default reject and separately names
+experimental_an1x_level. Native owner chooses ABI profile1 once at construction;
+invalid policy or configuration failure rejects/destructs safely. Host adapter
+allows22 only with explicit policy and backend capability confirmation. Reg21
+remains separate. No unknown read fallback,no clock advance or firmware profile
+change. Default adapter rejects22 even on an experimental backend.
+Independent integer oracle checks131072 signed-input/chip cases,all16 channels
+on both chips,and496 invalid selected indices. Bad index poisons the adapter,
+backend read counters remain unchanged. Strict configuration/mask/enum controls
+and native configuration-failure destruction are tested. Existing timing tests
+cover fractional evolution and target/aim discrepancy;physical conversion is
+still experimental. Next:separately named bounded firmware experiment without
+sample advancement,then distinct clock/upload/timing work. Original bridge and
+pinned MAME reference unchanged;no ROM accessed or boot/audio acceptance.
+Own remote CI/review pending.
+
+
 ## Reg22 readback contract — candidate,2026-11-04
 
 Earlier firmware-consumer evidence is reconciled with the current strict native
@@ -89,15 +108,14 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#202](https://github.com/RobCZart82/yaman1x/pull/202),
-`127435b0d5bcb53934fdff6ee0582b924175493d`.
-The merged baseline has **124 CTest groups and 100 Python tests**. All five
-PR-head/main checks passed. No automatic review result recorded;no open
-review threads or conflict at merge.
-Current native probe performs10236 chip0 writes,then rejects word read440044.
-Candidate reconciles earlier reg22 evidence and defines the next explicit
-experimental read policy;no runtime or boot/audio acceptance change.
-[Readback contract](vop3-readback-contract.md).
+Latest merged change:[#203](https://github.com/RobCZart82/yaman1x/pull/203),
+`0a8af1d63d58de5bbe9e0fd29055063118402081`.
+The merged baseline has **124 CTest groups and 100 Python tests**. All four
+PR-head/main checks passed;research was not triggered for documentation-only.
+No automatic review result recorded;no open review threads/conflict at merge.
+Candidate adds explicit experimental native/host reg22 readback,test group125.
+Firmware probe still rejects22;clock and audio acceptance remain open.
+[Explicit readback policy](vop3-explicit-level-readback.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

@@ -39,3 +39,11 @@ No actual native bridge/firmware acceptance is claimed. Next connect the native
 backend and explicit research sink with lifecycle/fail-stop/partition tests.
 Full firmware boot,physical MEG status,DMS board selection,table/audio routing,
 realtime engine and REAPER remain open.
+
+## Explicit level-read policy candidate
+
+The default above stays strict. A separately selected experimental_an1x_level
+policy may expose22 only when the backend confirms lifetime-scoped ABI profile1.
+This is independent of upload control and never aliases21. See
+[vop3-explicit-level-readback.md](vop3-explicit-level-readback.md). No firmware
+probe or model clock is enabled by selecting the standalone adapter policy.

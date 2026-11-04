@@ -3000,21 +3000,42 @@
       "ci_result": "all_five_success",
       "automated_review_at_merge": "no_result_recorded",
       "review_threads_at_merge": 0
+    },
+    {
+      "pr": 203,
+      "title": "Reconcile VOP3 reg22 evidence and explicit readback experiment gates",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/203",
+      "kind": "documentation",
+      "status": "merged",
+      "merge_commit": "0a8af1d63d58de5bbe9e0fd29055063118402081",
+      "reviewed_head": "0dfe222721a27e7804211e1bf41a15426b7a014b",
+      "ci_runs": [
+        41782923319,
+        41782923279
+      ],
+      "ci_result": "all_four_success;research_not_triggered_documentation_only",
+      "automated_review_at_merge": "no_result_recorded",
+      "review_threads_at_merge": 0
     }
   ],
   "active_change": {
-    "branch": "research/vop3-readback-contract",
+    "branch": "feat/vop3-explicit-level-readback",
     "status": "candidate",
-    "scope": "Reconcile existing signed/indexed reg22 consumer evidence and define strict opt-in experiment gates;no runtime change",
-    "remote_ci": "pending",
-    "automatic_review": "pending",
+    "scope": "Explicit lifetime-scoped native and host experimental reg22 policy;no probe/clock/audio change",
     "validation": {
-      "fresh_build": "selected existing bridge/adapter/native targets PASS",
-      "ctest_groups": 5,
-      "eg_audit_unit_tests": 3,
-      "audit_files": 633,
-      "full_suite": "not rerun;documentation only"
-    }
+      "signed_input_chip_cases": 131072,
+      "valid_channel_chip_cases": 32,
+      "invalid_indices": 496,
+      "targeted_release": "PASS",
+      "targeted_asan_ubsan": "PASS",
+      "strict_compile": "PASS",
+      "ci_sanitizer_groups": 44,
+      "audit_files": 636,
+      "ctest": "125/125 PASS,97.59s",
+      "python": 100
+    },
+    "remote_ci": "pending",
+    "automatic_review": "pending"
   },
   "pending_changes": []
 }

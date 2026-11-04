@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **124 CTest groups and 100 Python cases**. Tests generate synthetic
+The source-only build defines **125 CTest groups and 100 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,15 +35,14 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#202](https://github.com/RobCZart82/yaman1x/pull/202),
-`127435b0d5bcb53934fdff6ee0582b924175493d`.
-The merged baseline has **124 CTest groups and 100 Python tests**. All five
-PR-head/main checks passed. No automatic review result recorded;no open
-review threads or conflict at merge.
-Current native probe performs10236 chip0 writes,then rejects word read440044.
-Candidate reconciles earlier reg22 evidence and defines the next explicit
-experimental read policy;no runtime or boot/audio acceptance change.
-[Readback contract](docs/vop3-readback-contract.md).
+Latest merged change:[#203](https://github.com/RobCZart82/yaman1x/pull/203),
+`0a8af1d63d58de5bbe9e0fd29055063118402081`.
+The merged baseline has **124 CTest groups and 100 Python tests**. All four
+PR-head/main checks passed;research was not triggered for documentation-only.
+No automatic review result recorded;no open review threads/conflict at merge.
+Candidate adds explicit experimental native/host reg22 readback,test group125.
+Firmware probe still rejects22;clock and audio acceptance remain open.
+[Explicit readback policy](docs/vop3-explicit-level-readback.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
