@@ -1,6 +1,40 @@
 # YamAN1x fejlesztési napló
 
-## Isolated internal-clock ITU counter — candidate,2026-11-04
+## Isolated H8H ITU status latch — candidate,2026-11-04
+
+Validation:127/127 CTest PASS (53.18s),103 Python PASS;targeted strict
+ASan/UBSan and -Wall -Wextra -Werror PASS. Original3 unchanged methods
+compared over524288 injected event/enable/clear states under ASan/UBSan.
+Audit649 files,notice229 files/5 texts,diff-check PASS;CI sanitizer46 groups.
+No ROM accessed. Own remote CI/review pending.
+
+New H8ItuStatus explicitly latches compareA/compareB/overflow events independent
+of enables. Read status/enables normalize reserved bitsF8;status write zero
+clears and one preserves. pending() reports only flags&enables eligibility,
+not interrupt-controller pending state or callback delivery. Reset clears low
+flags/enables and exposes normalizedF8:component reset policy,not whole original
+raw-register/hardware reset equivalence. Invalid event bits reject unchanged.
+524288 independent event/enable/clear cases plus cumulative disabled-latch,
+reenable/reset/invalid controls PASS. Another524288 comparisons use three
+unchanged original H8H methods in a temporary ASan/UBSan harness. Original ISR
+events are supplied explicitly;this does not prove counter compare detection,
+polling-driven event generation,deadline or IRQ delivery. Next:counter-to-status
+event detection with independent boundary/polling tests,then deadlines/dispatch
+before MMIO start. No ROM,firmware or audio acceptance. Own CI/review pending.
+
+
+## #207 merged — 2026-11-04
+
+Merge04bb10ae8e31c1b681196eee923bbf12b4f7e388;tested head
+3315d2899e5f2d9ff11ca5046ab0e3e3f817c51c. Five checks passed
+(runs41818785929/41818785669/41818785632). Automatic code review completed
+without findings on that head at2026-11-04T11:08:47.838803Z,
+https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169.
+No unresolved threads/conflict. Fresh main pulled;main checks pending.
+Next isolated compare/overflow flags and H8H status-clear/enable behavior
+with disabled-IRQ polling tests;no MMIO start until deadlines/integration ready.
+
+## Isolated internal-clock ITU counter — candidate #207,2026-11-04
 
 Validation:126/126 CTest PASS (53.47s),103 Python PASS;targeted strict
 ASan/UBSan and -Wall -Wextra -Werror PASS. Original unchanged method131072

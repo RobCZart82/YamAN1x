@@ -1,5 +1,22 @@
 # Development status
 
+## Isolated H8H ITU status latch — candidate,2026-11-04
+
+New H8ItuStatus explicitly latches compareA/compareB/overflow events independent
+of enables. Read status/enables normalize reserved bitsF8;status write zero
+clears and one preserves. pending() reports only flags&enables eligibility,
+not interrupt-controller pending state or callback delivery. Reset clears low
+flags/enables and exposes normalizedF8:component reset policy,not whole original
+raw-register/hardware reset equivalence. Invalid event bits reject unchanged.
+524288 independent event/enable/clear cases plus cumulative disabled-latch,
+reenable/reset/invalid controls PASS. Another524288 comparisons use three
+unchanged original H8H methods in a temporary ASan/UBSan harness. Original ISR
+events are supplied explicitly;this does not prove counter compare detection,
+polling-driven event generation,deadline or IRQ delivery. Next:counter-to-status
+event detection with independent boundary/polling tests,then deadlines/dispatch
+before MMIO start. No ROM,firmware or audio acceptance. Own CI/review pending.
+
+
 ## Isolated internal-clock ITU counter — candidate,2026-11-04
 
 New H8ItuCounter owns monotonic absolute time,count,enable,divider/phase and
@@ -164,15 +181,15 @@ DEVELOPMENT_LOG; own PR CI and automatic review pending.
 
 ## Current verified status — 2026-11-03
 
-Latest merged change:[#206](https://github.com/RobCZart82/yaman1x/pull/206),
-`84930a1b98b88bb28300dd6f40f0ac09dc8360b6`.
-The merged baseline has **125 CTest groups and 103 Python tests**. All five
+Latest merged change:[#207](https://github.com/RobCZart82/yaman1x/pull/207),
+`04bb10ae8e31c1b681196eee923bbf12b4f7e388`.
+The merged baseline has **126 CTest groups and 103 Python tests**. All five
 PR-head/main checks passed;automatic code review completed without findings
-on head5722afdd6b8d159501aef8f47146d4898f249be0;no open threads/conflict.
-[Review evidence](https://github.com/RobCZart82/yaman1x/pull/206#issuecomment-6628054317).
-Candidate adds isolated internal-clock ITU counter,test group126. Flags/IRQ/
-deadline/MMIO integration remains open;firmware still stops atFFFF60.
-[Counter contract](h8-itu-counter.md).
+on head3315d2899e5f2d9ff11ca5046ab0e3e3f817c51c;no open threads/conflict.
+[Review evidence](https://github.com/RobCZart82/yaman1x/pull/207#issuecomment-6629084169).
+Candidate adds isolated H8H status latch,test group127. Counter event detection,
+IRQ/deadline/MMIO integration remain open;firmware still stops atFFFF60.
+[Status latch contract](h8-itu-status.md).
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME
