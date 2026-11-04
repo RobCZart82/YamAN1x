@@ -1,6 +1,41 @@
 # YamAN1x fejlesztési napló
 
-## Isolated H8H ITU status latch — candidate,2026-11-04
+## Free-running ITU counter events — candidate,2026-11-04
+
+Validation:128/128 CTest PASS (51.34s),103 Python PASS;targeted counter/event
+strict ASan/UBSan and -Wall -Wextra -Werror PASS. Original unchanged counter
+method131072 free-running value/flag comparisons PASS under ASan/UBSan.
+Audit653 files,notice229 files/5 texts,diff-check PASS;CI sanitizer47 groups.
+No ROM accessed. Own remote CI/review pending.
+
+New H8ItuFreeRunning composes the monotonic counter and H8H latch for the
+restricted cycle65536 internal-clock profile. Absolute tick-distance crossings
+set compareA/B and overflow flags even when interrupts are disabled. TGRFFFF
+compares at wrapped target0. Polling reads settle elapsed time;count/compare/
+enable/status changes settle old state first. Invalid configuration/index/time
+rejects without mutation. No IRQ callbacks,deadlines,auto-clear,capture or MMIO.
+Independent per-tick oracle covers262144 initial/target cases;2064 divider/phase/
+split cases,disabled polling/clear/reenable/stop and uint64 limits tested.
+A locked unchanged original update_counter harness compares131072 free-running
+value/flag cases with two TGRs and IER0. No original code saved in repository.
+Counter exposes pure elapsed_ticks to share overflow-safe time conversion.
+Next:auto-clear event semantics/boundaries if needed,then bounded deadlines and
+IRQ dispatch before bus start. Firmware still stopsFFFF60;no boot/audio proof.
+Own CI/review pending.
+
+
+## #208 merged — 2026-11-04
+
+Merge96df5e102387f1490253e821f127a44049743dee;tested head
+6b638f8a711c0c6fa90f6b254f08d2521c111de6. Five checks passed
+(runs41829048600/41829048580/41829048565). Automatic code review completed
+without findings on that head at2026-11-04T12:26:09.848108Z,
+https://github.com/RobCZart82/yaman1x/pull/208#issuecomment-6630531673.
+No unresolved threads/conflict. Fresh main pulled;main checks pending.
+Next counter-to-status compare/overflow event detection,boundary/polling tests
+and original reference;IRQ/deadline/MMIO integration remains separate.
+
+## Isolated H8H ITU status latch — candidate #208,2026-11-04
 
 Validation:127/127 CTest PASS (53.18s),103 Python PASS;targeted strict
 ASan/UBSan and -Wall -Wextra -Werror PASS. Original3 unchanged methods
