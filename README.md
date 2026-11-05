@@ -35,15 +35,16 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current verified status — 2026-11-05
 
-Latest verified merged engine change: [#212](https://github.com/RobCZart82/yaman1x/pull/212),
-`5915ccb54f07f7649192ea3dbfa4277c56f0ce01`, merged 2026-11-05T05:35:17Z.
-Tested PR head: `28f81562685616cb89bdf96f269c62bcc9a375de`.
+Latest verified merged fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+`d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
+Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
 The suite defines **131 CTest groups and 103 Python cases**.
-[Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483350),
-[MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483298),
-[MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483383).
-These results belong to #212's PR head; no automatic review result was recorded
-at inspection. The actual macOS runner is15; the required check retains its old name.
+[Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
+[MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
+[MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686368).
+These results belong to #213's final PR head. Automated review completed without
+findings on source commit `95b7edb0feaa97be23d1105fe59b6f259596e640`; only PR-link
+documentation changed afterwards (three files). No final-head review is claimed. The actual macOS runner is15; the required check retains its old name.
 
 Bounded shared SYSCR modes, absolute machine time, supported subset reset,
 LCD/MEG/native register-only VOP3 research adapters, and standalone ITU counter,
@@ -54,13 +55,14 @@ firmware diagnostics at the documented FFFF60 timer-start boundary.
 PKS/MIDI, DSP clock/table/EG fidelity, audio rendering, VST3/AU and REAPER
 acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
 
-Current fix candidate: complete external research-sink cold reset through LCD
+Merged fix: complete external research-sink cold reset through LCD
 or MEG base references, with safe base ownership/destruction. Local regression
 reproduced retained MEG/VOP3 state before the fix and passes after it. Own
 Release build and 130/130 locally runnable CTest groups PASS (53.85s). Python:
 102/103 PASS, one symlink case blocked by Windows privilege (WinError1314).
 Source/notice audits and document links PASS. Local sanitizers not run; own
-remote CI/review are pending and no merge is claimed.
+remote platform/UBSan/ASan/UBSan, MSan and MAME checks passed. No active engine
+candidate is recorded. This documentation reconciliation changes no runtime code.
 Machine subset reset still retains external chips; explicit sink cold reset
 must be called with the machine stopped. No Yamaha data is needed.
 

@@ -30,3 +30,7 @@ Base-pointer ownership destroys the full composition. Qualified base calls insid
 overrides deliberately reset the parent portion before committing the new child.
 The owner must still stop the machine before reset; this introduces no automatic
 machine/sink coordination, hardware reset, threading or audio acceptance.
+
+Merged fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+`d60e6eb9907d0a9c89938e1677d68e54b319da74`; all five final-head CI jobs passed, including
+the extended integration target under Linux ASan/UBSan.
