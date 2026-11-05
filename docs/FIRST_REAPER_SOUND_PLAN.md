@@ -1,5 +1,24 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Bounded ITU dispatch — candidate,2026-11-04
+
+H8ItuBoundedDispatch owns one supported channel and emits exact-time A/B/overflow
+vectors for channels0–4. Timestamp budget bounds work;simultaneous events use one
+budget unit and at most three callbacks. Reentry,callback failure or exhausted
+budget permanently stops the owner. Mutations occur only at its settled time.
+Independent vector/time fixtures,129 split points,reconfiguration and fail-stop
+controls;10240 original MAME dispatch/vector/time/count/flag comparisons PASS
+under ASan/UBSan. Three unchanged methods extracted from the locked archive only
+into a private temporary harness. CPU interrupt-controller delivery,MMIO start,
+firmware boot and audio acceptance remain open. Next selected bus/CPU integration.
+Own remote CI/review pending;candidate is separate from merged baseline.
+
+Merged baseline:#211,f00587194b70ba3a7489da9a486f9ac6cba65ce2,130 CTest/103 Python;
+all five PR and main checks PASS. Automatic review completed without findings
+on3c2c51af1d89da2df5c98d5310383d826e212214;see development ledger evidence.
+Older candidate sections below are historical records,not current open PRs.
+
+
 ## Pure ITU next-event deadline — candidate,2026-11-04
 
 New next_itu_event computes the next enabled A/B/overflow event from supported
