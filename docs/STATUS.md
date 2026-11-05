@@ -1,5 +1,24 @@
 # Development status
 
+## Stopped ITU TCR bus integration — candidate, 2026-11-05
+
+Writes to the five byte-mapped TCR registers configure the corresponding stopped
+scheduler channel at the current bus cycle when the locked source profile is
+supported. All register encodings retain the existing bit-7-normalized readback.
+Unsupported encodings expose no runnable profile. Cold and supported peripheral
+reset reapply the internal free-running profile at the current epoch. TSTR,
+active counter MMIO, and CPU interrupt delivery remain separate acceptance gates.
+
+The bus test checks all 256 values at each of the five TCR addresses, including
+24-bit aliases, channel isolation, reset, and the absence of events while stopped.
+The existing CPU continuation checks and locked original TCR differential remain
+in place. This is a bounded source-compatible profile. Hardware acceptance and
+the firmware rerun at FFFF60 remain open.
+
+Baseline #217 (d06b064) is merged with all five main checks green.
+Candidate CI and automated review are pending.
+
+
 ## ITU TCR source-profile decoder — candidate,2026-11-05
 
 Pure decode_itu_control maps96 supported internal-clock/no-external-clear TCR

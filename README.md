@@ -35,10 +35,10 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current candidate — 2026-11-05
 
-The pure ITU TCR decoder supports96 internal-clock register profiles,with all256
-encodings compared against the locked original method. Source phase behavior
-is documented in STATUS. Own CI/review pending. Merged #216 main checks PASS.
-Next MMIO register application and CPU IRQ routing.
+The bus applies supported TCR writes to the stopped ITU scheduler while retaining
+existing register readback. Baseline #217 is merged and main CI passed. Candidate
+CI and automated review are pending. Active timer start and CPU IRQ routing are
+the next gates. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 
