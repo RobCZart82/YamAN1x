@@ -1,5 +1,32 @@
 # YamAN1x fejlesztési napló
 
+TCR candidate validation134/134 CTest PASS(57.30s),103 Python PASS,strict
+ASan/UBSan target PASS,256 original-method cases PASS. Audit673 files,
+notice229 files/5 texts,diff-check PASS. CI sanitizer selection53 groups.
+
+## ITU TCR source-profile decoder — candidate,2026-11-05
+
+Pure decode_itu_control maps96 supported internal-clock/no-external-clear TCR
+values to divider,phase and free/A/B clear mode. All256 encodings are checked.
+The locked H8H source compares raw count_type0..3 against enum DIV_2=6,
+therefore phase stays zero even with edge-selection bits. This source behavior
+is explicit and awaits hardware validation. Other encodings return empty.
+Original unchanged tcr_update differential passes all256 encodings under
+ASan/UBSan. Its exact method hash is pinned in the checker,whole-file identity
+and archive lock verified. Counter integration probes cover all96 accepted
+profiles. Bus/MMIO writes and CPU IRQ routing remain next acceptance gates.
+Candidate134 CTest/103 Python. Own remote CI/review pending.
+Merged baseline #216,189df0e,all five main checks PASS.
+
+
+## #216 merge reconciled — 2026-11-05
+
+GitHub confirms merge189df0efc99baf128631e4472a77fec349bd9226 at18:19:25Z.
+Exact PR head a52cecc71b18e87b0e40b150eb884e8cb9abbe1d has five successful
+checks and completed automated review without findings,comment6665151486.
+Review threads empty. Fresh main pulled. Three main checks successful,Ubuntu
+and research checks running. Next development waits for completion.
+
 ## Selectable-mode validation — 2026-11-05
 
 133/133 Release CTest PASS(54.51s),103 Python PASS,targeted strict ASan/UBSan

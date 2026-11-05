@@ -1,5 +1,20 @@
 # Development status
 
+## ITU TCR source-profile decoder — candidate,2026-11-05
+
+Pure decode_itu_control maps96 supported internal-clock/no-external-clear TCR
+values to divider,phase and free/A/B clear mode. All256 encodings are checked.
+The locked H8H source compares raw count_type0..3 against enum DIV_2=6,
+therefore phase stays zero even with edge-selection bits. This source behavior
+is explicit and awaits hardware validation. Other encodings return empty.
+Original unchanged tcr_update differential passes all256 encodings under
+ASan/UBSan. Its exact method hash is pinned in the checker,whole-file identity
+and archive lock verified. Counter integration probes cover all96 accepted
+profiles. Bus/MMIO writes and CPU IRQ routing remain next acceptance gates.
+Candidate134 CTest/103 Python. Own remote CI/review pending.
+Merged baseline #216,189df0e,all five main checks PASS.
+
+
 ## Selectable per-channel ITU clear mode — candidate,2026-11-05
 
 The shared scheduler now accepts independent free-running,A-clear and B-clear
