@@ -1,5 +1,35 @@
 # YamAN1x fejlesztési napló
 
+## Stopped ITU TCR bus integration — candidate, 2026-11-05
+
+Writes to the five byte-mapped TCR registers configure the corresponding stopped
+scheduler channel at the current bus cycle when the locked source profile is
+supported. All register encodings retain the existing bit-7-normalized readback.
+Unsupported encodings expose no runnable profile. Cold and supported peripheral
+reset reapply the internal free-running profile at the current epoch. TSTR,
+active counter MMIO, and CPU interrupt delivery remain separate acceptance gates.
+
+The bus test checks all 256 values at each of the five TCR addresses, including
+24-bit aliases, channel isolation, reset, and the absence of events while stopped.
+The existing CPU continuation checks and locked original TCR differential remain
+in place. This is a bounded source-compatible profile. Hardware acceptance and
+the firmware rerun at FFFF60 remain open.
+
+Baseline #217 (d06b064) is merged with all five main checks green.
+Local validation: 134/134 CTest groups (63.48s), targeted ASan/UBSan, all 256
+original TCR encodings, repository audit and notice audit passed.
+Candidate CI and automated review are pending.
+
+
+## #217 merged — 2026-11-05
+
+Merge d06b064eda188296e7f87bc99aa4d415b5890394. All five checks passed on
+d7bac7b43f49e0e4ef08c57a6835c1ceda1b3515. No automated review result or quota
+error was recorded. Manual inspection of the decoder and original reference
+harness found no actionable issue. No open review threads or conflict. The
+ruleset required zero approving reviews. Squash merge used the checked SHA.
+All five main checks passed before further development.
+
 TCR candidate validation134/134 CTest PASS(57.30s),103 Python PASS,strict
 ASan/UBSan target PASS,256 original-method cases PASS. Audit673 files,
 notice229 files/5 texts,diff-check PASS. CI sanitizer selection53 groups.
