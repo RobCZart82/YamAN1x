@@ -16,7 +16,7 @@ public:
  }
  const MegRegisterStorage::State& meg_state()const{return meg_.state();}
  MegHostWriteAdapter::Observation meg_observation()const{return meg_.observation();}
- void cold_reset(){
+ void cold_reset() override{
   MegHostWriteAdapter next(MegHostWriteAdapter::ControlPolicy::observe_original_stubs);
   MegSourceStatus next_status(status_.enabled()?MegSourceStatus::Policy::original_zero_stubs:MegSourceStatus::Policy::reject);
   An1xLcdResearchSink::cold_reset();meg_=next;status_=next_status;

@@ -33,16 +33,36 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current verified status — 2026-11-04
+## Current verified status — 2026-11-05
 
-Latest merged change:[#211](https://github.com/RobCZart82/yaman1x/pull/211),
-`f00587194b70ba3a7489da9a486f9ac6cba65ce2`.
-Merged baseline:130 CTest/103 Python;all five PR/main checks PASS and automatic
-review completed without findings on the tested head (ledger records evidence).
-Candidate adds bounded exact-time ITU vector dispatch,test group131,with original
-MAME differential checks. Remote CI/review pending. CPU/MMIO integration remains
-open;firmware still stopsFFFF60 and no audio acceptance is claimed.
-[Dispatch contract](docs/h8-itu-bounded-dispatch.md).
+Latest verified merged engine change: [#212](https://github.com/RobCZart82/yaman1x/pull/212),
+`5915ccb54f07f7649192ea3dbfa4277c56f0ce01`, merged 2026-11-05T05:35:17Z.
+Tested PR head: `28f81562685616cb89bdf96f269c62bcc9a375de`.
+The suite defines **131 CTest groups and 103 Python cases**.
+[Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483350),
+[MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483298),
+[MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41922483383).
+These results belong to #212's PR head; no automatic review result was recorded
+at inspection. The actual macOS runner is15; the required check retains its old name.
+
+Bounded shared SYSCR modes, absolute machine time, supported subset reset,
+LCD/MEG/native register-only VOP3 research adapters, and standalone ITU counter,
+flags, deadlines and exact-time vector dispatch are implemented. The full
+hardware RESET line and boot remain unaccepted. Next: selected active ITU
+scheduler/MMIO integration and actual CPU IRQ delivery, then fresh local
+firmware diagnostics at the documented FFFF60 timer-start boundary.
+PKS/MIDI, DSP clock/table/EG fidelity, audio rendering, VST3/AU and REAPER
+acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
+
+Current fix candidate: complete external research-sink cold reset through LCD
+or MEG base references, with safe base ownership/destruction. Local regression
+reproduced retained MEG/VOP3 state before the fix and passes after it. Own
+Release build and 130/130 locally runnable CTest groups PASS (53.85s). Python:
+102/103 PASS, one symlink case blocked by Windows privilege (WinError1314).
+Source/notice audits and document links PASS. Local sanitizers not run; own
+remote CI/review are pending and no merge is claimed.
+Machine subset reset still retains external chips; explicit sink cold reset
+must be called with the machine stopped. No Yamaha data is needed.
 
 Merged #158 reconciles the audit documentation. #159–164 pin reset input,child
 configuration,queued RESET and scheduler time contracts from the fixed MAME

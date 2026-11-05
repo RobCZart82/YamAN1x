@@ -12,7 +12,8 @@ public:
     explicit An1xLcdResearchSink(uint64_t cycles_per_us):scale_(cycles_per_us),state_(std::make_unique<State>(scale_)){}
     An1xLcdResearchSink(const An1xLcdResearchSink&)=delete;
     An1xLcdResearchSink& operator=(const An1xLcdResearchSink&)=delete;
-    void cold_reset(){auto next=std::make_unique<State>(scale_);state_.swap(next);}
+    virtual ~An1xLcdResearchSink()=default;
+    virtual void cold_reset(){auto next=std::make_unique<State>(scale_);state_.swap(next);}
     bool failed() const {return state_->failed;}
     const Lc7985Controller::State& lcd_state() const {return state_->controller.state();}
     uint8_t gpio_read(unsigned port,uint64_t cycle){

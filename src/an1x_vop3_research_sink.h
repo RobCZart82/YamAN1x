@@ -22,7 +22,7 @@ public:
  Vop3NativeBackend::Snapshot vop3_snapshot(){return vop3_->backend.snapshot();}
  yamanix_vop3_metrics vop3_metrics(){return vop3_->backend.metrics();}
  // External sink reset is explicit while machine stopped;subset bus reset retains it.
- void cold_reset(){auto next=std::make_unique<State>(policy_,level_);An1xMegResearchSink::cold_reset();vop3_.swap(next);}
+ void cold_reset() override{auto next=std::make_unique<State>(policy_,level_);An1xMegResearchSink::cold_reset();vop3_.swap(next);}
 private:
  struct State {Vop3NativeBackend backend;Adapter adapter;
   explicit State(Adapter::ControlPolicy policy,Vop3LevelReadPolicy level):backend(level),adapter(backend,policy,level){}

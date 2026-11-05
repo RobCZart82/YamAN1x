@@ -1,5 +1,40 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Forrásaudit és cold-reset javítás — 2026-11-05
+
+Ellenőrzött motoralap: #212, `5915ccb54f07f7649192ea3dbfa4277c56f0ce01`.
+A tesztelt head `28f81562685616cb89bdf96f269c62bcc9a375de`; a platform/sanitizer,
+MSan és MAME futások sikeresek (41922483350 / 41922483298 / 41922483383).
+Automatikus review-eredmény az ellenőrzéskor nem volt rögzítve.
+131 CTest/103 Python eset. A korábbi #211 „jelölt” megjegyzéseit történeti
+adatként őrizzük; #211 és #212 beolvadt. A közös SYSCR (#141) és a korlátozott
+reset (#168–169) már elkészült, a teljes hardver-reset és boot nincs elfogadva.
+
+Reprodukált hiba: az An1xVop3ResearchSink LCD- vagy MEG-alapreferenciáján hívott
+cold_reset csak az alapréteget nullázta; a MEG/VOP3 állapot és számlálók megmaradtak.
+A cold_reset most virtuális, a leszármazottak override-ot használnak, az alap
+virtuális destruktort kapott. Így az alapmutatón birtokolt teljes adapter is
+felszabadul. Két alapnézetes resetpróba ellenőrzi a teljes állapotot, az új
+nullaidős korszakot és a számlálókat; két alapmutatós tulajdonosi próba a teljes
+objektum megsemmisítését. A teszt javítás előtt elbukott, utána PASS.
+Ez a közös külső adapterfelület javítása; a jelenlegi konkrét típusos CLI-út
+ugyanezt a cold resetet eddig is közvetlenül hívta.
+
+Aktív javítóág: fix/research-sink-cold-reset. Release build és 130/130 helyben
+futtatható CTest PASS (53,85 s). Python: 102/103 PASS, egy ismert symlink-esetet
+a Windows-jogosultság akadályozott (WinError1314). Forrásaudit: 665 fájl/201
+upstream azonosság PASS; licencértesítés: 229 fájl/5 szöveg PASS, jogi/bináris
+engedélyezést nem jelent. Belső linkek/UTF-8/napló-ősök PASS. Helyi sanitizer
+nem futott. Saját távoli CI/review függőben; korábbi CI nem ennek az eredménye.
+Következő motorlépés: aktív ITU ütemező/MMIO és CPU IRQ-bekötés; utána friss helyi
+firmware-próba. PKS/MIDI, DSP/hang/plugin/REAPER elfogadása nyitott. Yamaha-adatot
+nem használunk; EG target-hold módosítás továbbra is hardveres bizonyítékhoz kötött.
+
+## Történeti fejlesztési és előkészítési bejegyzések
+
+Az alábbi korábbi „jelölt”, „függőben” és „következő” állítások a saját dátumukra
+vonatkoznak; az aktuális feladatsort a fenti összefoglaló és az M0-szakasz tartalmazza.
+
 ## Bounded ITU dispatch — candidate,2026-11-04
 
 H8ItuBoundedDispatch owns one supported channel and emits exact-time A/B/overflow
@@ -2156,10 +2191,11 @@ Nyitott feladatok, végrehajtási sorrendben:
 1. A 264 kiválasztott H8H-kódolássor kezelői már bekerültek, a kiválasztott
    leltárban 0 hiányzó sor van (135 kizárt sor külön hatókör). Ez nem teljes
    CPU- vagy hardverelfogadás. A közös ROM/RAM/SCI/GPIO/IRQ-busz szintetikus
-   integrációja elkészült. Következő: közös CPU/host SYSCR-állapot és a dinamikus
-   szűrés, IRQ/TRAPA-belépés módtesztjei; a jelenlegi fix 0B profil megőrzése
-   addig szükséges. Utána teljes gépreset, a további perifériák és a teljes
-   címtér/időzítés integrációja, az azonos idejű események sorrendjének igazolásával.
+   integrációja elkészült. A közös korlátozott SYSCR-módok és a támogatott részreset
+   már teszteltek. Következő: az ITU önálló számláló/esemény/deadline/dispatch
+   komponenseinek aktív gépütemező/MMIO- és CPU IRQ-bekötése, majd friss helyi
+   firmware-diagnosztika. Teljes hardver-reset, további perifériák és a teljes
+   címtér/időzítés igazolása továbbra is nyitott.
 2. A teljes gép CPU-/RAM-/periféria-/DSP-/MIDI-állapotának példányizolációját,
    resetjét és blokkfelosztástól független időléptetését igazolni.
 3. Az újonnan ténylegesen beépített függőségek licenceit lezárni; a saját kód
