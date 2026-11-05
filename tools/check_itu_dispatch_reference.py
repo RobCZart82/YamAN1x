@@ -78,10 +78,12 @@ int main(){uint64_t seed=0x123abc;unsigned count=0;
  }
  unsigned banks=0;
  for(unsigned shift=0;shift<=3;++shift)for(unsigned phase:{0u,(1u<<shift)/2})for(unsigned n=0;n<256;++n){
-  yamanix::H8ItuChannelScheduler<yamanix::H8ItuFreeRunning> bank;
+  yamanix::H8ItuChannelScheduler<yamanix::H8ItuAutoClear> bank;
   bank.run_until(1,4096,[](unsigned,u64){});Events expected,actual;
   for(unsigned channel=0;channel<5;++channel){
    seed=seed*6364136223846793005ULL+1;
+   const unsigned mode=(channel+n)%3;
+   bank.set_clear_mode(channel,static_cast<yamanix::H8ItuAutoClear::ClearMode>(mode));
    bank.configure(channel,shift,phase);bank.write_count(channel,uint16_t(seed>>32));
    bank.write_compare(channel,0,uint16_t(seed));bank.write_compare(channel,1,uint16_t(seed>>16));
    bank.write_enables(channel,n&7);bank.set_enabled(channel,(n&8)!=0);
@@ -89,15 +91,15 @@ int main(){uint64_t seed=0x123abc;unsigned count=0;
    original.intc.now=&original.m_last_clock_update;original.m_last_clock_update=1;
    original.m_clock_divider=shift;original.m_phase=phase;original.m_channel_active=state.counter.enabled;
    original.m_tcnt=state.counter.count;original.m_tgr[0]=state.compare[0];original.m_tgr[1]=state.compare[1];
-   original.m_tgr_clearing=-1;original.m_interrupt[0]=24+4*channel;original.m_interrupt[1]=25+4*channel;original.m_interrupt[4]=26+4*channel;
-   original.m_ier=(n&3)|((n&4)?16:0);original.recalc_event(1);original.internal_update(131073);
+   original.m_tgr_clearing=mode==2?-1:int(mode);original.m_interrupt[0]=24+4*channel;original.m_interrupt[1]=25+4*channel;original.m_interrupt[4]=26+4*channel;
+   original.m_ier=(n&3)|((n&4)?16:0);original.recalc_event(1);original.internal_update(4097);
    expected.insert(expected.end(),original.intc.events.begin(),original.intc.events.end());
   }
   std::sort(expected.begin(),expected.end(),[](auto a,auto b){return a.second==b.second?a.first<b.first:a.second<b.second;});
-  bank.run_until(131073,4096,[&](unsigned v,u64 t){actual.emplace_back(v,t);});
+  bank.run_until(4097,8192,[&](unsigned v,u64 t){actual.emplace_back(v,t);});
   if(actual!=expected)throw std::runtime_error("Original five-channel chronology mismatch");++banks;
  }
- std::printf("%u original five-channel event-stream comparisons PASS;equal-time ordering is project policy\n",banks);
+ std::printf("%u original mixed-mode five-channel event-stream comparisons PASS;equal-time ordering is project policy\n",banks);
  std::printf("%u original dispatch vector/time/count/flag comparisons PASS;no CPU/controller/hardware acceptance\n",count);
 }
 '''

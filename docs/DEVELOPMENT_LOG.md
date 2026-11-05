@@ -1,5 +1,40 @@
 # YamAN1x fejlesztési napló
 
+## Selectable-mode validation — 2026-11-05
+
+133/133 Release CTest PASS(54.51s),103 Python PASS,targeted strict ASan/UBSan
+PASS. Original reference2048 mixed streams,10240 single-channel and131072
+A/B auto-clear values/flags PASS under ASan/UBSan. Audit670 files,notice229
+files/5 texts,diff-check PASS. Linux sanitizer selection52 groups.
+Own remote CI and automatic review pending.
+
+
+## Selectable per-channel ITU clear mode — candidate,2026-11-05
+
+The shared scheduler now accepts independent free-running,A-clear and B-clear
+channel modes through guarded settled-time writes. Default A-clear and the
+existing0/1 source API are preserved. Mode switches settle the old configuration
+and retain count,flags,enables and phase. Snapshot clear_index2 means free run.
+Independent65536 free-running cases,2304 transitions,65 switch partitions and
+an exact mixed-mode vector/time fixture PASS under targeted ASan/UBSan.
+Original locked methods pass2048 mixed-channel streams,10240 single-channel
+and131072 existing auto-clear value/flag cases. [Contract](h8-itu-clear-mode.md).
+The candidate defines133 CTest/103 Python cases. Own CI/review pending.
+Merged baseline:#215,2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131,all five main
+checks successful. Next supported TCR/MMIO decoding and CPU IRQ routing.
+
+
+## #215 merged — 2026-11-05
+
+Merge2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131,exact head
+6929aac9c7a577302b02b0d3a69d32ca01c99a82. All five CI checks successful.
+Automatic review result absent and quota error unconfirmed. Primary agent
+inspected scheduler/tests/reference and diff without actionable findings.
+Live rules require zero approving reviews;review threads empty,mergeable clean.
+Merged using expected SHA and normal squash endpoint. Fresh main fetched.
+Main CI pending before any next development.
+
+
 ## Scheduler publication recovered — 2026-11-05
 
 A subsequent normal push succeeded. Candidate branch now available remotely.
