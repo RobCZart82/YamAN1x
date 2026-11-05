@@ -1,5 +1,30 @@
 # YamAN1x fejlesztési napló
 
+## Javítás lezárva — #213, 2026-11-05
+
+Beolvadt: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+merge `d60e6eb9907d0a9c89938e1677d68e54b319da74`,
+tesztelt head `a421a261a6647e759dac7d5132567d82f2de32fc`.
+Időpont: 2026-11-05 10:09:33 Europe/Budapest (09:09:33 UTC).
+[Linux/macOS/Windows, UBSan és ASan/UBSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
+[MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
+[MAME PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686368): mind az öt feladat sikeres.
+Automatikus review észrevétel nélkül lezárult a `95b7edb0feaa97be23d1105fe59b6f259596e640`
+forráscommiton; utána csak három dokumentum PR-hivatkozása változott. A végső headre
+külön review-t nem állítunk. Nyitott review-szál nem volt a beolvasztáskor.
+
+A teljes külső LCD/MEG/VOP3 cold reset alapreferencián keresztül is működik,
+és az alapmutatós felszabadítás teljes. Reprodukció: javítás előtt megtartott
+MEG/VOP3 állapot miatti kudarc; javítás után két alapnézetes reset és két
+alapmutatós destruktorpróba PASS. Helyi Release/130 futtatható CTest PASS;
+Python 102/103 PASS, egy WinError1314 symlink-jogosultsági akadály. Teljes
+CI-készlet: 131 CTest/103 Python. A sanitizer-bizonyíték a fenti Linux CI.
+
+Nincs aktív motorjelölt. Ez a lezáró egyeztetés dokumentációs változás;
+saját ellenőrzései a kapcsolódó PR-en követhetők, a fenti CI a #213-hoz tartozik.
+Következő: aktív ITU gépütemező/MMIO- és CPU IRQ-bekötés, majd friss helyi
+firmware-diagnosztika. M0 részleges; boot/MIDI/hang/plugin/REAPER elfogadás nyitott.
+
 ## Forrásaudit és cold-reset javítás — 2026-11-05
 
 Ellenőrzött motoralap: #212, `5915ccb54f07f7649192ea3dbfa4277c56f0ce01`.

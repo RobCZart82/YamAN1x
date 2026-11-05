@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-05",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "5915ccb54f07f7649192ea3dbfa4277c56f0ce01",
+  "baseline_commit": "d60e6eb9907d0a9c89938e1677d68e54b319da74",
   "entries": [
     {
       "pr": 6,
@@ -3214,27 +3214,39 @@
       ],
       "ci_result": "all_five_success",
       "automated_review_at_merge": "no_result_recorded_at_inspection"
+    },
+    {
+      "pr": 213,
+      "title": "Fix incomplete research sink cold reset through LCD and MEG base views",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/213",
+      "kind": "reliability-fix",
+      "status": "merged",
+      "merge_commit": "d60e6eb9907d0a9c89938e1677d68e54b319da74",
+      "reviewed_head": "a421a261a6647e759dac7d5132567d82f2de32fc",
+      "merged_at_utc": "2026-11-05T09:09:33Z",
+      "ci_runs": [
+        41996686134,
+        41996686447,
+        41996686368
+      ],
+      "ci_result": "all_five_success",
+      "automated_review": "completed_no_findings_on_source_commit",
+      "automated_review_head": "95b7edb0feaa97be23d1105fe59b6f259596e640",
+      "post_review_diff": "three documentation PR-link files only;source/tests unchanged",
+      "review_threads_at_merge": 0,
+      "local_validation": {
+        "regression_before": "failed_retained_MEG_VOP3_state",
+        "regression_after": "pass",
+        "full_suite": "130/130 runnable CTest PASS,53.85s;Python wrapper tested separately",
+        "python": "102/103 PASS;one WinError1314 symlink case",
+        "release_build": "pass",
+        "repository_audit": "665 files,201 upstream identities,pass",
+        "source_notice_coverage": "229 files,5 texts,pass",
+        "local_sanitizers": "not_run",
+        "documentation": "utf8_links_ledger_ancestry_pass"
+      }
     }
   ],
-  "active_change": {
-    "branch": "fix/research-sink-cold-reset",
-    "scope": "Polymorphic external research sink cold reset/destruction and current documentation reconciliation",
-    "status": "local_regression_passed",
-    "validation": {
-      "regression_before": "failed_retained_MEG_VOP3_state",
-      "regression_after": "pass",
-      "full_suite": "130/130 runnable CTest PASS,53.85s;Python wrapper tested separately",
-      "remote_ci": "pending",
-      "automated_review": "pending",
-      "python": "102/103 PASS;one WinError1314 symlink case",
-      "release_build": "pass",
-      "repository_audit": "665 files,201 upstream identities,pass",
-      "source_notice_coverage": "229 files,5 texts,pass",
-      "local_sanitizers": "not_run",
-      "documentation": "utf8_links_ledger_ancestry_pass"
-    },
-    "pr": 213,
-    "url": "https://github.com/RobCZart82/yaman1x/pull/213"
-  },
+  "active_change": null,
   "pending_changes": []
 }
