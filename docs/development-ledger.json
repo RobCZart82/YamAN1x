@@ -3264,7 +3264,8 @@
       "notice_files": 229,
       "notice_texts": 5,
       "ci_sanitizer_groups": 51
-    }
+    },
+    "publication": "Normal push succeeded on 2026-11-05 after two prior commit_refs_rules rejections;cause unconfirmed;PR checks pending"
   },
   "pending_changes": []
 }

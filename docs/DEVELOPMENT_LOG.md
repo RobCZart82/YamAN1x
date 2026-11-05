@@ -1,5 +1,19 @@
 # YamAN1x fejlesztési napló
 
+## Scheduler publication recovered — 2026-11-05
+
+A subsequent normal push succeeded. Candidate branch now available remotely.
+The two earlier commit_refs_rules rejections remain historical observations.
+Remote CI and automatic review await PR creation.
+
+## Scheduler publication failure — 2026-11-05
+
+Two normal pushes of the candidate branch were rejected by GitHub with
+fatal error in commit_refs_rules. No open PR exists. Local tested commit
+c35abb6 remains available. Publication waits for remote recovery. The exact
+cause is unconfirmed. Default branch ruleset remains active.
+
+
 ## Scheduler candidate validation — 2026-11-05
 
 Release build and132/132 CTest PASS(92.31s),103 Python PASS,targeted strict
