@@ -49,6 +49,12 @@ public:
         mutate(channel, [&](auto& owner) { owner.write_status(value); });
     }
 
+    template<class Mode>
+    void set_clear_mode(unsigned channel, Mode mode)
+        requires requires(Channel& owner) { owner.set_clear_mode(0, mode); } {
+        mutate(channel, [&](auto& owner) { owner.set_clear_mode(mode); });
+    }
+
     template<class Sink>
     std::size_t run_until(uint64_t target, std::size_t budget, Sink&& sink) {
         require_live();

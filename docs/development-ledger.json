@@ -3245,27 +3245,59 @@
         "local_sanitizers": "not_run",
         "documentation": "utf8_links_ledger_ancestry_pass"
       }
+    },
+    {
+      "branch": "feat/h8-itu-channel-scheduler",
+      "status": "merged",
+      "base_commit": "7b792ca200193acae3bbc3f94b4663866c15dd9b",
+      "base_checks": "all_four_applicable_success",
+      "scope": "Five uniform-profile ITU channels in one chronological bounded scheduler",
+      "original_reference": "locked unchanged update_counter/recalc_event/internal_update;2048 bank streams and10240 single-channel cases ASan/UBSan PASS",
+      "remote_ci": "pending",
+      "automatic_review": "no_result_recorded;comments/reviews empty;no quota error evidence",
+      "validation": {
+        "ctest": "132/132 PASS,92.31s",
+        "python": "103/103 PASS",
+        "strict_asan_ubsan": "targeted PASS",
+        "audit_files": 668,
+        "notice_files": 229,
+        "notice_texts": 5,
+        "ci_sanitizer_groups": 51
+      },
+      "publication": "Normal push succeeded on 2026-11-05 after two prior commit_refs_rules rejections;cause unconfirmed;PR checks pending",
+      "pr": 215,
+      "merge_commit": "2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131",
+      "reviewed_head": "6929aac9c7a577302b02b0d3a69d32ca01c99a82",
+      "ci_runs": [
+        42064642413,
+        42064642322,
+        42064642340
+      ],
+      "ci_result": "all_five_success",
+      "manual_review": "primary agent inspected scheduler/tests/reference and current diff;no actionable finding",
+      "review_threads_at_merge": 0,
+      "rules_at_merge": "zero required approvals;all required checks success;mergeable clean",
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-channel-scheduler",
+    "branch": "feat/h8-itu-selectable-clear-mode",
     "status": "candidate",
-    "base_commit": "7b792ca200193acae3bbc3f94b4663866c15dd9b",
-    "base_checks": "all_four_applicable_success",
-    "scope": "Five uniform-profile ITU channels in one chronological bounded scheduler",
-    "original_reference": "locked unchanged update_counter/recalc_event/internal_update;2048 bank streams and10240 single-channel cases ASan/UBSan PASS",
+    "scope": "Settled-time per-channel free/A-clear/B-clear modes;TCR/MMIO decoding next",
+    "base_commit": "2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131",
+    "base_ci": "all_five_success",
     "remote_ci": "pending",
     "automatic_review": "pending",
+    "original_reference": "locked original methods;2048 mixed streams,10240 single-channel,131072 auto-clear values/flags ASan/UBSan PASS",
     "validation": {
-      "ctest": "132/132 PASS,92.31s",
+      "ctest": "133/133 PASS,54.51s",
       "python": "103/103 PASS",
-      "strict_asan_ubsan": "targeted PASS",
-      "audit_files": 668,
+      "strict_targeted_asan_ubsan": "PASS",
+      "audit_files": 670,
       "notice_files": 229,
       "notice_texts": 5,
-      "ci_sanitizer_groups": 51
-    },
-    "publication": "Normal push succeeded on 2026-11-05 after two prior commit_refs_rules rejections;cause unconfirmed;PR checks pending"
+      "ci_sanitizer_groups": 52
+    }
   },
   "pending_changes": []
 }

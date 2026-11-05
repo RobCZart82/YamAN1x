@@ -3,9 +3,10 @@
 #include "h8_itu_status.h"
 #include <array>
 namespace yamanix {
-// Internal-clock A/B auto-clear only;no external clear,capture,IRQ/deadline/MMIO.
+// Internal-clock free-running or A/B-selected clear profile.
 class H8ItuAutoClear {
 public:
+ enum class ClearMode : unsigned { compare_a=0, compare_b=1, free_running=2 };
  struct State {H8ItuCounter::State counter;std::array<uint16_t,2> compare;unsigned clear_index;uint8_t status,enables;
   bool operator==(const State&)const=default;};
  State state()const{return {counter_.state(),compare_,clear_,status_.status(),status_.enables()};}
@@ -20,8 +21,16 @@ public:
   counter_.advance(now);status_.latch(events);
  }
  void configure(uint64_t now,unsigned shift,unsigned phase){auto next=*this;next.advance(now);next.counter_.configure(now,shift,phase,next.counter_.state().cycle);*this=next;}
+ void set_clear_mode(uint64_t now, ClearMode mode) {
+  const auto source = static_cast<unsigned>(mode);
+  if (source > 2) throw std::out_of_range("Unsupported ITU clear mode");
+  advance(now);
+  clear_ = source;
+  refresh_cycle(now);
+ }
  void set_clear_index(uint64_t now,unsigned index){
-  if(index>1)throw std::out_of_range("Unsupported ITU clear source");advance(now);clear_=index;refresh_cycle(now);
+  if(index>1)throw std::out_of_range("Unsupported ITU clear source");
+  set_clear_mode(now,static_cast<ClearMode>(index));
  }
  void write_compare(uint64_t now,unsigned index,uint16_t value){
   if(index>1)throw std::out_of_range("Unsupported ITU compare index");advance(now);compare_[index]=value;refresh_cycle(now);
@@ -43,7 +52,11 @@ private:
   if(target<=cycle)return 65536u-count+target;
   return 0;
  }
- void refresh_cycle(uint64_t now){const auto s=counter_.state();counter_.configure(now,s.shift,s.phase,uint32_t(compare_[clear_])+1);}
+ void refresh_cycle(uint64_t now) {
+  const auto state = counter_.state();
+  const uint32_t cycle = clear_ == 2 ? 65536u : uint32_t(compare_[clear_]) + 1;
+  counter_.configure(now, state.shift, state.phase, cycle);
+ }
  H8ItuCounter counter_;H8ItuStatus status_;std::array<uint16_t,2>compare_={0xffff,0xffff};unsigned clear_=0;
 };
 }

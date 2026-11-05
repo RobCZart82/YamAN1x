@@ -18,6 +18,10 @@ public:
  void write_enables(uint8_t value){mutate([&]{channel_.write_enables(time(),value);});}
  void write_status(uint8_t value){mutate([&]{channel_.write_status(time(),value);});}
  void set_clear_index(unsigned index)requires requires(Channel& c){c.set_clear_index(0,index);}{mutate([&]{channel_.set_clear_index(time(),index);});}
+ template<class Mode>
+ void set_clear_mode(Mode mode) requires requires(Channel& channel) { channel.set_clear_mode(0, mode); } {
+  mutate([&] { channel_.set_clear_mode(time(), mode); });
+ }
  template<class Sink>std::size_t run_until(uint64_t target,std::size_t budget,Sink&& sink){
   require_live();if(target<time()||!budget)throw std::invalid_argument("Invalid bounded ITU dispatch request");
   Guard guard(*this);std::size_t used=0;
