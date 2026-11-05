@@ -3278,25 +3278,53 @@
       "review_threads_at_merge": 0,
       "rules_at_merge": "zero required approvals;all required checks success;mergeable clean",
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "feat/h8-itu-selectable-clear-mode",
+      "status": "merged",
+      "scope": "Settled-time per-channel free/A-clear/B-clear modes;TCR/MMIO decoding next",
+      "base_commit": "2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131",
+      "base_ci": "all_five_success",
+      "remote_ci": "all_five_success",
+      "automatic_review": "completed_no_findings_on_exact_head",
+      "original_reference": "locked original methods;2048 mixed streams,10240 single-channel,131072 auto-clear values/flags ASan/UBSan PASS",
+      "validation": {
+        "ctest": "133/133 PASS,54.51s",
+        "python": "103/103 PASS",
+        "strict_targeted_asan_ubsan": "PASS",
+        "audit_files": 670,
+        "notice_files": 229,
+        "notice_texts": 5,
+        "ci_sanitizer_groups": 52
+      },
+      "pr": 216,
+      "merge_commit": "189df0efc99baf128631e4472a77fec349bd9226",
+      "merged_at_utc": "2026-11-05T18:19:25Z",
+      "reviewed_head": "a52cecc71b18e87b0e40b150eb884e8cb9abbe1d",
+      "review_evidence_url": "https://github.com/RobCZart82/yaman1x/pull/216#issuecomment-6665151486",
+      "review_completed_at_utc": "2026-11-05T17:52:25.843368Z",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-selectable-clear-mode",
+    "branch": "feat/h8-itu-control-decode",
     "status": "candidate",
-    "scope": "Settled-time per-channel free/A-clear/B-clear modes;TCR/MMIO decoding next",
-    "base_commit": "2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131",
-    "base_ci": "all_five_success",
+    "scope": "Pure H8H internal-clock TCR source-profile decoder",
+    "base_commit": "189df0efc99baf128631e4472a77fec349bd9226",
+    "original_reference": "256 unchanged tcr_update comparisons ASan/UBSan PASS;method SHA d4d2a472c2f0067e2e6138243e44cb2d3ddcd36614c7bb8652f7479157677f8a",
+    "source_phase_caveat": "raw count_type0..3 <= enum DIV_2=6 selects phase0;physical validation open",
     "remote_ci": "pending",
     "automatic_review": "pending",
-    "original_reference": "locked original methods;2048 mixed streams,10240 single-channel,131072 auto-clear values/flags ASan/UBSan PASS",
     "validation": {
-      "ctest": "133/133 PASS,54.51s",
+      "ctest": "134/134 PASS,57.30s",
       "python": "103/103 PASS",
-      "strict_targeted_asan_ubsan": "PASS",
-      "audit_files": 670,
+      "targeted_strict_asan_ubsan": "PASS",
+      "original_tcr_encodings": 256,
+      "audit_files": 673,
       "notice_files": 229,
       "notice_texts": 5,
-      "ci_sanitizer_groups": 52
+      "ci_sanitizer_groups": 53
     }
   },
   "pending_changes": []
