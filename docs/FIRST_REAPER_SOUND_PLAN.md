@@ -1,5 +1,22 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Shared five-channel ITU scheduler — candidate,2026-11-05
+
+H8ItuChannelScheduler merges five bounded channel owners by absolute deadline.
+A shared edge consumes one budget unit with at most15 vector callbacks.
+Equal timestamps use channel order then A/B/overflow as explicit project policy.
+Callback time and scheduler epoch agree. Budget/callback/reentry failures stop
+all future dispatch. Reconfiguration occurs at settled time.
+33 split points,simultaneous vectors,stop/reconfigure and auto-clear recurrence
+are checked independently. Locked original MAME methods pass2048 five-channel
+stream comparisons plus10240 existing value/flag/vector/time comparisons under
+ASan/UBSan. [Contract](h8-itu-channel-scheduler.md).
+CPU IRQ delivery,mixed-mode MMIO and fresh firmware diagnostics remain next.
+Remote CI and automatic review pending. Merged baseline is7b792ca (#214),with
+all four applicable main checks successful. The candidate defines132 CTest
+and103 Python cases. The previous reset-fix evidence below remains historical.
+
+
 ## Javítás lezárva — #213, 2026-11-05
 
 Beolvadt: [#213](https://github.com/RobCZart82/yaman1x/pull/213),

@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **131 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **132 CTest groups and 103 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,12 +33,20 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
+## Current candidate — 2026-11-05
+
+The shared five-channel ITU scheduler merges channel events chronologically with
+bounded work and fail-stop callbacks. Its PR CI/review are pending. The merged
+baseline is7b792ca (#214),with four applicable main checks successful.
+Next are mixed-mode MMIO and CPU IRQ integration,then fresh firmware diagnostics.
+[Scheduler contract](docs/h8-itu-channel-scheduler.md).
+
 ## Current verified status — 2026-11-05
 
 Latest verified merged fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
 `d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
 Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
-The suite defines **131 CTest groups and 103 Python cases**.
+The suite defines **132 CTest groups and 103 Python cases**.
 [Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
 [MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
 [MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686368).

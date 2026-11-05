@@ -3247,6 +3247,25 @@
       }
     }
   ],
-  "active_change": null,
+  "active_change": {
+    "branch": "feat/h8-itu-channel-scheduler",
+    "status": "candidate",
+    "base_commit": "7b792ca200193acae3bbc3f94b4663866c15dd9b",
+    "base_checks": "all_four_applicable_success",
+    "scope": "Five uniform-profile ITU channels in one chronological bounded scheduler",
+    "original_reference": "locked unchanged update_counter/recalc_event/internal_update;2048 bank streams and10240 single-channel cases ASan/UBSan PASS",
+    "remote_ci": "pending",
+    "automatic_review": "pending",
+    "validation": {
+      "ctest": "132/132 PASS,92.31s",
+      "python": "103/103 PASS",
+      "strict_asan_ubsan": "targeted PASS",
+      "audit_files": 668,
+      "notice_files": 229,
+      "notice_texts": 5,
+      "ci_sanitizer_groups": 51
+    },
+    "publication": "Normal push succeeded on 2026-11-05 after two prior commit_refs_rules rejections;cause unconfirmed;PR checks pending"
+  },
   "pending_changes": []
 }
