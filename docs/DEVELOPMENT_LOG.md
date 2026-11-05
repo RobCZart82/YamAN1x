@@ -20,7 +20,7 @@ objektum megsemmisítését. A teszt javítás előtt elbukott, utána PASS.
 Ez a közös külső adapterfelület javítása; a jelenlegi konkrét típusos CLI-út
 ugyanezt a cold resetet eddig is közvetlenül hívta.
 
-Aktív javítóág: fix/research-sink-cold-reset. Release build és 130/130 helyben
+Aktív javítás: [#213](https://github.com/RobCZart82/yaman1x/pull/213), fix/research-sink-cold-reset. Release build és 130/130 helyben
 futtatható CTest PASS (53,85 s). Python: 102/103 PASS, egy ismert symlink-esetet
 a Windows-jogosultság akadályozott (WinError1314). Forrásaudit: 665 fájl/201
 upstream azonosság PASS; licencértesítés: 229 fájl/5 szöveg PASS, jogi/bináris
