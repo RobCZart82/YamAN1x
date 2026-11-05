@@ -3341,19 +3341,45 @@
         42097766679,
         42097766724
       ]
+    },
+    {
+      "branch": "feat/an1x-itu-tcr-mmio",
+      "status": "merged",
+      "base_commit": "d06b064eda188296e7f87bc99aa4d415b5890394",
+      "scope": "Apply supported TCR writes to stopped scheduler channels while retaining bus readback",
+      "remote_ci": "all_five_success",
+      "automatic_review": "no_result_recorded;no quota error evidence",
+      "validation": {
+        "ctest": "134/134 PASS,63.48s",
+        "targeted_asan_ubsan": "PASS",
+        "original_tcr_encodings": 256,
+        "audit_files": 673,
+        "notice_files": 229
+      },
+      "pr": 218,
+      "merge_commit": "4e9c91f84352a429a2a68e8f67187d9f3226f3f9",
+      "reviewed_head": "277906615f7ece1373d0928b61aaac09ee5ab7f5",
+      "ci_runs": [
+        42101390325,
+        42101390283,
+        42101390342
+      ],
+      "manual_review": "inspected bus mapping, reset and stopped state tests;no actionable findings",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-itu-tcr-mmio",
+    "branch": "feat/an1x-itu-compare-tier",
     "status": "candidate",
-    "base_commit": "d06b064eda188296e7f87bc99aa4d415b5890394",
-    "scope": "Apply supported TCR writes to stopped scheduler channels while retaining bus readback",
+    "base_commit": "4e9c91f84352a429a2a68e8f67187d9f3226f3f9",
+    "scope": "Stopped scheduler owns TGR, TIER and TSR register state",
     "remote_ci": "pending",
     "automatic_review": "pending",
     "validation": {
-      "ctest": "134/134 PASS,63.48s",
-      "targeted_asan_ubsan": "PASS",
-      "original_tcr_encodings": 256,
+      "ctest": "134/134 PASS,62.34s",
+      "targeted_asan_ubsan": "TGR and TIER/TSR bus tests PASS",
+      "original_source": "3 files and 19 methods verified; 1280 stopped TIER and 524288 H8H status comparisons PASS",
       "audit_files": 673,
       "notice_files": 229
     }

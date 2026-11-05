@@ -35,10 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current candidate — 2026-11-05
 
-The bus applies supported TCR writes to the stopped ITU scheduler while retaining
-existing register readback. Baseline #217 is merged and main CI passed. Candidate
-CI and automated review are pending. Active timer start and CPU IRQ routing are
-the next gates. See the [current status](docs/STATUS.md).
+The stopped ITU scheduler owns TGR and TIER/TSR readback and writes. Baseline
+#218 is merged and main CI passed. Timer start and CPU IRQ delivery remain
+separate integration steps. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

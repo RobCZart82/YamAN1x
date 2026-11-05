@@ -1,5 +1,20 @@
 # Development status
 
+## Stopped ITU compare and interrupt registers — candidate, 2026-11-05
+
+The stopped ITU scheduler now owns the values behind the ten TGR words and five
+TIER/TSR pairs. Bus accesses retain their established address and width rules,
+including big-endian byte writes to TGR, normalized reserved bits, and reset
+values. Writes settle the stopped scheduler at the current bus cycle. TSTR,
+active counter MMIO, and CPU interrupt delivery remain later integration steps.
+
+Existing tests cover all 655,360 TGR word values and both byte lanes, all
+TIER/TSR byte values at all five channels, reset, address aliases, invalid word
+accesses, and split CPU execution. The pinned MAME source contract covers the
+original TGR and TIER/TSR methods. This is a bounded source-compatible profile.
+Baseline #218 (4e9c91f) is merged with all five main checks green.
+
+
 ## Stopped ITU TCR bus integration — candidate, 2026-11-05
 
 Writes to the five byte-mapped TCR registers configure the corresponding stopped
