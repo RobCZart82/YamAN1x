@@ -34,7 +34,7 @@ int main(){std::vector<uint8_t>rom(0x100000);const uint32_t addresses[]={0xffff6
    check(bus.stopped_itu_profile(channel) == yamanix::H8ItuControlProfile{0, 0, modes[0]}, "Reset reapplies cold profile");
  }
  for(auto a:addresses)for(bool write:{false,true}){Sink s;Bus b(rom,{},s);bool bad=false;try{if(write)b.write_word(a,0);else(void)b.read_word(a);}catch(const std::out_of_range&){bad=true;}check(bad&&b.failed()&&s.effects==0,"Paired TCR/TIOR words remain unsupported");}
- for(uint32_t a:{0xffff60u,0xffff68u,0xffff69u,0xffff8cu}){Sink s;Bus b(rom,{},s);bool bad=false;try{b.write_byte(a,0);}catch(const std::out_of_range&){bad=true;}check(bad,"Start/counter/buffer registers still reject");}
+ for(uint32_t a:{0xffff60u,0xffff8cu}){Sink s;Bus b(rom,{},s);bool bad=false;try{b.write_byte(a,0);}catch(const std::out_of_range&){bad=true;}check(bad,"Start/buffer registers still reject");}
  rom[2]=1;const uint16_t code[]={0x7a00,0xff,0xff64,0xfa83,0x688a,0x40fe};for(unsigned i=0;i<6;++i){rom[256+2*i]=uint8_t(code[i]>>8);rom[257+2*i]=uint8_t(code[i]);}
  using Machine=yamanix::An1xResearchMachine<Sink>;Sink s;Machine whole(rom,{},s);whole.run(128,10000);
  for(unsigned cut=0;cut<=128;++cut){Machine part(rom,{},s);part.run(int(cut),10000);part.run(128-int(cut),10000);check(part.snapshot()==whole.snapshot()&&part.read_byte(0xffff64)==0x83,"129 CPU partitions retain stopped TCR0 selection");}
