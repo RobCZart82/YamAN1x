@@ -78,14 +78,19 @@ public:
     uint16_t read_instruction_word(uint32_t a){return access([&]{return memory_.read_instruction_word(a);});}
     // RFSHCR stays02;refresh pins/memory mux are not modeled.Timer IRQ enable rejects.
     // BRCR accepts only the retained FE profile;physical bus release/pin mux is not modeled.
-    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adcsr_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
-    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(a==0xffffe8){if(v&0x60)throw std::logic_error("Unsupported ADC conversion or IRQ enable");adcsr_=uint8_t(v&0x1f);}else if(a==0xffff61){if(v&0x1f)throw std::logic_error("Unsupported ITU channel synchronization");}else if(a==0xffff62){if(v&0x5f)throw std::logic_error("Unsupported ITU PWM/phase mode");tmdr_=uint8_t(v|0x80);}else if(a==0xffff63){if(v&0x3f)throw std::logic_error("Unsupported ITU PWM/buffer function");}else if(a==0xffff90){if(v&0x3f)throw std::logic_error("Unsupported ITU output enable");toer_=0xc0;}else if(itu_tier_index(a)>=0){settle_stopped_itu();itu_.write_enables(itu_tier_index(a),v);}else if(itu_tier_index(a-1)>=0){settle_stopped_itu();itu_.write_status(itu_tier_index(a-1),v);}else if(itu_io_mapped(a)){if(v&0x77)throw std::logic_error("Unsupported ITU output/capture function");}else if(itu_control_index(a)>=0){write_stopped_itu_control(itu_control_index(a), v);}else if(itu_general_index(a&~1u)>=0){write_itu_general_byte(a,v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else if(a>=0x400000&&a<=0x40003f){
+    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adcsr_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_counter_index(a&~1u)>=0?itu_counter_byte(a):itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
+    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(a==0xffffe8){if(v&0x60)throw std::logic_error("Unsupported ADC conversion or IRQ enable");adcsr_=uint8_t(v&0x1f);}else if(a==0xffff61){if(v&0x1f)throw std::logic_error("Unsupported ITU channel synchronization");}else if(a==0xffff62){if(v&0x5f)throw std::logic_error("Unsupported ITU PWM/phase mode");tmdr_=uint8_t(v|0x80);}else if(a==0xffff63){if(v&0x3f)throw std::logic_error("Unsupported ITU PWM/buffer function");}else if(a==0xffff90){if(v&0x3f)throw std::logic_error("Unsupported ITU output enable");toer_=0xc0;}else if(itu_tier_index(a)>=0){settle_stopped_itu();itu_.write_enables(itu_tier_index(a),v);}else if(itu_tier_index(a-1)>=0){settle_stopped_itu();itu_.write_status(itu_tier_index(a-1),v);}else if(itu_io_mapped(a)){if(v&0x77)throw std::logic_error("Unsupported ITU output/capture function");}else if(itu_control_index(a)>=0){write_stopped_itu_control(itu_control_index(a), v);}else if(itu_counter_index(a&~1u)>=0){write_itu_counter_byte(a,v);}else if(itu_general_index(a&~1u)>=0){write_itu_general_byte(a,v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{sink_.meg_write_byte(a,now_,v);std::as_const(sink_).meg_write_enabled();}){
                 if(std::as_const(sink_).meg_write_enabled())sink_.meg_write_byte(a,now_,v);else memory_.write_byte(a,v);
             }
             else memory_.write_byte(a,v);
         }else memory_.write_byte(a,v);});}
-    uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;if(itu_general_index(a&~1u)>=0){if(a&1)throw std::invalid_argument("Unaligned ITU general word");return itu_general_word(itu_general_index(a));}if(H83002SciMmio::mapped(a))return sci_.read16(a);
+    uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;
+        if (const auto channel = itu_counter_index(a & ~1u); channel >= 0) {
+            if (a & 1) throw std::invalid_argument("Unaligned ITU counter word");
+            return itu_.state(channel).counter.count;
+        }
+        if(itu_general_index(a&~1u)>=0){if(a&1)throw std::invalid_argument("Unaligned ITU general word");return itu_general_word(itu_general_index(a));}if(H83002SciMmio::mapped(a))return sci_.read16(a);
         if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
             require_irq_word(a);const auto high=read_irq(a);const auto low=read_irq(a+1);
             return uint16_t((uint16_t(high)<<8)|low);
@@ -95,7 +100,14 @@ public:
             if(failed_)throw std::logic_error("Reentered GPIO word read");
             const auto low=read_gpio(a+1);return uint16_t((uint16_t(high)<<8)|low);
         }return read_external_word(a);});}
-    void write_word(uint32_t raw,uint16_t v){access([&]{const auto a=raw&0xffffff;if(itu_general_index(a&~1u)>=0){if(a&1)throw std::invalid_argument("Unaligned ITU general word");write_itu_general_word(itu_general_index(a),v);}else if(H83002SciMmio::mapped(a))sci_.write16(a,v,0xffff,now_,*this);else if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
+    void write_word(uint32_t raw,uint16_t v){access([&]{const auto a=raw&0xffffff;
+        if (const auto channel = itu_counter_index(a & ~1u); channel >= 0) {
+            if (a & 1) throw std::invalid_argument("Unaligned ITU counter word");
+            settle_stopped_itu();
+            itu_.write_count(channel, v);
+            return;
+        }
+        if(itu_general_index(a&~1u)>=0){if(a&1)throw std::invalid_argument("Unaligned ITU general word");write_itu_general_word(itu_general_index(a),v);}else if(H83002SciMmio::mapped(a))sci_.write16(a,v,0xffff,now_,*this);else if(irq_mapped(a)||irq_mapped((a+1)&0xffffff)){
             require_irq_word(a);write_irq(a,uint8_t(v>>8));write_irq(a+1,uint8_t(v));
         }else if(gpio_mapped(a)||gpio_mapped((a+1)&0xffffff)){
             require_gpio_word(a,true);write_gpio(a,uint8_t(v>>8));
@@ -164,6 +176,26 @@ private:
             throw std::logic_error("Unexpected stopped ITU event");
         });
     }
+    static int itu_counter_index(uint32_t address) {
+        constexpr std::array<uint32_t, 5> addresses = {
+            0xffff68, 0xffff72, 0xffff7c, 0xffff86, 0xffff96
+        };
+        for (unsigned channel = 0; channel < addresses.size(); ++channel)
+            if (addresses[channel] == address) return int(channel);
+        return -1;
+    }
+    uint8_t itu_counter_byte(uint32_t address) const {
+        const auto count = itu_.state(itu_counter_index(address & ~1u)).counter.count;
+        return uint8_t((address & 1) ? count : count >> 8);
+    }
+    void write_itu_counter_byte(uint32_t address, uint8_t value) {
+        settle_stopped_itu();
+        const auto channel = itu_counter_index(address & ~1u);
+        const auto count = itu_.state(channel).counter.count;
+        const auto merged = (address & 1) ? uint16_t((count & 0xff00) | value)
+                                          : uint16_t((count & 0x00ff) | (uint16_t(value) << 8));
+        itu_.write_count(channel, merged);
+    }
     uint16_t itu_general_word(unsigned index) const {
         return itu_.state(index / 2).compare[index % 2];
     }
@@ -187,6 +219,7 @@ private:
         for (unsigned channel = 0; channel < itu_tier_addresses_.size(); ++channel) {
             itu_.write_enables(channel, 0);
             itu_.write_status(channel, 0);
+            itu_.write_count(channel, 0);
             itu_.write_compare(channel, 0, 0xffff);
             itu_.write_compare(channel, 1, 0xffff);
         }

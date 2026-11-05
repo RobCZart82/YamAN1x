@@ -35,9 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current candidate — 2026-11-05
 
-The stopped ITU scheduler owns TGR and TIER/TSR readback and writes. Baseline
-#218 is merged and main CI passed. Timer start and CPU IRQ delivery remain
-separate integration steps. See the [current status](docs/STATUS.md).
+The bus maps five stopped ITU counters to the scheduler. Baseline #219 is
+merged and main CI passed. Timer start and CPU IRQ delivery are next.
+See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

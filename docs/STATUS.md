@@ -1,5 +1,22 @@
 # Development status
 
+## Stopped ITU counter MMIO — candidate, 2026-11-05
+
+The bus now maps all five stopped TCNT words and their big-endian byte lanes to
+the scheduler's counter state. Writes settle the scheduler at the current bus
+cycle. Stopped counters retain their values as time advances and clear to zero
+on supported peripheral reset. Odd word accesses reject before mutation.
+
+The bus tests check all 327,680 TCNT word values across the five addresses,
+both byte lanes, address aliases, channel isolation, reset and continuation
+across 129 CPU slice splits. The existing TGR checks remain in place. The pinned
+MAME contract verifies the original TCNT methods and the counter reference
+checks 131,072 original update_counter comparisons. This step is bounded to
+stopped channels. Timer start and CPU interrupt delivery are subsequent steps.
+
+Baseline #219 (bf58ebc) is merged and all five main checks passed.
+
+
 ## Stopped ITU compare and interrupt registers — candidate, 2026-11-05
 
 The stopped ITU scheduler now owns the values behind the ten TGR words and five
