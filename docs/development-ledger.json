@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-04",
+  "recorded_date": "2026-11-05",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "301eec75c72028b8f377ee4e099fce0b1df4de5e",
+  "baseline_commit": "5915ccb54f07f7649192ea3dbfa4277c56f0ce01",
   "entries": [
     {
       "pr": 6,
@@ -3197,27 +3197,44 @@
         "audit_files": 661,
         "ci_sanitizer_groups": 49
       }
+    },
+    {
+      "pr": 212,
+      "title": "Add bounded exact-time ITU vector dispatch",
+      "url": "https://github.com/RobCZart82/yaman1x/pull/212",
+      "kind": "engine-component",
+      "status": "merged",
+      "merge_commit": "5915ccb54f07f7649192ea3dbfa4277c56f0ce01",
+      "reviewed_head": "28f81562685616cb89bdf96f269c62bcc9a375de",
+      "merged_at_utc": "2026-11-05T05:35:17Z",
+      "ci_runs": [
+        41922483350,
+        41922483298,
+        41922483383
+      ],
+      "ci_result": "all_five_success",
+      "automated_review_at_merge": "no_result_recorded_at_inspection"
     }
   ],
   "active_change": {
-    "branch": "feat/h8-itu-bounded-dispatch",
-    "status": "candidate",
-    "scope": "Bounded exact-time channel vector dispatch;CPU/MMIO integration deferred",
-    "reference": "10240 vector/time/count/flag comparisons;locked unchanged update_counter/recalc_event/internal_update;ASan/UBSan PASS",
-    "automated_review": "pending_no_result_claimed",
-    "automation": "20-minute sequential heartbeat reactivated by explicit user request",
+    "branch": "fix/research-sink-cold-reset",
+    "scope": "Polymorphic external research sink cold reset/destruction and current documentation reconciliation",
+    "status": "local_regression_passed",
     "validation": {
-      "ctest": "131/131 PASS,54.12s",
-      "python": 103,
-      "strict_compile_asan_ubsan": "PASS",
-      "original_dispatch_cases": 10240,
-      "audit_files": 665,
-      "notice_files": 229,
-      "notice_texts": 5,
-      "ci_sanitizer_groups": 50,
+      "regression_before": "failed_retained_MEG_VOP3_state",
+      "regression_after": "pass",
+      "full_suite": "130/130 runnable CTest PASS,53.85s;Python wrapper tested separately",
       "remote_ci": "pending",
-      "automatic_review": "pending"
-    }
+      "automated_review": "pending",
+      "python": "102/103 PASS;one WinError1314 symlink case",
+      "release_build": "pass",
+      "repository_audit": "665 files,201 upstream identities,pass",
+      "source_notice_coverage": "229 files,5 texts,pass",
+      "local_sanitizers": "not_run",
+      "documentation": "utf8_links_ledger_ancestry_pass"
+    },
+    "pr": 213,
+    "url": "https://github.com/RobCZart82/yaman1x/pull/213"
   },
   "pending_changes": []
 }

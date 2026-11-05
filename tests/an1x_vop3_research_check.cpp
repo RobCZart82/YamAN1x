@@ -52,6 +52,27 @@ int main(){std::vector<uint8_t>rom(0x100000);S s(16);B bus(rom,{},s);unsigned ca
   sink.cold_reset();check(!sink.failed()&&sink.vop3_metrics().reads[0]==0);
   check(sink.vop3_read_word(0x440044,0)==0); // policy survives reconstruction
  }
+ // The public sink hierarchy must retain complete cold-epoch semantics through
+ // either base view;otherwise only LCD time resets while MEG/VOP3 state survives.
+ for(unsigned view=0;view<2;++view){S sink(16);const auto fresh=sink.vop3_snapshot();
+  sink.meg_write_byte(0x400003,20,1);sink.vop3_write_word(0x440000,20,0);
+  sink.vop3_write_word(0x440016,20,0x5a3c);
+  check(sink.meg_observation().count==1&&sink.vop3_snapshot()!=fresh);
+  if(view==0){yamanix::An1xLcdResearchSink& base=sink;base.cold_reset();}
+  else{yamanix::An1xMegResearchSink& base=sink;base.cold_reset();}
+  if(sink.meg_observation().count!=0||sink.vop3_snapshot()!=fresh)
+   std::fprintf(stderr,"Cold reset through base view %u retained MEG/VOP3 state\n",view);
+  check(!sink.failed()&&sink.meg_observation().count==0&&sink.vop3_snapshot()==fresh);
+  check(sink.vop3_metrics().writes[0]==0);
+  sink.vop3_write_word(0x440000,0,0); // All layers accept the new zero-time epoch.
+ }
+ // Ownership through either public base must destroy all composed resources.
+ for(unsigned view=0;view<2;++view){bool destroyed=false;
+  struct Tracked:S {bool& done;explicit Tracked(bool& d):S(16),done(d){}~Tracked() override{done=true;}};
+  if(view==0){std::unique_ptr<yamanix::An1xLcdResearchSink> owner=std::make_unique<Tracked>(destroyed);}
+  else{std::unique_ptr<yamanix::An1xMegResearchSink> owner=std::make_unique<Tracked>(destroyed);}
+  check(destroyed);
+ }
  // MOV.L immediate address to ER0;MOV.W immediate to R1;MOV.W R1,@ER0;BRA self.
  rom[2]=1;const uint16_t code[]={0x7a00,0x44,0x16,0x7901,0x5a3c,0x6981,0x40fe};
  for(unsigned i=0;i<7;++i){rom[256+i*2]=uint8_t(code[i]>>8);rom[257+i*2]=uint8_t(code[i]);}

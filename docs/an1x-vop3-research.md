@@ -20,3 +20,13 @@ this step composes existing project adapters,not a new upstream-method port.
 Next:explicit bounded firmware-probe profile with separate assumption labels.
 Own remote CI/review pending.
 
+
+## Cold reset through shared sink views — 2026-11-05
+
+The public LCD/MEG/VOP3 hierarchy now has virtual cold_reset and a virtual base
+destructor. Reset via either LCD or MEG reference reconstructs the full concrete
+sink, retaining configured policies while clearing LCD/MEG/VOP3 epoch state.
+Base-pointer ownership destroys the full composition. Qualified base calls inside
+overrides deliberately reset the parent portion before committing the new child.
+The owner must still stop the machine before reset; this introduces no automatic
+machine/sink coordination, hardware reset, threading or audio acceptance.
