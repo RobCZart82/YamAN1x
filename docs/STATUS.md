@@ -1,6 +1,25 @@
 # Development status
 
-## PKSCLK board path — candidate, 2026-11-06
+## ITU input B without PKSCLK transitions — candidate, 2026-11-06
+
+The AN1x research bus accepts the observed zero-based channel 3 input B
+selection with automatic clear disabled. TSTR retains its start bit while
+the channel has no internal deadline or clock ticks. The count and latched
+flags remain accessible. Switching back to an internal clock resumes from
+the TCR write cycle. The locked original MAME dispatch harness verifies
+65,536 external-clock cases without input transitions. The bus test adds
+65 time partitions covering the address alias, mixed channel progress,
+flag retention, restart, restored internal deadline and reset.
+
+The read-only 1.04 swap16 firmware diagnostic used the LCD/MEG/VOP3 level
+experiment and 4,096- and 1,000,000-cycle slices. Both passed the earlier
+FFFF60 write and stopped at cycle 92,381,680, PC 0xEA98, on an unmapped
+byte read at 0x680000. Both recorded VOP3 register writes of 11,557 and 516
+and zero VOP3 sample passes. The ROM hash was unchanged. The next step is
+to identify the 0x680000 read from board and source evidence. PKSCLK
+hardware timing, firmware boot, audio and REAPER acceptance remain open.
+
+## PKSCLK board path — merged in #225, 2026-11-06
 
 The Yamaha AN1x Service Manual DM/DMS drawing 8811454 routes PKSCLK
 from H8 IC1 PA1/TCLKB and IC21 SK (pin 11) through L29 to DM CN6 pin 5.

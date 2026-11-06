@@ -69,6 +69,37 @@ int main(){
   } catch (const std::logic_error&) { rejected_mode = true; }
   check(rejected_mode && bus.failed(), "Unsupported clock rejects at start and while running");
  }
+ for (unsigned cut = 0; cut <= 64; ++cut) {
+  Sink output;
+  Bus bus(rom, {}, output);
+  bus.write_word(0xffff86, 0xfffe);
+  bus.write_byte(0xffff60, 9);
+  bus.update(2);
+  bus.write_byte(0x12ffff82, 5);
+  bus.write_byte(0xffff84, 7);
+  check(bus.next_bus_event() == 0, "PKSCLK removes the internal deadline");
+  bus.update(2 + cut);
+  bus.update(66);
+  check(bus.read_byte(0xffff60) == 9 && bus.read_byte(0xffff82) == 0x85 &&
+        bus.read_word(0xffff68) == 66 &&
+        bus.read_word(0xffff86) == 0 && bus.read_byte(0xffff85) == 0xff &&
+        bus.next_bus_event() == 0, "PKSCLK preserves active readback, counter and latched flags");
+  bus.write_byte(0xffff85, 0xf8);
+  bus.write_word(0xffff86, 0xffff);
+  bus.write_byte(0xffff60, 0);
+  bus.write_byte(0xffff60, 8);
+  bus.update(100);
+  check(bus.read_word(0xffff86) == 0xffff && bus.read_byte(0xffff85) == 0xf8 &&
+        bus.next_bus_event() == 0, "Restart on PKSCLK preserves a writable counter and flags");
+  bus.write_byte(0xffff82, 0);
+  check(bus.next_bus_event() == 101, "Internal clock resumes from the TCR write");
+  bus.update(101);
+  check(bus.read_word(0xffff86) == 0 && bus.read_byte(0xffff85) == 0xff,
+        "Restored internal clock wraps and sets flags");
+  bus.reset_supported_peripherals();
+  check(bus.read_byte(0xffff60) == 0xe0 && bus.read_byte(0xffff82) == 0x80 &&
+        bus.read_word(0xffff86) == 0, "Reset clears the PKSCLK profile");
+ }
  rom[261] = 0x60;
  rom[263] = 0x01;
  Machine active(rom, {}, sink);
@@ -81,5 +112,5 @@ int main(){
   check(part.snapshot() == active.snapshot() && part.read_byte(0xffff69) == active.read_byte(0xffff69) &&
         part.read_byte(0xffff67) == active.read_byte(0xffff67), "Split CPU runs preserve ITU state");
  }
- std::printf("TSNC/TSTR:256 synchronization encodings,256 start masks,258 CPU partitions:%u failures\n",failures);return failures?1:0;
+ std::printf("TSNC/TSTR:256 synchronization encodings,256 start masks,258 CPU partitions,65 PKSCLK partitions:%u failures\n",failures);return failures?1:0;
 }
