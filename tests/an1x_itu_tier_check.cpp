@@ -19,7 +19,7 @@ int main(){
  check(bus.cycle()==1280&&bus.read_byte(0x200000)==0x5a);
  // A permissive timer-start fallback would invalidate the stopped-only promise.
  {Sink s;Bus b(rom,{},s);b.write_byte(0xffff94,7);bool bad=false;
-  try{b.write_byte(0xffff60,0x10);}catch(const std::out_of_range&){bad=true;}check(bad&&b.failed()&&s.effects==0);}
+  try{b.write_byte(0xffff60,0x10);}catch(const std::logic_error&){bad=true;}check(bad&&b.failed()&&s.effects==0);}
  // CPU enables all three TIER4 bits;129 split positions preserve flags and storage.
  rom[2]=1;const uint16_t code[]={0x7a00,0xff,0xff94,0xfaff,0x688a,0x40fe};
  for(unsigned i=0;i<6;++i){rom[256+2*i]=uint8_t(code[i]>>8);rom[257+2*i]=uint8_t(code[i]);}

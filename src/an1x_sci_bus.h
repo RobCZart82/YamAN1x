@@ -50,6 +50,7 @@ public:
     // Stopped-owner policy for the supported subset only. No CPU reset or time advance.
     // Keep memory,physical input levels and pending RX schedule at their absolute times.
     void reset_supported_peripherals(){access([&]{
+        write_itu_start(0xe0);
         reset_stopped_itu_control();
         reset_stopped_itu_registers();toer_=0xff;tmdr_=0x80;adcsr_=0;refresh_.reset();abwcr_=astcr_=0;wcr_=0xf4;wcer_=0xff;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
         reset_port(4,port4_);reset_port(6,port6_);reset_port(7,port7_);
@@ -78,8 +79,8 @@ public:
     uint16_t read_instruction_word(uint32_t a){return access([&]{return memory_.read_instruction_word(a);});}
     // RFSHCR stays02;refresh pins/memory mux are not modeled.Timer IRQ enable rejects.
     // BRCR accepts only the retained FE profile;physical bus release/pin mux is not modeled.
-    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adcsr_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_counter_index(a&~1u)>=0?itu_counter_byte(a):itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
-    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(a==0xffffe8){if(v&0x60)throw std::logic_error("Unsupported ADC conversion or IRQ enable");adcsr_=uint8_t(v&0x1f);}else if(a==0xffff61){if(v&0x1f)throw std::logic_error("Unsupported ITU channel synchronization");}else if(a==0xffff62){if(v&0x5f)throw std::logic_error("Unsupported ITU PWM/phase mode");tmdr_=uint8_t(v|0x80);}else if(a==0xffff63){if(v&0x3f)throw std::logic_error("Unsupported ITU PWM/buffer function");}else if(a==0xffff90){if(v&0x3f)throw std::logic_error("Unsupported ITU output enable");toer_=0xc0;}else if(itu_tier_index(a)>=0){settle_stopped_itu();itu_.write_enables(itu_tier_index(a),v);}else if(itu_tier_index(a-1)>=0){settle_stopped_itu();itu_.write_status(itu_tier_index(a-1),v);}else if(itu_io_mapped(a)){if(v&0x77)throw std::logic_error("Unsupported ITU output/capture function");}else if(itu_control_index(a)>=0){write_stopped_itu_control(itu_control_index(a), v);}else if(itu_counter_index(a&~1u)>=0){write_itu_counter_byte(a,v);}else if(itu_general_index(a&~1u)>=0){write_itu_general_byte(a,v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else if(a>=0x400000&&a<=0x40003f){
+    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adcsr_:a==0xffff60?itu_start_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_counter_index(a&~1u)>=0?itu_counter_byte(a):itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
+    void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(a==0xffffe8){if(v&0x60)throw std::logic_error("Unsupported ADC conversion or IRQ enable");adcsr_=uint8_t(v&0x1f);}else if(a==0xffff60){write_itu_start(v);}else if(a==0xffff61){if(v&0x1f)throw std::logic_error("Unsupported ITU channel synchronization");}else if(a==0xffff62){if(v&0x5f)throw std::logic_error("Unsupported ITU PWM/phase mode");tmdr_=uint8_t(v|0x80);}else if(a==0xffff63){if(v&0x3f)throw std::logic_error("Unsupported ITU PWM/buffer function");}else if(a==0xffff90){if(v&0x3f)throw std::logic_error("Unsupported ITU output enable");toer_=0xc0;}else if(itu_tier_index(a)>=0){write_itu_enables(itu_tier_index(a),v);}else if(itu_tier_index(a-1)>=0){settle_itu();itu_.write_status(itu_tier_index(a-1),v);}else if(itu_io_mapped(a)){if(v&0x77)throw std::logic_error("Unsupported ITU output/capture function");}else if(itu_control_index(a)>=0){write_itu_control(itu_control_index(a), v);}else if(itu_counter_index(a&~1u)>=0){write_itu_counter_byte(a,v);}else if(itu_general_index(a&~1u)>=0){write_itu_general_byte(a,v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{sink_.meg_write_byte(a,now_,v);std::as_const(sink_).meg_write_enabled();}){
                 if(std::as_const(sink_).meg_write_enabled())sink_.meg_write_byte(a,now_,v);else memory_.write_byte(a,v);
             }
@@ -103,7 +104,7 @@ public:
     void write_word(uint32_t raw,uint16_t v){access([&]{const auto a=raw&0xffffff;
         if (const auto channel = itu_counter_index(a & ~1u); channel >= 0) {
             if (a & 1) throw std::invalid_argument("Unaligned ITU counter word");
-            settle_stopped_itu();
+            settle_itu();
             itu_.write_count(channel, v);
             return;
         }
@@ -146,34 +147,56 @@ private:
         }
         return memory_.read_byte(a);
     }
-    // Stored TIER enables,clear-only stopped TSR;TSTR still rejects,so no flags/events.
+    // TIER and TSR use scheduler state. Running channels are polling-only.
     static bool itu_io_mapped(uint32_t a){return a==0xffff65||a==0xffff6f||a==0xffff79||a==0xffff83||a==0xffff93;}
     inline static constexpr std::array<uint32_t,5> itu_tier_addresses_={0xffff66,0xffff70,0xffff7a,0xffff84,0xffff94};
     static int itu_tier_index(uint32_t a){for(unsigned i=0;i<itu_tier_addresses_.size();++i)if(itu_tier_addresses_[i]==a)return int(i);return -1;}
     inline static constexpr std::array<uint32_t,5> itu_control_addresses_={0xffff64,0xffff6e,0xffff78,0xffff82,0xffff92};
     static int itu_control_index(uint32_t a){for(unsigned i=0;i<itu_control_addresses_.size();++i)if(itu_control_addresses_[i]==a)return int(i);return -1;}
-    void write_stopped_itu_control(unsigned channel, uint8_t value) {
+    void write_itu_control(unsigned channel, uint8_t value) {
         if (const auto profile = decode_itu_control(value)) {
-            settle_stopped_itu();
+            settle_itu();
             itu_.configure(channel, profile->shift, profile->phase);
             itu_.set_clear_mode(channel, profile->clear);
+        } else if (itu_start_ & (1u << channel)) {
+            throw std::logic_error("Unsupported active ITU clock or clear mode");
         }
         // Retain legacy stopped readback even for profiles that cannot run.
         itu_control_[channel] = uint8_t(value | 0x80);
     }
     void reset_stopped_itu_control() {
         for (unsigned channel = 0; channel < itu_control_.size(); ++channel)
-            write_stopped_itu_control(channel, 0x80);
+            write_itu_control(channel, 0x80);
     }
     std::array<uint8_t, 5> itu_control_{};
     H8ItuChannelScheduler<H8ItuAutoClear> itu_;
     inline static constexpr std::array<uint32_t,10> itu_general_addresses_={0xffff6a,0xffff6c,0xffff74,0xffff76,0xffff7e,0xffff80,0xffff88,0xffff8a,0xffff98,0xffff9a};
     static int itu_general_index(uint32_t a){for(unsigned i=0;i<itu_general_addresses_.size();++i)if(itu_general_addresses_[i]==a)return int(i);return -1;}
-    void settle_stopped_itu() {
+    void write_itu_start(uint8_t value) {
+        for (unsigned channel = 0; channel < itu_control_.size(); ++channel) {
+            if (!(value & (1u << channel))) continue;
+            if (!decode_itu_control(itu_control_[channel]))
+                throw std::logic_error("Unsupported active ITU clock or clear mode");
+            if (itu_.state(channel).enables & 7)
+                throw std::logic_error("Active ITU interrupt delivery is unsupported");
+        }
+        settle_itu();
+        for (unsigned channel = 0; channel < itu_control_.size(); ++channel)
+            itu_.set_enabled(channel, (value & (1u << channel)) != 0);
+        itu_start_ = value;
+    }
+    void write_itu_enables(unsigned channel, uint8_t value) {
+        if ((itu_start_ & (1u << channel)) && (value & 7))
+            throw std::logic_error("Active ITU interrupt delivery is unsupported");
+        settle_itu();
+        itu_.write_enables(channel, value);
+    }
+    uint8_t itu_start_ = 0xe0;
+    void settle_itu() {
         if (itu_.time() == now_)
             return;
         itu_.run_until(now_, 1, [](unsigned, uint64_t) {
-            throw std::logic_error("Unexpected stopped ITU event");
+            throw std::logic_error("Unexpected ITU interrupt in polling profile");
         });
     }
     static int itu_counter_index(uint32_t address) {
@@ -189,7 +212,7 @@ private:
         return uint8_t((address & 1) ? count : count >> 8);
     }
     void write_itu_counter_byte(uint32_t address, uint8_t value) {
-        settle_stopped_itu();
+        settle_itu();
         const auto channel = itu_counter_index(address & ~1u);
         const auto count = itu_.state(channel).counter.count;
         const auto merged = (address & 1) ? uint16_t((count & 0xff00) | value)
@@ -204,7 +227,7 @@ private:
         return uint8_t((address & 1) ? word : word >> 8);
     }
     void write_itu_general_word(unsigned index, uint16_t value) {
-        settle_stopped_itu();
+        settle_itu();
         itu_.write_compare(index / 2, index % 2, value);
     }
     void write_itu_general_byte(uint32_t address, uint8_t value) {
@@ -215,7 +238,7 @@ private:
         write_itu_general_word(index, merged);
     }
     void reset_stopped_itu_registers() {
-        settle_stopped_itu();
+        settle_itu();
         for (unsigned channel = 0; channel < itu_tier_addresses_.size(); ++channel) {
             itu_.write_enables(channel, 0);
             itu_.write_status(channel, 0);
@@ -303,12 +326,13 @@ private:
             throw std::runtime_error("AN1x SCI event budget exhausted");
         now_=timeline_.cycle();
         refresh_.advance_to(now_);
+        if (itu_start_ & 0x1f) settle_itu();
     }
     // ABWCR bits0/1 must stay16-bit for mapped ROM/SRAM;other areas remain unmapped.
     // Selected active refresh clock;IRQ enable remains unsupported.
     H8RefreshTimer refresh_;
     uint8_t toer_=0xff; // Cold permission bits only;no active ITU pin function exists.
-    uint8_t tmdr_=0x80; // FDIR latch only;ITU counters/overflow flags remain unsupported.
+    uint8_t tmdr_=0x80; // FDIR latch only. PWM and phase modes are unsupported.
     uint8_t adcsr_=0; // Idle ADC configuration only;no conversion or analog sample.
     uint8_t wcr_=0xf4,wcer_=0xff; // No-wait research cold/reset profile,not hardware F3.
     uint8_t abwcr_=0,astcr_=0; // Explicit research reset profile,not verified board mode pins.
