@@ -1,6 +1,37 @@
 # YamAN1x fejlesztési napló
 
-## ITU input B without PKSCLK transitions — candidate, 2026-11-06
+## Idle panel byte diagnostic — candidate, 2026-11-06
+
+Yamaha DM drawing 8811454 shows IC6's second decoder enabled by H8CS3,
+with RD and A19 on its select inputs. At 0x680000 in H8 area 3, A19 is
+high and a read asserts RD low. The decoder selects PNLCS from 2Y2.
+PNLCS enables IC19, which buffers the pulled-up S1–S8 inputs onto D8–D15.
+The even byte selects that upper lane. The pinned original MAME driver
+at `706dbb73281320c54d7c2f16262c1c3786f2be01` only maps ROM and NVRAM,
+so it supplies no panel read value.
+
+The explicit idle panel experiment returns FF for the observed byte
+read at 0x680000, representing all switches released. It preserves the
+previous profiles' strict boundary and leaves writes, words and nearby
+addresses unmapped. Synthetic CPU tests check the value, 24-bit alias,
+access width, adjacent addresses and continuation across three slice sizes.
+
+With the 1.04 swap16 ROM opened read-only, both 4,096- and 1,000,000-cycle
+slices passed the panel read and stopped at cycle 95,706,795, PC 0x1B64,
+on a byte write to 0xFFFFE8 (unsupported ADC conversion or IRQ enable).
+Both VOP3 sample-pass counters stayed at zero. The ROM hash was unchanged.
+Next, characterize the ADC request. Panel scanning, hardware timing,
+firmware boot, audio and REAPER acceptance remain open.
+
+## #226 merged — 2026-11-06
+
+Merge a6a294fa43266335e324fc502e73725cf92bac23. All five checks passed on
+bfc73f303c9a2bbb0c82ad7b05ea39eaf5dd9b49. GitHub reported no conflicts or review
+threads and required zero approving reviews. No automated review result or
+quota error was recorded. The verified SHA was used for the squash merge.
+All five main checks passed before further development.
+
+## ITU input B without PKSCLK transitions — merged in #226, 2026-11-06
 
 The AN1x research bus accepts the observed zero-based channel 3 input B
 selection with automatic clear disabled. TSTR retains its start bit while

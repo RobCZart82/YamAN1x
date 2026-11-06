@@ -79,6 +79,24 @@ def main(binary):
         require(code == 2 and report["fault_access"]["kind"] == "data_read", "MEG profile never invents status")
         code, report = run([64,8,10000], profile="lcd-meg-source-stubs-16mhz")
         require(code == 0 and report["meg_source_status_reads"] == 1, "Explicit original-source stub experiment is separately counted")
+        panel = "lcd-meg-vop3-idle-panel-experiment-16mhz"
+        # Read the panel byte, compare it to FF and touch an unmapped address on mismatch.
+        image([0x7a00, 0x1268, 0, 0x7a01, 0x68, 1, 0x680a, 0xaaff, 0x4702, 0x681a, 0x40fe])
+        for slice_size in (1, 8, 64):
+            code, report = run([128, slice_size, 10000], profile=panel)
+            require(code == 0 and report["lcd_profile"] == panel, "Panel byte alias reads FF across slices")
+        for profile in (None, "lcd-meg-vop3-level-experiment-16mhz"):
+            code, report = run([128, 8, 10000], profile=profile)
+            require(code == 2 and report["fault_access"] == {"kind":"data_read","address":0x680000,"width":1},
+                    "Existing profiles keep panel reads strict")
+        for address, op, kind, width in ((0x680001, 0x680a, "data_read", 1),
+                                          (0x680002, 0x680a, "data_read", 1),
+                                          (0x680000, 0x6901, "data_read", 2),
+                                          (0x680000, 0x688a, "data_write", 1)):
+            image([0x7a00, address >> 16, address & 65535, op, 0x40fe])
+            code, report = run([128, 8, 10000], profile=panel)
+            require(code == 2 and report["fault_access"] == {"kind":kind,"address":address,"width":width},
+                    "Panel profile maps only the observed byte read")
         native = "lcd-meg-vop3-register-experiment-16mhz"
         # Two distinct chip coefficient writes,then the explicit upload command.
         image([0x7a00,0x44,0x16,0x7901,0x1234,0x6981,

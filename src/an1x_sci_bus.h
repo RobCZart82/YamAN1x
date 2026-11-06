@@ -147,6 +147,10 @@ private:
         memory_.write_word(a,value);
     }
     uint8_t read_external_byte(uint32_t a){
+        if (a == 0x680000) {
+            if constexpr (requires { std::as_const(sink_).idle_panel_read_enabled(); })
+                if (std::as_const(sink_).idle_panel_read_enabled()) return 0xff;
+        }
         if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{std::as_const(sink_).meg_read_enabled();sink_.meg_read_byte(a,now_);})
                 if(std::as_const(sink_).meg_read_enabled())return sink_.meg_read_byte(a,now_);
