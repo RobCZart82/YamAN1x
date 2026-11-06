@@ -1,6 +1,16 @@
 #include "an1x_research_machine.h"
 #include <cstdio>
 struct Sink{unsigned effects=0;void tx(unsigned,uint64_t,bool){++effects;}void clock(unsigned,uint64_t,bool){++effects;}bool dma_request(unsigned,uint64_t){return false;}uint8_t gpio_read(unsigned,uint64_t){return 0;}void gpio_write(unsigned,uint64_t,uint8_t,uint8_t){++effects;}};
+struct AnalogSink : Sink {
+ unsigned samples = 0;
+ uint64_t sampled_at = 0;
+ uint16_t level = 0x2ab;
+ uint16_t adc_an3_sample(uint64_t cycle) {
+  ++samples;
+  sampled_at = cycle;
+  return level;
+ }
+};
 using Bus=yamanix::An1xSciBus<Sink>;unsigned failures=0;
 void check(bool ok,const char*why){if(!ok&&++failures<10)std::fprintf(stderr,"%s\n",why);}
 int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
@@ -11,4 +21,53 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
  rom[2]=1;const uint16_t code[]={0x7a00,0xff,0xffe8,0xfa03,0x688a,0x40fe};for(unsigned i=0;i<6;++i){rom[256+2*i]=uint8_t(code[i]>>8);rom[257+2*i]=uint8_t(code[i]);}
  using Machine=yamanix::An1xResearchMachine<Sink>;Sink s;Machine whole(rom,{},s);whole.run(128,10000);
  for(unsigned cut=0;cut<=128;++cut){Machine part(rom,{},s);part.run(int(cut),10000);part.run(128-int(cut),10000);check(part.snapshot()==whole.snapshot()&&part.read_byte(0xffffe8)==3,"129 CPU partitions preserve idle ADC configuration");}
- std::printf("Idle ADC control:256 encodings,reset/alias/no-sample/word,129 partitions:%u failures\n",failures);return failures?1:0;}
+ for (unsigned cut = 0; cut <= 267; ++cut) {
+  AnalogSink analog;
+  yamanix::An1xSciBus<AnalogSink> bus(rom, {}, analog);
+  bus.update(40);
+  bus.write_byte(0x12ffffe8, 0x23);
+  check(analog.samples == 1 && analog.sampled_at == 40 &&
+        bus.read_byte(0xffffe8) == 0x23 && bus.next_bus_event() == 306,
+        "AN3 samples once at the bus write and publishes its deadline");
+  analog.level = 0;
+  bus.write_byte(0xffffe8, 0xa3);
+  bus.update(40 + cut);
+  if (cut < 266)
+   check(bus.read_byte(0xffffe6) == 0 && bus.read_byte(0xffffe8) == 0x23,
+         "Result and ADF are unchanged before completion");
+  bus.update(306 + (cut == 267));
+  check(bus.read_byte(0xffffe8) == 0x83 && bus.read_byte(0x12ffffe6) == 0xaa &&
+        bus.read_byte(0xffffe7) == 0xc0 && bus.next_bus_event() == 0 &&
+        analog.samples == 1 && analog.effects == 0,
+        "Completion commits the original sample without a new deadline");
+  bus.write_byte(0xffffe8, 3);
+  check(bus.read_byte(0xffffe8) == 3, "Write zero clears ADF");
+  bus.write_byte(0xffffe8, 0x23);
+  bus.reset_supported_peripherals();
+  bus.update(600);
+  check(bus.read_byte(0xffffe8) == 0 && bus.read_byte(0xffffe6) == 0 &&
+        bus.next_bus_event() == 0, "Reset cancels the conversion");
+ }
+ for (uint32_t address : {0xffffe5u, 0xffffe9u}) {
+  AnalogSink analog;
+  yamanix::An1xSciBus<AnalogSink> bus(rom, {}, analog);
+  bool bad = false;
+  try { (void)bus.read_byte(address); } catch (const std::out_of_range&) { bad = true; }
+  check(bad && analog.samples == 0, "Only ADDRD byte lanes are added");
+ }
+ rom[263] = 0x23;
+ using AnalogMachine = yamanix::An1xResearchMachine<AnalogSink>;
+ AnalogSink whole_analog;
+ AnalogMachine active(rom, {}, whole_analog);
+ active.run(320, 10000);
+ for (unsigned cut = 0; cut <= 320; ++cut) {
+  AnalogSink analog;
+  AnalogMachine part(rom, {}, analog);
+  part.run(int(cut), 10000);
+  part.run(320 - int(cut), 10000);
+  check(part.snapshot() == active.snapshot() && analog.samples == 1 &&
+        analog.sampled_at == whole_analog.sampled_at && part.read_byte(0xffffe8) == 0x83 &&
+        part.read_byte(0xffffe6) == 0xaa && part.read_byte(0xffffe7) == 0xc0,
+        "CPU slice boundaries preserve AN3 conversion");
+ }
+ std::printf("Idle ADC control:256 encodings,reset/alias/no-sample/word,129 idle,268 bus and 321 active CPU partitions:%u failures\n",failures);return failures?1:0;}

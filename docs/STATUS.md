@@ -1,6 +1,23 @@
 # Development status
 
-## Standalone slow AN3 conversion — candidate, 2026-11-06
+## AN3 conversion on the machine timeline — candidate, 2026-11-06
+
+A sink can supply a 10-bit AN3 sample through the optional
+`adc_an3_sample(cycle)` callback. The bus samples on the ADCSR start
+write at FFFFE8, schedules the pinned 266-cycle completion and exposes the
+result at FFFFE6–FFFFE7. CPU deadline queries see that event. SCI and ITU
+run before ADC on ties under project policy. Default sinks keep the idle
+ADC profile. Other result channels, ADCR, word accesses and ADC IRQ stay
+outside this profile.
+
+Synthetic tests verify the callback cycle, result lanes, aliases, flag
+clearing, reset, strict addresses and continuation over 268 bus and 321
+CPU partitions. The original H8_ADC_3337 reference remains pinned below.
+Next, trace the board AN3 input and choose an explicit diagnostic source
+before running the local firmware again. Physical calibration, firmware
+boot, audio and REAPER acceptance remain open.
+
+## Standalone slow AN3 conversion — merged in #229, 2026-11-06
 
 The standalone model accepts the observed single AN3 start with an explicit
 10-bit sample. It commits the latched sample after 266 cycles, sets ADF,
