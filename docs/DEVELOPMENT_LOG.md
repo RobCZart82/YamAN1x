@@ -1,6 +1,28 @@
 # YamAN1x fejlesztési napló
 
-## Firmware A/D scan request — candidate, 2026-11-06
+## Standalone slow AN0–AN3 scan — candidate, 2026-11-06
+
+The bounded 0x33 scan samples AN0 at start, commits after 266 cycles
+and then commits each successive channel every 256 cycles. The caller
+supplies a 10-bit sample for the next channel at each deadline. ADDR
+words retain their last committed values. AN3 completion sets ADF and
+wraps to AN0 while ADST stays set. ADF can be cleared independently.
+This subset uses the locked H8_ADC_3337 reference below.
+
+The independent test checks two sweeps across 2,059 time partitions,
+including result packing, ADF timing, reset and invalid event rejection.
+Next, integrate the scan into the bus and timeline with explicit sample
+inputs. Firmware boot, physical ADC behavior and audio remain open.
+
+## #233 merged — 2026-11-06
+
+Merge c11f45a36299ce90d7f1ee9ad0983b6f9979bae9. All four applicable checks passed on
+05657b2f7f4c94ebf22f1bb0d5be029d481f44d4. GitHub reported no conflicts or review
+threads and required zero approving reviews. No automated review result or
+quota error was recorded. The verified SHA was used for the squash merge.
+All four applicable main checks passed before further development.
+
+## Firmware A/D scan request — merged in #233, 2026-11-06
 
 All four read-only firmware probes wrote ADCSR 0x33 at 0xFFFFE8,
 cycle 95,707,121, PC 0x1B84. Each traced diagnostic JSON was identical

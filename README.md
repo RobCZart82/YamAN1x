@@ -37,7 +37,7 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 Four diagnostic runs pass the ADDRD word read and request a repeating
 AN0–AN3 scan. See the [current status](docs/STATUS.md) for the traced request
-and reference timing.
+and standalone scan tests.
 
 ## Current verified status — 2026-11-05
 
