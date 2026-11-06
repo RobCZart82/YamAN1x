@@ -33,11 +33,11 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current candidate — 2026-11-05
+## Current candidate — 2026-11-06
 
-The bus maps five stopped ITU counters to the scheduler. Baseline #219 is
-merged and main CI passed. Timer start and CPU IRQ delivery are next.
-See the [current status](docs/STATUS.md).
+TSTR starts and stops the five ITU channels in the bounded polling profile.
+Baseline #220 is merged and main CI passed. CPU IRQ delivery and the local
+firmware diagnostic are next. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

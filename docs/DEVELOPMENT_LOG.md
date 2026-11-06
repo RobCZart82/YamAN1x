@@ -1,5 +1,36 @@
 # YamAN1x fejlesztési napló
 
+## Active ITU polling profile — candidate, 2026-11-06
+
+Byte accesses at FFFF60 expose TSTR with an E0 reset value and full written-byte
+readback. The low five bits start and stop individual scheduler channels at the
+current bus cycle. Internal clock and free/A/B-clear modes are supported with
+interrupt enables clear. Starting with IRQ enabled, enabling IRQ while running,
+and applying unsupported active clock/clear modes fail closed. Bus time advances
+active counters and polling flags. Supported reset stops the timers and clears
+their counters and flags.
+
+Tests cover all 256 start masks, exact start/stop and wrap boundaries, compare
+and overflow flags, active reconfiguration, reset, and 129 split CPU runs with
+a synthetic TSTR write. The pinned source contract verifies original TSTR and
+channel-enable methods. This is a bounded polling profile. CPU IRQ delivery
+and the local firmware diagnostic at FFFF60 remain subsequent steps.
+
+Baseline #220 (a6a8643) is merged and all five main checks passed.
+Local validation passed all 134 CTest groups, the rebuilt TSNC/TSTR target,
+targeted ASan/UBSan, the pinned source contract and both audits.
+Remote CI and automated review are pending.
+
+
+## #220 merged — 2026-11-06
+
+Merge a6a86432ff4328416ca95fadb822a822b2c7fad4. All five checks passed on
+823bad70db52313dcb9c41e94170f6b709274af5. No automated review result or quota
+error was recorded. Inspection of counter addresses, byte lanes, reset and
+tests found no actionable issue. GitHub reported no conflict and no open
+review threads. Zero approving reviews were required. The squash merge used the
+verified SHA. All five main checks passed before further development.
+
 ## Stopped ITU counter MMIO — candidate, 2026-11-05
 
 The bus now maps all five stopped TCNT words and their big-endian byte lanes to
