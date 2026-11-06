@@ -3504,15 +3504,41 @@
       "manual_review": "matched documentation and ledger against both local JSON records; only documentation changed",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-external-clock-reference",
+      "status": "merged",
+      "base_commit": "2a96101e1adedb09bea49a61662f9273d444666d",
+      "scope": "Record original MAME no-edge behavior and AN1x TCLKB board net",
+      "original_reference_cases": 65536,
+      "board_reference": "Yamaha AN1x Service Manual drawing 8811454; IC1 pin 96 PA1, PKSCLK, R11 pull-up",
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 224,
+      "merge_commit": "38b3cbfbdcc0280997ef41bc01a2ff868f641a1f",
+      "reviewed_head": "911852d385af52ed19b4dc1efaacdba915b6b035",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42161481882,
+        42161481843
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked pinned MAME harness assertions and schematic trace",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-external-clock-reference",
+    "branch": "docs/an1x-pksclk-board-path",
     "status": "candidate",
-    "base_commit": "2a96101e1adedb09bea49a61662f9273d444666d",
-    "scope": "Record original MAME no-edge behavior and AN1x TCLKB board net",
-    "original_reference_cases": 65536,
-    "board_reference": "Yamaha AN1x Service Manual drawing 8811454; IC1 pin 96 PA1, PKSCLK, R11 pull-up",
+    "base_commit": "38b3cbfbdcc0280997ef41bc01a2ff868f641a1f",
+    "scope": "Trace PKSCLK between H8 and keyboard scanner and distinguish the serial clock from the PKS oscillator",
+    "board_reference": [
+      "Yamaha AN1x Service Manual drawing 8811454, DM IC21 pin 11, L29 and CN6 pin 5",
+      "Drawing 8811457, KBS CN1 pin 5, PKS IC1 pin 19 and CL1"
+    ],
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "physical_timing_validated": false,
     "boot_accepted": false,
     "audio_accepted": false

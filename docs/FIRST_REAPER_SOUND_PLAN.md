@@ -1,6 +1,23 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## ITU external clock B reference — candidate, 2026-11-06
+## PKSCLK board path — candidate, 2026-11-06
+
+The Yamaha AN1x Service Manual DM/DMS drawing 8811454 routes PKSCLK
+from H8 IC1 PA1/TCLKB and IC21 SK (pin 11) through L29 to DM CN6 pin 5.
+KBS drawing 8811457 continues from KBS CN1 pin 5 to the HD63B05V0F PKS
+IC1 CK/D5 pin 19. CL1 is a separate 8 MHz resonator on XTAL pins 24 and
+25. These connections establish the signal path. Serial clock direction
+and edge timing require separate evidence.
+
+The locked original MAME driver at commit
+`706dbb73281320c54d7c2f16262c1c3786f2be01` disables the PKS CPU and marks
+its firmware undumped. Its 8 MHz setting describes the PKS CPU oscillator.
+The next step is an explicitly bounded no-edge profile for channel 3 input
+B, followed by the same two local boot slices. That diagnostic can show
+what the H8 firmware does without PKS clock transitions. Physical clock
+timing, PKS protocol, firmware boot and audio acceptance remain open.
+
+## ITU external clock B reference — merged in #224, 2026-11-06
 
 The [Hitachi HD6413002 hardware manual](https://www.renesas.com/en/document/mah/microcomputer-h83002-hd6413002-hardware-manual?r=1052021)
 Figure 1-3 identifies FP-100A pin 96 as TCLKB/TEND1/TP1/PA1. The Yamaha AN1x
@@ -12,9 +29,7 @@ The dispatch harness ran 65,536 external-clock cases against unchanged
 counter and scheduler methods from the locked original MAME source. With
 internal time advancing and no external input, the reference cancels the old
 internal deadline, preserves the count, flags and clock anchor, and emits no
-interrupt. This is evidence for a bounded no-edge profile. The next step is
-to trace the PKSCLK source and determine which transitions the firmware
-expects before extending active external-clock support.
+interrupt. This is evidence for a bounded no-edge profile.
 
 ## Local firmware diagnostic after ITU IRQ integration — 2026-11-06
 
