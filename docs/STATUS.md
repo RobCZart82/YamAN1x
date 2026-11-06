@@ -1,6 +1,27 @@
 # Development status
 
-## AN3 conversion on the machine timeline — candidate, 2026-11-06
+## AN3 board input and ADDRD word boundary — candidate, 2026-11-06
+
+Yamaha DM/DMS drawing 8811454 connects IC1 pin 83 (P73/AN3) to H8A15
+through R22 (10 kΩ), with C20 (0.01 µF) from the input to DGA. This
+identifies an RC-filtered address line. Its voltage at the actual sample
+instant depends on bus history and remains unmeasured.
+
+A temporary probe in a separate checkout supplied explicit 10-bit values
+0 and 1023. For each value, the read-only 1.04 swap16 diagnostic ran with
+4,096- and 1,000,000-cycle slices. All four runs sampled at cycle
+95,706,795 and reached cycle 95,707,083, PC 0x1B6E. Each then stopped on
+a 16-bit ADDRD read at 0xFFFFE6. The two sample values probe continuation
+only. Both VOP3 sample counters remained zero, and the ROM hash was unchanged.
+
+The original H83002 map at locked commit
+`706dbb73281320c54d7c2f16262c1c3786f2be01` maps ADDR as eight bytes.
+Its original `addr8_r` packs the two ADDRD bytes as result bits 15–6.
+Next, test an aligned ADDRD word composed from those two lanes and rerun
+the bounded diagnostic. Board voltage and timing, firmware boot, audio
+and REAPER acceptance remain open.
+
+## AN3 conversion on the machine timeline — merged in #230, 2026-11-06
 
 A sink can supply a 10-bit AN3 sample through the optional
 `adc_an3_sample(cycle)` callback. The bus samples on the ADCSR start

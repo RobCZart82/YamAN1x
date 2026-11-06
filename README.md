@@ -35,9 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Both firmware slices pass the idle panel read and stop at 0xFFFFE8
-while starting a single A/D conversion on AN3. See the
-[current status](docs/STATUS.md) for the traced write and timed AN3 bus tests.
+Four diagnostic runs with explicit AN3 samples reach the 16-bit ADDRD read
+at 0xFFFFE6. See the [current status](docs/STATUS.md) for the board trace
+and the next boundary.
 
 ## Current verified status — 2026-11-05
 
