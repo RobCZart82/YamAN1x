@@ -37,7 +37,7 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 Both firmware slices pass the idle panel read and stop at 0xFFFFE8
 while starting a single A/D conversion on AN3. See the
-[current status](docs/STATUS.md) for the traced write and reference timing.
+[current status](docs/STATUS.md) for the traced write and standalone conversion tests.
 
 ## Current verified status — 2026-11-05
 

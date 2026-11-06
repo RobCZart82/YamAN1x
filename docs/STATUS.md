@@ -1,6 +1,21 @@
 # Development status
 
-## Firmware A/D start boundary — candidate, 2026-11-06
+## Standalone slow AN3 conversion — candidate, 2026-11-06
+
+The standalone model accepts the observed single AN3 start with an explicit
+10-bit sample. It commits the latched sample after 266 cycles, sets ADF,
+clears ADST and exposes both ADDRD byte lanes. A repeated start while busy
+does not sample again. ADF uses the original write-zero behavior. Reset
+clears the result and cancels a pending conversion. IRQ enable, fast
+conversion, scan and abort during a conversion are outside this profile.
+
+The ROM-free test checks all 1,024 result values and 268 time partitions
+against independently calculated byte values, status and deadlines. The
+reference is the locked H8_ADC_3337 source documented below. The next step
+is MMIO and machine-timeline integration with an explicit analog input.
+Board analog values, firmware boot, audio and REAPER acceptance remain open.
+
+## Firmware A/D start boundary — merged in #228, 2026-11-06
 
 A temporary write trace in a separate checkout recorded ADCSR value 0x23
 at 0xFFFFE8, cycle 95,706,795, PC 0x1B64. Both 4,096- and 1,000,000-cycle
