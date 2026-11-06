@@ -1,5 +1,37 @@
 # YamAN1x fejlesztési napló
 
+## Active ITU interrupt delivery — candidate, 2026-11-06
+
+Enabled ITU events now enter the shared bus timeline and CPU deadline query.
+At a tie the existing SCI input and SCI events run first, followed by one ITU
+timestamp in channel and compare/overflow order. This ordering is project
+policy. The shared event limit counts each ITU timestamp once. Each vector
+offers the existing DMA callback its absolute cycle before publication to the
+H8 interrupt controller. A consumed event still latches the timer status.
+Timer reset clears the timer state and the existing controller reset clears
+pending interrupts.
+
+Tests verify five vectors at exact cycles, polling flags, DMA consumption, event
+budget exhaustion, and a synthetic CPU waking from SLEEP to execute the timer
+handler across 221 split points. The pinned MAME dispatch harness remains the
+counter and vector reference. This bounded internal-clock profile still needs a
+fresh local firmware diagnostic and hardware acceptance.
+
+Baseline #221 (aec0396) is merged and all five main checks passed.
+Local validation passed 134 CTest groups, the rebuilt TIER/IRQ target,
+targeted ASan/UBSan, the locked MAME dispatch cases and both audits.
+Remote CI and automated review are pending.
+
+
+## #221 merged — 2026-11-06
+
+Merge aec03964267ff94eb17dbd78a6646168436444f0. All five checks passed on
+8cad9cfccef94cdf9b027585b0e58116a8659bf7. No automated review result or quota
+error was recorded. Manual inspection covered the start, stop, polling guard
+and reset. GitHub reported no conflict or open review threads. The ruleset
+required zero approving reviews. Squash merge used the verified SHA.
+All five main checks passed before further development.
+
 ## Active ITU polling profile — candidate, 2026-11-06
 
 Byte accesses at FFFF60 expose TSTR with an E0 reset value and full written-byte

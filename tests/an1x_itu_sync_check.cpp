@@ -64,10 +64,10 @@ int main(){
   else bus.write_byte(0xffff64, 4);
   bool rejected_mode = false;
   try {
-   if (running) bus.write_byte(0xffff66, 1);
+   if (running) bus.write_byte(0xffff64, 4);
    else bus.write_byte(0xffff60, 1);
   } catch (const std::logic_error&) { rejected_mode = true; }
-  check(rejected_mode && bus.failed(), "Unsupported clock or active IRQ rejects");
+  check(rejected_mode && bus.failed(), "Unsupported clock rejects at start and while running");
  }
  rom[261] = 0x60;
  rom[263] = 0x01;

@@ -26,7 +26,8 @@ public:
     bool failed() const { return dispatcher_.failed(); }
     std::size_t consumed_input() const { return index_; }
     // Sink: tx(channel,cycle,level), clock(channel,cycle,level),
-    // bool dma_request(vector,cycle). No callback reentry or peripheral mutation.
+    // bool dma_request(vector,cycle). Optional peer deadlines follow SCI at ties.
+    // No callback reentry or peripheral mutation.
     template<class Sink>
     CycleDispatcher::Result advance_to(uint64_t horizon, std::size_t budget, Sink& sink) {
         Owner<Sink> owner{*this,sink};
@@ -49,7 +50,14 @@ private:
     };
     template<class Sink> struct Owner {
         SciCycleTimeline& timeline; Sink& sink;
-        std::optional<uint64_t> next_event() const {return timeline.deadline();}
+        std::optional<uint64_t> next_event() const {
+            auto next = timeline.deadline();
+            if constexpr (requires { sink.next_peer_event(); sink.service_peer(uint64_t{}); }) {
+                const auto peer = sink.next_peer_event();
+                if (peer && (!next || *peer < *next)) next = peer;
+            }
+            return next;
+        }
         void service(uint64_t cycle) {
             auto& t=timeline;
             if(t.index_<t.input_.size() && t.input_[t.index_].cycle==cycle) {
@@ -65,7 +73,13 @@ private:
                     return;
                 }
             }
-            throw std::logic_error("SCI timeline event disappeared");
+            if constexpr (requires { sink.next_peer_event(); sink.service_peer(cycle); }) {
+                if (sink.next_peer_event() == cycle) {
+                    sink.service_peer(cycle);
+                    return;
+                }
+            }
+            throw std::logic_error("Peripheral timeline event disappeared");
         }
     };
     H83002SciMmio& sci_;
