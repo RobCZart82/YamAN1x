@@ -3635,30 +3635,56 @@
       "manual_review": "checked opt-in byte routing, synthetic value and access tests, and matching firmware observations",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "research/an1x-adc-start-boundary",
+      "status": "merged",
+      "base_commit": "a3d365c4737ddbb43771d69b5c2e9f3395ecef1a",
+      "scope": "Characterize the firmware ADCSR write against the pinned original ADC",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
+      "diagnostic": {
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "cycle": 95706795,
+        "pc": "0x1B64",
+        "address": "0xFFFFE8",
+        "width": 1,
+        "value": "0x23",
+        "channel": 3,
+        "reference_cycles": 266,
+        "interrupt_enabled": false,
+        "baseline_json_identical": true
+      },
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 228,
+      "merge_commit": "393b132bc4035cda031fbbeda8ab682e0c7ed065",
+      "reviewed_head": "e2f61de1ea8248e655f9f4e4b1162ebe36f67be5",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42195796254,
+        42195796234
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked both read-only firmware traces and the pinned H8 ADC source",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-adc-start-boundary",
+    "branch": "feat/h8-adc-single-an3",
     "status": "candidate",
-    "base_commit": "a3d365c4737ddbb43771d69b5c2e9f3395ecef1a",
-    "scope": "Characterize the firmware ADCSR write against the pinned original ADC",
+    "base_commit": "393b132bc4035cda031fbbeda8ab682e0c7ed065",
+    "scope": "Standalone slow AN3 conversion with explicit ten-bit input",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
-    "diagnostic": {
-      "slice_cycles": [
-        4096,
-        1000000
-      ],
-      "cycle": 95706795,
-      "pc": "0x1B64",
-      "address": "0xFFFFE8",
-      "width": 1,
-      "value": "0x23",
-      "channel": 3,
-      "reference_cycles": 266,
-      "interrupt_enabled": false,
-      "baseline_json_identical": true
-    },
+    "reference_cycles": 266,
+    "sample_cases": 1024,
+    "time_partitions": 268,
     "physical_timing_validated": false,
     "boot_accepted": false,
     "audio_accepted": false
