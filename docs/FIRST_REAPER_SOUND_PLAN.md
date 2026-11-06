@@ -1,6 +1,23 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Slow ADC scan on the AN1x bus — candidate, 2026-11-06
+## Firmware reaches the cycle limit with the ADC scan — candidate, 2026-11-06
+
+Four read-only 1.04 swap16 diagnostics on main a0ba565 passed the 0x33
+ADC start. The temporary idle-panel probe supplied either 0 or 1023 to
+every ADC channel, with 4,096- and 1,000,000-cycle slices for each value.
+All reached the requested 100-million-cycle limit without an access fault.
+For each value, both slice sizes ended at the same PC and peripheral cycle.
+The low profile ended at PC 0x3C736, cycle 100,000,001. The high profile
+ended at PC 0x3C50E, cycle 100,000,002. These are synthetic inputs.
+
+The trace showed AN0 sampled at 95,707,121, AN1 at 95,707,387 and the
+remaining samples every 256 cycles in AN0–AN3 order, consistent with the
+locked H8_ADC_3337 reference. The ROM hash was unchanged. Both VOP3 sample
+counts stayed at zero. Next, identify the two end-of-run firmware paths
+and which initialization or MIDI readiness milestones they have reached.
+Firmware boot, physical ADC behavior and audio remain unverified.
+
+## Slow ADC scan on the AN1x bus — merged in #235, 2026-11-06
 
 An explicit scan callback supplies each AN0–AN3 sample at the machine
 deadline. The 0x33 profile exposes aligned ADDR words and byte lanes,
