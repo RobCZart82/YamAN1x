@@ -1,6 +1,21 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## AN3 board input and ADDRD word boundary — candidate, 2026-11-06
+## Aligned ADDRD word read — candidate, 2026-11-06
+
+The explicit AN3 profile now composes the aligned word at 0xFFFFE6 from
+the two existing result bytes, in big-endian order. The locked original
+H83002 map and ADC source define the byte lanes and 10-bit packing.
+Tests check the value before and after conversion, the 24-bit alias,
+alignment, nearby addresses, read-only behavior and idle-profile guards.
+
+Four local read-only 1.04 probes with synthetic samples 0 and 1023 and
+4,096- and 1,000,000-cycle slices passed the word read. All stopped at
+cycle 95,707,121, PC 0x1B84, on a byte write to 0xFFFFE8 with unsupported
+ADC control mode. The ROM hash was unchanged and both VOP3 sample counters
+remained zero. Next, trace the new control value. Physical AN3 input,
+firmware boot, audio and REAPER acceptance remain open.
+
+## AN3 board input and ADDRD word boundary — merged in #231, 2026-11-06
 
 Yamaha DM/DMS drawing 8811454 connects IC1 pin 83 (P73/AN3) to H8A15
 through R22 (10 kΩ), with C20 (0.01 µF) from the input to DGA. This

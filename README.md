@@ -35,9 +35,8 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Four diagnostic runs with explicit AN3 samples reach the 16-bit ADDRD read
-at 0xFFFFE6. See the [current status](docs/STATUS.md) for the board trace
-and the next boundary.
+Four diagnostic runs with explicit AN3 samples pass the ADDRD word read
+and stop at the next ADC control write. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

@@ -33,11 +33,11 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
   bus.write_byte(0xffffe8, 0xa3);
   bus.update(40 + cut);
   if (cut < 266)
-   check(bus.read_byte(0xffffe6) == 0 && bus.read_byte(0xffffe8) == 0x23,
+   check(bus.read_word(0xffffe6) == 0 && bus.read_byte(0xffffe6) == 0 && bus.read_byte(0xffffe8) == 0x23,
          "Result and ADF are unchanged before completion");
   bus.update(306 + (cut == 267));
   check(bus.read_byte(0xffffe8) == 0x83 && bus.read_byte(0x12ffffe6) == 0xaa &&
-        bus.read_byte(0xffffe7) == 0xc0 && bus.next_bus_event() == 0 &&
+        bus.read_byte(0xffffe7) == 0xc0 && bus.read_word(0x12ffffe6) == 0xaac0 && bus.next_bus_event() == 0 &&
         analog.samples == 1 && analog.effects == 0,
         "Completion commits the original sample without a new deadline");
   bus.write_byte(0xffffe8, 3);
@@ -54,6 +54,33 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
   bool bad = false;
   try { (void)bus.read_byte(address); } catch (const std::out_of_range&) { bad = true; }
   check(bad && analog.samples == 0, "Only ADDRD byte lanes are added");
+ }
+ for (uint32_t address : {0xffffe4u, 0xffffe5u, 0xffffe7u, 0xffffe8u}) {
+  AnalogSink analog;
+  yamanix::An1xSciBus<AnalogSink> bus(rom, {}, analog);
+  bool bad = false;
+  try {
+   (void)bus.read_word(address);
+  } catch (const std::invalid_argument&) {
+   bad = (address & 1) != 0;
+  } catch (const std::out_of_range&) {
+   bad = (address & 1) == 0;
+  }
+  check(bad && analog.samples == 0, "Only the aligned ADDRD word is mapped");
+ }
+ {
+  AnalogSink analog;
+  yamanix::An1xSciBus<AnalogSink> bus(rom, {}, analog);
+  bool bad = false;
+  try { bus.write_word(0xffffe6, 0); } catch (const std::out_of_range&) { bad = true; }
+  check(bad && analog.samples == 0, "ADDRD word stays read only");
+ }
+ {
+  Sink idle;
+  Bus bus(rom, {}, idle);
+  bool bad = false;
+  try { (void)bus.read_word(0xffffe6); } catch (const std::out_of_range&) { bad = true; }
+  check(bad, "Idle sinks still reject ADDRD words");
  }
  rom[263] = 0x23;
  using AnalogMachine = yamanix::An1xResearchMachine<AnalogSink>;

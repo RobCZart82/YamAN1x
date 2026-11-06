@@ -89,6 +89,10 @@ public:
             else memory_.write_byte(a,v);
         }else memory_.write_byte(a,v);});}
     uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;
+        if constexpr (requires { sink_.adc_an3_sample(now_); }) {
+            if (a == 0xffffe6)
+                return uint16_t((uint16_t(adc_.result_high()) << 8) | adc_.result_low());
+        }
         if (const auto channel = itu_counter_index(a & ~1u); channel >= 0) {
             if (a & 1) throw std::invalid_argument("Unaligned ITU counter word");
             return itu_.state(channel).counter.count;
