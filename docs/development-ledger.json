@@ -3596,15 +3596,54 @@
       "manual_review": "checked bounded clock transition, independent timer progress, and matching firmware observations",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "feat/an1x-idle-panel-read",
+      "status": "merged",
+      "base_commit": "a6a294fa43266335e324fc502e73725cf92bac23",
+      "scope": "Opt-in idle panel byte read at 0x680000",
+      "board_reference": "Yamaha DM drawing 8811454, IC6 2Y2 PNLCS to IC19 and D8-D15",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "diagnostic": {
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "cycle": 95706795,
+        "pc": "0x1B64",
+        "address": "0xFFFFE8",
+        "kind": "data_write",
+        "width": 1,
+        "vop3_sample_passes": [
+          0,
+          0
+        ]
+      },
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 227,
+      "merge_commit": "a3d365c4737ddbb43771d69b5c2e9f3395ecef1a",
+      "reviewed_head": "2b5a6c81deae56a6911f48efdefe6a2e30b9cec9",
+      "remote_ci": "all_five_success",
+      "ci_runs": [
+        42186092983,
+        42186092496,
+        42186092770
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked opt-in byte routing, synthetic value and access tests, and matching firmware observations",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-idle-panel-read",
+    "branch": "research/an1x-adc-start-boundary",
     "status": "candidate",
-    "base_commit": "a6a294fa43266335e324fc502e73725cf92bac23",
-    "scope": "Opt-in idle panel byte read at 0x680000",
-    "board_reference": "Yamaha DM drawing 8811454, IC6 2Y2 PNLCS to IC19 and D8-D15",
+    "base_commit": "a3d365c4737ddbb43771d69b5c2e9f3395ecef1a",
+    "scope": "Characterize the firmware ADCSR write against the pinned original ADC",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
     "diagnostic": {
       "slice_cycles": [
         4096,
@@ -3613,12 +3652,12 @@
       "cycle": 95706795,
       "pc": "0x1B64",
       "address": "0xFFFFE8",
-      "kind": "data_write",
       "width": 1,
-      "vop3_sample_passes": [
-        0,
-        0
-      ]
+      "value": "0x23",
+      "channel": 3,
+      "reference_cycles": 266,
+      "interrupt_enabled": false,
+      "baseline_json_identical": true
     },
     "physical_timing_validated": false,
     "boot_accepted": false,

@@ -35,9 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-The candidate idle panel profile passes the 0x680000 byte read. Both local
-firmware slices now stop at the ADC control write at 0xFFFFE8. See the
-[current status](docs/STATUS.md).
+Both firmware slices pass the idle panel read and stop at 0xFFFFE8
+while starting a single A/D conversion on AN3. See the
+[current status](docs/STATUS.md) for the traced write and reference timing.
 
 ## Current verified status — 2026-11-05
 

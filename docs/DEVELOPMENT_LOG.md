@@ -1,6 +1,37 @@
 # YamAN1x fejlesztési napló
 
-## Idle panel byte diagnostic — candidate, 2026-11-06
+## Firmware A/D start boundary — candidate, 2026-11-06
+
+A temporary write trace in a separate checkout recorded ADCSR value 0x23
+at 0xFFFFE8, cycle 95,706,795, PC 0x1B64. Both 4,096- and 1,000,000-cycle
+slices produced the same write value, and each diagnostic JSON matched its
+uninstrumented baseline byte for byte. The local 1.04 ROM was opened
+read-only and its hash was unchanged.
+
+The locked MAME commit `706dbb73281320c54d7c2f16262c1c3786f2be01`
+maps ADDR bytes at FFFFE0–FFFFE7, ADCSR at FFFFE8 and ADCR at FFFFE9,
+using H8_ADC_3337 with interrupt vector 60. The ADC source SHA-256 is
+`68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19`.
+
+In that source, 0x23 starts a software-triggered single conversion on
+AN3 with the slow clock and the interrupt disabled. The conversion
+samples at start, then after 266 CPU cycles commits the result to ADDRD,
+sets ADF and clears ADST. The register exposes the 10-bit result in bits
+15–6. ADCSR preserves ADF only when the old flag and the written bit are
+both set. These are original-model semantics. Board analog values and
+physical timing remain open. The next step is a bounded single-conversion
+ADC test using explicit synthetic input and independently checked result
+bytes, status and deadline. Firmware boot, audio and REAPER remain open.
+
+## #227 merged — 2026-11-06
+
+Merge a3d365c4737ddbb43771d69b5c2e9f3395ecef1a. All five checks passed on
+2b5a6c81deae56a6911f48efdefe6a2e30b9cec9. GitHub reported no conflicts or review
+threads and required zero approving reviews. No automated review result or
+quota error was recorded. The verified SHA was used for the squash merge.
+All five main checks passed before further development.
+
+## Idle panel byte diagnostic — merged in #227, 2026-11-06
 
 Yamaha DM drawing 8811454 shows IC6's second decoder enabled by H8CS3,
 with RD and A19 on its select inputs. At 0x680000 in H8 area 3, A19 is
