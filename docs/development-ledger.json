@@ -3527,18 +3527,60 @@
       "manual_review": "checked pinned MAME harness assertions and schematic trace",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "docs/an1x-pksclk-board-path",
+      "status": "merged",
+      "base_commit": "38b3cbfbdcc0280997ef41bc01a2ff868f641a1f",
+      "scope": "Trace PKSCLK between H8 and keyboard scanner and distinguish the serial clock from the PKS oscillator",
+      "board_reference": [
+        "Yamaha AN1x Service Manual drawing 8811454, DM IC21 pin 11, L29 and CN6 pin 5",
+        "Drawing 8811457, KBS CN1 pin 5, PKS IC1 pin 19 and CL1"
+      ],
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 225,
+      "merge_commit": "944df7d3b66f9cdef24fa5b9336ab9e2aeaefdda",
+      "reviewed_head": "fac7f85da6f625d42915c89ead1e4bcf412a080b",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42169006655,
+        42169006636
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked the Yamaha drawing traces and original driver against the documentation",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "docs/an1x-pksclk-board-path",
+    "branch": "feat/an1x-itu-input-b-no-edges",
     "status": "candidate",
-    "base_commit": "38b3cbfbdcc0280997ef41bc01a2ff868f641a1f",
-    "scope": "Trace PKSCLK between H8 and keyboard scanner and distinguish the serial clock from the PKS oscillator",
-    "board_reference": [
-      "Yamaha AN1x Service Manual drawing 8811454, DM IC21 pin 11, L29 and CN6 pin 5",
-      "Drawing 8811457, KBS CN1 pin 5, PKS IC1 pin 19 and CL1"
-    ],
+    "base_commit": "944df7d3b66f9cdef24fa5b9336ab9e2aeaefdda",
+    "scope": "Bounded AN1x channel 3 input B diagnostic without PKSCLK transitions",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "original_reference_cases": 65536,
+    "bus_partitions": 65,
+    "diagnostic": {
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "cycle": 92381680,
+      "pc": "0xEA98",
+      "address": "0x680000",
+      "width": 1,
+      "vop3_writes": [
+        11557,
+        516
+      ],
+      "vop3_sample_passes": [
+        0,
+        0
+      ]
+    },
     "physical_timing_validated": false,
     "boot_accepted": false,
     "audio_accepted": false

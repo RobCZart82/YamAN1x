@@ -159,11 +159,21 @@ private:
     static int itu_tier_index(uint32_t a){for(unsigned i=0;i<itu_tier_addresses_.size();++i)if(itu_tier_addresses_[i]==a)return int(i);return -1;}
     inline static constexpr std::array<uint32_t,5> itu_control_addresses_={0xffff64,0xffff6e,0xffff78,0xffff82,0xffff92};
     static int itu_control_index(uint32_t a){for(unsigned i=0;i<itu_control_addresses_.size();++i)if(itu_control_addresses_[i]==a)return int(i);return -1;}
+    // The AN1x diagnostic supplies no PKSCLK edges to channel 3 input B.
+    // Keep TSTR active while excluding the channel from the internal clock.
+    static bool itu_no_edge_clock(unsigned channel, uint8_t control) {
+        return channel == 3 && (control & 0x67) == 5;
+    }
     void write_itu_control(unsigned channel, uint8_t value) {
         if (const auto profile = decode_itu_control(value)) {
             settle_itu();
             itu_.configure(channel, profile->shift, profile->phase);
             itu_.set_clear_mode(channel, profile->clear);
+            if (itu_no_edge_clock(channel, itu_control_[channel]))
+                itu_.set_enabled(channel, (itu_start_ & (1u << channel)) != 0);
+        } else if (itu_no_edge_clock(channel, value)) {
+            settle_itu();
+            itu_.set_enabled(channel, false);
         } else if (itu_start_ & (1u << channel)) {
             throw std::logic_error("Unsupported active ITU clock or clear mode");
         }
@@ -181,12 +191,13 @@ private:
     void write_itu_start(uint8_t value) {
         for (unsigned channel = 0; channel < itu_control_.size(); ++channel) {
             if (!(value & (1u << channel))) continue;
-            if (!decode_itu_control(itu_control_[channel]))
+            if (!decode_itu_control(itu_control_[channel]) && !itu_no_edge_clock(channel, itu_control_[channel]))
                 throw std::logic_error("Unsupported active ITU clock or clear mode");
         }
         settle_itu();
         for (unsigned channel = 0; channel < itu_control_.size(); ++channel)
-            itu_.set_enabled(channel, (value & (1u << channel)) != 0);
+            itu_.set_enabled(channel, (value & (1u << channel)) != 0 &&
+                                      !itu_no_edge_clock(channel, itu_control_[channel]));
         itu_start_ = value;
     }
     void write_itu_enables(unsigned channel, uint8_t value) {
