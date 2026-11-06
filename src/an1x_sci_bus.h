@@ -124,6 +124,12 @@ public:
     void clock(unsigned c,bool v){clock(c,now_,v);}
     bool dma_request(unsigned v){return dma_request(v,now_);}
 private:
+    friend class SciCycleTimeline;
+    // Timeline services SCI first at ties, then one ITU timestamp.
+    std::optional<uint64_t> next_peer_event() const {
+        return itu_start_ & 0x1f ? itu_.next_event() : std::nullopt;
+    }
+    void service_peer(uint64_t cycle) { settle_itu_at(cycle); }
     static bool vop3_window(uint32_t a){return (a>=0x440000&&a<0x440100)||(a>=0x480000&&a<0x480100);}
     uint16_t read_external_word(uint32_t a){
         if(vop3_window(a)){
@@ -147,7 +153,7 @@ private:
         }
         return memory_.read_byte(a);
     }
-    // TIER and TSR use scheduler state. Running channels are polling-only.
+    // TIER and TSR use scheduler state. Running channels publish enabled timer IRQs.
     static bool itu_io_mapped(uint32_t a){return a==0xffff65||a==0xffff6f||a==0xffff79||a==0xffff83||a==0xffff93;}
     inline static constexpr std::array<uint32_t,5> itu_tier_addresses_={0xffff66,0xffff70,0xffff7a,0xffff84,0xffff94};
     static int itu_tier_index(uint32_t a){for(unsigned i=0;i<itu_tier_addresses_.size();++i)if(itu_tier_addresses_[i]==a)return int(i);return -1;}
@@ -177,8 +183,6 @@ private:
             if (!(value & (1u << channel))) continue;
             if (!decode_itu_control(itu_control_[channel]))
                 throw std::logic_error("Unsupported active ITU clock or clear mode");
-            if (itu_.state(channel).enables & 7)
-                throw std::logic_error("Active ITU interrupt delivery is unsupported");
         }
         settle_itu();
         for (unsigned channel = 0; channel < itu_control_.size(); ++channel)
@@ -186,17 +190,17 @@ private:
         itu_start_ = value;
     }
     void write_itu_enables(unsigned channel, uint8_t value) {
-        if ((itu_start_ & (1u << channel)) && (value & 7))
-            throw std::logic_error("Active ITU interrupt delivery is unsupported");
         settle_itu();
         itu_.write_enables(channel, value);
     }
     uint8_t itu_start_ = 0xe0;
-    void settle_itu() {
-        if (itu_.time() == now_)
-            return;
-        itu_.run_until(now_, 1, [](unsigned, uint64_t) {
-            throw std::logic_error("Unexpected ITU interrupt in polling profile");
+    void settle_itu() { settle_itu_at(now_); }
+    void settle_itu_at(uint64_t cycle) {
+        if (itu_.time() == cycle) return;
+        itu_.run_until(cycle, 1, [&](unsigned vector, uint64_t at) {
+            const bool consumed = dma_request(vector, at);
+            require_callback_live();
+            irq_.internal_irq(vector, consumed);
         });
     }
     static int itu_counter_index(uint32_t address) {
@@ -316,6 +320,8 @@ private:
     uint64_t deadline()const{
         auto next=sci_.next_event();const auto i=timeline_.consumed_input();
         if(i<input_.size()&&(!next||input_[i].cycle<next))next=input_[i].cycle;
+        if (const auto peer = next_peer_event(); peer && (!next || *peer < next))
+            next = *peer;
         return next;
     }
     void advance(uint64_t target){
@@ -323,7 +329,7 @@ private:
         // committed while the next slice repays debt;do not rewind peripherals.
         target=std::max(target,timeline_.cycle());
         if(!timeline_.advance_to(target,limit_,*this).complete)
-            throw std::runtime_error("AN1x SCI event budget exhausted");
+            throw std::runtime_error("AN1x peripheral event budget exhausted");
         now_=timeline_.cycle();
         refresh_.advance_to(now_);
         if (itu_start_ & 0x1f) settle_itu();

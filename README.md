@@ -35,9 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current candidate — 2026-11-06
 
-TSTR starts and stops the five ITU channels in the bounded polling profile.
-Baseline #220 is merged and main CI passed. CPU IRQ delivery and the local
-firmware diagnostic are next. See the [current status](docs/STATUS.md).
+The internal-clock ITU publishes timed interrupts through the H8 controller.
+Baseline #221 is merged and main CI passed. A fresh local firmware diagnostic
+is next. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

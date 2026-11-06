@@ -1,5 +1,25 @@
 # Development status
 
+## Active ITU interrupt delivery — candidate, 2026-11-06
+
+Enabled ITU events now enter the shared bus timeline and CPU deadline query.
+At a tie the existing SCI input and SCI events run first, followed by one ITU
+timestamp in channel and compare/overflow order. This ordering is project
+policy. The shared event limit counts each ITU timestamp once. Each vector
+offers the existing DMA callback its absolute cycle before publication to the
+H8 interrupt controller. A consumed event still latches the timer status.
+Timer reset clears the timer state and the existing controller reset clears
+pending interrupts.
+
+Tests verify five vectors at exact cycles, polling flags, DMA consumption, event
+budget exhaustion, and a synthetic CPU waking from SLEEP to execute the timer
+handler across 221 split points. The pinned MAME dispatch harness remains the
+counter and vector reference. This bounded internal-clock profile still needs a
+fresh local firmware diagnostic and hardware acceptance.
+
+Baseline #221 (aec0396) is merged and all five main checks passed.
+
+
 ## Active ITU polling profile — candidate, 2026-11-06
 
 Byte accesses at FFFF60 expose TSTR with an E0 reset value and full written-byte

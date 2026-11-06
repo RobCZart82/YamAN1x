@@ -3419,19 +3419,45 @@
       "manual_review": "inspected counter address and byte lanes, reset and tests;no actionable findings",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "feat/an1x-itu-tstr-polling",
+      "status": "merged",
+      "base_commit": "a6a86432ff4328416ca95fadb822a822b2c7fad4",
+      "scope": "TSTR start and stop with bounded internal-clock polling only",
+      "remote_ci": "all_five_success",
+      "automatic_review": "no_result_recorded;no quota error evidence",
+      "validation": {
+        "ctest": "134/134 PASS; expanded TSNC/TSTR target rebuilt and passed",
+        "targeted_asan_ubsan": "PASS",
+        "original_source": "3 files and 19 methods verified, including TSTR and channel enable",
+        "audit_files": 673,
+        "notice_files": 229
+      },
+      "pr": 221,
+      "merge_commit": "aec03964267ff94eb17dbd78a6646168436444f0",
+      "reviewed_head": "8cad9cfccef94cdf9b027585b0e58116a8659bf7",
+      "ci_runs": [
+        42135240491,
+        42135240046,
+        42135239974
+      ],
+      "manual_review": "inspected active start and stop, polling guard and reset",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-itu-tstr-polling",
+    "branch": "feat/an1x-itu-irq-delivery",
     "status": "candidate",
-    "base_commit": "a6a86432ff4328416ca95fadb822a822b2c7fad4",
-    "scope": "TSTR start and stop with bounded internal-clock polling only",
+    "base_commit": "aec03964267ff94eb17dbd78a6646168436444f0",
+    "scope": "Bounded ITU deadlines and CPU IRQ delivery on the shared peripheral timeline",
     "remote_ci": "pending",
     "automatic_review": "pending",
     "validation": {
-      "ctest": "134/134 PASS; expanded TSNC/TSTR target rebuilt and passed",
+      "ctest": "134/134 PASS, plus rebuilt expanded TIER/IRQ target PASS",
       "targeted_asan_ubsan": "PASS",
-      "original_source": "3 files and 19 methods verified, including TSTR and channel enable",
+      "original_dispatch": "2048 mixed streams and 10240 single-channel cases PASS",
       "audit_files": 673,
       "notice_files": 229
     }
