@@ -3727,16 +3727,59 @@
       "manual_review": "checked ADC deadline, opt-in bus mapping and partition tests",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "research/an1x-an3-word-boundary",
+      "status": "merged",
+      "base_commit": "7740d0154b3c6ebe68ef601fdcb1509efb1abdb8",
+      "scope": "Trace the AN3 analog path and reproduce the ADDRD word-read boundary",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
+      "board_reference": "Yamaha drawing 8811454, IC1 pin 83 AN3, R22 from H8A15, C20 to DGA",
+      "diagnostic": {
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "synthetic_samples": [
+          0,
+          1023
+        ],
+        "sample_cycle": 95706795,
+        "cycle": 95707083,
+        "pc": "0x1B6E",
+        "address": "0xFFFFE6",
+        "width": 2,
+        "kind": "data_read",
+        "vop3_sample_passes": [
+          0,
+          0
+        ]
+      },
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 231,
+      "merge_commit": "c94aa251152a5ac854ccaae478508404e9db812d",
+      "reviewed_head": "e8cb4618f16fc63e5e3d2b3eb9d01d6988f89a06",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42226308992,
+        42226309041
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked Yamaha AN3 trace, four diagnostic results and original ADC mapping",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-an3-word-boundary",
+    "branch": "feat/an1x-addrd-word",
     "status": "candidate",
-    "base_commit": "7740d0154b3c6ebe68ef601fdcb1509efb1abdb8",
-    "scope": "Trace the AN3 analog path and reproduce the ADDRD word-read boundary",
+    "base_commit": "c94aa251152a5ac854ccaae478508404e9db812d",
+    "scope": "Allow the observed aligned ADDRD word read for explicit AN3 sinks",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
-    "board_reference": "Yamaha drawing 8811454, IC1 pin 83 AN3, R22 from H8A15, C20 to DGA",
     "diagnostic": {
       "slice_cycles": [
         4096,
@@ -3746,12 +3789,11 @@
         0,
         1023
       ],
-      "sample_cycle": 95706795,
-      "cycle": 95707083,
-      "pc": "0x1B6E",
-      "address": "0xFFFFE6",
-      "width": 2,
-      "kind": "data_read",
+      "cycle": 95707121,
+      "pc": "0x1B84",
+      "address": "0xFFFFE8",
+      "width": 1,
+      "kind": "data_write",
       "vop3_sample_passes": [
         0,
         0
