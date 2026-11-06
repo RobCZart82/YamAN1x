@@ -49,7 +49,7 @@ struct Cpu {u64 now=0;u64 total_cycles(){return now;} void internal_update(){thr
 using Events=std::vector<std::pair<unsigned,u64>>;
 struct Intc {u64* now=nullptr;Events events;void internal_interrupt(int v){events.emplace_back(v,*now);}};
 struct h8_timer16_channel_device {
- enum {DIV_1=0,IRQ_V=16};Cpu cpu;Intc intc;Cpu*m_cpu=&cpu;Intc*m_intc=&intc;
+ enum {INPUT_A=1,INPUT_B,INPUT_C,INPUT_D,DIV_1,IRQ_V=16};Cpu cpu;Intc intc;Cpu*m_cpu=&cpu;Intc*m_intc=&intc;
  unsigned m_clock_type=DIV_1,m_clock_divider=0,m_phase=0,m_counter_cycle=65536;
  u16 m_tcnt=0,m_tgr[2]{};u64 m_last_clock_update=0;bool m_channel_active=true,m_counter_incrementing=true;
  int m_tgr_count=2,m_interrupt[6]{};unsigned m_ier=0,m_isr=0;
@@ -99,6 +99,35 @@ int main(){uint64_t seed=0x123abc;unsigned count=0;
   bank.run_until(4097,8192,[&](unsigned v,u64 t){actual.emplace_back(v,t);});
   if(actual!=expected)throw std::runtime_error("Original five-channel chronology mismatch");++banks;
  }
+ unsigned external_cases = 0;
+ for (unsigned input = h8_timer16_channel_device::INPUT_A;
+      input <= h8_timer16_channel_device::INPUT_D; ++input) {
+  for (unsigned flags = 0; flags < 8; ++flags) {
+   for (unsigned enables = 0; enables < 8; ++enables) {
+    for (unsigned initial = 0; initial <= 65535; initial += 257) {
+     h8_timer16_channel_device original;
+     original.intc.now = &original.m_last_clock_update;
+     original.m_clock_type = input;
+     original.m_last_clock_update = 7;
+     original.m_tcnt = u16(initial);
+     original.m_ier = (enables & 3) | ((enables & 4) ? 16 : 0);
+     original.m_isr = (flags & 3) | ((flags & 4) ? 16 : 0);
+     const auto old_status = original.m_isr;
+     original.m_event_time = 10;
+     original.recalc_event(8);
+     if (original.m_event_time != 0)
+      throw std::runtime_error("Original external clock retained internal deadline");
+     original.update_counter(9);
+     if (original.internal_update(100000) || original.m_tcnt != initial ||
+         original.m_isr != old_status || original.m_last_clock_update != 7 ||
+         !original.intc.events.empty())
+      throw std::runtime_error("Original external clock advanced on internal time");
+     ++external_cases;
+    }
+   }
+  }
+ }
+ std::printf("%u original external-clock cases: no internal progress or IRQ\n", external_cases);
  std::printf("%u original mixed-mode five-channel event-stream comparisons PASS;equal-time ordering is project policy\n",banks);
  std::printf("%u original dispatch vector/time/count/flag comparisons PASS;no CPU/controller/hardware acceptance\n",count);
 }

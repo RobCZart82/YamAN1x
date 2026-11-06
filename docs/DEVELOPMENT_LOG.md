@@ -1,5 +1,30 @@
 # YamAN1x fejlesztési napló
 
+## ITU external clock B reference — candidate, 2026-11-06
+
+The [Hitachi HD6413002 hardware manual](https://www.renesas.com/en/document/mah/microcomputer-h83002-hd6413002-hardware-manual?r=1052021)
+Figure 1-3 identifies FP-100A pin 96 as TCLKB/TEND1/TP1/PA1. The Yamaha AN1x
+Service Manual identifies IC1 pin 96 as PA1. The DM/DMS circuit drawing
+8811454 shows that pin on PKSCLK, with a 10 kΩ pull-up to +5D through R11.
+The drawing identifies the signal path. Its transition timing remains open.
+
+The dispatch harness ran 65,536 external-clock cases against unchanged
+counter and scheduler methods from the locked original MAME source. With
+internal time advancing and no external input, the reference cancels the old
+internal deadline, preserves the count, flags and clock anchor, and emits no
+interrupt. This is evidence for a bounded no-edge profile. The next step is
+to trace the PKSCLK source and determine which transitions the firmware
+expects before extending active external-clock support.
+
+## #223 merged — 2026-11-06
+
+Merge 2a96101e1adedb09bea49a61662f9273d444666d. All four applicable checks passed
+on 60c6082c27f175cfc000381f3ba1a893173c5483. No automated review result or quota
+error was recorded. Manual review checked the documentation and ledger against
+both local diagnostic outputs. GitHub reported no conflict or open review
+threads and the ruleset required zero approving reviews. The verified SHA was
+used for the squash merge. All four applicable main checks passed before external-clock work.
+
 ## Local firmware diagnostic after ITU IRQ integration — 2026-11-06
 
 The #222 merge (32c5eee) passed all five main checks. Its local 1.04 probe used
