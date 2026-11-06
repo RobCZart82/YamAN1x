@@ -3471,30 +3471,51 @@
       "manual_review": "inspected shared timeline ordering, DMA gate and event budget",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "docs/an1x-itu-external-clock-boundary",
+      "status": "merged",
+      "base_commit": "32c5eee199c65411217274e7d675b0e3d62ce3ee",
+      "scope": "Record reproducible external clock B firmware boundary after ITU IRQ integration",
+      "diagnostic": {
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "cycle": 11925102,
+        "pc": "0xB60",
+        "address": "0xFFFF60",
+        "width": 1,
+        "channel": 3,
+        "clock_selector": 5,
+        "clear_selector": 0,
+        "boot_accepted": false,
+        "audio_accepted": false
+      },
+      "remote_ci": "all_four_success",
+      "automatic_review": "no_result_recorded;no quota error evidence",
+      "pr": 223,
+      "merge_commit": "2a96101e1adedb09bea49a61662f9273d444666d",
+      "reviewed_head": "60c6082c27f175cfc000381f3ba1a893173c5483",
+      "ci_runs": [
+        42153072139,
+        42153071888
+      ],
+      "manual_review": "matched documentation and ledger against both local JSON records; only documentation changed",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "docs/an1x-itu-external-clock-boundary",
+    "branch": "research/an1x-external-clock-reference",
     "status": "candidate",
-    "base_commit": "32c5eee199c65411217274e7d675b0e3d62ce3ee",
-    "scope": "Record reproducible external clock B firmware boundary after ITU IRQ integration",
-    "diagnostic": {
-      "slice_cycles": [
-        4096,
-        1000000
-      ],
-      "cycle": 11925102,
-      "pc": "0xB60",
-      "address": "0xFFFF60",
-      "width": 1,
-      "channel": 3,
-      "clock_selector": 5,
-      "clear_selector": 0,
-      "boot_accepted": false,
-      "audio_accepted": false
-    },
-    "remote_ci": "pending",
-    "automatic_review": "pending"
+    "base_commit": "2a96101e1adedb09bea49a61662f9273d444666d",
+    "scope": "Record original MAME no-edge behavior and AN1x TCLKB board net",
+    "original_reference_cases": 65536,
+    "board_reference": "Yamaha AN1x Service Manual drawing 8811454; IC1 pin 96 PA1, PKSCLK, R11 pull-up",
+    "physical_timing_validated": false,
+    "boot_accepted": false,
+    "audio_accepted": false
   },
   "pending_changes": []
 }
