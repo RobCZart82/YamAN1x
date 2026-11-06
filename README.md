@@ -35,8 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Four diagnostic runs with explicit AN3 samples pass the ADDRD word read
-and stop at the next ADC control write. See the [current status](docs/STATUS.md).
+Four diagnostic runs pass the ADDRD word read and request a repeating
+AN0–AN3 scan. See the [current status](docs/STATUS.md) for the traced request
+and reference timing.
 
 ## Current verified status — 2026-11-05
 

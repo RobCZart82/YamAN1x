@@ -1,6 +1,24 @@
 # Development status
 
-## Aligned ADDRD word read — candidate, 2026-11-06
+## Firmware A/D scan request — candidate, 2026-11-06
+
+All four read-only firmware probes wrote ADCSR 0x33 at 0xFFFFE8,
+cycle 95,707,121, PC 0x1B84. Each traced diagnostic JSON was identical
+to its earlier baseline. The probes covered synthetic AN3 values 0 and
+1023 and 4,096- and 1,000,000-cycle slices. The local ROM hash was unchanged.
+
+The locked original H8_ADC_3337 at MAME commit
+`706dbb73281320c54d7c2f16262c1c3786f2be01` interprets 0x33 as a
+software-started, repeating slow scan of AN0 through AN3 with ADIE clear.
+It samples AN0 on start and commits after 266 cycles. Subsequent channels
+commit every 256 cycles and the following channel is sampled at each commit.
+The first ADF assertion is 1,034 cycles after start, when AN3 commits.
+ADST remains set and the scan wraps to AN0. Each later sweep takes 1,024
+cycles. These are original-model timings. Next, test this scan in isolation
+with explicit synthetic values, then consider bus integration. Board analog
+behavior, firmware boot, audio and REAPER acceptance remain open.
+
+## Aligned ADDRD word read — merged in #232, 2026-11-06
 
 The explicit AN3 profile now composes the aligned word at 0xFFFFE6 from
 the two existing result bytes, in big-endian order. The locked original
