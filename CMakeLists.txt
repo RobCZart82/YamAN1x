@@ -483,3 +483,7 @@ add_test(NAME yamanix_h8_itu_control_decode COMMAND yamanix_h8_itu_control_decod
 add_executable(yamanix_h8_adc_single_an3_check tests/h8_adc_single_an3_check.cpp)
 target_include_directories(yamanix_h8_adc_single_an3_check PRIVATE src)
 add_test(NAME yamanix_h8_adc_single_an3 COMMAND yamanix_h8_adc_single_an3_check)
+
+add_executable(yamanix_h8_adc_slow_scan_check tests/h8_adc_slow_scan_check.cpp)
+target_include_directories(yamanix_h8_adc_slow_scan_check PRIVATE src)
+add_test(NAME yamanix_h8_adc_slow_scan COMMAND yamanix_h8_adc_slow_scan_check)
