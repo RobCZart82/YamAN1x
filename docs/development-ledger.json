@@ -3553,29 +3553,68 @@
       "manual_review": "checked the Yamaha drawing traces and original driver against the documentation",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "feat/an1x-itu-input-b-no-edges",
+      "status": "merged",
+      "base_commit": "944df7d3b66f9cdef24fa5b9336ab9e2aeaefdda",
+      "scope": "Bounded AN1x channel 3 input B diagnostic without PKSCLK transitions",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "original_reference_cases": 65536,
+      "bus_partitions": 65,
+      "diagnostic": {
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "cycle": 92381680,
+        "pc": "0xEA98",
+        "address": "0x680000",
+        "width": 1,
+        "vop3_writes": [
+          11557,
+          516
+        ],
+        "vop3_sample_passes": [
+          0,
+          0
+        ]
+      },
+      "physical_timing_validated": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 226,
+      "merge_commit": "a6a294fa43266335e324fc502e73725cf92bac23",
+      "reviewed_head": "bfc73f303c9a2bbb0c82ad7b05ea39eaf5dd9b49",
+      "remote_ci": "all_five_success",
+      "ci_runs": [
+        42177304091,
+        42177304191,
+        42177304182
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "manual_review": "checked bounded clock transition, independent timer progress, and matching firmware observations",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-itu-input-b-no-edges",
+    "branch": "feat/an1x-idle-panel-read",
     "status": "candidate",
-    "base_commit": "944df7d3b66f9cdef24fa5b9336ab9e2aeaefdda",
-    "scope": "Bounded AN1x channel 3 input B diagnostic without PKSCLK transitions",
+    "base_commit": "a6a294fa43266335e324fc502e73725cf92bac23",
+    "scope": "Opt-in idle panel byte read at 0x680000",
+    "board_reference": "Yamaha DM drawing 8811454, IC6 2Y2 PNLCS to IC19 and D8-D15",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "original_reference_cases": 65536,
-    "bus_partitions": 65,
     "diagnostic": {
       "slice_cycles": [
         4096,
         1000000
       ],
-      "cycle": 92381680,
-      "pc": "0xEA98",
-      "address": "0x680000",
+      "cycle": 95706795,
+      "pc": "0x1B64",
+      "address": "0xFFFFE8",
+      "kind": "data_write",
       "width": 1,
-      "vop3_writes": [
-        11557,
-        516
-      ],
       "vop3_sample_passes": [
         0,
         0

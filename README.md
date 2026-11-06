@@ -35,9 +35,9 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-The local firmware now passes the ITU start register in the candidate
-profile without PKSCLK transitions. Both tested slice sizes stop on a byte
-read at 0x680000. See the [current status](docs/STATUS.md).
+The candidate idle panel profile passes the 0x680000 byte read. Both local
+firmware slices now stop at the ADC control write at 0xFFFFE8. See the
+[current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 
