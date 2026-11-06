@@ -3893,15 +3893,57 @@
       "manual_review": "checked scan ordering, deadlines, result lanes and ADF transitions",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "feat/an1x-adc-scan-mmio",
+      "status": "merged",
+      "base_commit": "ea172cf428ce4b35c699279aa657f0cac18e4359",
+      "scope": "Integrate the bounded slow AN0\u2013AN3 scan and result lanes",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "bus_partitions": 1035,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 235,
+      "merge_commit": "a0ba5650b0d84afe58964365fe3ad81ff46f7355",
+      "reviewed_head": "6cf7259a2a43fd895cbb1b5ca82652ef3890e713",
+      "remote_ci": "all_five_success",
+      "ci_runs": [
+        42274983993,
+        42274984058,
+        42274983850
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-adc-scan-mmio",
+    "branch": "research/an1x-adc-scan-firmware",
     "status": "candidate",
-    "base_commit": "ea172cf428ce4b35c699279aa657f0cac18e4359",
-    "scope": "Integrate the bounded slow AN0\u2013AN3 scan and result lanes",
+    "base_commit": "a0ba5650b0d84afe58964365fe3ad81ff46f7355",
+    "scope": "Record firmware cycle-limit results for the merged slow scan",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "bus_partitions": 1035,
+    "slice_cycles": [
+      4096,
+      1000000
+    ],
+    "synthetic_values": [
+      0,
+      1023
+    ],
+    "requested_cycles": 100000000,
+    "end_pcs": [
+      247606,
+      247054
+    ],
+    "peripheral_cycles": [
+      100000001,
+      100000002
+    ],
+    "vop3_sample_passes": [
+      0,
+      0
+    ],
     "boot_accepted": false,
     "audio_accepted": false
   },
