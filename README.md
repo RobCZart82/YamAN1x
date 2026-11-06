@@ -33,11 +33,11 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current candidate — 2026-11-06
+## Current firmware diagnostic — 2026-11-06
 
-The internal-clock ITU publishes timed interrupts through the H8 controller.
-Baseline #221 is merged and main CI passed. A fresh local firmware diagnostic
-is next. See the [current status](docs/STATUS.md).
+The local firmware reaches the ITU start register and requests external clock B
+on zero-based channel 3. The bounded profile stops at that request in both
+tested slice sizes. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 

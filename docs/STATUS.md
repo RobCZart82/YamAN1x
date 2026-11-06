@@ -1,5 +1,24 @@
 # Development status
 
+## Local firmware diagnostic after ITU IRQ integration — 2026-11-06
+
+The #222 merge (32c5eee) passed all five main checks. Its local 1.04 probe used
+the swap16 view and the LCD/MEG/VOP3 level experiment with a 100-million-cycle
+limit and 20-million-callback limit. Both 4,096-cycle and 1,000,000-cycle slices
+stopped at peripheral cycle 11,925,102, PC 0xB60, on a byte write to FFFF60.
+The error is now Unsupported active ITU clock or clear mode. A temporary local
+diagnostic reproduced both baseline JSON results byte for byte and identified
+zero-based channel 3, clock selector 5 and clear selector 0. The locked H8H
+TCR method maps that combination to external input B without automatic clear.
+The local firmware hash was unchanged after the probes.
+
+Both runs report no DSP sample passes and leave firmware boot and audio
+acceptance open. Next, verify the pinned reference behavior and board evidence
+for channel 3 external clock B before extending the bounded profile. The
+reference counter and deadline methods skip internal scheduling for external
+clock types. That behavior does not establish the physical input waveform.
+
+
 ## Active ITU interrupt delivery — candidate, 2026-11-06
 
 Enabled ITU events now enter the shared bus timeline and CPU deadline query.
