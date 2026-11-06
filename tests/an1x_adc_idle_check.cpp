@@ -11,6 +11,13 @@ struct AnalogSink : Sink {
   return level;
  }
 };
+struct ScanSink : AnalogSink {
+ std::vector<std::pair<unsigned, uint64_t>> events;
+ uint16_t adc_scan_sample(unsigned channel, uint64_t cycle) {
+  events.emplace_back(channel, cycle);
+  return uint16_t(100 + channel);
+ }
+};
 using Bus=yamanix::An1xSciBus<Sink>;unsigned failures=0;
 void check(bool ok,const char*why){if(!ok&&++failures<10)std::fprintf(stderr,"%s\n",why);}
 int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
@@ -96,5 +103,34 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
         analog.sampled_at == whole_analog.sampled_at && part.read_byte(0xffffe8) == 0x83 &&
         part.read_byte(0xffffe6) == 0xaa && part.read_byte(0xffffe7) == 0xc0,
         "CPU slice boundaries preserve AN3 conversion");
+ }
+ for (uint64_t cut = 266; cut <= 1300; ++cut) {
+  ScanSink analog;
+  yamanix::An1xSciBus<ScanSink> bus(rom, {}, analog);
+  bus.write_byte(0xffffe8, 0x23);
+  bus.update(266);
+  bus.write_byte(0x12ffffe8, 0xb3);
+  check(bus.read_word(0xffffe6) == 0xaac0 && bus.read_byte(0xffffe8) == 0xb3 &&
+        bus.next_bus_event() == 532, "Scan preserves previous AN3 and ADF at start");
+  bus.write_byte(0xffffe8, 0x33);
+  bus.update(cut);
+  if (cut < 1300)
+   check(bus.read_byte(0xffffe8) == 0x33, "ADF stays clear before AN3 commit");
+  bus.update(1300);
+  check(analog.events == std::vector<std::pair<unsigned, uint64_t>>{
+      {0,266}, {1,532}, {2,788}, {3,1044}, {0,1300}},
+      "Exact scan sample order and cycles");
+  for (unsigned channel = 0; channel < 4; ++channel) {
+   const auto address = 0xffffe0 + 2 * channel;
+   const auto expected = (100 + channel) * 64;
+   check(bus.read_word(address) == expected && bus.read_byte(address) == expected / 256 &&
+         bus.read_byte(address + 1) == expected % 256, "Independent scan result lanes");
+  }
+  check(bus.read_byte(0xffffe8) == 0xb3 && bus.next_bus_event() == 1556,
+        "AN3 commit sets ADF and keeps scanning");
+  bus.reset_supported_peripherals();
+  bus.update(1600);
+  check(bus.read_byte(0xffffe8) == 0 && bus.next_bus_event() == 0 &&
+        analog.events.size() == 5, "Reset cancels scan and clears ADF");
  }
  std::printf("Idle ADC control:256 encodings,reset/alias/no-sample/word,129 idle,268 bus and 321 active CPU partitions:%u failures\n",failures);return failures?1:0;}

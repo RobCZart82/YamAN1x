@@ -16,11 +16,15 @@ public:
     uint16_t result_word(unsigned channel) const { return uint16_t(results_.at(channel) << 6); }
     uint8_t control() const { return uint8_t((deadline_ ? 0x33 : 0) | (finished_ ? 0x80 : 0)); }
 
-    void start(uint64_t cycle, uint16_t an0) {
+    void start(uint64_t cycle, uint16_t an0, uint16_t previous_an3 = 0, bool previous_adf = false) {
         if (deadline_)
             throw std::logic_error("ADC scan already active");
+        if (previous_an3 > 1023)
+            throw std::invalid_argument("Previous AN3 sample exceeds ten bits");
         deadline_ = sample_deadline(cycle, 266, an0);
         pending_sample_ = an0;
+        results_[3] = previous_an3;
+        finished_ = previous_adf;
     }
 
     void service(uint64_t cycle, uint16_t next_sample) {
