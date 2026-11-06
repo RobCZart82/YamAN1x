@@ -2,6 +2,7 @@
 #include "an1x_memory_map.h"
 #include "h8_refresh_timer.h"
 #include "h8_adc_single_an3.h"
+#include "h8_adc_slow_scan.h"
 #include "h8_itu_channel_scheduler.h"
 #include "h8_itu_control_decode.h"
 #include "h83002_syscr_modes.h"
@@ -16,7 +17,7 @@ namespace yamanix {
 // Sink must outlive this nonmovable host;callbacks must not reenter or mutate it.
 // Sink:tx(channel,cycle,level),clock(channel,cycle,level),dma_request(vector,cycle).
 // GPIO access requires gpio_read(port,cycle)/gpio_write(port,cycle,data,direction).
-// Optional adc_an3_sample(cycle) enables the bounded AN3 converter.
+// Optional adc_an3_sample(cycle) and adc_scan_sample(channel,cycle) supply ADC inputs.
 // Optional exception_hook(vector). No real-time threading/reentry support.
 // MEG writes require both pure meg_write_enabled() and meg_write_byte(address,cycle,value).
 // MEG has only explicit byte routing. VOP3 requires pure vop3_word_enabled()
@@ -54,7 +55,7 @@ public:
     void reset_supported_peripherals(){access([&]{
         write_itu_start(0xe0);
         reset_stopped_itu_control();
-        reset_stopped_itu_registers();toer_=0xff;tmdr_=0x80;adc_.reset();refresh_.reset();abwcr_=astcr_=0;wcr_=0xf4;wcer_=0xff;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
+        reset_stopped_itu_registers();toer_=0xff;tmdr_=0x80;adc_.reset();adc_scan_.reset();refresh_.reset();abwcr_=astcr_=0;wcr_=0xf4;wcer_=0xff;syscr_=H83002SyscrModes::cold_value;irq_.reset();sync_cpu_ccr(cpu_ccr_);
         reset_port(4,port4_);reset_port(6,port6_);reset_port(7,port7_);
         reset_port(8,port8_);reset_port(9,port9_);reset_port(10,porta_);reset_port(11,portb_);
         sci_.reset(*this);
@@ -81,7 +82,7 @@ public:
     uint16_t read_instruction_word(uint32_t a){return access([&]{return memory_.read_instruction_word(a);});}
     // RFSHCR stays02;refresh pins/memory mux are not modeled.Timer IRQ enable rejects.
     // BRCR accepts only the retained FE profile;physical bus release/pin mux is not modeled.
-    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adc_.control():a==0xffff60?itu_start_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_counter_index(a&~1u)>=0?itu_counter_byte(a):itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
+    uint8_t read_byte(uint32_t raw){return access([&]{const auto a=raw&0xffffff;return a==0xffffec?abwcr_:a==0xffffed?astcr_:a==0xffffee?wcr_:a==0xffffef?wcer_:a==0xfffff2?syscr_:a==0xfffff3?uint8_t{0xfe}:a==0xffffac?uint8_t{2}:a==0xffffad?refresh_.control():a==0xffffae?refresh_.count():a==0xffffaf?refresh_.compare():a==0xffffe8?adc_control():a==0xffff60?itu_start_:a==0xffff61?uint8_t{0xe0}:a==0xffff62?tmdr_:a==0xffff63?uint8_t{0xc0}:a==0xffff90?toer_:itu_tier_index(a)>=0?itu_.state(itu_tier_index(a)).enables:itu_tier_index(a-1)>=0?itu_.state(itu_tier_index(a-1)).status:itu_io_mapped(a)?uint8_t{0x88}:itu_control_index(a)>=0?itu_control_[itu_control_index(a)]:itu_counter_index(a&~1u)>=0?itu_counter_byte(a):itu_general_index(a&~1u)>=0?itu_general_byte(a):H83002SciMmio::mapped(a)?sci_.read8(a):irq_mapped(a)?read_irq(a):gpio_mapped(a)?read_gpio(a):read_external_byte(a);});}
     void write_byte(uint32_t raw,uint8_t v){access([&]{const auto a=raw&0xffffff;if(a==0xffffec){if(v&3)throw std::logic_error("Unsupported ABWCR 8-bit ROM/SRAM area");abwcr_=v;}else if(a==0xffffed){astcr_=v;}else if(a==0xffffee){if(v&8)throw std::logic_error("Unsupported external WAIT pin mode");wcr_=uint8_t(v|0xf0);}else if(a==0xffffef){wcer_=v;}else if(a==0xfffff2){if(v!=1&&v!=9)throw std::logic_error("Unsupported SYSCR mode bits");syscr_=v;sync_cpu_ccr(cpu_ccr_);}else if(a==0xfffff3){if((v&0xe1)!=0xe0)throw std::logic_error("Unsupported BRCR bus release or address pin mux");}else if(a==0xffffac){if((v&0xfd)!=0)throw std::logic_error("Unsupported refresh control mode");}else if(a==0xffffad){if(v&0x40)throw std::logic_error("Unsupported refresh timer IRQ enable");refresh_.write_control(v);}else if(a==0xffffae){refresh_.write_count(v);}else if(a==0xffffaf){refresh_.write_compare(v);}else if(a==0xffffe8){write_adc_control(v);}else if(a==0xffff60){write_itu_start(v);}else if(a==0xffff61){if(v&0x1f)throw std::logic_error("Unsupported ITU channel synchronization");}else if(a==0xffff62){if(v&0x5f)throw std::logic_error("Unsupported ITU PWM/phase mode");tmdr_=uint8_t(v|0x80);}else if(a==0xffff63){if(v&0x3f)throw std::logic_error("Unsupported ITU PWM/buffer function");}else if(a==0xffff90){if(v&0x3f)throw std::logic_error("Unsupported ITU output enable");toer_=0xc0;}else if(itu_tier_index(a)>=0){write_itu_enables(itu_tier_index(a),v);}else if(itu_tier_index(a-1)>=0){settle_itu();itu_.write_status(itu_tier_index(a-1),v);}else if(itu_io_mapped(a)){if(v&0x77)throw std::logic_error("Unsupported ITU output/capture function");}else if(itu_control_index(a)>=0){write_itu_control(itu_control_index(a), v);}else if(itu_counter_index(a&~1u)>=0){write_itu_counter_byte(a,v);}else if(itu_general_index(a&~1u)>=0){write_itu_general_byte(a,v);}else if(H83002SciMmio::mapped(a))sci_.write8(a,v,now_,*this);else if(irq_mapped(a))write_irq(a,v);else if(gpio_mapped(a))write_gpio(a,v);else if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{sink_.meg_write_byte(a,now_,v);std::as_const(sink_).meg_write_enabled();}){
                 if(std::as_const(sink_).meg_write_enabled())sink_.meg_write_byte(a,now_,v);else memory_.write_byte(a,v);
@@ -89,6 +90,8 @@ public:
             else memory_.write_byte(a,v);
         }else memory_.write_byte(a,v);});}
     uint16_t read_word(uint32_t raw){return access([&]{const auto a=raw&0xffffff;
+        if (adc_scan_.deadline() && a >= 0xffffe0 && a <= 0xffffe6 && !(a & 1))
+            return adc_scan_.result_word((a - 0xffffe0) / 2);
         if constexpr (requires { sink_.adc_an3_sample(now_); }) {
             if (a == 0xffffe6)
                 return uint16_t((uint16_t(adc_.result_high()) << 8) | adc_.result_low());
@@ -137,17 +140,45 @@ private:
     }
     std::optional<uint64_t> next_peer_event() const {
         const auto timer = next_itu_event();
-        const auto adc = adc_.deadline();
+        const auto adc = adc_scan_.deadline() ? adc_scan_.deadline() : adc_.deadline();
         return adc && (!timer || *adc < *timer) ? adc : timer;
     }
     void service_peer(uint64_t cycle) {
         if (next_itu_event() == cycle)
             settle_itu_at(cycle);
-        else
+        else if constexpr (requires { sink_.adc_scan_sample(0u, cycle); }) {
+            if (adc_scan_.deadline() == cycle) {
+                const auto sample = sink_.adc_scan_sample(adc_scan_.next_channel(), cycle);
+                require_callback_live();
+                adc_scan_.service(cycle, sample);
+            } else {
+                adc_.advance_to(cycle);
+            }
+        } else {
             adc_.advance_to(cycle);
+        }
+    }
+    uint8_t adc_control() const {
+        return adc_scan_.deadline() ? adc_scan_.control() : adc_.control();
     }
     void write_adc_control(uint8_t value) {
         adc_.advance_to(now_);
+        if constexpr (requires { sink_.adc_scan_sample(0u, now_); }) {
+            if ((value & 0x7f) == 0x33 && !adc_.deadline()) {
+                if (adc_scan_.deadline()) {
+                    adc_scan_.write_adf(value & 0x80);
+                } else {
+                    const auto sample = sink_.adc_scan_sample(0, now_);
+                    require_callback_live();
+                    const auto previous = uint16_t((uint16_t(adc_.result_high()) << 2) |
+                                                   (adc_.result_low() >> 6));
+                    adc_scan_.start(now_, sample, previous, adc_.control() & value & 0x80);
+                }
+                return;
+            }
+        }
+        if (adc_scan_.deadline())
+            throw std::logic_error("Unsupported active ADC scan control");
         if constexpr (requires { sink_.adc_an3_sample(now_); }) {
             if ((value & 0x7f) == 0x23 && !adc_.deadline()) {
                 const auto sample = sink_.adc_an3_sample(now_);
@@ -177,6 +208,10 @@ private:
         memory_.write_word(a,value);
     }
     uint8_t read_external_byte(uint32_t a){
+        if (adc_scan_.deadline() && a >= 0xffffe0 && a <= 0xffffe7) {
+            const auto word = adc_scan_.result_word((a - 0xffffe0) / 2);
+            return uint8_t((a & 1) ? word : word >> 8);
+        }
         if constexpr (requires { sink_.adc_an3_sample(now_); }) {
             if (a == 0xffffe6) return adc_.result_high();
             if (a == 0xffffe7) return adc_.result_low();
@@ -389,6 +424,7 @@ private:
     uint8_t toer_=0xff; // Cold permission bits only;no active ITU pin function exists.
     uint8_t tmdr_=0x80; // FDIR latch only. PWM and phase modes are unsupported.
     H8AdcSingleAn3 adc_;
+    H8AdcSlowScan adc_scan_;
     uint8_t wcr_=0xf4,wcer_=0xff; // No-wait research cold/reset profile,not hardware F3.
     uint8_t abwcr_=0,astcr_=0; // Explicit research reset profile,not verified board mode pins.
     uint8_t syscr_=H83002SyscrModes::cold_value,cpu_ccr_=0x80;

@@ -1,6 +1,26 @@
 # YamAN1x fejlesztési napló
 
-## Standalone slow AN0–AN3 scan — candidate, 2026-11-06
+## Slow ADC scan on the AN1x bus — candidate, 2026-11-06
+
+An explicit scan callback supplies each AN0–AN3 sample at the machine
+deadline. The 0x33 profile exposes aligned ADDR words and byte lanes,
+preserves the prior AN3 result until its first scan commit, and updates
+ADF at each completed sweep. Reset cancels pending scan events.
+
+The bus test covers 1,035 time partitions with independent sample values,
+lane expectations and exact deadlines. The pinned H8_ADC_3337 model below
+defines the timing. A fresh firmware probe with explicit scan inputs is
+the next step. Board calibration, boot and audio acceptance remain open.
+
+## #234 merged — 2026-11-06
+
+Merge ea172cf428ce4b35c699279aa657f0cac18e4359. All five checks passed on
+dd9a48420734ba69be1ff7b7727cbb356e400617. GitHub reported no conflicts or review
+threads and required zero approving reviews. No automated review result or
+quota error was recorded. The verified SHA was used for the squash merge.
+All five main checks passed before further development.
+
+## Standalone slow AN0–AN3 scan — merged in #234, 2026-11-06
 
 The bounded 0x33 scan samples AN0 at start, commits after 266 cycles
 and then commits each successive channel every 256 cycles. The caller
