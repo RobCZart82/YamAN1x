@@ -37,8 +37,8 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 The local firmware reaches the ITU start register and requests external clock B
 on zero-based channel 3. The bounded profile stops at that request in both
-tested slice sizes. The board schematic traces the input to PKSCLK. See the
-[current status](docs/STATUS.md) for the reference test and remaining timing work.
+tested slice sizes. The board schematic traces PKSCLK to the keyboard scanner.
+See the [current status](docs/STATUS.md) for the signal path and next diagnostic.
 
 ## Current verified status — 2026-11-05
 
