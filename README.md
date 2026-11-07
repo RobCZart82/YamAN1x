@@ -35,9 +35,8 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Four local probes with explicit synthetic ADC inputs reach 100 million
-cycles without an access fault. Both serial ports remain disabled at the
-endpoint. See the [current status](docs/STATUS.md).
+Extended local probes reach a new ADCSR write boundary at cycle
+127,793,034. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 
