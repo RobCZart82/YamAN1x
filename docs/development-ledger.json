@@ -4028,17 +4028,48 @@
       "automatic_review": "no result recorded; no quota error evidence",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "feat/an1x-adc-scan-start-clear",
+      "status": "merged",
+      "base_commit": "dbadc1fc5b5c22abc09708e09cfd7de3dd6d047a",
+      "scope": "Preserve original repeat scheduling when firmware clears ADST",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
+      "traced_value": 19,
+      "bus_partitions": 1035,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 239,
+      "merge_commit": "c013f563a459d6681b8394e31672bce3e172cd15",
+      "reviewed_head": "a9d1dbb738998fd9b036638511e69f4049582618",
+      "remote_ci": "all_five_success",
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/239#issuecomment-6705892779",
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-adc-scan-start-clear",
+    "branch": "research/an1x-adc-upper-scan-boundary",
     "status": "candidate",
-    "base_commit": "dbadc1fc5b5c22abc09708e09cfd7de3dd6d047a",
-    "scope": "Preserve original repeat scheduling when firmware clears ADST",
+    "base_commit": "c013f563a459d6681b8394e31672bce3e172cd15",
+    "scope": "Record the firmware upper ADC scan request",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
-    "traced_value": 19,
-    "bus_partitions": 1035,
+    "slice_cycles": [
+      4096,
+      1000000
+    ],
+    "synthetic_values": [
+      0,
+      1023
+    ],
+    "cycles": [
+      127793965,
+      127794154
+    ],
+    "pc": "0x1B38",
+    "address": "0xFFFFE8",
+    "value": "0x37",
     "boot_accepted": false,
     "audio_accepted": false
   },

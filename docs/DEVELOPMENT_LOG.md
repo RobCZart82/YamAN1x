@@ -1,6 +1,31 @@
 # YamAN1x fejlesztési napló
 
-## Clear ADST during the slow scan — candidate, 2026-11-07
+## Upper ADC scan request after ADST clear — candidate, 2026-11-07
+
+Four read-only 1.04 probes on main c013f56 passed ADCSR=0x13 and reached
+ADCSR=0x37 at PC 0x1B38. The synthetic zero-input runs stopped at cycle
+127,793,965; the 1023-input runs stopped at 127,794,154. Each pair used
+4,096- and 1,000,000-cycle slices and matched its cycle and PC. The
+requested cap was 200 million cycles with 20 million callbacks.
+The local ROM hash was unchanged and both VOP3 sample counters stayed zero.
+
+The locked H8_ADC_3337 mode_update selects start channel 4 and end channel
+7 for 0x37, with repeat and slow conversion timing. Its adcsr_w starts a
+new conversion when ADST rises after the preceding 0x13 write. The current
+bounded bus accepts only the lower scan and rejects this request. Next,
+extend the explicit scan model to AN4–AN7 and verify the new start edge,
+result-register mapping and deadlines against the original source.
+Physical input calibration, firmware boot, MIDI and audio remain open.
+
+## #239 merged — 2026-11-07
+
+Merge c013f563a459d6681b8394e31672bce3e172cd15. All five checks passed on
+a9d1dbb738998fd9b036638511e69f4049582618. Codex automatic code review
+completed on that head with no findings, recorded in issue comment 6705892779.
+No open review threads. Squash merge used the verified head.
+All five main checks passed before the next firmware diagnostic.
+
+## Clear ADST during the slow scan — merged in #239, 2026-11-07
 
 Four traced read-only probes identified ADCSR value 0x13 at cycle
 127,793,034, PC 0x1AAC. Each JSON matched its earlier uninstrumented
