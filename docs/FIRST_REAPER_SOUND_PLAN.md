@@ -1,6 +1,34 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Intermediate ADC inputs and PKS traffic — candidate, 2026-11-07
+## Isolated scan-channel dependence — candidate, 2026-11-07
+
+Twenty read-only local 1.04 probes isolated the ADC scan inputs at the
+same 130-million-cycle horizon. Each case used 4,096/1,000,000-cycle slices.
+The first eight cases held the initial single AN3 conversion at 1023,
+then drove just one scan channel to 1023 and the other seven to zero.
+AN2 produced D0 7F E0 00 20 E0 00 00. AN6 produced
+E0 3E 5F E0 7E 7F. Selecting AN0, AN1, AN3, AN4, AN5 or AN7 produced
+the zero-input prefix E0 00 20 E0 00 00 within this horizon.
+
+Two control cases set the initial single AN3 conversion to zero: an AN2-only
+high scan still produced D0 7F E0 00 20 E0 00 00; an all-zero scan produced
+E0 00 20 E0 00 00. Thus the observed D0 addition survives removal of the
+initial high AN3 sample. This isolates scan-channel dependence in the
+experimental model, not physical knob wiring or protocol semantics.
+
+All runs reached the cycle limit without an access fault. Same-input logs
+matched byte for byte across slices; all reported JSON fields matched
+except callback counts. Independent 8N1 decoding checked 512-cycle spacing,
+start/stop levels and agreement with TDR writes. No RDR1 byte reads were
+observed or PKS input supplied; VOP3 sample counters stayed zero. ROM hash
+remained 4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Original MAME source remains locked at
+706dbb73281320c54d7c2f16262c1c3786f2be01. Next: trace firmware reads of
+AN2 and AN6 through payload construction before implementing responses.
+Full boot, hardware fidelity, MIDI, audio and REAPER remain unaccepted.
+
+
+## Intermediate ADC inputs and PKS traffic — merged in #247, 2026-11-07
 
 Eight additional read-only local probes used uniform synthetic ADC values
 256, 511, 512 and 768, each with 4,096 and 1,000,000-cycle slices at the
