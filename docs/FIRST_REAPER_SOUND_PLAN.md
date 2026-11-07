@@ -1,5 +1,42 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## Ellenőrzött fejlesztési prioritások — 2026-11-07
+
+A repository, az öt nyitott műszaki hibajegy és a fejlesztési terv alapján
+ellenőrzött külső állapotjelentés megállapításait az alábbi feladatokhoz
+kapcsoljuk. A jelentéshez nem készült új fordítás vagy hardveres összehasonlítás.
+
+1. **Firmware és perifériák (M0–M1).** A közvetlen következő lépés az AN4–AN7
+   pásztázás buszintegrációjának lezárása és az új helyi firmware-diagnosztika.
+   Az indulás, a PKS szerepe és a tényleges MIDI note-on/note-off feldolgozás
+   külön igazolandó. A szintetikus ADC-értékeket minden mérésben jelölni kell.
+2. **DSP-előfeltételek (M2).** Az [EG célérték-megtartása](https://github.com/RobCZart82/yaman1x/issues/1)
+   reprodukált modell/leírás-eltérés. A hardverre vonatkozó javításhoz elsődleges
+   bizonyíték vagy referenciafelvétel kell. Az [órajel és tábla-ROM](https://github.com/RobCZart82/yaman1x/issues/2)
+   formátumát, címzését és skálázását ellenőrizni kell. A modell 48 kHz-es
+   beállítása önmagában nem igazolja az AN1x fizikai mintavételét.
+3. **Időzített DSP-futtatás (M2).** A [H8–VOP3 integráció](https://github.com/RobCZart82/yaman1x/issues/3)
+   közös időalapra kapcsolja a mintaléptetést és a regiszterműveleteket.
+   Vizsgálandó a feltöltés alatti stop/run és az azonos idejű események sorrendje.
+   A jelenlegi firmware-próbák VOP3 mintaszámlálói nullán maradtak.
+4. **Első száraz referenciahang (M1–M3).** A [MIDI és hangút feladat](https://github.com/RobCZart82/yaman1x/issues/4)
+   egy rögzített hangszínt, indítást, tartást és elengedést igényel, dokumentált
+   kétchipes útvonallal és kimeneti skálával. Az offline WAV reprodukálhatóságát
+   és a valódi hangszer referenciafelvételével való összehasonlítást rögzíteni kell.
+5. **Motor és hosztadapter (M4–M6).** A validált jelút után következik az
+   audioblokkos feldolgozás, MIDI-időzítés, állapotmentés és a minimális VST3,
+   majd a REAPER-próba. Az [integrációs hibajegy](https://github.com/RobCZart82/yaman1x/issues/5)
+   a választott keretrendszer és függőségek licenceinek dokumentálását is kéri.
+   A projekt saját licencének kiválasztása külön felhasználói döntés.
+   Az első REAPER-hang célja VST3; az AU későbbi integrációs cél.
+
+Ez függőségi sorrend. Az EG- és órajelkutatás a firmware-munkával párhuzamosan
+is előkészíthető. A jelenlegi engedélyezett fejlesztés soros PR-folyamatot követ.
+A következő elfogadási pont az ADC-integráció utáni firmware-előrelépés;
+teljes boot, MIDI-vétel, offline hang és REAPER-hang külön mérföldkövek.
+A CPU-, busz-, periféria- és platformtesztek sikerét külön kell rögzíteni
+a hardverhűség és a hangút elfogadásától.
+
 ## Upper ADC scan on the AN1x bus — candidate, 2026-11-07
 
 The explicit ADC sink now receives the observed 0x37 restart at channel

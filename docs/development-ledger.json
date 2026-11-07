@@ -4114,7 +4114,22 @@
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "bus_partitions": 1035,
     "boot_accepted": false,
-    "audio_accepted": false
+    "audio_accepted": false,
+    "documentation_update": {
+      "date": "2026-11-07",
+      "scope": "User-requested verified external report integrated into M0\u2013M6 priorities",
+      "source_issues": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "validation": "live GitHub PR, issue bodies and current development plan",
+      "new_hardware_comparison": false,
+      "project_license_decision": "requires user decision",
+      "first_host_target": "VST3 in REAPER"
+    }
   },
   "pending_changes": []
 }

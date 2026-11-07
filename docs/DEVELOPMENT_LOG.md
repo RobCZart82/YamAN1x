@@ -1,5 +1,19 @@
 # YamAN1x fejlesztési napló
 
+## Külső fejlesztési állapotjelentés beépítése — 2026-11-07
+
+A felhasználó kérésére ellenőriztük a jelentést az élő GitHub PR-állapot,
+az #1–#5 hibajegyek és a fejlesztési terv alapján. A lényegi megállapítások
+egyeztek. A javasolt sorrendet függőségi feladatlistaként kapcsoltuk M0–M6-hoz,
+a közvetlen firmware/ADC-munkát megtartva. Pontosítottuk a keretrendszer-
+és függőségi licencek kérdését, a külön felhasználói projektlicenc-döntést
+és az első REAPER-próbához szükséges VST3 célt. AU későbbi cél.
+
+A részletes feladatlista a FIRST_REAPER_SOUND_PLAN „Ellenőrzött fejlesztési
+prioritások” szakaszába került. A jelentés ellenőrzéséhez új fordítás vagy
+hardveres összehasonlítás nem készült. A dokumentáció a #242 jelölt része;
+beolvadását és az aktuális head ellenőrzéseit külön kell rögzíteni.
+
 ## Upper ADC scan on the AN1x bus — candidate, 2026-11-07
 
 The explicit ADC sink now receives the observed 0x37 restart at channel
