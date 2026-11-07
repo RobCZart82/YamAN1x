@@ -1,6 +1,23 @@
 # YamAN1x fejlesztési napló
 
-## Serial readiness at the cycle limit — candidate, 2026-11-07
+## Extended firmware ADC boundary — candidate, 2026-11-07
+
+A temporary diagnostic checkout raised only the local requested cycle cap
+to 200 million. The callback cap remained 20 million. Four read-only 1.04
+swap16 probes used synthetic ADC values 0 and 1023 and slices of 4,096
+and 1,000,000 cycles. All stopped at cycle 127,793,034, PC 0x1AAC, on a
+byte write to ADCSR at 0xFFFFE8, with unsupported active ADC scan control.
+The ROM hash was unchanged and VOP3 sample counters remained zero.
+
+The earlier 100-million-cycle snapshots remain endpoint observations.
+A first attempt to snapshot a failed bus hid the execution result behind
+an observer error. Guarding the temporary observer on bus failure exposed
+the boundary above. No failed-bus register snapshot is claimed. Next,
+trace the requested ADCSR value and verify its original H8_ADC_3337
+semantics at pinned MAME commit 706dbb73281320c54d7c2f16262c1c3786f2be01.
+Firmware boot, MIDI readiness and audio remain open.
+
+## Serial readiness at the cycle limit — merged in #237, 2026-11-07
 
 On main 3e0dbeb, four read-only 1.04 probes repeated the synthetic low/high
 ADC experiments with 4,096- and 1,000,000-cycle slices. All reached the

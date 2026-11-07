@@ -3956,14 +3956,54 @@
       "automatic_review": "no result recorded; no quota error evidence",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-cycle-limit-readiness",
+      "status": "merged",
+      "base_commit": "3e0dbeb8f7c502666c972cf53d8eae8fa1dbc4da",
+      "scope": "Record serial and ADC readiness at the firmware cycle limit",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "requested_cycles": 100000000,
+      "sci_scr": [
+        0,
+        0
+      ],
+      "sci_brr": [
+        15,
+        15
+      ],
+      "sci_ssr": [
+        132,
+        132
+      ],
+      "tstr": 255,
+      "channel3_tcr": 133,
+      "adcsr": 179,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 237,
+      "merge_commit": "8b000556973d8ebb57339971a93e922f06b477b4",
+      "reviewed_head": "97a5c56a4aa1b707f4df879e664416bbf554317c",
+      "remote_ci": "all_four_success",
+      "main_ci": "all_four_success",
+      "automatic_review": "no result recorded; no quota error evidence"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-cycle-limit-readiness",
+    "branch": "research/an1x-extended-adc-boundary",
     "status": "candidate",
-    "base_commit": "3e0dbeb8f7c502666c972cf53d8eae8fa1dbc4da",
-    "scope": "Record serial and ADC readiness at the firmware cycle limit",
-    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "base_commit": "8b000556973d8ebb57339971a93e922f06b477b4",
+    "scope": "Record the longer firmware diagnostic ADC boundary",
+    "requested_cycles": 200000000,
+    "callback_limit": 20000000,
     "slice_cycles": [
       4096,
       1000000
@@ -3972,22 +4012,10 @@
       0,
       1023
     ],
-    "requested_cycles": 100000000,
-    "sci_scr": [
-      0,
-      0
-    ],
-    "sci_brr": [
-      15,
-      15
-    ],
-    "sci_ssr": [
-      132,
-      132
-    ],
-    "tstr": 255,
-    "channel3_tcr": 133,
-    "adcsr": 179,
+    "cycle": 127793034,
+    "pc": "0x1AAC",
+    "address": "0xFFFFE8",
+    "width": 1,
     "boot_accepted": false,
     "audio_accepted": false
   },
