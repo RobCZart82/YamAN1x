@@ -35,7 +35,7 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Fixed-cycle probes reproduce PKS port enable and its first transmit-register writes. MIDI reception and
+Fixed-cycle probes reproduce PKS port enable and decode its first model TX frames. MIDI reception and
 audio remain open. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
