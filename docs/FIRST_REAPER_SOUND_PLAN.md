@@ -1,6 +1,28 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Fixed-cycle readiness and callback accounting — candidate, 2026-11-07
+## First PKS enable and transmit-register writes — candidate, 2026-11-07
+
+Four read-only 1.04 probes requested the same 130-million-cycle horizon.
+The added write observer preserved each previous JSON byte for byte.
+For each synthetic ADC value, both slice sizes produced identical SCI logs.
+SCI1 SCR first became 70 at cycle 127,762,748 with zero ADC input, and
+127,704,707 with 1023 input. SCI0 SCR remained 00 at the endpoint.
+
+The zero-input SCI1 TDR prefix was E0 00 20 E0 00 00, with writes at cycles
+127,846,279; 127,847,946; 127,851,151; 128,288,457; 128,290,124; 128,293,326.
+It matches the byte prefix in the earlier MAME research observations.
+The high-input prefix was D0 7F E0 3E 5F E0 7E 7F. These are CPU register
+writes, not decoded wire frames or evidence of a PKS response. Both runs
+had SCI1 receive/transmit enabled and SCI0 disabled at the endpoint.
+The ROM hash was unchanged. VOP3 sample counters stayed zero.
+
+Next, observe actual serial frames and receive-register access under the
+same fixed-cycle profile. Establish the cause of the varying transmit data
+before introducing a behavioral PKS response. The locked MAME source
+remains 706dbb73281320c54d7c2f16262c1c3786f2be01.
+Boot, MIDI reception and audio acceptance remain open.
+
+## Fixed-cycle readiness and callback accounting — merged in #244, 2026-11-07
 
 Four read-only probes requested 130 million cycles with the same synthetic
 ADC inputs and two slice sizes. Each same-input pair matched every reported
