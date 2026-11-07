@@ -35,7 +35,7 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-06
 
-Extended probes now reach an enabled PKS serial port. MIDI reception and
+Fixed-cycle probes reproduce an enabled PKS serial port. MIDI reception and
 audio remain open. See the [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
