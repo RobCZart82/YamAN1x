@@ -1,6 +1,24 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Extended firmware ADC boundary — candidate, 2026-11-07
+## Clear ADST during the slow scan — candidate, 2026-11-07
+
+Four traced read-only probes identified ADCSR value 0x13 at cycle
+127,793,034, PC 0x1AAC. Each JSON matched its earlier uninstrumented
+extended-run baseline byte for byte. The ROM hash was unchanged.
+
+In locked MAME 706dbb73281320c54d7c2f16262c1c3786f2be01,
+h8_adc_device::adcsr_w updates ADST and ADF but does not cancel an active
+REPEAT mode on this write. timeout continues scheduling channel samples.
+The bounded model now retains that deadline after 0x13, exposes ADST clear
+and applies the original ADF write-zero behavior. A new start edge while
+the scan remains active is a separate unsupported profile.
+
+The bus test checks register readback, unchanged deadline, the following
+sample callback and result lane over 1,035 time partitions. Both focused
+ADC tests passed. Next, rerun the extended firmware diagnostic. Physical
+ADC behavior, firmware boot, MIDI reception and audio remain open.
+
+## Extended firmware ADC boundary — merged in #238, 2026-11-07
 
 A temporary diagnostic checkout raised only the local requested cycle cap
 to 200 million. The callback cap remained 20 million. Four read-only 1.04

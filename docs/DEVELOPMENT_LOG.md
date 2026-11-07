@@ -1,6 +1,32 @@
 # YamAN1x fejlesztési napló
 
-## Extended firmware ADC boundary — candidate, 2026-11-07
+## Clear ADST during the slow scan — candidate, 2026-11-07
+
+Four traced read-only probes identified ADCSR value 0x13 at cycle
+127,793,034, PC 0x1AAC. Each JSON matched its earlier uninstrumented
+extended-run baseline byte for byte. The ROM hash was unchanged.
+
+In locked MAME 706dbb73281320c54d7c2f16262c1c3786f2be01,
+h8_adc_device::adcsr_w updates ADST and ADF but does not cancel an active
+REPEAT mode on this write. timeout continues scheduling channel samples.
+The bounded model now retains that deadline after 0x13, exposes ADST clear
+and applies the original ADF write-zero behavior. A new start edge while
+the scan remains active is a separate unsupported profile.
+
+The bus test checks register readback, unchanged deadline, the following
+sample callback and result lane over 1,035 time partitions. Both focused
+ADC tests passed. Next, rerun the extended firmware diagnostic. Physical
+ADC behavior, firmware boot, MIDI reception and audio remain open.
+
+## #238 merged — 2026-11-07
+
+Merge dbadc1fc5b5c22abc09708e09cfd7de3dd6d047a. All four applicable checks passed on
+f1f17694a56d291e0a838716547a63063a5c1e39. GitHub reported no conflicts or review
+threads and required zero approving reviews. No automated review result or
+quota error was recorded. The verified SHA was used for the squash merge.
+All four applicable main checks passed before further development.
+
+## Extended firmware ADC boundary — merged in #238, 2026-11-07
 
 A temporary diagnostic checkout raised only the local requested cycle cap
 to 200 million. The callback cap remained 20 million. Four read-only 1.04
