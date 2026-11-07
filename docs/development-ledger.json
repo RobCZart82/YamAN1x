@@ -4104,32 +4104,77 @@
       "automatic_review": "completed on exact head; no findings",
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/241#issuecomment-6707618728",
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "feat/an1x-upper-scan-bus",
+      "status": "merged",
+      "base_commit": "1d3b81657a98d9137a35a1b978e748dfd51b14bd",
+      "scope": "Connect explicit upper ADC scan restarts to the bus",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "bus_partitions": 1035,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "documentation_update": {
+        "date": "2026-11-07",
+        "scope": "User-requested verified external report integrated into M0\u2013M6 priorities",
+        "source_issues": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "validation": "live GitHub PR, issue bodies and current development plan",
+        "new_hardware_comparison": false,
+        "project_license_decision": "requires user decision",
+        "first_host_target": "VST3 in REAPER"
+      },
+      "pr": 242,
+      "merge_commit": "bf6cf09850b02c9db471212c7b05a5fbad3306de",
+      "reviewed_head": "039703b329682cb71f3771aa81c640bb2bd23b8a",
+      "remote_ci": "all_five_success",
+      "ci_runs": [
+        42385608806,
+        42385608727,
+        42385608812
+      ],
+      "automatic_review": "failed on prior code head 808c48d; explicit usage limit; no completed review on final head",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/242#issuecomment-6708523029",
+      "manual_review": "checked final runtime diff against pinned ADC mode/restart behavior, independent bus test and user-requested documentation",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_five_success"
     }
   ],
   "active_change": {
-    "branch": "feat/an1x-upper-scan-bus",
+    "branch": "research/an1x-pks-serial-enabled",
     "status": "candidate",
-    "base_commit": "1d3b81657a98d9137a35a1b978e748dfd51b14bd",
-    "scope": "Connect explicit upper ADC scan restarts to the bus",
-    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "bus_partitions": 1035,
+    "base_commit": "bf6cf09850b02c9db471212c7b05a5fbad3306de",
+    "scope": "Record PKS serial enable and callback-budget limited endpoints",
+    "slice_cycles": [
+      4096,
+      1000000
+    ],
+    "synthetic_values": [
+      0,
+      1023
+    ],
+    "end_cycles": [
+      132771393,
+      133175867,
+      132778347,
+      133182221
+    ],
+    "sci_scr": [
+      0,
+      112
+    ],
+    "vop3_sample_passes": [
+      0,
+      0
+    ],
+    "endpoint_partition_equivalence": false,
     "boot_accepted": false,
-    "audio_accepted": false,
-    "documentation_update": {
-      "date": "2026-11-07",
-      "scope": "User-requested verified external report integrated into M0\u2013M6 priorities",
-      "source_issues": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "validation": "live GitHub PR, issue bodies and current development plan",
-      "new_hardware_comparison": false,
-      "project_license_decision": "requires user decision",
-      "first_host_target": "VST3 in REAPER"
-    }
+    "audio_accepted": false
   },
   "pending_changes": []
 }

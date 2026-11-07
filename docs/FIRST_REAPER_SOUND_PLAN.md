@@ -1,5 +1,23 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
+## PKS serial port enabled after upper ADC integration — candidate, 2026-11-07
+
+Four read-only 1.04 swap16 probes on main bf6cf09 passed the upper ADC
+request with synthetic inputs 0 and 1023 and 4,096/1,000,000-cycle slices.
+All stopped at the 20-million execution callback limit without an access
+fault. End cycles were 132,771,393 and 133,175,867 for zero input, and
+132,778,347 and 133,182,221 for 1023 input. These budget-limited endpoints
+differ across slices and are recorded separately.
+
+All four endpoint snapshots had SCI1 SCR=70, SCI0 SCR=00 and SSR=84 on
+both ports. The locked H8 SCI model interprets 70 as receive/transmit and
+receive-interrupt enabled on the PKS port. This does not establish a PKS
+reply or MIDI reception. The ADC remained B3. Both VOP3 sample counters
+stayed zero and the local ROM hash was unchanged. Next, observe the first
+SCI1 enable and PKS transmit sequence at fixed cycle milestones, while
+investigating callback-budget accounting across run partitions.
+Firmware boot, hardware ADC calibration, MIDI and audio remain open.
+
 ## Ellenőrzött fejlesztési prioritások — 2026-11-07
 
 A repository, az öt nyitott műszaki hibajegy és a fejlesztési terv alapján
@@ -37,7 +55,7 @@ teljes boot, MIDI-vétel, offline hang és REAPER-hang külön mérföldkövek.
 A CPU-, busz-, periféria- és platformtesztek sikerét külön kell rögzíteni
 a hardverhűség és a hangút elfogadásától.
 
-## Upper ADC scan on the AN1x bus — candidate, 2026-11-07
+## Upper ADC scan on the AN1x bus — merged in #242, 2026-11-07
 
 The explicit ADC sink now receives the observed 0x37 restart at channel
 4 after lower-bank ADST clear. The new start replaces the old deadline
