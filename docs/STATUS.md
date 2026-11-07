@@ -1,6 +1,35 @@
 # Development status
 
-## First PKS enable and transmit-register writes — candidate, 2026-11-07
+## PKS transmit frames — candidate, 2026-11-07
+
+Four read-only local 1.04 probes repeated the 130-million-cycle profile
+with synthetic ADC 0/1023 and slices 4,096/1,000,000. A temporary SCI1 TX
+callback observer and RDR1 byte-read observer left every baseline JSON byte
+unchanged. Same-input trace logs matched byte for byte across slices.
+Each decoded frame had a low start, eight LSB-first data bits and a high
+stop, spaced 512 CPU cycles per bit (31,250 bit/s under the experimental
+16 MHz clock). Callback samples include repeated levels, not just edges.
+
+Zero-input frame start cycles: 127846336, 127851456, 127856576,
+128288512, 128293632, 128298752; bytes E0 00 20 E0 00 00.
+High-input starts: 127803104, 127808224, 127846976, 127852096,
+127857216, 128251072, 128256192, 128261312;
+bytes D0 7F E0 3E 5F E0 7E 7F. All frames passed independent start,
+stop, bit-spacing and LSB-first decoding checks. No observed RDR1 byte
+reads occurred. No PKS input was supplied. This does not establish a
+physical PKS response, full boot, or exhaustive receive-access coverage.
+
+ROM SHA-256 before/after:
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Both VOP3 sample counters remained zero. Source reference remains original
+MAME commit 706dbb73281320c54d7c2f16262c1c3786f2be01 and the checked-in
+source lock; no new hardware comparison was performed. The earlier MAME
+zero-input TDR prefix agrees, but is not a wire-timing reference.
+Next: explain the ADC-dependent outgoing data from firmware execution
+before designing any PKS response. MIDI, audio and REAPER remain open.
+
+
+## First PKS enable and transmit-register writes — merged in #245, 2026-11-07
 
 Four read-only 1.04 probes requested the same 130-million-cycle horizon.
 The added write observer preserved each previous JSON byte for byte.
