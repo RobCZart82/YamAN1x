@@ -1,6 +1,42 @@
 # YamAN1x fejlesztési napló
 
-## Standalone upper ADC scan restart — candidate, 2026-11-07
+## Külső fejlesztési állapotjelentés beépítése — 2026-11-07
+
+A felhasználó kérésére ellenőriztük a jelentést az élő GitHub PR-állapot,
+az #1–#5 hibajegyek és a fejlesztési terv alapján. A lényegi megállapítások
+egyeztek. A javasolt sorrendet függőségi feladatlistaként kapcsoltuk M0–M6-hoz,
+a közvetlen firmware/ADC-munkát megtartva. Pontosítottuk a keretrendszer-
+és függőségi licencek kérdését, a külön felhasználói projektlicenc-döntést
+és az első REAPER-próbához szükséges VST3 célt. AU későbbi cél.
+
+A részletes feladatlista a FIRST_REAPER_SOUND_PLAN „Ellenőrzött fejlesztési
+prioritások” szakaszába került. A jelentés ellenőrzéséhez új fordítás vagy
+hardveres összehasonlítás nem készült. A dokumentáció a #242 jelölt része;
+beolvadását és az aktuális head ellenőrzéseit külön kell rögzíteni.
+
+## Upper ADC scan on the AN1x bus — candidate, 2026-11-07
+
+The explicit ADC sink now receives the observed 0x37 restart at channel
+4 after lower-bank ADST clear. The new start replaces the old deadline
+with a 266-cycle deadline. Upper channels reuse ADDRA–ADDRD and commit
+every 256 cycles. Same-bank control writes apply ADF write-zero behavior.
+Bank changes without the supported ADST transition reject explicitly.
+
+Independent bus tests verify lower-to-upper and upper-to-lower starts,
+callback channel/time, retained results and four result lanes across
+1,035 time partitions. Both focused ADC tests passed. The reference is
+locked H8_ADC_3337 at MAME 706dbb73281320c54d7c2f16262c1c3786f2be01.
+Next, repeat the extended local firmware probes with explicit inputs.
+Physical ADC behavior, boot, MIDI and audio acceptance remain open.
+
+## #241 merged — 2026-11-07
+
+Merge 1d3b81657a98d9137a35a1b978e748dfd51b14bd. All five checks passed on
+06ef3d413c3e2dd5daf1def69f601315010d4473. Automatic code review completed on
+that head with no findings (issue comment 6707618728). No open review threads.
+Squash merge used the verified head. All five main checks passed before further work.
+
+## Standalone upper ADC scan restart — merged in #241, 2026-11-07
 
 The slow scan model can restart on AN4 after ADST has been cleared.
 The new rising edge replaces the pending sample and deadline with the

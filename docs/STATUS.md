@@ -1,6 +1,21 @@
 # Development status
 
-## Standalone upper ADC scan restart — candidate, 2026-11-07
+## Upper ADC scan on the AN1x bus — candidate, 2026-11-07
+
+The explicit ADC sink now receives the observed 0x37 restart at channel
+4 after lower-bank ADST clear. The new start replaces the old deadline
+with a 266-cycle deadline. Upper channels reuse ADDRA–ADDRD and commit
+every 256 cycles. Same-bank control writes apply ADF write-zero behavior.
+Bank changes without the supported ADST transition reject explicitly.
+
+Independent bus tests verify lower-to-upper and upper-to-lower starts,
+callback channel/time, retained results and four result lanes across
+1,035 time partitions. Both focused ADC tests passed. The reference is
+locked H8_ADC_3337 at MAME 706dbb73281320c54d7c2f16262c1c3786f2be01.
+Next, repeat the extended local firmware probes with explicit inputs.
+Physical ADC behavior, boot, MIDI and audio acceptance remain open.
+
+## Standalone upper ADC scan restart — merged in #241, 2026-11-07
 
 The slow scan model can restart on AN4 after ADST has been cleared.
 The new rising edge replaces the pending sample and deadline with the
