@@ -4259,30 +4259,64 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/245#issuecomment-6711839799",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-wire-frames",
+      "status": "merged",
+      "base_commit": "f8968eca69749f3e15470e131b5a48f511a12342",
+      "scope": "Observe SCI1 TX frames and RDR1 byte reads at fixed horizon",
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "bit_cycles": 512,
+      "frame_bytes_low": "E0 00 20 E0 00 00",
+      "frame_bytes_high": "D0 7F E0 3E 5F E0 7E 7F",
+      "rdr1_byte_reads": 0,
+      "same_input_slice_logs_identical": true,
+      "baseline_json_identical": true,
+      "rom_hash_unchanged": true,
+      "mame_reference": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 246,
+      "merge_commit": "c5c430a5bfff51610efa08dbe866a031a4a6eee6",
+      "reviewed_head": "b51903ae8c9d0f93a484ee5dc0dba661fa65de12",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42410228423,
+        42410228419
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/246#issuecomment-6712490992",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-wire-frames",
+    "branch": "research/an1x-adc-pks-midpoints",
     "status": "candidate",
-    "base_commit": "f8968eca69749f3e15470e131b5a48f511a12342",
-    "scope": "Observe SCI1 TX frames and RDR1 byte reads at fixed horizon",
+    "base_commit": "c5c430a5bfff51610efa08dbe866a031a4a6eee6",
+    "scope": "Bound intermediate uniform ADC input dependence of SCI1 traffic",
     "requested_cycles": 130000000,
+    "synthetic_values": [
+      256,
+      511,
+      512,
+      768
+    ],
     "slice_cycles": [
       4096,
       1000000
     ],
-    "synthetic_values": [
-      0,
-      1023
-    ],
-    "bit_cycles": 512,
-    "frame_bytes_low": "E0 00 20 E0 00 00",
-    "frame_bytes_high": "D0 7F E0 3E 5F E0 7E 7F",
-    "rdr1_byte_reads": 0,
-    "same_input_slice_logs_identical": true,
-    "baseline_json_identical": true,
-    "rom_hash_unchanged": true,
-    "mame_reference": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "same_input_logs_identical": true,
+    "reported_state_matches_except_callbacks": true,
+    "decoded_frames_match_tdr": true,
     "boot_accepted": false,
     "audio_accepted": false
   },
