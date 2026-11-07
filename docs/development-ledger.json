@@ -3915,13 +3915,54 @@
       "automatic_review": "no result recorded; no quota error evidence",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "research/an1x-adc-scan-firmware",
+      "status": "merged",
+      "base_commit": "a0ba5650b0d84afe58964365fe3ad81ff46f7355",
+      "scope": "Record firmware cycle-limit results for the merged slow scan",
+      "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "requested_cycles": 100000000,
+      "end_pcs": [
+        247606,
+        247054
+      ],
+      "peripheral_cycles": [
+        100000001,
+        100000002
+      ],
+      "vop3_sample_passes": [
+        0,
+        0
+      ],
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 236,
+      "merge_commit": "3e0dbeb8f7c502666c972cf53d8eae8fa1dbc4da",
+      "reviewed_head": "c5c27fdfa2d4493c24d1ca47c9173b898c169344",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42286382789,
+        42286383152
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-adc-scan-firmware",
+    "branch": "research/an1x-cycle-limit-readiness",
     "status": "candidate",
-    "base_commit": "a0ba5650b0d84afe58964365fe3ad81ff46f7355",
-    "scope": "Record firmware cycle-limit results for the merged slow scan",
+    "base_commit": "3e0dbeb8f7c502666c972cf53d8eae8fa1dbc4da",
+    "scope": "Record serial and ADC readiness at the firmware cycle limit",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "slice_cycles": [
       4096,
@@ -3932,18 +3973,21 @@
       1023
     ],
     "requested_cycles": 100000000,
-    "end_pcs": [
-      247606,
-      247054
-    ],
-    "peripheral_cycles": [
-      100000001,
-      100000002
-    ],
-    "vop3_sample_passes": [
+    "sci_scr": [
       0,
       0
     ],
+    "sci_brr": [
+      15,
+      15
+    ],
+    "sci_ssr": [
+      132,
+      132
+    ],
+    "tstr": 255,
+    "channel3_tcr": 133,
+    "adcsr": 179,
     "boot_accepted": false,
     "audio_accepted": false
   },

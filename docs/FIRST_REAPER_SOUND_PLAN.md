@@ -1,6 +1,21 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Firmware reaches the cycle limit with the ADC scan — candidate, 2026-11-06
+## Serial readiness at the cycle limit — candidate, 2026-11-07
+
+On main 3e0dbeb, four read-only 1.04 probes repeated the synthetic low/high
+ADC experiments with 4,096- and 1,000,000-cycle slices. All reached the
+100-million-cycle limit. Side-effect-suppressed SCI snapshots at the end
+matched across all four runs. SCI0 and SCI1 had SMR=00, BRR=0F, SCR=00
+and SSR=84. SCR=00 leaves both transmit and receive disabled in the pinned
+H8 SCI reference. This is an endpoint observation.
+
+The same snapshots read TSTR=FF, channel 3 TCR=85 and ADCSR=B3. The
+ADC scan is active with ADF latched. The local ROM hash was unchanged.
+Both VOP3 sample counters remained zero. Next, trace control flow after
+ADC setup toward serial initialization and compare readiness at later
+bounded milestones. Firmware boot, MIDI reception and audio remain open.
+
+## Firmware reaches the cycle limit with the ADC scan — merged in #236, 2026-11-06
 
 Four read-only 1.04 swap16 diagnostics on main a0ba565 passed the 0x33
 ADC start. The temporary idle-panel probe supplied either 0 or 1023 to
