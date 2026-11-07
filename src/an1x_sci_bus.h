@@ -164,16 +164,27 @@ private:
     void write_adc_control(uint8_t value) {
         adc_.advance_to(now_);
         if constexpr (requires { sink_.adc_scan_sample(0u, now_); }) {
-            if ((value & 0x7f) == 0x13 && adc_scan_.deadline()) {
+            if ((value & 0x7b) == 0x13 && adc_scan_.deadline()) {
+                if ((adc_scan_.control() & 4) != (value & 4))
+                    throw std::logic_error("Unsupported ADC bank change while clearing ADST");
                 adc_scan_.clear_start(value & 0x80);
                 return;
             }
-            if ((value & 0x7f) == 0x33 && !adc_.deadline()) {
+            if ((value & 0x7b) == 0x33 && !adc_.deadline()) {
                 if (adc_scan_.deadline()) {
-                    if (!(adc_scan_.control() & 0x20))
-                        throw std::logic_error("Unsupported active ADC scan restart");
-                    adc_scan_.write_adf(value & 0x80);
+                    if (!(adc_scan_.control() & 0x20)) {
+                        const auto first = unsigned(value & 4);
+                        const auto sample = sink_.adc_scan_sample(first, now_);
+                        require_callback_live();
+                        adc_scan_.restart(now_, first, sample, value & 0x80);
+                    } else {
+                        if ((adc_scan_.control() & 4) != (value & 4))
+                            throw std::logic_error("Unsupported ADC bank change without restart");
+                        adc_scan_.write_adf(value & 0x80);
+                    }
                 } else {
+                    if (value & 4)
+                        throw std::logic_error("Upper ADC scan requires the initial lower scan");
                     const auto sample = sink_.adc_scan_sample(0, now_);
                     require_callback_live();
                     const auto previous = uint16_t((uint16_t(adc_.result_high()) << 2) |

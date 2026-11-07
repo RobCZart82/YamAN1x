@@ -140,4 +140,29 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
   check(bus.read_byte(0xffffe8) == 0 && bus.next_bus_event() == 0 &&
         analog.events.size() == 6, "Reset cancels scan and clears ADF");
  }
+ for (uint64_t cut = 300; cut <= 1334; ++cut) {
+  ScanSink analog;
+  yamanix::An1xSciBus<ScanSink> bus(rom, {}, analog);
+  bus.write_byte(0xffffe8, 0x33);
+  bus.update(300);
+  bus.write_byte(0xffffe8, 0x13);
+  bus.write_byte(0x12ffffe8, 0x37);
+  check(bus.next_bus_event() == 566 && bus.read_byte(0xffffe8) == 0x37 &&
+        bus.read_word(0xffffe0) == 6400, "Upper restart replaces deadline and retains results");
+  bus.update(cut);
+  bus.update(1334);
+  check(analog.events == std::vector<std::pair<unsigned,uint64_t>>{
+      {0,0},{1,266},{4,300},{5,566},{6,822},{7,1078},{4,1334}},
+      "Upper scan samples the four physical channels at exact cycles");
+  for (unsigned lane = 0; lane < 4; ++lane)
+   check(bus.read_word(0xffffe0 + lane * 2) == (104 + lane) * 64,
+         "Upper channels reuse ADDRA through ADDRD");
+  check(bus.read_byte(0xffffe8) == 0xb7 && bus.next_bus_event() == 1590,
+        "Upper completion raises ADF and repeats");
+  bus.write_byte(0xffffe8, 0x17);
+  bus.write_byte(0xffffe8, 0x33);
+  check(bus.read_byte(0xffffe8) == 0x33 && bus.next_bus_event() == 1600 &&
+        analog.events.back() == std::pair<unsigned,uint64_t>{0,1334},
+        "Lower bank restarts after upper ADST clear");
+ }
  std::printf("Idle ADC control:256 encodings,reset/alias/no-sample/word,129 idle,268 bus and 321 active CPU partitions:%u failures\n",failures);return failures?1:0;}
