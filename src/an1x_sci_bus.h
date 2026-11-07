@@ -164,8 +164,14 @@ private:
     void write_adc_control(uint8_t value) {
         adc_.advance_to(now_);
         if constexpr (requires { sink_.adc_scan_sample(0u, now_); }) {
+            if ((value & 0x7f) == 0x13 && adc_scan_.deadline()) {
+                adc_scan_.clear_start(value & 0x80);
+                return;
+            }
             if ((value & 0x7f) == 0x33 && !adc_.deadline()) {
                 if (adc_scan_.deadline()) {
+                    if (!(adc_scan_.control() & 0x20))
+                        throw std::logic_error("Unsupported active ADC scan restart");
                     adc_scan_.write_adf(value & 0x80);
                 } else {
                     const auto sample = sink_.adc_scan_sample(0, now_);

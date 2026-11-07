@@ -128,9 +128,16 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
   }
   check(bus.read_byte(0xffffe8) == 0xb3 && bus.next_bus_event() == 1556,
         "AN3 commit sets ADF and keeps scanning");
+  bus.write_byte(0xffffe8, 0x13);
+  check(bus.read_byte(0xffffe8) == 0x13 && bus.next_bus_event() == 1556,
+        "ADST clear retains the scheduled scan event and clears ADF");
+  bus.update(1556);
+  check(bus.read_word(0xffffe0) == 6400 && bus.read_byte(0xffffe8) == 0x13 &&
+        analog.events.back() == std::pair<unsigned, uint64_t>{1,1556},
+        "Scan continues after ADST clear at the original deadline");
   bus.reset_supported_peripherals();
   bus.update(1600);
   check(bus.read_byte(0xffffe8) == 0 && bus.next_bus_event() == 0 &&
-        analog.events.size() == 5, "Reset cancels scan and clears ADF");
+        analog.events.size() == 6, "Reset cancels scan and clears ADF");
  }
  std::printf("Idle ADC control:256 encodings,reset/alias/no-sample/word,129 idle,268 bus and 321 active CPU partitions:%u failures\n",failures);return failures?1:0;}

@@ -3995,27 +3995,50 @@
       "remote_ci": "all_four_success",
       "main_ci": "all_four_success",
       "automatic_review": "no result recorded; no quota error evidence"
+    },
+    {
+      "branch": "research/an1x-extended-adc-boundary",
+      "status": "merged",
+      "base_commit": "8b000556973d8ebb57339971a93e922f06b477b4",
+      "scope": "Record the longer firmware diagnostic ADC boundary",
+      "requested_cycles": 200000000,
+      "callback_limit": 20000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "cycle": 127793034,
+      "pc": "0x1AAC",
+      "address": "0xFFFFE8",
+      "width": 1,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 238,
+      "merge_commit": "dbadc1fc5b5c22abc09708e09cfd7de3dd6d047a",
+      "reviewed_head": "f1f17694a56d291e0a838716547a63063a5c1e39",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42360360067,
+        42360360155
+      ],
+      "automatic_review": "no result recorded; no quota error evidence",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-extended-adc-boundary",
+    "branch": "feat/an1x-adc-scan-start-clear",
     "status": "candidate",
-    "base_commit": "8b000556973d8ebb57339971a93e922f06b477b4",
-    "scope": "Record the longer firmware diagnostic ADC boundary",
-    "requested_cycles": 200000000,
-    "callback_limit": 20000000,
-    "slice_cycles": [
-      4096,
-      1000000
-    ],
-    "synthetic_values": [
-      0,
-      1023
-    ],
-    "cycle": 127793034,
-    "pc": "0x1AAC",
-    "address": "0xFFFFE8",
-    "width": 1,
+    "base_commit": "dbadc1fc5b5c22abc09708e09cfd7de3dd6d047a",
+    "scope": "Preserve original repeat scheduling when firmware clears ADST",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
+    "traced_value": 19,
+    "bus_partitions": 1035,
     "boot_accepted": false,
     "audio_accepted": false
   },

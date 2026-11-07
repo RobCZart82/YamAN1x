@@ -14,7 +14,7 @@ public:
     std::optional<uint64_t> deadline() const { return deadline_; }
     unsigned next_channel() const { return (channel_ + 1) % results_.size(); }
     uint16_t result_word(unsigned channel) const { return uint16_t(results_.at(channel) << 6); }
-    uint8_t control() const { return uint8_t((deadline_ ? 0x33 : 0) | (finished_ ? 0x80 : 0)); }
+    uint8_t control() const { return uint8_t((deadline_ ? (start_bit_ ? 0x33 : 0x13) : 0) | (finished_ ? 0x80 : 0)); }
 
     void start(uint64_t cycle, uint16_t an0, uint16_t previous_an3 = 0, bool previous_adf = false) {
         if (deadline_)
@@ -38,6 +38,11 @@ public:
         deadline_ = next;
     }
 
+    // Original adcsr_w clears ADST without cancelling the existing REPEAT mode.
+    void clear_start(bool keep_adf) {
+        start_bit_ = false;
+        write_adf(keep_adf);
+    }
     void write_adf(bool keep) { finished_ &= keep; }
     void reset() { *this = {}; }
 
@@ -55,6 +60,7 @@ private:
     uint16_t pending_sample_ = 0;
     unsigned channel_ = 0;
     bool finished_ = false;
+    bool start_bit_ = true;
 };
 
 }
