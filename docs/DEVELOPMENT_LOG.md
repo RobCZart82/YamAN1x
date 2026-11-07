@@ -1,6 +1,35 @@
 # YamAN1x fejlesztési napló
 
-## PKS serial port enabled after upper ADC integration — candidate, 2026-11-07
+## Fixed-cycle readiness and callback accounting — candidate, 2026-11-07
+
+Four read-only probes requested 130 million cycles with the same synthetic
+ADC inputs and two slice sizes. Each same-input pair matched every reported
+JSON field except completed_slice_callbacks. Zero input ended at cycle
+130,000,002, PC 0xE2A; 1023 input ended at 130,000,003, PC 0x15DC.
+SCI1 SCR was 70, SCI0 SCR was 00 and ADCSR was B7 in all snapshots.
+The ROM hash was unchanged and VOP3 sample counters remained zero.
+
+H8ExecutionRunner counts update/full/partial calls, including update(start)
+at every run invocation. Its fail-stop callback limit therefore includes
+partition overhead. The 4,096-cycle low/high probes used 19,557,981 and
+19,556,979 callbacks; the million-cycle probes used 19,494,892 and
+19,493,891. Equal callback budgets are not equal execution horizons.
+The earlier differing budget-limit endpoints alone do not establish a
+machine-state divergence. These probes compare reported fields, not every
+internal memory byte. Next, trace the first PKS-port enable and transmit
+sequence at fixed cycle milestones. Firmware boot, MIDI and audio stay open.
+
+## #243 merged — 2026-11-07
+
+Merge bbcc5f2853acf10c5c71a1dc23724ce8c16f6ed4. All four checks passed on
+c06a32a1c5023ae8c8243e6308b5e0604dc645b4. No automated review result or
+quota error was recorded on this PR. Available workflow diagnostics showed
+the two completed CI workflows; rules required zero approving reviews.
+Manual review matched all four JSON records and endpoint register logs.
+No open review threads. Squash merge used the verified head.
+All four applicable main checks passed before further work.
+
+## PKS serial port enabled after upper ADC integration — merged in #243, 2026-11-07
 
 Four read-only 1.04 swap16 probes on main bf6cf09 passed the upper ADC
 request with synthetic inputs 0 and 1023 and 4,096/1,000,000-cycle slices.

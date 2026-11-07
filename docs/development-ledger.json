@@ -4143,13 +4143,57 @@
       "manual_review": "checked final runtime diff against pinned ADC mode/restart behavior, independent bus test and user-requested documentation",
       "review_threads_at_merge": 0,
       "main_ci": "all_five_success"
+    },
+    {
+      "branch": "research/an1x-pks-serial-enabled",
+      "status": "merged",
+      "base_commit": "bf6cf09850b02c9db471212c7b05a5fbad3306de",
+      "scope": "Record PKS serial enable and callback-budget limited endpoints",
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "end_cycles": [
+        132771393,
+        133175867,
+        132778347,
+        133182221
+      ],
+      "sci_scr": [
+        0,
+        112
+      ],
+      "vop3_sample_passes": [
+        0,
+        0
+      ],
+      "endpoint_partition_equivalence": false,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 243,
+      "merge_commit": "bbcc5f2853acf10c5c71a1dc23724ce8c16f6ed4",
+      "reviewed_head": "c06a32a1c5023ae8c8243e6308b5e0604dc645b4",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42392006520,
+        42392006544
+      ],
+      "automatic_review": "no result recorded; no quota evidence on this PR",
+      "manual_review": "matched all four local JSON and endpoint register logs to documentation; inspected available workflow diagnostics and zero-review rules",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-serial-enabled",
+    "branch": "research/an1x-fixed-cycle-readiness",
     "status": "candidate",
-    "base_commit": "bf6cf09850b02c9db471212c7b05a5fbad3306de",
-    "scope": "Record PKS serial enable and callback-budget limited endpoints",
+    "base_commit": "bbcc5f2853acf10c5c71a1dc23724ce8c16f6ed4",
+    "scope": "Compare reported state at fixed cycle horizons and explain callback overhead",
+    "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
       1000000
@@ -4158,21 +4202,13 @@
       0,
       1023
     ],
-    "end_cycles": [
-      132771393,
-      133175867,
-      132778347,
-      133182221
+    "reported_state_matches_per_input": true,
+    "callback_counts": [
+      19557981,
+      19494892,
+      19556979,
+      19493891
     ],
-    "sci_scr": [
-      0,
-      112
-    ],
-    "vop3_sample_passes": [
-      0,
-      0
-    ],
-    "endpoint_partition_equivalence": false,
     "boot_accepted": false,
     "audio_accepted": false
   },
