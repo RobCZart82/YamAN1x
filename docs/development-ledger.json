@@ -4186,13 +4186,49 @@
       "manual_review": "matched all four local JSON and endpoint register logs to documentation; inspected available workflow diagnostics and zero-review rules",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-fixed-cycle-readiness",
+      "status": "merged",
+      "base_commit": "bbcc5f2853acf10c5c71a1dc23724ce8c16f6ed4",
+      "scope": "Compare reported state at fixed cycle horizons and explain callback overhead",
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "synthetic_values": [
+        0,
+        1023
+      ],
+      "reported_state_matches_per_input": true,
+      "callback_counts": [
+        19557981,
+        19494892,
+        19556979,
+        19493891
+      ],
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 244,
+      "merge_commit": "cb25bb144601d645096d771e3e4370c94d4010a4",
+      "reviewed_head": "7e01d15d4632cc17490ee35e4a375c98e3caf326",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42398632104,
+        42398632108
+      ],
+      "automatic_review": "no result recorded; no quota evidence on this PR",
+      "manual_review": "checked four fixed-cycle JSON comparisons and runner callback accounting; available diagnostics show completed CI; rules require zero approvals",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-fixed-cycle-readiness",
+    "branch": "research/an1x-pks-first-transmit",
     "status": "candidate",
-    "base_commit": "bbcc5f2853acf10c5c71a1dc23724ce8c16f6ed4",
-    "scope": "Compare reported state at fixed cycle horizons and explain callback overhead",
+    "base_commit": "cb25bb144601d645096d771e3e4370c94d4010a4",
+    "scope": "Record first SCI1 enable and input-dependent TDR prefixes",
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
@@ -4202,13 +4238,14 @@
       0,
       1023
     ],
-    "reported_state_matches_per_input": true,
-    "callback_counts": [
-      19557981,
-      19494892,
-      19556979,
-      19493891
+    "enable_cycles": [
+      127762748,
+      127704707
     ],
+    "tdr_prefix_low": "E0 00 20 E0 00 00",
+    "tdr_prefix_high": "D0 7F E0 3E 5F E0 7E 7F",
+    "same_input_slice_logs_identical": true,
+    "baseline_json_identical": true,
     "boot_accepted": false,
     "audio_accepted": false
   },
