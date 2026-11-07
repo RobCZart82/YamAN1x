@@ -1,6 +1,34 @@
 # Development status
 
-## PKS transmit frames — candidate, 2026-11-07
+## Intermediate ADC inputs and PKS traffic — candidate, 2026-11-07
+
+Eight additional read-only local probes used uniform synthetic ADC values
+256, 511, 512 and 768, each with 4,096 and 1,000,000-cycle slices at the
+same 130-million-cycle horizon. All reached the requested horizon without
+an access fault. Same-input logs were byte-identical; reported JSON state
+matched except completed_slice_callbacks. Independent 8N1 decoding checked
+512-cycle bit spacing, start/stop levels and equality with TDR byte writes.
+
+| Uniform ADC input | SCI1 transmitted bytes by the horizon |
+| --- | --- |
+| 256 | E0 00 30 E0 00 20 |
+| 511 | D0 36 |
+| 512 | D0 37 |
+| 768 | D0 71 E0 1E 4F E0 3E 5F |
+
+No RDR1 byte reads were observed, no PKS reply was injected, and VOP3
+sample counters stayed zero. The one-count change 511 to 512 reproducibly
+changes the second D0 byte 36 to 37. This narrows an input-dependent
+behavior; it does not identify the protocol, the originating ADC channel,
+or a firmware scaling formula. Uniform values vary all channels together;
+shorter byte sequences at this fixed horizon do not imply a missing frame.
+Next, isolate ADC channels and trace the source of the D0 payload before
+implementing any response. Full boot, hardware calibration, MIDI and audio
+remain unaccepted. Runtime source is unchanged; the reference remains
+original MAME 706dbb73281320c54d7c2f16262c1c3786f2be01.
+
+
+## PKS transmit frames — merged in #246, 2026-11-07
 
 Four read-only local 1.04 probes repeated the 130-million-cycle profile
 with synthetic ADC 0/1023 and slices 4,096/1,000,000. A temporary SCI1 TX
