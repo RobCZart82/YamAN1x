@@ -4296,20 +4296,49 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/246#issuecomment-6712490992",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-adc-pks-midpoints",
+      "status": "merged",
+      "base_commit": "c5c430a5bfff51610efa08dbe866a031a4a6eee6",
+      "scope": "Bound intermediate uniform ADC input dependence of SCI1 traffic",
+      "requested_cycles": 130000000,
+      "synthetic_values": [
+        256,
+        511,
+        512,
+        768
+      ],
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "same_input_logs_identical": true,
+      "reported_state_matches_except_callbacks": true,
+      "decoded_frames_match_tdr": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 247,
+      "merge_commit": "27e90c860b94ea9b14797455d2a40fddce3947ef",
+      "reviewed_head": "da71ebfa021d1b1c3e1b67fe1c6b20a3c3bf62e1",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42416599642,
+        42416599624
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/247#issuecomment-6713319571",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-adc-pks-midpoints",
+    "branch": "research/an1x-adc-channel-pks",
     "status": "candidate",
-    "base_commit": "c5c430a5bfff51610efa08dbe866a031a4a6eee6",
-    "scope": "Bound intermediate uniform ADC input dependence of SCI1 traffic",
+    "base_commit": "27e90c860b94ea9b14797455d2a40fddce3947ef",
+    "scope": "Isolate AN2/AN6 scan dependence with initial AN3 controls",
+    "local_probes": 20,
     "requested_cycles": 130000000,
-    "synthetic_values": [
-      256,
-      511,
-      512,
-      768
-    ],
     "slice_cycles": [
       4096,
       1000000
@@ -4317,6 +4346,7 @@
     "same_input_logs_identical": true,
     "reported_state_matches_except_callbacks": true,
     "decoded_frames_match_tdr": true,
+    "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
   },
