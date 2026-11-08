@@ -4330,22 +4330,59 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/247#issuecomment-6713319571",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-adc-channel-pks",
+      "status": "merged",
+      "base_commit": "27e90c860b94ea9b14797455d2a40fddce3947ef",
+      "scope": "Isolate AN2/AN6 scan dependence with initial AN3 controls",
+      "local_probes": 20,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "same_input_logs_identical": true,
+      "reported_state_matches_except_callbacks": true,
+      "decoded_frames_match_tdr": true,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 248,
+      "merge_commit": "ad640fc29a5584d7243582ff13e0ebcaa3506541",
+      "reviewed_head": "81742d8558338711b010f01151682e1046ddd8ea",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42422975793,
+        42422975752
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/248#issuecomment-6714153713",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-adc-channel-pks",
+    "branch": "research/an1x-adc-read-sites",
     "status": "candidate",
-    "base_commit": "27e90c860b94ea9b14797455d2a40fddce3947ef",
-    "scope": "Isolate AN2/AN6 scan dependence with initial AN3 controls",
-    "local_probes": 20,
+    "base_commit": "ad640fc29a5584d7243582ff13e0ebcaa3506541",
+    "scope": "Localize shared ADC read sites and common TDR last-fetch address",
+    "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
       1000000
     ],
+    "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "reported_state_matches_except_callbacks": true,
-    "decoded_frames_match_tdr": true,
+    "adc_read_last_fetch": [
+      "1BF4",
+      "1C9C",
+      "1D2E",
+      "1DC0"
+    ],
+    "tdr_last_fetch": "18B2",
+    "addresses_are_instruction_start_pc": false,
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
