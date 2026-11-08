@@ -4397,13 +4397,44 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/249#issuecomment-6714928975",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-ram-path",
+      "status": "merged",
+      "base_commit": "575d79e56fd13630ee38e6ad076e6d967347d508",
+      "scope": "Locate ADC RAM intermediates and outgoing buffer byte reads",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "transmit_buffer_start": "2360CC",
+      "read_to_tdr_cycles": 5,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 250,
+      "merge_commit": "0d4c2e7d55348d7554874f44952dda888b7c7c1e",
+      "reviewed_head": "bdea2765f84774c59569f6cd418a474db2643325",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42434933514,
+        42434933605
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/250#issuecomment-6715696698",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-ram-path",
+    "branch": "research/an1x-pks-buffer-writer",
     "status": "candidate",
-    "base_commit": "575d79e56fd13630ee38e6ad076e6d967347d508",
-    "scope": "Locate ADC RAM intermediates and outgoing buffer byte reads",
+    "base_commit": "0d4c2e7d55348d7554874f44952dda888b7c7c1e",
+    "scope": "Identify common outgoing buffer byte-write last-fetch site",
     "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4412,8 +4443,11 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "transmit_buffer_start": "2360CC",
-    "read_to_tdr_cycles": 5,
+    "matching_write_read_pairs": [
+      8,
+      6
+    ],
+    "buffer_writer_last_fetch": "FAC6",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false

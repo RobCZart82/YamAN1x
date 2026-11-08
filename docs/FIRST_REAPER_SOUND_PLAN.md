@@ -1,6 +1,33 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## ADC RAM intermediates and transmit reads — candidate, 2026-11-08
+## PKS buffer writer — candidate, 2026-11-08
+
+Four read-only probes extended the previous AN2/AN6 traces with byte-write
+observation for 2360CC–2360D3 and overlapping word-write observation for
+2360CA–2360D4. The fixed horizon and both slice sizes were unchanged.
+Every baseline JSON remained byte-identical; same-input logs matched.
+
+All eight observed outgoing AN2 bytes and all six AN6 bytes had a preceding
+matching byte write at the same RAM address, with last instruction-word
+fetch FAC6. Each was then read at last fetch 18B0 and written to TDR1 five
+cycles later. Earlier word writes zeroed the observed region during startup
+(last fetch 9ADEA); these were initialization, not payload-byte writes.
+
+This identifies a common enqueue/write site for the observed bytes, not
+the higher-level payload generator. Last-fetch addresses remain distinct
+from asserted instruction-start PCs. The bounded region and short horizon
+do not establish queue capacity, wraparound or complete producer semantics.
+Next: identify callers of the FAC6 path and follow their input values;
+outgoing bytes still provide no basis for inventing a PKS reply.
+
+ROM hash stayed
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Original MAME reference remains
+706dbb73281320c54d7c2f16262c1c3786f2be01. No ROM contents are included.
+VOP3 samples remain zero; full boot, MIDI and audio stay unaccepted.
+
+
+## ADC RAM intermediates and transmit reads — merged in #250, 2026-11-08
 
 Four read-only probes added bounded write observers for last-fetch range
 1B00–1DFF and byte-read observers for 1880–18B2 to the previous AN2/AN6
