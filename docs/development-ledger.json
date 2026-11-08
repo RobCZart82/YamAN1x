@@ -4428,13 +4428,47 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/250#issuecomment-6715696698",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-buffer-writer",
+      "status": "merged",
+      "base_commit": "0d4c2e7d55348d7554874f44952dda888b7c7c1e",
+      "scope": "Identify common outgoing buffer byte-write last-fetch site",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "matching_write_read_pairs": [
+        8,
+        6
+      ],
+      "buffer_writer_last_fetch": "FAC6",
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 251,
+      "merge_commit": "0643ac56075ca0c518b8ba2f4f7c93d42036b322",
+      "reviewed_head": "ab66ffddcaf9ee9ad80924ad7fd57a7f9e5ac700",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42440559275,
+        42440559256
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/251#issuecomment-6716419524",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-buffer-writer",
+    "branch": "research/an1x-pks-enqueue-call-paths",
     "status": "candidate",
-    "base_commit": "0d4c2e7d55348d7554874f44952dda888b7c7c1e",
-    "scope": "Identify common outgoing buffer byte-write last-fetch site",
+    "base_commit": "0643ac56075ca0c518b8ba2f4f7c93d42036b322",
+    "scope": "Distinguish predecessor fetch paths for D0/E0 buffer bytes",
     "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4443,11 +4477,6 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "matching_write_read_pairs": [
-      8,
-      6
-    ],
-    "buffer_writer_last_fetch": "FAC6",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false

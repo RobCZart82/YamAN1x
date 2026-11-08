@@ -1,6 +1,23 @@
 # YamAN1x fejlesztési napló
 
-## PKS buffer writer — candidate, 2026-11-08
+## Distinct PKS enqueue paths — candidate, 2026-11-08
+
+Four read-only probes reproduced distinct predecessor fetches for the D0
+and E0 bytes before the common buffer writer. Baseline JSON remained
+identical and same-input logs matched across slices. See
+[bounded payload path observations](pks-payload-path.md) for addresses,
+method and limits. Next: connect producer input reads to ADC intermediates.
+Full boot, MIDI and audio remain unaccepted.
+
+
+## #251 merged — 2026-11-08
+
+Merge 0643ac56075ca0c518b8ba2f4f7c93d42036b322. All four checks passed on
+ab66ffddcaf9ee9ad80924ad7fd57a7f9e5ac700. Automatic review completed on
+that head without findings (issue comment 6716419524). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## PKS buffer writer — merged in #251, 2026-11-08
 
 Four read-only probes extended the previous AN2/AN6 traces with byte-write
 observation for 2360CC–2360D3 and overlapping word-write observation for

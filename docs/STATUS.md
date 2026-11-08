@@ -1,6 +1,16 @@
 # Development status
 
-## PKS buffer writer — candidate, 2026-11-08
+## Distinct PKS enqueue paths — candidate, 2026-11-08
+
+Four read-only probes reproduced distinct predecessor fetches for the D0
+and E0 bytes before the common buffer writer. Baseline JSON remained
+identical and same-input logs matched across slices. See
+[bounded payload path observations](pks-payload-path.md) for addresses,
+method and limits. Next: connect producer input reads to ADC intermediates.
+Full boot, MIDI and audio remain unaccepted.
+
+
+## PKS buffer writer — merged in #251, 2026-11-08
 
 Four read-only probes extended the previous AN2/AN6 traces with byte-write
 observation for 2360CC–2360D3 and overlapping word-write observation for
