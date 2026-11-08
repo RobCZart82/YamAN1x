@@ -131,7 +131,7 @@ back to the ADC intermediates. A direct arithmetic or protocol claim is
 still premature. No replies were injected. VOP3 samples remain zero;
 boot, MIDI and audio remain unaccepted.
 
-## Source operand and entry value — candidate, 2026-11-08
+## Source operand and entry value — merged in #257, 2026-11-08
 
 Four read-only probes extended fetch snapshots to all model register words
 in 59000–5A1FF. Baseline JSON remained byte-identical; same-input logs
@@ -149,3 +149,24 @@ Next: trace callers that set R1L before 5A080 and establish their data
 inputs. Profiles, fixed horizon, slice sizes and ROM hash are unchanged.
 The original MAME reference remains locked. No reply was injected; boot,
 MIDI and audio remain unaccepted, with zero VOP3 sample counters.
+
+## Earlier entry predecessor — candidate, 2026-11-08
+
+Eight read-only probes added the preceding 128 fetch addresses at 5A080,
+then register snapshots and byte/word-read observers for 57C00–57D4F.
+Both stages preserved baseline JSON byte for byte; same-input logs matched
+across slices. The same AN2/AN6 profiles and fixed cycle horizon were used.
+ROM hash stayed unchanged at the value recorded above.
+
+Every observed 5A080 entry immediately followed fetch 57D48. At earlier
+fetch 57D42, R1L already held the same eight AN2 or six AN6 bytes as at
+5A080. All fourteen paired values matched. These are fetch-boundary and
+register observations, not an asserted complete call stack or ABI.
+
+The bounded caller window observed a byte read of control location
+23F7FD at last fetch 57D16 on each path; it did not expose an ADC-data read
+or a new word-data source. Thus this path forwards an already available
+value; the ADC-to-payload computation remains unproven. Next: follow R1L
+before the 57Cxx/57Dxx path, using the observed predecessor history.
+No PKS reply was supplied. Boot, MIDI and audio remain unaccepted, and
+VOP3 sample counters remain zero. Original MAME reference is unchanged.
