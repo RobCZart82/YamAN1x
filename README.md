@@ -33,14 +33,17 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current firmware diagnostic — 2026-11-06
+## Current firmware diagnostic — 2026-11-08
 
-Fixed-cycle probes reproduce PKS port enable and decode its first model TX frames. MIDI reception and
-audio remain open. See the [current status](docs/STATUS.md).
+The merged #259 trace connected an earlier PKS caller read to a preceding
+R0L-fed RAM write. A new one-profile MAME observation narrows the immediate
+source to RAM at `234ACC+ER0`, copied through R0L to `22D9EF`; the upstream
+buffer producer and ADC calculation remain unproven. Boot, MIDI handling,
+audio and plugin-host acceptance remain open. See [current status](docs/STATUS.md).
 
 ## Current verified status — 2026-11-05
 
-Latest verified merged fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+Latest merged runtime fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
 `d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
 Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
 The suite defines **134 CTest groups and 103 Python cases**.

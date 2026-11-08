@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-05",
+  "recorded_date": "2026-11-08",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
   "baseline_commit": "d60e6eb9907d0a9c89938e1677d68e54b319da74",
@@ -3871,7 +3871,7 @@
       "branch": "feat/h8-adc-slow-scan",
       "status": "merged",
       "base_commit": "c11f45a36299ce90d7f1ee9ad0983b6f9979bae9",
-      "scope": "Standalone bounded repeating slow AN0\u2013AN3 scan with explicit input",
+      "scope": "Standalone bounded repeating slow AN0–AN3 scan with explicit input",
       "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
       "first_cycles": 266,
@@ -3898,7 +3898,7 @@
       "branch": "feat/an1x-adc-scan-mmio",
       "status": "merged",
       "base_commit": "ea172cf428ce4b35c699279aa657f0cac18e4359",
-      "scope": "Integrate the bounded slow AN0\u2013AN3 scan and result lanes",
+      "scope": "Integrate the bounded slow AN0–AN3 scan and result lanes",
       "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "bus_partitions": 1035,
       "boot_accepted": false,
@@ -4116,7 +4116,7 @@
       "audio_accepted": false,
       "documentation_update": {
         "date": "2026-11-07",
-        "scope": "User-requested verified external report integrated into M0\u2013M6 priorities",
+        "scope": "User-requested verified external report integrated into M0–M6 priorities",
         "source_issues": [
           1,
           2,
@@ -4696,34 +4696,102 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/258#issuecomment-6721573704",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-caller-source-chain",
+      "status": "merged",
+      "base_commit": "5f6a4d762578810c3a248d35f27786d1be5a76ec",
+      "scope": "Combine caller source reads, preceding writes and register context",
+      "local_probes": 12,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "read_last_fetch": "57AEA",
+      "write_last_fetch": "FA94",
+      "snapshot_ppc": "FA92",
+      "snapshot_pc": "FA96",
+      "source_register": "R0L",
+      "destination_register": "ER4",
+      "matching_pairs": [
+        8,
+        6
+      ],
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 259,
+      "merge_commit": "68e654d5a0b31d459f0714bd33884db989123fde",
+      "reviewed_head": "5c1f7e4ceb424d781bb515377739f00f44c25add",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42490498255,
+        42490498172
+      ],
+      "automatic_review": "no result recorded; no quota evidence",
+      "manual_review": "Reviewed documentation diff, paired local observations and repository audit; rules require zero approvals; no reviews/reactions or unresolved threads",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success",
+      "main_ci_runs": [
+        42493905522,
+        42493905532
+      ]
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-caller-source-chain",
+    "branch": "research/an1x-pks-source-buffer",
     "status": "candidate",
-    "base_commit": "5f6a4d762578810c3a248d35f27786d1be5a76ec",
-    "scope": "Combine caller source reads, preceding writes and register context",
-    "local_probes": 12,
-    "requested_cycles": 130000000,
-    "slice_cycles": [
-      4096,
-      1000000
+    "base_commit": "68e654d5a0b31d459f0714bd33884db989123fde",
+    "scope": "Trace R0L before the FA92 RAM writer and locate its immediate source buffer",
+    "seconds": 9,
+    "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_binary_sha256": "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "dsp_profile": "passive",
+    "dms_board": "absent",
+    "midi_file": null,
+    "dsp_sample_execution": false,
+    "matching_byte_pairs": 6,
+    "byte_values": [
+      "E0",
+      "00",
+      "20",
+      "E0",
+      "00",
+      "00"
     ],
-    "baseline_json_identical": true,
-    "same_input_logs_identical": true,
-    "read_last_fetch": "57AEA",
-    "write_last_fetch": "FA94",
-    "snapshot_ppc": "FA92",
-    "snapshot_pc": "FA96",
+    "source_byte_address": "22D9EF",
+    "source_ram_range": "234ACC-234AD1",
+    "source_fetch": "FA8A",
+    "write_fetch": "FA92",
+    "source_index_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
     "source_register": "R0L",
-    "destination_register": "ER4",
-    "matching_pairs": [
-      8,
-      6
-    ],
+    "source_register_pointer": "ER4=22D9EF",
+    "source_buffer_write_fetch": "39A4",
+    "source_buffer_input_register": "R1L",
+    "trace_only_fields": true,
+    "baseline_machine_fields_unchanged": true,
+    "failed_misaligned_tap_run_excluded": true,
+    "slice_repeat_comparison": false,
+    "adc_to_payload_proven": false,
     "rom_hash_unchanged": true,
     "boot_accepted": false,
-    "audio_accepted": false
+    "midi_accepted": false,
+    "audio_accepted": false,
+    "automatic_review": "not applicable until PR exists",
+    "local_mame_runs": 2,
+    "local_dynamic_probes": 1,
+    "corroborating_static_decode_runs": 1
   },
   "pending_changes": []
 }

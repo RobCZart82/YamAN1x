@@ -1,5 +1,46 @@
 # Bounded PKS payload path observations
 
+## Register-fed writer source RAM — candidate, 2026-11-08
+
+One additional read-only run of the locked MAME reference used the unchanged
+AN1x 1.04 image for nine emulated seconds with the passive DSP profile, DMS
+board absent, no MIDI file, and DSP sample execution disabled. The ROM SHA-256
+remained `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+The temporary MAME executable SHA-256 was
+`182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265`; the
+source remained at the locked MAME commit below, with observational taps only.
+
+An aligned word-bus tap (`22D9EE–22D9EF`) observed six low-byte writes to the
+odd byte `22D9EF` and six later reads at that byte. The values in order were
+`E0 00 20 E0 00 00`; each read matched its preceding write. At the static
+instruction beginning FA92, firmware loads `R0L` from `234ACC + ER0` and
+stores it through `ER4`; the run observed indices 0–5, `ER4=22D9EF`, and the
+same six byte values in `R0L`. A tap of the backing RAM showed the matching
+source-buffer bytes at `234ACC–234AD1`, written from `R1L` by the routine at
+last fetch 39A4 and read by the FA92 routine. These observations identify the
+immediate RAM source and copy path for this default-input run; they do not
+identify how those source bytes were generated, connect them to ADC arithmetic,
+or establish a PKS response.
+
+Static MAME disassembly identifies the FA92 instruction and the 39A4 byte
+store. Callback `pc` fields are the CPU's reported post-fetch PC, not
+instruction-start addresses. The new input taps and CPU snapshots left all
+non-trace run fields unchanged compared with the preceding nine-second run;
+trace line counts and executable hashes differ because the diagnostic taps
+changed. A first attempt with an odd-address tap was rejected by MAME's
+16-bit address-space alignment check before CPU execution; that failed run is
+excluded. The aligned tap was rebuilt and the successful run above is the only
+dynamic observation counted here.
+
+Limits: one passive/default-input profile and one horizon; no slice-repeat
+comparison, no injected MIDI, no hardware comparison, no validated full boot,
+and no audio. The writer's caller and the source buffer's upstream data path
+remain open. Next: trace the input to the 39A4 write and its callers.
+
+Original MAME source remains locked at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. VOP3 samples remain zero; boot,
+MIDI and audio remain unaccepted.
+
 Merged in #252; original observation base 0643ac56075ca0c518b8ba2f4f7c93d42036b322.
 
 Four read-only local 1.04 probes extended the AN2-only and AN6-only high
