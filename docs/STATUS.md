@@ -1,11 +1,20 @@
 # Development status
 
-## PKS staging data path — candidate, 2026-11-08
+## Earlier PKS staging source — candidate, 2026-11-08
+
+Eight read-only probes identified an earlier mutable source region feeding
+the staging bytes. Baseline JSON remained identical and same-input logs
+matched across slices. See [source observations](pks-payload-path.md).
+The observed copy path still does not prove the ADC-to-payload calculation.
+Next: follow its input reads and callers. Boot, MIDI and audio remain open.
+
+
+## PKS staging data path — merged in #253, 2026-11-08
 
 Eight read-only probes linked observed staging-byte writes and producer
 reads to the previously verified transmit-buffer path. All baseline JSON
 bytes stayed unchanged and same-input logs matched across slices. See
-[staging observations](pks-payload-path.md#staging-byte-reads-and-writes--candidate-2026-11-08).
+[staging observations](pks-payload-path.md).
 The ADC-to-staging calculation is still open; no protocol or audio
 acceptance is implied. Next: trace data inputs to the staging-write path.
 

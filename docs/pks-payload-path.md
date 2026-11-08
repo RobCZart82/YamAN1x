@@ -36,7 +36,7 @@ Original MAME reference remains locked at
 706dbb73281320c54d7c2f16262c1c3786f2be01. No hardware comparison was run.
 VOP3 samples remain zero; full boot, MIDI and audio are unaccepted.
 
-## Staging byte reads and writes — candidate, 2026-11-08
+## Staging byte reads and writes — merged in #253, 2026-11-08
 
 Eight further read-only probes used the same AN2/AN6 profiles and two slice
 sizes. Four observed producer data reads in last-fetch range 59900–59CFF;
@@ -59,3 +59,30 @@ The observed chain now reaches staging writes, producer reads, queue-byte
 writes, queue reads and TDR1 writes. The ADC-to-staging calculation remains
 unproven. Next: observe data inputs to 5A2xx and connect them to ADC RAM
 intermediates, without injecting replies. Boot, MIDI and audio remain open.
+
+## Earlier staging source — candidate, 2026-11-08
+
+Eight read-only probes added data-read observation for last fetches
+5A200–5A2FF, then byte-write observation at 23FAEC–23FAEE and word-read
+observation for 59400–598FF. Both observer stages preserved baseline JSON
+byte for byte; same-input logs matched across the two slice sizes.
+The AN2/AN6 profiles, initial AN3 value and cycle horizon were unchanged.
+ROM hash stayed unchanged at the value recorded above.
+
+Last fetches 5A29A, 5A2A4 and 5A2AE read 23FAEC, 23FAED and 23FAEE
+before the initial writes to 23FB0A–0C. The AN2 D0 path additionally read
+23FAEC at 5A2C8 and 23FAED at 5A2DA before the observed rewrite.
+A zero third byte in that first D0 copy is not evidence of a complete
+three-byte input message: the preceding copy at 5A1C4 only wrote two bytes.
+
+Byte writes at last fetch 5A1C4 supplied the observed D0/E0 source bytes.
+Later writes at 5975E, 59768 and 59772 wrote the post-processing bytes back
+to the same source region. Thus the source is mutable within this path;
+it must not be treated as an immutable ADC snapshot. The bounded upstream
+word-read observer did not establish a read from the documented ADC RAM
+intermediates. No ADC-to-payload formula is claimed.
+
+Next: inspect data reads at the 5A1C4 copy path and its callers. Preserve
+that distinction from the already observed output chain. Original MAME
+reference is unchanged; no ROM contents are included. Boot, MIDI and audio
+remain unaccepted and VOP3 sample counters remain zero.
