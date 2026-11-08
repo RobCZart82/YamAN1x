@@ -1,13 +1,21 @@
 # Development status
 
-## PKS caller source chain — candidate, 2026-11-08
+## PKS direct RAM source — candidate, 2026-11-08
 
-Twelve read-only probes connected the earlier caller's memory reads to
-preceding writes and verified the writer's register context. All baseline
-JSON bytes remained identical; same-input logs matched across slices.
-See [combined source-chain observations](pks-payload-path.md). The ADC
-calculation remains unproven. Next: trace R0L before the FA92 write context.
-Boot, MIDI and audio remain unaccepted.
+One read-only MAME run observed six matching byte writes/reads at 22D9EF.
+The FA92 firmware instruction loads R0L from a RAM buffer at 234ACC+ER0;
+the same values had been written to that buffer from R1L at last fetch 39A4.
+This is one passive/default-input profile, not an ADC or PKS interpretation.
+See [bounded source path observations](pks-payload-path.md). Next: trace
+R1L before the 39A4 buffer writes and identify their callers. The ADC
+calculation, boot, MIDI and audio remain unaccepted.
+
+
+## PKS caller source chain — merged in #259, 2026-11-08
+
+Twelve read-only probes connected earlier caller reads to writes and verified
+the writer register context. See [combined source-chain observations](pks-payload-path.md).
+The ADC calculation remains unproven. Boot, MIDI and audio remain unaccepted.
 
 
 ## Earlier PKS entry predecessor — merged in #258, 2026-11-08

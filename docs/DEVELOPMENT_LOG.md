@@ -1,5 +1,32 @@
 # YamAN1x fejlesztési napló
 
+## #260 jelölt — a PKS közvetlen RAM-forrása a H8 író rutinjában — 2026-11-08
+
+Egy kilenc másodperces, változatlan helyi 1.04 ROM-futásban az igazított
+MAME buszmegfigyelő hat egyező bájtírás/olvasás párt rögzített a 22D9EF
+címen. A kód statikus dekódolása és az élő CPU-pillanatkép szerint a FA92
+utasítás a 234ACC+ER0 RAM-forrásból olvas R0L-be, majd ER4-en át írja ki a
+22D9EF bájtot; az indexek 0–5 és az értékek `E0 00 20 E0 00 00` voltak.
+A RAM-megfigyelő azonos értékeket látott a forrásbufferben, amelyet a 39A4
+utasításhely R1L-ből írt. Ez csak az azonnali memóriás adatút egy passzív,
+alapértelmezett bemenetű futásban; a buffer előállítása, az ADC-eredettel való
+kapcsolata, a MIDI/PKS-viselkedés, a boot és a hang továbbra sincs igazolva.
+
+Az első próbálkozás hibás, páratlan című 16 bites tap miatt a CPU indulása
+előtt leállt; a tartomány igazítása után célzottan újrafordítva a diagnosztikai
+futás sikerült. A hibás futás nem szerepel eredményként. A MAME forrás maradt
+a rögzített referencia SHA-n; csak ideiglenes megfigyelőket módosítottunk.
+ROM SHA-256 változatlan: `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+## #259 merged — 2026-11-08
+
+Merge 68e654d5a0b31d459f0714bd33884db989123fde. All four checks passed on
+5c1f7e4ceb424d781bb515377739f00f44c25add. No automatic review result or
+quota evidence was recorded. Available reviews/reactions were empty;
+rules required zero approvals. Manual review checked documentation against
+paired local observations and the passing repository audit. No review
+threads. Squash merge used the verified head without bypass. Main CI passed on the merge SHA: ROM-free CI run 42493905522 and initial-decode MSan run 42493905532 (three platform jobs plus MSan).
+
 ## PKS caller source chain — candidate, 2026-11-08
 
 Twelve read-only probes connected the earlier caller's memory reads to
