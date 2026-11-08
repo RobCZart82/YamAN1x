@@ -4491,13 +4491,46 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/252#issuecomment-6717296450",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-staging-data",
+      "status": "merged",
+      "base_commit": "86e60b5c35a6a1b4d46c683398faded41bf8d8d9",
+      "scope": "Link PKS staging byte writes and producer reads",
+      "local_probes": 8,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "staging_read_write_pairs": [
+        8,
+        6
+      ],
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 253,
+      "merge_commit": "8ee84ea636c7cd2acb1f98d4c45d92f3147556ce",
+      "reviewed_head": "7ce820162888699fcef540bff8055bd16698d428",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42452705099,
+        42452705078
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/253#issuecomment-6717964731",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-staging-data",
+    "branch": "research/an1x-pks-staging-source",
     "status": "candidate",
-    "base_commit": "86e60b5c35a6a1b4d46c683398faded41bf8d8d9",
-    "scope": "Link PKS staging byte writes and producer reads",
+    "base_commit": "8ee84ea636c7cd2acb1f98d4c45d92f3147556ce",
+    "scope": "Identify mutable earlier source feeding PKS staging copies",
     "local_probes": 8,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4506,10 +4539,9 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "staging_read_write_pairs": [
-      8,
-      6
-    ],
+    "source_region": "23FAEC-23FAEE",
+    "copy_last_fetch": "5A1C4",
+    "adc_to_payload_proven": false,
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
