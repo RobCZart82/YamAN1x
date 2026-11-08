@@ -1,6 +1,6 @@
 # Bounded PKS payload path observations
 
-Candidate, 2026-11-08; base 0643ac56075ca0c518b8ba2f4f7c93d42036b322.
+Merged in #252; original observation base 0643ac56075ca0c518b8ba2f4f7c93d42036b322.
 
 Four read-only local 1.04 probes extended the AN2-only and AN6-only high
 scan profiles (initial single AN3=1023), with the same 130-million-cycle
@@ -35,3 +35,27 @@ the ADC intermediates. No behavioral PKS response is justified yet.
 Original MAME reference remains locked at
 706dbb73281320c54d7c2f16262c1c3786f2be01. No hardware comparison was run.
 VOP3 samples remain zero; full boot, MIDI and audio are unaccepted.
+
+## Staging byte reads and writes — candidate, 2026-11-08
+
+Eight further read-only probes used the same AN2/AN6 profiles and two slice
+sizes. Four observed producer data reads in last-fetch range 59900–59CFF;
+four added byte-write observation at 23FB0A–23FB0C. Both observer stages
+preserved every previous JSON byte. Same-input logs matched across slices.
+ROM hash remained unchanged at the value above.
+
+D0-path reads were 23FB0A at last fetch 59C12 and 23FB0C at 59C22.
+E0-path reads were 23FB0A/0B/0C at 599FE/59A0E/59A1A. All eight AN2
+and six AN6 staging reads matched the preceding observed byte write.
+The staging bytes reproduce the already documented outgoing sequences.
+
+Initial staging writes used last fetches 5A2A0, 5A2AA, 5A2B4 for offsets
+0,1,2. In the AN2 D0 case, D0 7F 00 was subsequently rewritten to
+D0 00 7F at last fetches 5A2CE, 5A2D6, 5A2E0 before the D0-path reads.
+This is observed staging behavior; no general byte-reordering rule or
+protocol interpretation is accepted from this case alone.
+
+The observed chain now reaches staging writes, producer reads, queue-byte
+writes, queue reads and TDR1 writes. The ADC-to-staging calculation remains
+unproven. Next: observe data inputs to 5A2xx and connect them to ADC RAM
+intermediates, without injecting replies. Boot, MIDI and audio remain open.
