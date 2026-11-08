@@ -1,6 +1,15 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## PKS source operand identified — candidate, 2026-11-08
+## Earlier PKS entry predecessor — candidate, 2026-11-08
+
+Eight read-only probes identified an earlier path carrying the same source
+byte at fourteen paired observations. Baseline JSON stayed identical;
+same-input logs matched across slices. See [predecessor observations](pks-payload-path.md).
+No ADC-data source was established in this bounded window. Next: follow
+the value before that path. Boot, MIDI and audio remain unaccepted.
+
+
+## PKS source operand identified — merged in #257, 2026-11-08
 
 Four read-only probes verified the R1L-to-R4L byte transfer and found the
 same values already present at the earlier entry boundary. Baseline JSON

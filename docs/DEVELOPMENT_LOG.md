@@ -1,6 +1,22 @@
 # YamAN1x fejlesztési napló
 
-## PKS source operand identified — candidate, 2026-11-08
+## Earlier PKS entry predecessor — candidate, 2026-11-08
+
+Eight read-only probes identified an earlier path carrying the same source
+byte at fourteen paired observations. Baseline JSON stayed identical;
+same-input logs matched across slices. See [predecessor observations](pks-payload-path.md).
+No ADC-data source was established in this bounded window. Next: follow
+the value before that path. Boot, MIDI and audio remain unaccepted.
+
+
+## #257 merged — 2026-11-08
+
+Merge debf38bc40b18462ac6c8ed494cb781aac190bfb. All four checks passed on
+62fa1f45c7d0b899e8fc16ac90dc097923e986e3. Automatic review completed on
+that head without findings (issue comment 6720799162). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## PKS source operand identified — merged in #257, 2026-11-08
 
 Four read-only probes verified the R1L-to-R4L byte transfer and found the
 same values already present at the earlier entry boundary. Baseline JSON

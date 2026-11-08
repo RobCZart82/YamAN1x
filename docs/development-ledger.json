@@ -4626,14 +4626,50 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/256#issuecomment-6720071043",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-source-operand",
+      "status": "merged",
+      "base_commit": "7e41abd31e8cf5c6ae16a5c910930dcab8d05b4a",
+      "scope": "Identify R1L source operand and earlier entry values",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "register_transfer_matches": [
+        8,
+        6
+      ],
+      "source_register": "R1L",
+      "destination_register": "R4L",
+      "entry_fetch": "5A080",
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 257,
+      "merge_commit": "debf38bc40b18462ac6c8ed494cb781aac190bfb",
+      "reviewed_head": "62fa1f45c7d0b899e8fc16ac90dc097923e986e3",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42474984701,
+        42474984736
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/257#issuecomment-6720799162",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-source-operand",
+    "branch": "research/an1x-pks-entry-predecessor",
     "status": "candidate",
-    "base_commit": "7e41abd31e8cf5c6ae16a5c910930dcab8d05b4a",
-    "scope": "Identify R1L source operand and earlier entry values",
-    "local_probes": 4,
+    "base_commit": "debf38bc40b18462ac6c8ed494cb781aac190bfb",
+    "scope": "Identify earlier entry predecessor and matching R1L values",
+    "local_probes": 8,
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
@@ -4641,13 +4677,11 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "register_transfer_matches": [
+    "predecessor_fetch": "57D48",
+    "paired_value_matches": [
       8,
       6
     ],
-    "source_register": "R1L",
-    "destination_register": "R4L",
-    "entry_fetch": "5A080",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
