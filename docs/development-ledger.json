@@ -4871,7 +4871,18 @@
     "boot_accepted": false,
     "midi_accepted": false,
     "audio_accepted": false,
-    "automatic_review": "not applicable until PR exists"
+    "automatic_review": "no result recorded; no quota evidence",
+    "pr": 261,
+    "evidence_commit": "c491716046b747e7723155ca0ad9000da5e10f90",
+    "evidence_commit_ci": "all_four_success",
+    "current_status_update_ci": "pending on new PR head",
+    "ci_runs": [
+      42508696733,
+      42508696730
+    ],
+    "review_evidence": "Active ruleset requires zero approvals; no reviews or issue comments; zero review threads observed",
+    "review_threads_at_observation": 0,
+    "merge_state": "open; not merged"
   },
   "pending_changes": []
 }

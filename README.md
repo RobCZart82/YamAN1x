@@ -36,12 +36,14 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 ## Current firmware diagnostic — 2026-11-08
 
 Merged #260 records the immediate RAM source at `234ACC+ER0` for six observed
-bytes copied through R0L to `22D9EF`. A separate candidate follow-up repeated
-the passive/default-input run and traced those writes to two firmware call
-sites (`002A66` and `001FF2`) using the same writer contexts and 128-fetch
+bytes copied through R0L to `22D9EF`. Open candidate [#261](https://github.com/RobCZart82/yaman1x/pull/261)
+repeated the passive/default-input run and traced those writes to two firmware
+call sites (`002A66` and `001FF2`) using the same writer contexts and 128-fetch
 histories. This narrows the next source investigation but does not establish
 ADC arithmetic, MIDI/PKS behavior, boot or audio. See [current status](docs/STATUS.md)
-and the [bounded observations](docs/pks-payload-path.md).
+and the [bounded observations](docs/pks-payload-path.md). The initial PR head
+passed all four checks; this status-recording update must pass checks on its new
+head before merge.
 
 ## Current verified status — 2026-11-08
 

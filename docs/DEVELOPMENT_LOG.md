@@ -12,7 +12,7 @@ head without bypass. Main CI passed on the merge SHA: ROM-free CI run
 `42503526701` (Linux, macOS, Windows, ASan/UBSan) and initial-decode MSan run
 `42503526582`.
 
-## PKS writer caller sites — candidate, 2026-11-08
+## PKS writer caller sites — candidate #261, 2026-11-08
 
 A second nine-second passive/default-input run reproduced six distinct
 `R1L`-fed writes to `234ACC–234AD1`, including the same 128-fetch histories
@@ -24,6 +24,13 @@ were identical. This does not prove the control data source, ADC arithmetic,
 PKS response, boot, MIDI or audio. A new tap build did not complete because
 `SDL3/SDL.h` is unavailable locally; no tap result is claimed. See
 [bounded source-path observations](pks-payload-path.md).
+
+PR #261 remains open and unmerged. Its initial exact head
+`c491716046b747e7723155ca0ad9000da5e10f90` passed Linux, macOS, Windows and
+initial-decode MSan (runs `42508696733` and `42508696730`). This status-ledger
+update now awaits checks on its new head. No automatic review result or quota
+evidence was recorded. The active ruleset requires zero approvals; no review
+comments or unresolved threads were present.
 
 ## Local PKS writer-caller trace inputs — 2026-11-08
 

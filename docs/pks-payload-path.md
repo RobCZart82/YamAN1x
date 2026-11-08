@@ -1,6 +1,6 @@
 # Bounded PKS payload path observations
 
-## Caller sites for the immediate RAM writer — candidate, 2026-11-08
+## Caller sites for the immediate RAM writer — candidate #261, 2026-11-08
 
 A second nine-second read-only run used the same unchanged 1.04 ROM, passive
 DSP profile, absent DMS board, no MIDI input and no DSP sample execution. The
@@ -35,6 +35,13 @@ reads and writes around `237205` and `2349EA` after resolving the local MAME
 build dependency or selecting a supported build configuration. No replies
 were injected; boot, MIDI and audio remain unaccepted, and VOP3 sample
 counters remain zero.
+
+This documentation candidate is tracked by open, unmerged PR #261. Its initial
+head `c491716046b747e7723155ca0ad9000da5e10f90` passed three required platform
+checks and initial-decode MSan; the current status-ledger update awaits checks
+on its new head. No automatic review result or quota evidence was recorded;
+the active ruleset requires zero approvals and there are no unresolved review
+threads.
 
 ## Register-fed writer source RAM — merged in #260, 2026-11-08
 

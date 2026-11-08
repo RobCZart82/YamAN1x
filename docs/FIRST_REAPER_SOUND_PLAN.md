@@ -1,6 +1,6 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## PKS writer caller sites — candidate, 2026-11-08
+## PKS writer caller sites — candidate #261, 2026-11-08
 
 A repeated nine-second passive/default-input MAME observation reproduced six
 R1L-fed writes to `234ACC–234AD1`, with the same ordered values and 128-fetch
@@ -12,7 +12,11 @@ value. This narrows where to observe next, but does not prove the data source,
 ADC arithmetic or meaning of either path. A further tap build was not completed
 because this environment lacks `SDL3/SDL.h`; no tap result is claimed. See
 [bounded observations](pks-payload-path.md). Boot, MIDI and audio remain
-unaccepted.
+unaccepted. PR #261 is open and unmerged. Its initial revision at
+`c491716046b747e7723155ca0ad9000da5e10f90` passed all four CI checks; this
+status-recording update awaits validation on its new head. No automatic review
+result or quota evidence was recorded, and the active ruleset requires zero
+approvals.
 
 
 ## PKS direct RAM source — merged in #260, 2026-11-08

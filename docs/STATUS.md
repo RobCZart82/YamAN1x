@@ -1,6 +1,6 @@
 # Development status
 
-## PKS writer caller sites — candidate, 2026-11-08
+## PKS writer caller sites — candidate #261, 2026-11-08
 
 A repeated nine-second passive/default-input MAME observation reproduced six
 R1L-fed writes to `234ACC–234AD1`, with the same ordered values and the same
@@ -12,7 +12,12 @@ the common routine at `003AA4`; the `001FF2` path reads `237205`, while the
 next but does not prove the data source, ADC arithmetic, or meaning of either
 path. A further tap build was not completed because this environment lacks
 `SDL3/SDL.h`; no tap result is claimed. See [bounded observations](pks-payload-path.md).
-Boot, MIDI and audio remain unaccepted.
+The initial PR revision at exact head `c491716046b747e7723155ca0ad9000da5e10f90`
+passed all four checks: Linux/macOS/Windows run `42508696733` and MSan run
+`42508696730`. PR #261 is open and unmerged; this status-recording update is
+awaiting checks on its new head. No automatic review result or quota evidence
+was recorded; the active ruleset requires zero approvals, and there are no
+review comments or unresolved threads. Boot, MIDI and audio remain unaccepted.
 
 
 ## PKS direct RAM source — merged in #260, 2026-11-08
