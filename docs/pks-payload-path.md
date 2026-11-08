@@ -60,7 +60,7 @@ writes, queue reads and TDR1 writes. The ADC-to-staging calculation remains
 unproven. Next: observe data inputs to 5A2xx and connect them to ADC RAM
 intermediates, without injecting replies. Boot, MIDI and audio remain open.
 
-## Earlier staging source — candidate, 2026-11-08
+## Earlier staging source — merged in #254, 2026-11-08
 
 Eight read-only probes added data-read observation for last fetches
 5A200–5A2FF, then byte-write observation at 23FAEC–23FAEE and word-read
@@ -86,3 +86,26 @@ Next: inspect data reads at the 5A1C4 copy path and its callers. Preserve
 that distinction from the already observed output chain. Original MAME
 reference is unchanged; no ROM contents are included. Boot, MIDI and audio
 remain unaccepted and VOP3 sample counters remain zero.
+
+## Source-write register observation — candidate, 2026-11-08
+
+Eight read-only probes added byte/word-read observation for last fetches
+5A100–5A1FF, then a read-only CPU snapshot at each observed source byte
+write with last fetch 5A1C4. Both stages preserved all previous JSON bytes;
+same-input logs matched across slices. Profiles, initial AN3 and horizon
+were unchanged; ROM hash remains the value recorded above.
+
+All eight AN2 and six AN6 source writes matched the same snapshot facts:
+ER0 equaled the destination byte address and R4's low byte equaled the
+written byte. Snapshot PPC was 5A1C2 and PC was 5A1C6. These measured
+fields identify the current CPU context at these writes; earlier last-fetch
+addresses are still not retroactively claimed as instruction-start PCs.
+ER0 was reconstructed from snapshot registers 0 and 8 according to the
+project CPU accessor; this is a model-state observation, not a hardware
+register capture. The snapshot callback performed no CPU run or bus access.
+
+The bounded data-read observer did not identify the ADC source for these
+register values. Calling this site a copy does not prove a direct RAM-to-RAM
+copy from ADC intermediates. Next: trace R4's low-byte value into this write
+context and its callers, then establish the arithmetic independently.
+Boot, MIDI and audio remain unaccepted; VOP3 sample counters remain zero.

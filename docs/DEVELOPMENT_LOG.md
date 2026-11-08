@@ -1,6 +1,22 @@
 # YamAN1x fejlesztési napló
 
-## Earlier PKS staging source — candidate, 2026-11-08
+## PKS source-write register context — candidate, 2026-11-08
+
+Eight read-only probes identified the destination and byte value in CPU
+snapshots at the source writes. All previous JSON bytes remained identical;
+same-input logs matched across slices. See [register observations](pks-payload-path.md).
+The ADC-to-payload arithmetic is still open. Next: trace the register value
+into this write context. Boot, MIDI and audio remain unaccepted.
+
+
+## #254 merged — 2026-11-08
+
+Merge 6794224c9d7f9000a25dcf1b51d93a523e2a3705. All four checks passed on
+cdc4ddabf990b1a53c67962d151b390f986756c8. Automatic review completed on
+that head without findings (issue comment 6718642881). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## Earlier PKS staging source — merged in #254, 2026-11-08
 
 Eight read-only probes identified an earlier mutable source region feeding
 the staging bytes. Baseline JSON remained identical and same-input logs

@@ -4524,13 +4524,45 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/253#issuecomment-6717964731",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-staging-source",
+      "status": "merged",
+      "base_commit": "8ee84ea636c7cd2acb1f98d4c45d92f3147556ce",
+      "scope": "Identify mutable earlier source feeding PKS staging copies",
+      "local_probes": 8,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "source_region": "23FAEC-23FAEE",
+      "copy_last_fetch": "5A1C4",
+      "adc_to_payload_proven": false,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 254,
+      "merge_commit": "6794224c9d7f9000a25dcf1b51d93a523e2a3705",
+      "reviewed_head": "cdc4ddabf990b1a53c67962d151b390f986756c8",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42458116272,
+        42458116334
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/254#issuecomment-6718642881",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-staging-source",
+    "branch": "research/an1x-pks-source-registers",
     "status": "candidate",
-    "base_commit": "8ee84ea636c7cd2acb1f98d4c45d92f3147556ce",
-    "scope": "Identify mutable earlier source feeding PKS staging copies",
+    "base_commit": "6794224c9d7f9000a25dcf1b51d93a523e2a3705",
+    "scope": "Observe source-write destination/value CPU register context",
     "local_probes": 8,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4539,9 +4571,14 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "source_region": "23FAEC-23FAEE",
-    "copy_last_fetch": "5A1C4",
-    "adc_to_payload_proven": false,
+    "source_write_snapshot_matches": [
+      8,
+      6
+    ],
+    "snapshot_ppc": "5A1C2",
+    "snapshot_pc": "5A1C6",
+    "destination_register": "ER0",
+    "value_register": "R4 low byte",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
