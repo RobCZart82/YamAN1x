@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-08",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
+  "baseline_commit": "9c89f291a630c86b959c3e173cfabbae1b54164d",
   "entries": [
     {
       "pr": 6,
@@ -4806,83 +4806,135 @@
         42503526701,
         42503526582
       ]
+    },
+    {
+      "branch": "research/an1x-pks-writer-callers",
+      "status": "merged",
+      "base_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
+      "scope": "Trace the two observed call sites feeding the 0039A4 PKS source-buffer writer",
+      "seconds_per_run": 9,
+      "local_mame_runs": 2,
+      "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "mame_binary_sha256": [
+        "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
+        "9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37"
+      ],
+      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "dsp_profile": "passive",
+      "dms_board": "absent",
+      "midi_file": null,
+      "dsp_sample_execution": false,
+      "source_ram_range": "234ACC-234AD1",
+      "writer_fetch": "39A4",
+      "writer_input_register": "R1L",
+      "observed_write_indexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "observed_low_byte_values": [
+        "E0",
+        "00",
+        "20",
+        "E0",
+        "00",
+        "00"
+      ],
+      "preceding_call_fetches": [
+        "002A66",
+        "001FF2"
+      ],
+      "call_site_mapping": [
+        "indexes 0-2: 002A66",
+        "indexes 3-5: 001FF2"
+      ],
+      "static_input_operands": [
+        "237205",
+        "2349EA"
+      ],
+      "writer_context_observations": 12,
+      "paired_fetch_histories_identical": true,
+      "run_fields_identical_except": [
+        "command",
+        "mame_sha256",
+        "trace_lines"
+      ],
+      "trace_only_fields": true,
+      "adc_to_payload_proven": false,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "midi_accepted": false,
+      "audio_accepted": false,
+      "pr": 261,
+      "head_commit": "f3ce99d10fe34f33e668cfad3c2a62d3c03cba84",
+      "merge_commit": "9c89f291a630c86b959c3e173cfabbae1b54164d",
+      "merged_at_utc": "2026-11-08T19:34:15Z",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42512461512,
+        42512461563
+      ],
+      "automatic_review": "no result recorded; no quota evidence",
+      "review_evidence": "active ruleset requires zero approvals; no reviews, comments or review threads recorded",
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": "all_four_success",
+      "main_ci_runs": [
+        42515701366,
+        42515701585
+      ],
+      "historical_note": "Earlier candidate record said control-tap build was blocked by SDL3; later #262 research resolved this by selecting OSD=mac and superseded that limitation."
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-writer-callers",
+    "branch": "research/an1x-pks-caller-inputs",
     "status": "candidate",
-    "base_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
-    "scope": "Trace the two observed call sites feeding the 0039A4 PKS source-buffer writer",
+    "base_commit": "9c89f291a630c86b959c3e173cfabbae1b54164d",
+    "scope": "Add bounded read-only MAME observations for firmware RAM operand words 237202, 237204 and 2349E8; reconcile merged #261 evidence/status",
     "seconds_per_run": 9,
     "local_mame_runs": 2,
     "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "mame_binary_sha256": [
-      "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
-      "9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37"
-    ],
+    "mame_binary_sha256": "bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88",
     "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "trace_sha256": "e5e547bcb67cb3e89ea790f43308c6480908890a1b26cf1aafad65aab82cf62f",
+    "trace_lines_per_run": 65370,
+    "traces_byte_identical": true,
+    "run_metadata_identical": true,
     "dsp_profile": "passive",
     "dms_board": "absent",
     "midi_file": null,
     "dsp_sample_execution": false,
-    "source_ram_range": "234ACC-234AD1",
-    "writer_fetch": "39A4",
-    "writer_input_register": "R1L",
-    "observed_write_indexes": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5
+    "control_word_bases": [
+      "237202",
+      "237204"
     ],
-    "observed_low_byte_values": [
-      "E0",
-      "00",
-      "20",
-      "E0",
-      "00",
-      "00"
-    ],
-    "preceding_call_fetches": [
-      "002A66",
-      "001FF2"
-    ],
-    "call_site_mapping": [
-      "indexes 0-2: 002A66",
-      "indexes 3-5: 001FF2"
-    ],
-    "static_input_operands": [
-      "237205",
-      "2349EA"
-    ],
-    "writer_context_observations": 12,
-    "paired_fetch_histories_identical": true,
-    "run_fields_identical_except": [
-      "command",
-      "mame_sha256",
-      "trace_lines"
-    ],
-    "trace_only_fields": true,
-    "adc_to_payload_proven": false,
+    "control_reads_total": 956,
+    "control_reads_per_word_base": 478,
+    "control_writes_total": 9,
+    "ramp_word_base": "2349E8",
+    "ramp_reads": 480,
+    "ramp_read_value": "0000",
+    "ramp_writes": 483,
+    "tap_callbacks_read_only": true,
+    "callback_pc_is_post_fetch": true,
+    "static_instruction": "001fd2 mov.b @h'237205,r2l; observed low-byte read callback pc=001fd8, aligned word base=237204, mask=00ff",
+    "mame_build": "success; explicit OSD=mac target; SDL3 not required",
     "rom_hash_unchanged": true,
-    "new_control_taps_built": false,
-    "build_limitation": "SDL3/SDL.h unavailable; no control-tap result claimed",
-    "boot_accepted": false,
+    "complete_an1x_boot": false,
+    "vop3_samples": 0,
     "midi_accepted": false,
     "audio_accepted": false,
-    "automatic_review": "no result recorded; no quota evidence",
-    "pr": 261,
-    "evidence_commit": "c491716046b747e7723155ca0ad9000da5e10f90",
-    "evidence_commit_ci": "all_four_success",
-    "current_status_update_ci": "pending on new PR head",
-    "ci_runs": [
-      42508696733,
-      42508696730
-    ],
-    "review_evidence": "Active ruleset requires zero approvals; no reviews or issue comments; zero review threads observed",
-    "review_threads_at_observation": 0,
-    "merge_state": "open; not merged"
+    "adc_or_pks_semantics_proven": false,
+    "hardware_agreement_proven": false,
+    "next_step": "Capture bounded CPU context or fetch history around these operand accesses and preceding writes; follow value provenance without semantic claims.",
+    "automatic_review": "not yet recorded; check actual PR reviews/threads and repository rules after PR creation; do not infer quota exhaustion",
+    "pr": null,
+    "head_commit": null,
+    "remote_ci": "pending until PR head exists"
   },
   "pending_changes": []
 }

@@ -1,23 +1,18 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## PKS writer caller sites — candidate #261, 2026-11-08
+## PKS control and ramp RAM reads — candidate #262, 2026-11-08
 
-A repeated nine-second passive/default-input MAME observation reproduced six
-R1L-fed writes to `234ACC–234AD1`, with the same ordered values and 128-fetch
-history before each write as the preceding run. The histories associate the
-first three writes with a call at last fetch `002A66` and the last three with
-`001FF2`. Static disassembly shows both enter the common routine at `003AA4`;
-the `001FF2` path reads `237205`, while `002A66` uses `2349EA` and a register
-value. This narrows where to observe next, but does not prove the data source,
-ADC arithmetic or meaning of either path. A further tap build was not completed
-because this environment lacks `SDL3/SDL.h`; no tap result is claimed. See
-[bounded observations](pks-payload-path.md). Boot, MIDI and audio remain
-unaccepted. PR #261 is open and unmerged. Its initial revision at
-`c491716046b747e7723155ca0ad9000da5e10f90` passed all four CI checks; this
-status-recording update awaits validation on its new head. No automatic review
-result or quota evidence was recorded, and the active ruleset requires zero
-approvals.
+A local MAME build with read-only taps completed using the explicit macOS OSD target (`OSD=mac`); SDL3 was not required. Two identical nine-second passive/default-input runs at the locked source revision produced byte-identical traces (65,370 lines each). Both runs used the same unchanged 1.04 ROM SHA-256 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` and diagnostic executable SHA-256 `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`.
 
+The taps observed 956 reads across word bases `237202` and `237204` (478 each), nine writes across those bases, 480 reads and 483 writes at `2349E8`. Reads at `2349E8` returned zero in this profile. The callback PC is the H8 CPU's reported post-fetch PC, not an instruction-start address. Static disassembly places `mov.b @h'237205,r2l` at `001fd2`, followed by the observed read callback at `001fd8`; the byte lane is represented by word base `237204` and mask `00ff`. These address and lane observations do not establish what the values mean or whether they are ADC/PKS inputs.
+
+Run metadata matched across both runs. The profile was passive, DMS absent, MIDI absent and DSP sample execution disabled; VOP3 sample counters remained zero and the AN1x boot was incomplete. This documents bounded firmware-memory observations only. It does not establish ADC arithmetic, PKS protocol behavior, hardware agreement, full boot or audio. Next: capture bounded CPU context or fetch history around these operand reads/writes to trace their earlier firmware producers. See [bounded observations](docs/pks-payload-path.md).
+
+The status ledger also reconciles merged #261. This PR is a documentation/evidence update; repository CI is pending on its current head. No review outcome or quota issue is assumed before checking the PR's actual review state.
+
+## PKS writer caller sites — merged in #261, 2026-11-08
+
+PR [#261](https://github.com/RobCZart82/yaman1x/pull/261) merged at `9c89f291a630c86b959c3e173cfabbae1b54164d` from head `f3ce99d10fe34f33e668cfad3c2a62d3c03cba84`. Its four PR-head checks passed (ROM-free CI run `42512461512`, initial-decode MSan run `42512461563`); all four required checks passed on the merge commit (ROM-free CI `42515701366`, MSan `42515701585`). The active repository ruleset required zero approvals and resolved review threads. No review, comment or thread was recorded; no automatic-review result or quota evidence is claimed. The merge used squash without bypass.
 
 ## PKS direct RAM source — merged in #260, 2026-11-08
 

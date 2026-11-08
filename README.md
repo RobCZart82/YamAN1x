@@ -35,28 +35,11 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-08
 
-Merged #260 records the immediate RAM source at `234ACC+ER0` for six observed
-bytes copied through R0L to `22D9EF`. Open candidate [#261](https://github.com/RobCZart82/yaman1x/pull/261)
-repeated the passive/default-input run and traced those writes to two firmware
-call sites (`002A66` and `001FF2`) using the same writer contexts and 128-fetch
-histories. This narrows the next source investigation but does not establish
-ADC arithmetic, MIDI/PKS behavior, boot or audio. See [current status](docs/STATUS.md)
-and the [bounded observations](docs/pks-payload-path.md). The initial PR head
-passed all four checks; this status-recording update must pass checks on its new
-head before merge.
+Merged [#261](https://github.com/RobCZart82/yaman1x/pull/261) documented two caller paths into the PKS source-buffer writer. The next read-only MAME candidate, [#262](https://github.com/RobCZart82/yaman1x/pull/262), adds observations of firmware RAM operands at `237205` and `2349EA`: two nine-second traces match byte-for-byte. This narrows the next value-provenance probe, but does not prove ADC arithmetic, PKS response, hardware fidelity, a complete boot or audio. The new taps are read-only, and the explicitly selected macOS MAME target built successfully without SDL3. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
 
 ## Current verified status — 2026-11-08
 
-Latest merged change: [#260](https://github.com/RobCZart82/yaman1x/pull/260),
-documentation only, merged at `c9801acf0d204f361f1e959a7701bd11e84371f0`.
-All four PR-head checks passed on `f0ab206c26e0895b49b8d8ca1d5ed2cc2ba9dc83`;
-the three required platform jobs and Linux sanitizers completed successfully
-in [ROM-free CI](https://github.com/RobCZart82/yaman1x/actions/runs/42503526701),
-and [initial-decode MSan](https://github.com/RobCZart82/yaman1x/actions/runs/42503526582)
-passed. The active ruleset requires zero approvals and resolved review threads;
-#260 had no review, comment or unresolved thread recorded, so no automatic
-review result or quota issue is claimed. Main CI and MSan both passed on the
-merge SHA. A new bounded caller-site trace is being prepared separately.
+Current `main` is `9c89f291a630c86b959c3e173cfabbae1b54164d` (merged #261). All four required checks passed on that merge commit: [ROM-free CI](https://github.com/RobCZart82/yaman1x/actions/runs/42515701366) and [initial-decode MSan](https://github.com/RobCZart82/yaman1x/actions/runs/42515701585). The active ruleset requires zero approvals and resolved review threads; #261 had no recorded reviews, comments or threads, so no automatic review result or quota issue is claimed. Open candidate #262 is a documentation/evidence increment; its checks must pass on its exact current head before merge.
 
 The suite defines **134 CTest groups and 103 Python cases**.
 
