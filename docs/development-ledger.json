@@ -4556,14 +4556,51 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/254#issuecomment-6718642881",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-source-registers",
+      "status": "merged",
+      "base_commit": "6794224c9d7f9000a25dcf1b51d93a523e2a3705",
+      "scope": "Observe source-write destination/value CPU register context",
+      "local_probes": 8,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "source_write_snapshot_matches": [
+        8,
+        6
+      ],
+      "snapshot_ppc": "5A1C2",
+      "snapshot_pc": "5A1C6",
+      "destination_register": "ER0",
+      "value_register": "R4 low byte",
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 255,
+      "merge_commit": "4b7c754567e01f797d1f95f363e0f747b178769b",
+      "reviewed_head": "ca9cfd5b0d4bbb9e21d3f435b565a54b08071307",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42463706653,
+        42463706621
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/255#issuecomment-6719351081",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-source-registers",
+    "branch": "research/an1x-pks-value-transition",
     "status": "candidate",
-    "base_commit": "6794224c9d7f9000a25dcf1b51d93a523e2a3705",
-    "scope": "Observe source-write destination/value CPU register context",
-    "local_probes": 8,
+    "base_commit": "4b7c754567e01f797d1f95f363e0f747b178769b",
+    "scope": "Narrow source-byte R4 value-setting interval",
+    "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
@@ -4571,14 +4608,10 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "source_write_snapshot_matches": [
-      8,
-      6
+    "fetch_interval": [
+      "5A196",
+      "5A198"
     ],
-    "snapshot_ppc": "5A1C2",
-    "snapshot_pc": "5A1C6",
-    "destination_register": "ER0",
-    "value_register": "R4 low byte",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false

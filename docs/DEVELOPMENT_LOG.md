@@ -1,6 +1,22 @@
 # YamAN1x fejlesztési napló
 
-## PKS source-write register context — candidate, 2026-11-08
+## PKS value-setting interval — candidate, 2026-11-08
+
+Four read-only probes narrowed the observed register-value change before
+source-byte writes. All baseline JSON bytes remained identical and
+same-input logs matched across slices. See [transition observations](pks-payload-path.md).
+The source operand and ADC arithmetic remain open. Next: trace that operand
+back to ADC intermediates. Boot, MIDI and audio remain unaccepted.
+
+
+## #255 merged — 2026-11-08
+
+Merge 4b7c754567e01f797d1f95f363e0f747b178769b. All four checks passed on
+ca9cfd5b0d4bbb9e21d3f435b565a54b08071307. Automatic review completed on
+that head without findings (issue comment 6719351081). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## PKS source-write register context — merged in #255, 2026-11-08
 
 Eight read-only probes identified the destination and byte value in CPU
 snapshots at the source writes. All previous JSON bytes remained identical;
