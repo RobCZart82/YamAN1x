@@ -1,22 +1,47 @@
 # YamAN1x fejlesztési napló
 
-## #260 jelölt — a PKS közvetlen RAM-forrása a H8 író rutinjában — 2026-11-08
+## #260 beolvadt — 2026-11-08
 
-Egy kilenc másodperces, változatlan helyi 1.04 ROM-futásban az igazított
-MAME buszmegfigyelő hat egyező bájtírás/olvasás párt rögzített a 22D9EF
-címen. A kód statikus dekódolása és az élő CPU-pillanatkép szerint a FA92
-utasítás a 234ACC+ER0 RAM-forrásból olvas R0L-be, majd ER4-en át írja ki a
-22D9EF bájtot; az indexek 0–5 és az értékek `E0 00 20 E0 00 00` voltak.
-A RAM-megfigyelő azonos értékeket látott a forrásbufferben, amelyet a 39A4
-utasításhely R1L-ből írt. Ez csak az azonnali memóriás adatút egy passzív,
-alapértelmezett bemenetű futásban; a buffer előállítása, az ADC-eredettel való
-kapcsolata, a MIDI/PKS-viselkedés, a boot és a hang továbbra sincs igazolva.
+Merge `c9801acf0d204f361f1e959a7701bd11e84371f0`; PR head
+`f0ab206c26e0895b49b8d8ca1d5ed2cc2ba9dc83`. All four PR-head checks passed:
+platform/sanitizer run `42501098168` and initial-decode MSan run
+`42501098190`. No review, comment, review-thread or quota result was recorded.
+The active ruleset requires zero approvals and resolved threads; the merge
+completed with no unresolved thread reported. Squash merge used the verified
+head without bypass. Main CI passed on the merge SHA: ROM-free CI run
+`42503526701` (Linux, macOS, Windows, ASan/UBSan) and initial-decode MSan run
+`42503526582`.
 
-Az első próbálkozás hibás, páratlan című 16 bites tap miatt a CPU indulása
-előtt leállt; a tartomány igazítása után célzottan újrafordítva a diagnosztikai
-futás sikerült. A hibás futás nem szerepel eredményként. A MAME forrás maradt
-a rögzített referencia SHA-n; csak ideiglenes megfigyelőket módosítottunk.
-ROM SHA-256 változatlan: `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+## PKS writer caller sites — candidate #261, 2026-11-08
+
+A second nine-second passive/default-input run reproduced six distinct
+`R1L`-fed writes to `234ACC–234AD1`, including the same 128-fetch histories
+as the preceding run. Indexes 0–2 were preceded by last fetch `002A66`; indexes
+3–5 by `001FF2`. Static disassembly shows both calls enter `003AA4`, with
+`001FF2` reading `237205` and `002A66` using `2349EA` plus a register value.
+All baseline run fields except work path, executable hash and trace-line count
+were identical. This does not prove the control data source, ADC arithmetic,
+PKS response, boot, MIDI or audio. A new tap build did not complete because
+`SDL3/SDL.h` is unavailable locally; no tap result is claimed. See
+[bounded source-path observations](pks-payload-path.md).
+
+PR #261 remains open and unmerged. Its initial exact head
+`c491716046b747e7723155ca0ad9000da5e10f90` passed Linux, macOS, Windows and
+initial-decode MSan (runs `42508696733` and `42508696730`). This status-ledger
+update now awaits checks on its new head. No automatic review result or quota
+evidence was recorded. The active ruleset requires zero approvals; no review
+comments or unresolved threads were present.
+
+## Local PKS writer-caller trace inputs — 2026-11-08
+
+The original MAME source commit remained
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; the 1.04 ROM SHA-256 stayed
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`. The
+repeat binary SHA-256 was `9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37`;
+the earlier run used `182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265`.
+VOP3 samples remained zero. Boot was incomplete, no MIDI was supplied, and
+no reply was injected. The read-only research result is evidence about this
+single passive/default-input profile only.
 
 ## #259 merged — 2026-11-08
 
@@ -27,7 +52,7 @@ rules required zero approvals. Manual review checked documentation against
 paired local observations and the passing repository audit. No review
 threads. Squash merge used the verified head without bypass. Main CI passed on the merge SHA: ROM-free CI run 42493905522 and initial-decode MSan run 42493905532 (three platform jobs plus MSan).
 
-## PKS caller source chain — candidate, 2026-11-08
+## PKS caller source chain — merged in #259, 2026-11-08
 
 Twelve read-only probes connected the earlier caller's memory reads to
 preceding writes and verified the writer's register context. All baseline

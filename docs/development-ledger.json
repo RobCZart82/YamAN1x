@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-08",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "d60e6eb9907d0a9c89938e1677d68e54b319da74",
+  "baseline_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
   "entries": [
     {
       "pr": 6,
@@ -4739,35 +4739,96 @@
         42493905522,
         42493905532
       ]
+    },
+    {
+      "branch": "research/an1x-pks-source-buffer",
+      "status": "merged",
+      "base_commit": "68e654d5a0b31d459f0714bd33884db989123fde",
+      "scope": "Trace R0L before the FA92 RAM writer and locate its immediate source buffer",
+      "seconds": 9,
+      "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "mame_binary_sha256": "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
+      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "dsp_profile": "passive",
+      "dms_board": "absent",
+      "midi_file": null,
+      "dsp_sample_execution": false,
+      "matching_byte_pairs": 6,
+      "byte_values": [
+        "E0",
+        "00",
+        "20",
+        "E0",
+        "00",
+        "00"
+      ],
+      "source_byte_address": "22D9EF",
+      "source_ram_range": "234ACC-234AD1",
+      "source_fetch": "FA8A",
+      "write_fetch": "FA92",
+      "source_index_values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "source_register": "R0L",
+      "source_register_pointer": "ER4=22D9EF",
+      "source_buffer_write_fetch": "39A4",
+      "source_buffer_input_register": "R1L",
+      "trace_only_fields": true,
+      "baseline_machine_fields_unchanged": true,
+      "failed_misaligned_tap_run_excluded": true,
+      "slice_repeat_comparison": false,
+      "adc_to_payload_proven": false,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "midi_accepted": false,
+      "audio_accepted": false,
+      "pr": 260,
+      "head_commit": "f0ab206c26e0895b49b8d8ca1d5ed2cc2ba9dc83",
+      "merge_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
+      "merged_at_utc": "2026-11-08T17:09:21Z",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42501098168,
+        42501098190
+      ],
+      "automatic_review": "no result recorded; no quota evidence",
+      "review_evidence": "no reviews or comments observed; active ruleset requires zero approvals",
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": "all_four_success",
+      "main_ci_runs": [
+        42503526701,
+        42503526582
+      ]
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-source-buffer",
+    "branch": "research/an1x-pks-writer-callers",
     "status": "candidate",
-    "base_commit": "68e654d5a0b31d459f0714bd33884db989123fde",
-    "scope": "Trace R0L before the FA92 RAM writer and locate its immediate source buffer",
-    "seconds": 9,
+    "base_commit": "c9801acf0d204f361f1e959a7701bd11e84371f0",
+    "scope": "Trace the two observed call sites feeding the 0039A4 PKS source-buffer writer",
+    "seconds_per_run": 9,
+    "local_mame_runs": 2,
     "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "mame_binary_sha256": "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
+    "mame_binary_sha256": [
+      "182d16627ad317db929cac7de9a1f174abeadee3a355c6295f399a4a34eeb265",
+      "9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37"
+    ],
     "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
     "dsp_profile": "passive",
     "dms_board": "absent",
     "midi_file": null,
     "dsp_sample_execution": false,
-    "matching_byte_pairs": 6,
-    "byte_values": [
-      "E0",
-      "00",
-      "20",
-      "E0",
-      "00",
-      "00"
-    ],
-    "source_byte_address": "22D9EF",
     "source_ram_range": "234ACC-234AD1",
-    "source_fetch": "FA8A",
-    "write_fetch": "FA92",
-    "source_index_values": [
+    "writer_fetch": "39A4",
+    "writer_input_register": "R1L",
+    "observed_write_indexes": [
       0,
       1,
       2,
@@ -4775,23 +4836,53 @@
       4,
       5
     ],
-    "source_register": "R0L",
-    "source_register_pointer": "ER4=22D9EF",
-    "source_buffer_write_fetch": "39A4",
-    "source_buffer_input_register": "R1L",
+    "observed_low_byte_values": [
+      "E0",
+      "00",
+      "20",
+      "E0",
+      "00",
+      "00"
+    ],
+    "preceding_call_fetches": [
+      "002A66",
+      "001FF2"
+    ],
+    "call_site_mapping": [
+      "indexes 0-2: 002A66",
+      "indexes 3-5: 001FF2"
+    ],
+    "static_input_operands": [
+      "237205",
+      "2349EA"
+    ],
+    "writer_context_observations": 12,
+    "paired_fetch_histories_identical": true,
+    "run_fields_identical_except": [
+      "command",
+      "mame_sha256",
+      "trace_lines"
+    ],
     "trace_only_fields": true,
-    "baseline_machine_fields_unchanged": true,
-    "failed_misaligned_tap_run_excluded": true,
-    "slice_repeat_comparison": false,
     "adc_to_payload_proven": false,
     "rom_hash_unchanged": true,
+    "new_control_taps_built": false,
+    "build_limitation": "SDL3/SDL.h unavailable; no control-tap result claimed",
     "boot_accepted": false,
     "midi_accepted": false,
     "audio_accepted": false,
-    "automatic_review": "not applicable until PR exists",
-    "local_mame_runs": 2,
-    "local_dynamic_probes": 1,
-    "corroborating_static_decode_runs": 1
+    "automatic_review": "no result recorded; no quota evidence",
+    "pr": 261,
+    "evidence_commit": "c491716046b747e7723155ca0ad9000da5e10f90",
+    "evidence_commit_ci": "all_four_success",
+    "current_status_update_ci": "pending on new PR head",
+    "ci_runs": [
+      42508696733,
+      42508696730
+    ],
+    "review_evidence": "Active ruleset requires zero approvals; no reviews or issue comments; zero review threads observed",
+    "review_threads_at_observation": 0,
+    "merge_state": "open; not merged"
   },
   "pending_changes": []
 }
