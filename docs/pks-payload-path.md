@@ -150,7 +150,7 @@ inputs. Profiles, fixed horizon, slice sizes and ROM hash are unchanged.
 The original MAME reference remains locked. No reply was injected; boot,
 MIDI and audio remain unaccepted, with zero VOP3 sample counters.
 
-## Earlier entry predecessor — candidate, 2026-11-08
+## Earlier entry predecessor — merged in #258, 2026-11-08
 
 Eight read-only probes added the preceding 128 fetch addresses at 5A080,
 then register snapshots and byte/word-read observers for 57C00–57D4F.
@@ -170,3 +170,34 @@ value; the ADC-to-payload computation remains unproven. Next: follow R1L
 before the 57Cxx/57Dxx path, using the observed predecessor history.
 No PKS reply was supplied. Boot, MIDI and audio remain unaccepted, and
 VOP3 sample counters remain zero. Original MAME reference is unchanged.
+
+## Caller source read/write chain — candidate, 2026-11-08
+
+Twelve read-only probes combined three observer stages: expanded caller
+reads/registers in 57000–57D4F; byte writes to 22D9EF and overlapping word
+writes at 22D9EE; CPU snapshots and fetch history at those byte writes.
+Each stage used AN2-only and AN6-only high scan, initial single AN3=1023,
+130 million requested cycles and 4,096/1,000,000-cycle slices. Every stage
+preserved baseline JSON byte for byte; same-input logs matched across
+slices. ROM SHA-256 remained
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+
+At last fetch 57AEA, reads from 22D9EF reproduced all eight AN2 and six
+AN6 outgoing bytes. Every read matched the latest preceding byte write
+to that address, whose last fetch was FA94. Overlapping startup word
+writes were tracked separately and were not mistaken for these byte writes.
+
+At all fourteen byte writes, the CPU snapshot had PPC=FA92 and PC=FA96.
+R0's low byte equaled the written value; ER4 equaled 22D9EF. ER4 was
+reconstructed with the project's register accessor convention. These are
+model snapshots during the host callback, not physical register captures.
+The snapshot callback performed no CPU run or bus access. The predecessor
+history reached a common FAxx sequence; higher callers remain to be traced.
+
+This extends the observed path from the earlier caller's memory read back
+to a register-fed writer. It does not prove the ADC arithmetic, stack/ABI
+semantics, or a required PKS reply. Next: trace R0L before FA92 and its
+callers, combining that investigation before another publication step.
+Original MAME remains locked at 706dbb73281320c54d7c2f16262c1c3786f2be01.
+No ROM contents or runtime changes are included. Boot, MIDI and audio
+remain unaccepted; VOP3 sample counters remain zero.
