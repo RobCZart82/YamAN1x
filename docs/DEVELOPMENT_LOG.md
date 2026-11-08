@@ -1,6 +1,43 @@
 # YamAN1x fejlesztési napló
 
-## ADC read-site trace — candidate, 2026-11-08
+## ADC RAM intermediates and transmit reads — candidate, 2026-11-08
+
+Four read-only probes added bounded write observers for last-fetch range
+1B00–1DFF and byte-read observers for 1880–18B2 to the previous AN2/AN6
+profiles. Each used 130 million requested cycles and both slice sizes.
+All previous JSON outputs stayed byte-identical; same-input logs matched
+across slices. Last-fetch addresses are not instruction-start PCs.
+
+In the AN2-only case, nine writes each stored 03FF at 2349FA (last fetch
+1BF0) and 234A0A (1D2A). In the AN6-only case, nine writes stored 03FF at
+234A02 (1C98), and eight at 234A12 (1DBC). Both cases also stored 03FF once
+at 234910 (1B7E). These observations locate intermediates; they do not
+prove every dependency from ADC value to encoded payload.
+
+The transmit path read consecutive bytes starting at RAM 2360CC with last
+fetch 18B0. AN2-only reads through 2360D3 were D0 7F E0 00 20 E0 00 00;
+AN6-only reads through 2360D1 were E0 3E 5F E0 7E 7F. Each read occurred
+five CPU cycles before the corresponding TDR1 write and matched its byte.
+This identifies a transmit-buffer source for every observed outgoing byte,
+not the complete producer/consumer or wraparound semantics of that buffer.
+Next: observe writes to this buffer and trace payload producers before
+introducing any behavioral PKS reply.
+
+ROM hash stayed
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Original MAME source remains locked at
+706dbb73281320c54d7c2f16262c1c3786f2be01. No ROM contents are included.
+VOP3 sample counters remain zero; full boot, MIDI and audio stay unaccepted.
+
+
+## #249 merged — 2026-11-08
+
+Merge 575d79e56fd13630ee38e6ad076e6d967347d508. All four checks passed on
+6a289c00a02f6fa2606a31c352e430aeaf38355a. Automatic review completed on
+that head without findings (issue comment 6714928975). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## ADC read-site trace — merged in #249, 2026-11-08
 
 Four read-only probes repeated the AN2-only/AN6-only high-scan cases with
 initial single AN3=1023, the fixed 130-million-cycle horizon and both slice
