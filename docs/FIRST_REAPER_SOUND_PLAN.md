@@ -1,6 +1,15 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Earlier PKS staging source — candidate, 2026-11-08
+## PKS source-write register context — candidate, 2026-11-08
+
+Eight read-only probes identified the destination and byte value in CPU
+snapshots at the source writes. All previous JSON bytes remained identical;
+same-input logs matched across slices. See [register observations](pks-payload-path.md).
+The ADC-to-payload arithmetic is still open. Next: trace the register value
+into this write context. Boot, MIDI and audio remain unaccepted.
+
+
+## Earlier PKS staging source — merged in #254, 2026-11-08
 
 Eight read-only probes identified an earlier mutable source region feeding
 the staging bytes. Baseline JSON remained identical and same-input logs
