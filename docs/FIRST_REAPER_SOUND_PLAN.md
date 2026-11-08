@@ -1,6 +1,16 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## Earlier PKS entry predecessor — candidate, 2026-11-08
+## PKS caller source chain — candidate, 2026-11-08
+
+Twelve read-only probes connected the earlier caller's memory reads to
+preceding writes and verified the writer's register context. All baseline
+JSON bytes remained identical; same-input logs matched across slices.
+See [combined source-chain observations](pks-payload-path.md). The ADC
+calculation remains unproven. Next: trace R0L before the FA92 write context.
+Boot, MIDI and audio remain unaccepted.
+
+
+## Earlier PKS entry predecessor — merged in #258, 2026-11-08
 
 Eight read-only probes identified an earlier path carrying the same source
 byte at fourteen paired observations. Baseline JSON stayed identical;

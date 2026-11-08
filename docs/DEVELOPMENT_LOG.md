@@ -1,6 +1,48 @@
 # YamAN1x fejlesztési napló
 
-## Earlier PKS entry predecessor — candidate, 2026-11-08
+## PKS caller source chain — candidate, 2026-11-08
+
+Twelve read-only probes connected the earlier caller's memory reads to
+preceding writes and verified the writer's register context. All baseline
+JSON bytes remained identical; same-input logs matched across slices.
+See [combined source-chain observations](pks-payload-path.md). The ADC
+calculation remains unproven. Next: trace R0L before the FA92 write context.
+Boot, MIDI and audio remain unaccepted.
+
+
+## Local caller-source write follow-up — 2026-11-08
+
+Four additional read-only probes observed byte writes to 22D9EF and
+word writes overlapping it at 22D9EE. Baseline JSON remained byte-identical
+and same-input logs matched across slices. Each of the eight AN2 and six
+AN6 reads at last fetch 57AEA matched the latest preceding byte write,
+whose last fetch was FA94. Startup overlapping word writes were tracked
+separately. This links the local source to a new writer, not ADC arithmetic.
+ROM hash stayed 4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Next: inspect the register context and callers at FA94; publish the combined
+investigation after establishing the input boundary. No runtime changes.
+
+
+## Local investigation pending publication — 2026-11-08
+
+Four read-only AN2/AN6 fixed-horizon probes expanded caller observation to
+57000–57D4F. Each baseline JSON remained byte-identical and same-input logs
+matched across slices. At last fetch 57AEA, byte reads from 22D9EF reproduced
+the eight AN2 and six AN6 outgoing bytes in order. This identifies another
+upstream memory source, not ADC arithmetic or a complete causal chain.
+ROM SHA-256 remained 4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
+Next: trace writes to 22D9EF before publishing the combined investigation.
+No new PR or runtime change; boot, MIDI and audio remain unaccepted.
+
+
+## #258 merged — 2026-11-08
+
+Merge 5f6a4d762578810c3a248d35f27786d1be5a76ec. All four checks passed on
+e8c6e47bb5f79b504d6d7500ae70774ce608cc46. Automatic review completed on
+that head without findings (issue comment 6721573704). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## Earlier PKS entry predecessor — merged in #258, 2026-11-08
 
 Eight read-only probes identified an earlier path carrying the same source
 byte at fourteen paired observations. Baseline JSON stayed identical;

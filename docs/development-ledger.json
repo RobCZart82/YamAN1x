@@ -4662,14 +4662,48 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/257#issuecomment-6720799162",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-entry-predecessor",
+      "status": "merged",
+      "base_commit": "debf38bc40b18462ac6c8ed494cb781aac190bfb",
+      "scope": "Identify earlier entry predecessor and matching R1L values",
+      "local_probes": 8,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "predecessor_fetch": "57D48",
+      "paired_value_matches": [
+        8,
+        6
+      ],
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 258,
+      "merge_commit": "5f6a4d762578810c3a248d35f27786d1be5a76ec",
+      "reviewed_head": "e8c6e47bb5f79b504d6d7500ae70774ce608cc46",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42481074858,
+        42481074832
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/258#issuecomment-6721573704",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-entry-predecessor",
+    "branch": "research/an1x-pks-caller-source-chain",
     "status": "candidate",
-    "base_commit": "debf38bc40b18462ac6c8ed494cb781aac190bfb",
-    "scope": "Identify earlier entry predecessor and matching R1L values",
-    "local_probes": 8,
+    "base_commit": "5f6a4d762578810c3a248d35f27786d1be5a76ec",
+    "scope": "Combine caller source reads, preceding writes and register context",
+    "local_probes": 12,
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
@@ -4677,8 +4711,13 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "predecessor_fetch": "57D48",
-    "paired_value_matches": [
+    "read_last_fetch": "57AEA",
+    "write_last_fetch": "FA94",
+    "snapshot_ppc": "FA92",
+    "snapshot_pc": "FA96",
+    "source_register": "R0L",
+    "destination_register": "ER4",
+    "matching_pairs": [
       8,
       6
     ],
