@@ -1,6 +1,42 @@
 # Bounded PKS payload path observations
 
-## Register-fed writer source RAM — candidate, 2026-11-08
+## Caller sites for the immediate RAM writer — candidate, 2026-11-08
+
+A second nine-second read-only run used the same unchanged 1.04 ROM, passive
+DSP profile, absent DMS board, no MIDI input and no DSP sample execution. The
+locked MAME source commit remained
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; the diagnostic binary SHA-256 was
+`9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37`. The ROM
+SHA-256 remained
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+The second run reproduced the six distinct writes to `234ACC–234AD1` at the
+`0039A4` writer boundary, with indexes 0–5 and low-byte values
+`E0 00 20 E0 00 00`. The trace logger emitted two CPU-state observations per
+write; all 12 observations and their preceding 128-fetch histories matched
+the earlier run. Parsed run fields other than the temporary work-directory
+command, executable hash and trace-line count were identical.
+
+The fetch histories associate indexes 0–2 with a preceding call at last fetch
+`002A66`, and indexes 3–5 with `001FF2`. The static disassembly identifies
+both call instructions entering the common routine at `003AA4`. Before the
+`001FF2` call, the decoded path reads `237205` into R2L, derives R1L, and sets
+R0L to `E0`. Before `002A66`, the decoded path reads `2349EA`, uses R2L to
+derive R1L, and sets R0L to `E0`. At the common writer, only R1L is stored to
+the source buffer. These instruction and fetch observations narrow the next
+read-only probe; they do not establish what the control values mean, where
+they originate, whether either path consumes ADC results, or any PKS response.
+
+This remains one passive/default-input profile and one nine-second horizon;
+no alternate-input or hardware comparison was run. An attempted rebuild to add
+control-memory taps did not complete because this environment lacks
+`SDL3/SDL.h`. No results from those unbuilt taps are claimed. Next: observe
+reads and writes around `237205` and `2349EA` after resolving the local MAME
+build dependency or selecting a supported build configuration. No replies
+were injected; boot, MIDI and audio remain unaccepted, and VOP3 sample
+counters remain zero.
+
+## Register-fed writer source RAM — merged in #260, 2026-11-08
 
 One additional read-only run of the locked MAME reference used the unchanged
 AN1x 1.04 image for nine emulated seconds with the passive DSP profile, DMS

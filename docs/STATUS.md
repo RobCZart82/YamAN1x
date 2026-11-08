@@ -1,14 +1,26 @@
 # Development status
 
-## PKS direct RAM source — candidate, 2026-11-08
+## PKS writer caller sites — candidate, 2026-11-08
 
-One read-only MAME run observed six matching byte writes/reads at 22D9EF.
-The FA92 firmware instruction loads R0L from a RAM buffer at 234ACC+ER0;
-the same values had been written to that buffer from R1L at last fetch 39A4.
-This is one passive/default-input profile, not an ADC or PKS interpretation.
-See [bounded source path observations](pks-payload-path.md). Next: trace
-R1L before the 39A4 buffer writes and identify their callers. The ADC
-calculation, boot, MIDI and audio remain unaccepted.
+A repeated nine-second passive/default-input MAME observation reproduced six
+R1L-fed writes to `234ACC–234AD1`, with the same ordered values and the same
+128-fetch history before each write as the preceding run. The histories
+associate the first three writes with a call at last fetch `002A66` and the
+last three with `001FF2`. Static disassembly shows that these call sites enter
+the common routine at `003AA4`; the `001FF2` path reads `237205`, while the
+`002A66` path uses `2349EA` and a register value. This narrows where to observe
+next but does not prove the data source, ADC arithmetic, or meaning of either
+path. A further tap build was not completed because this environment lacks
+`SDL3/SDL.h`; no tap result is claimed. See [bounded observations](pks-payload-path.md).
+Boot, MIDI and audio remain unaccepted.
+
+
+## PKS direct RAM source — merged in #260, 2026-11-08
+
+The immediate RAM source for six observed bytes at `22D9EF` is `234ACC+ER0`,
+copied through R0L; the source buffer was written from R1L by the routine at
+last fetch `0039A4`. This is a passive/default-input observation, not an ADC
+or PKS interpretation. See [bounded source path observations](pks-payload-path.md).
 
 
 ## PKS caller source chain — merged in #259, 2026-11-08

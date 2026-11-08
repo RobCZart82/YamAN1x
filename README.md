@@ -35,17 +35,33 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-08
 
-The merged #259 trace connected an earlier PKS caller read to a preceding
-R0L-fed RAM write. A new one-profile MAME observation narrows the immediate
-source to RAM at `234ACC+ER0`, copied through R0L to `22D9EF`; the upstream
-buffer producer and ADC calculation remain unproven. Boot, MIDI handling,
-audio and plugin-host acceptance remain open. See [current status](docs/STATUS.md).
+Merged #260 records the immediate RAM source at `234ACC+ER0` for six observed
+bytes copied through R0L to `22D9EF`. A separate candidate follow-up repeated
+the passive/default-input run and traced those writes to two firmware call
+sites (`002A66` and `001FF2`) using the same writer contexts and 128-fetch
+histories. This narrows the next source investigation but does not establish
+ADC arithmetic, MIDI/PKS behavior, boot or audio. See [current status](docs/STATUS.md)
+and the [bounded observations](docs/pks-payload-path.md).
 
-## Current verified status — 2026-11-05
+## Current verified status — 2026-11-08
 
-Latest merged runtime fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+Latest merged change: [#260](https://github.com/RobCZart82/yaman1x/pull/260),
+documentation only, merged at `c9801acf0d204f361f1e959a7701bd11e84371f0`.
+All four PR-head checks passed on `f0ab206c26e0895b49b8d8ca1d5ed2cc2ba9dc83`;
+the three required platform jobs and Linux sanitizers completed successfully
+in [ROM-free CI](https://github.com/RobCZart82/yaman1x/actions/runs/42503526701),
+and [initial-decode MSan](https://github.com/RobCZart82/yaman1x/actions/runs/42503526582)
+passed. The active ruleset requires zero approvals and resolved review threads;
+#260 had no review, comment or unresolved thread recorded, so no automatic
+review result or quota issue is claimed. Main CI and MSan both passed on the
+merge SHA. A new bounded caller-site trace is being prepared separately.
+
+The suite defines **134 CTest groups and 103 Python cases**.
+
+Latest merged runtime fix before #260: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
 `d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
 Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
+
 The suite defines **134 CTest groups and 103 Python cases**.
 [Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
 [MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
