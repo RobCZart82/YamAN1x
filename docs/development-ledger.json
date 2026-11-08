@@ -4593,13 +4593,46 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/255#issuecomment-6719351081",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-value-transition",
+      "status": "merged",
+      "base_commit": "4b7c754567e01f797d1f95f363e0f747b178769b",
+      "scope": "Narrow source-byte R4 value-setting interval",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "fetch_interval": [
+        "5A196",
+        "5A198"
+      ],
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 256,
+      "merge_commit": "7e41abd31e8cf5c6ae16a5c910930dcab8d05b4a",
+      "reviewed_head": "e9c4a5e62415440b97b1b6f7e6ec0b490294f26f",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42469277060,
+        42469277022
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/256#issuecomment-6720071043",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-value-transition",
+    "branch": "research/an1x-pks-source-operand",
     "status": "candidate",
-    "base_commit": "4b7c754567e01f797d1f95f363e0f747b178769b",
-    "scope": "Narrow source-byte R4 value-setting interval",
+    "base_commit": "7e41abd31e8cf5c6ae16a5c910930dcab8d05b4a",
+    "scope": "Identify R1L source operand and earlier entry values",
     "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4608,10 +4641,13 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "fetch_interval": [
-      "5A196",
-      "5A198"
+    "register_transfer_matches": [
+      8,
+      6
     ],
+    "source_register": "R1L",
+    "destination_register": "R4L",
+    "entry_fetch": "5A080",
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
