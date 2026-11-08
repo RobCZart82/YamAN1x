@@ -4360,13 +4360,50 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/248#issuecomment-6714153713",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-adc-read-sites",
+      "status": "merged",
+      "base_commit": "ad640fc29a5584d7243582ff13e0ebcaa3506541",
+      "scope": "Localize shared ADC read sites and common TDR last-fetch address",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "adc_read_last_fetch": [
+        "1BF4",
+        "1C9C",
+        "1D2E",
+        "1DC0"
+      ],
+      "tdr_last_fetch": "18B2",
+      "addresses_are_instruction_start_pc": false,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 249,
+      "merge_commit": "575d79e56fd13630ee38e6ad076e6d967347d508",
+      "reviewed_head": "6a289c00a02f6fa2606a31c352e430aeaf38355a",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42428963191,
+        42428963249
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/249#issuecomment-6714928975",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-adc-read-sites",
+    "branch": "research/an1x-pks-ram-path",
     "status": "candidate",
-    "base_commit": "ad640fc29a5584d7243582ff13e0ebcaa3506541",
-    "scope": "Localize shared ADC read sites and common TDR last-fetch address",
+    "base_commit": "575d79e56fd13630ee38e6ad076e6d967347d508",
+    "scope": "Locate ADC RAM intermediates and outgoing buffer byte reads",
     "local_probes": 4,
     "requested_cycles": 130000000,
     "slice_cycles": [
@@ -4375,14 +4412,8 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
-    "adc_read_last_fetch": [
-      "1BF4",
-      "1C9C",
-      "1D2E",
-      "1DC0"
-    ],
-    "tdr_last_fetch": "18B2",
-    "addresses_are_instruction_start_pc": false,
+    "transmit_buffer_start": "2360CC",
+    "read_to_tdr_cycles": 5,
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
