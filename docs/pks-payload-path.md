@@ -87,7 +87,7 @@ that distinction from the already observed output chain. Original MAME
 reference is unchanged; no ROM contents are included. Boot, MIDI and audio
 remain unaccepted and VOP3 sample counters remain zero.
 
-## Source-write register observation — candidate, 2026-11-08
+## Source-write register observation — merged in #255, 2026-11-08
 
 Eight read-only probes added byte/word-read observation for last fetches
 5A100–5A1FF, then a read-only CPU snapshot at each observed source byte
@@ -109,3 +109,24 @@ register values. Calling this site a copy does not prove a direct RAM-to-RAM
 copy from ADC intermediates. Next: trace R4's low-byte value into this write
 context and its callers, then establish the arithmetic independently.
 Boot, MIDI and audio remain unaccepted; VOP3 sample counters remain zero.
+
+## Register value transition — candidate, 2026-11-08
+
+Four read-only probes added R0/R4 snapshots before instruction-word fetches
+in 59400–5A1FF and byte-read observation in 59400–598FF. All previous
+JSON bytes remained identical; same-input logs matched across slices.
+Profiles, initial AN3, fixed horizon and ROM hash were unchanged.
+
+For every observed source write, R4's low byte changed between the fetch
+observations at 5A196 and 5A198 to the byte subsequently written at the
+previously verified source-write context. AN2 values were
+D0 7F E0 00 20 E0 00 00; AN6 values were E0 3E 5F E0 7E 7F.
+R0 was 0001 at both fetch observations in every case. This narrows the
+value-setting interval; it does not identify an opcode or source operand
+from the snapshots alone. The additional byte-read window showed accesses
+to staging and control state, not a proven ADC-to-value calculation.
+
+Next: identify the source register/operand for this interval and track it
+back to the ADC intermediates. A direct arithmetic or protocol claim is
+still premature. No replies were injected. VOP3 samples remain zero;
+boot, MIDI and audio remain unaccepted.
