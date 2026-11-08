@@ -1,6 +1,45 @@
 # YamAN1x fejlesztési napló
 
-## Isolated scan-channel dependence — candidate, 2026-11-07
+## ADC read-site trace — candidate, 2026-11-08
+
+Four read-only probes repeated the AN2-only/AN6-only high-scan cases with
+initial single AN3=1023, the fixed 130-million-cycle horizon and both slice
+sizes. Temporary observers logged ADC data reads and the last instruction
+word fetch address before each read and TDR1 byte write. Every previous
+case JSON remained byte-identical; same-input new logs also matched across
+slices. These are last-fetch addresses, not asserted instruction-start PCs.
+
+Reads of the shared result word FFFFE4 distinguish the two profiles:
+
+| Last fetch | AN2-only value | AN6-only value | Reads per run |
+| --- | --- | --- | --- |
+| 1BF4 | FFC0 | 0000 | 10 |
+| 1C9C | 0000 | FFC0 | 10 |
+| 1D2E | FFC0 | 0000 | 10 |
+| 1DC0 | 0000 | FFC0 | 9 |
+
+FFC0 is the model's left-aligned ten-bit maximum (1023 shifted by six).
+The same address is reused across lower/upper scan banks; its value alone
+cannot identify a channel without bank/time context. Every observed TDR1
+byte write had last fetch 18B2. This localizes read and output sites; it
+does not yet establish the transformations or meanings of the D0/E0 data.
+Next, follow RAM intermediates from these read sites into the common
+transmit path. No PKS response should be inferred from outgoing traffic.
+ROM hash remained
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe;
+no ROM bytes or instruction contents are included. Original MAME source
+remains locked at 706dbb73281320c54d7c2f16262c1c3786f2be01.
+VOP3 sample counters remain zero; boot, MIDI and audio are unaccepted.
+
+
+## #248 merged — 2026-11-08 Europe/Budapest
+
+Merge ad640fc29a5584d7243582ff13e0ebcaa3506541. All four checks passed on
+81742d8558338711b010f01151682e1046ddd8ea. Automatic review completed on
+that head without findings (issue comment 6714153713). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## Isolated scan-channel dependence — merged in #248, 2026-11-07
 
 Twenty read-only local 1.04 probes isolated the ADC scan inputs at the
 same 130-million-cycle horizon. Each case used 4,096/1,000,000-cycle slices.
