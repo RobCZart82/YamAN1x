@@ -4462,14 +4462,43 @@
       "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/251#issuecomment-6716419524",
       "review_threads_at_merge": 0,
       "main_ci": "all_four_success"
+    },
+    {
+      "branch": "research/an1x-pks-enqueue-call-paths",
+      "status": "merged",
+      "base_commit": "0643ac56075ca0c518b8ba2f4f7c93d42036b322",
+      "scope": "Distinguish predecessor fetch paths for D0/E0 buffer bytes",
+      "local_probes": 4,
+      "requested_cycles": 130000000,
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "baseline_json_identical": true,
+      "same_input_logs_identical": true,
+      "rom_hash_unchanged": true,
+      "boot_accepted": false,
+      "audio_accepted": false,
+      "pr": 252,
+      "merge_commit": "86e60b5c35a6a1b4d46c683398faded41bf8d8d9",
+      "reviewed_head": "00461c6cd9f93d377ec6f0d8e7a9dd9b26df623c",
+      "remote_ci": "all_four_success",
+      "ci_runs": [
+        42447474281,
+        42447474280
+      ],
+      "automatic_review": "completed on exact head; no findings",
+      "review_evidence": "https://github.com/RobCZart82/yaman1x/pull/252#issuecomment-6717296450",
+      "review_threads_at_merge": 0,
+      "main_ci": "all_four_success"
     }
   ],
   "active_change": {
-    "branch": "research/an1x-pks-enqueue-call-paths",
+    "branch": "research/an1x-pks-staging-data",
     "status": "candidate",
-    "base_commit": "0643ac56075ca0c518b8ba2f4f7c93d42036b322",
-    "scope": "Distinguish predecessor fetch paths for D0/E0 buffer bytes",
-    "local_probes": 4,
+    "base_commit": "86e60b5c35a6a1b4d46c683398faded41bf8d8d9",
+    "scope": "Link PKS staging byte writes and producer reads",
+    "local_probes": 8,
     "requested_cycles": 130000000,
     "slice_cycles": [
       4096,
@@ -4477,6 +4506,10 @@
     ],
     "baseline_json_identical": true,
     "same_input_logs_identical": true,
+    "staging_read_write_pairs": [
+      8,
+      6
+    ],
     "rom_hash_unchanged": true,
     "boot_accepted": false,
     "audio_accepted": false
