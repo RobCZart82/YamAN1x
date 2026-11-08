@@ -110,7 +110,7 @@ copy from ADC intermediates. Next: trace R4's low-byte value into this write
 context and its callers, then establish the arithmetic independently.
 Boot, MIDI and audio remain unaccepted; VOP3 sample counters remain zero.
 
-## Register value transition — candidate, 2026-11-08
+## Register value transition — merged in #256, 2026-11-08
 
 Four read-only probes added R0/R4 snapshots before instruction-word fetches
 in 59400–5A1FF and byte-read observation in 59400–598FF. All previous
@@ -130,3 +130,22 @@ Next: identify the source register/operand for this interval and track it
 back to the ADC intermediates. A direct arithmetic or protocol claim is
 still premature. No replies were injected. VOP3 samples remain zero;
 boot, MIDI and audio remain unaccepted.
+
+## Source operand and entry value — candidate, 2026-11-08
+
+Four read-only probes extended fetch snapshots to all model register words
+in 59000–5A1FF. Baseline JSON remained byte-identical; same-input logs
+matched across slices. At all eight AN2 and six AN6 observations, R1's low
+byte before fetch 5A196 matched R4's low byte before fetch 5A198.
+Local read-only instruction classification at 5A196, checked against the
+project CPU decoder/accessors, identifies a byte register transfer from
+R1L to R4L. No raw instruction bytes are included.
+
+The same byte sequence was already present in R1L at observed entry fetch
+5A080: AN2 D0 7F E0 00 20 E0 00 00; AN6 E0 3E 5F E0 7E 7F.
+This identifies an earlier argument/value boundary for the source writes,
+not the ADC computation. It does not prove an ABI or every caller's role.
+Next: trace callers that set R1L before 5A080 and establish their data
+inputs. Profiles, fixed horizon, slice sizes and ROM hash are unchanged.
+The original MAME reference remains locked. No reply was injected; boot,
+MIDI and audio remain unaccepted, with zero VOP3 sample counters.

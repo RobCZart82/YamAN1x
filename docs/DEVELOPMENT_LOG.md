@@ -1,6 +1,22 @@
 # YamAN1x fejlesztési napló
 
-## PKS value-setting interval — candidate, 2026-11-08
+## PKS source operand identified — candidate, 2026-11-08
+
+Four read-only probes verified the R1L-to-R4L byte transfer and found the
+same values already present at the earlier entry boundary. Baseline JSON
+remained identical and same-input logs matched across slices. See
+[source operand observations](pks-payload-path.md). Next: trace the callers
+that provide R1L. ADC arithmetic, boot, MIDI and audio remain unaccepted.
+
+
+## #256 merged — 2026-11-08
+
+Merge 7e41abd31e8cf5c6ae16a5c910930dcab8d05b4a. All four checks passed on
+e9c4a5e62415440b97b1b6f7e6ec0b490294f26f. Automatic review completed on
+that head without findings (issue comment 6720071043). No review threads.
+Squash merge used the verified head without bypass. All four applicable main checks passed before further work.
+
+## PKS value-setting interval — merged in #256, 2026-11-08
 
 Four read-only probes narrowed the observed register-value change before
 source-byte writes. All baseline JSON bytes remained identical and

@@ -1,6 +1,15 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## PKS value-setting interval — candidate, 2026-11-08
+## PKS source operand identified — candidate, 2026-11-08
+
+Four read-only probes verified the R1L-to-R4L byte transfer and found the
+same values already present at the earlier entry boundary. Baseline JSON
+remained identical and same-input logs matched across slices. See
+[source operand observations](pks-payload-path.md). Next: trace the callers
+that provide R1L. ADC arithmetic, boot, MIDI and audio remain unaccepted.
+
+
+## PKS value-setting interval — merged in #256, 2026-11-08
 
 Four read-only probes narrowed the observed register-value change before
 source-byte writes. All baseline JSON bytes remained identical and
