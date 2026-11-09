@@ -25,6 +25,7 @@ patch -p1 < /absolute/path/to/mame-timed-vop3-experiment.patch
 patch -p1 < /absolute/path/to/mame-midi-input.patch
 patch -p1 < /absolute/path/to/mame-sci-state-observation.patch
 patch -p1 < /absolute/path/to/mame-sci-access-observation.patch
+patch -p1 < /absolute/path/to/mame-pks-operand-context.patch
 make SUBTARGET=yamanix SOURCES=src/mame/yamaha/yman1x.cpp OSD=mac NO_USE_MIDI=1 NO_USE_PORTAUDIO=1 USE_QTDEBUG=0 USE_TAPTUN=0 USE_PCAP=0 REGENIE=1 -j4
 ```
 
@@ -42,12 +43,16 @@ A `mame-lcd-controller.patch` új saját fejlécet is telepít a driver mellé; 
 
 A jelenlegi mérés friss processzusú hidegindításra készült. Save-state, visszatöltés és több egymást követő szoftveres reset működését még nem validáltuk.
 
+## PKS operand CPU context observer
+
+The twelfth patch adds a read-only, 4,096-event-bounded snapshot of PC, emulated time, CCR and ER0–ER7 on three previously observed aligned RAM word bases. It counts overflow and emits an explicit completion footer; the auditor rejects malformed or incomplete output. The observer does not alter values and does not assert data meaning or hardware agreement. The new helper is generated from `src/pks_operand_context_trace.h`, checked by patch preflight. See [bounded CPU-context candidate](../docs/pks-payload-path.md).
+
 ## Teljes DSP-regiszternapló
 
 A tizenegyedik patch időbélyeges, PC-vel ellátott SCI-regiszterírásokat és
 RDR-olvasásokat figyel meg. A napló korlátos; veszteséges vagy befejezetlen
 felvételt az auditor elutasít. Ez nem PKS-emuláció és nem igazolt MIDI-vétel.
-A teljes, tizenegy patches MAME-target fordítása és regisztrációs próbája már
+A teljes, tizenkét patches MAME-target fordítása és regisztrációs próbája már
 sikeres a külön macOS CI-ben; a friss SCI-hozzáféréses firmware-elfogadás még
 nyitott. Részletek és következő kísérlet:
 [M1 SCI-hozzáférések](../docs/m1-sci-access-milestone.md).

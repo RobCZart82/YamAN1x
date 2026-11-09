@@ -1,3 +1,13 @@
+# PKS operand CPU context — local candidate, not merged
+
+The new bounded read-only observer captured 1,928 events at word bases 237202, 237204 and 2349E8 over two identical nine-second passive/default-input runs. Both traces were byte-identical (SHA-256 `8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e`); no events were dropped. The instrumented MAME binary was `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`, baseline binary `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`, both built from locked source `706dbb73281320c54d7c2f16262c1c3786f2be01`. Baseline metadata was identical on 26 non-trace fields. The local AN1x 1.04 ROM hash stayed `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it remains outside the repository and unchanged. This does not prove ADC/PKS semantics, hardware agreement, full boot, MIDI or audio; VOP3 samples stayed zero.
+
+The first full CTest run exposed the new research patch missing from the existing source-attribution inventory. Added the patch entry under that existing reviewed-patch category (no new license choice); after the correction, all 137/137 CTest groups passed in 52.09 seconds. The trace target, all 109 Python tests, repository audit and source-attribution audit pass. Source-attribution coverage is not legal clearance or binary-distribution approval. Candidate is not yet a PR; CI/review/merge status is therefore not applicable.
+
+## #263 merged — 2026-11-09
+
+Squash merge `7802b8b310529562604857e8ee7fcab977401f20` from head `5c18c959e11a09cc0ce7623929e17fec358af773`, 2026-11-09T15:03:12Z. PR-head ROM-free CI run `42634717942` and initial-decode MSan run `42634718124` succeeded; merge-commit ROM-free CI `42640712610` and MSan `42640713034` succeeded (three platform jobs plus MSan). Active ruleset requires zero approvals and resolved review threads. The Codex review summary comment reports a completed review without findings on the exact PR head. No GitHub review objects or threads were recorded. No quota issue was reported. Merge used the verified head without bypass.
+
 # YamAN1x fejlesztési napló
 
 ## #260 beolvadt — 2026-11-08
