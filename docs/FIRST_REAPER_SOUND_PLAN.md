@@ -1,6 +1,6 @@
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
-## PKS operand CPU context — local candidate, not merged
+## PKS operand CPU context — merged in #264
 
 A bounded, read-only MAME observer now captures the post-fetch PC, virtual time, CCR and ER0–ER7 when firmware reads/writes the three previously observed aligned RAM word bases `237202`, `237204` and `2349E8`. The observer has a 4,096-event cap, reports overflow, filters all other addresses and does not change bus values. It was built against the pinned MAME source `706dbb73281320c54d7c2f16262c1c3786f2be01`; instrumented binary SHA-256 `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`. The matching uninstrumented build hash is `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`.
 
@@ -9,9 +9,9 @@ Two nine-second passive/default-input runs produced byte-identical context trace
 This is limited repeatability evidence for one nine-second passive profile. The callback PC remains the CPU-reported post-fetch PC, not an instruction-start PC. The run does not establish operand meaning, ADC arithmetic, PKS behavior, complete boot, MIDI acceptance, hardware agreement or sound. VOP3 samples remained zero. Next: use these bounded snapshots to follow the preceding value writes and their instruction context, retaining independent value/address/flag/timing and continuation checks.
 
 
-## Main #263 — current, verified baseline
+## Main #264 — current, verified baseline
 
-PR [#263](https://github.com/RobCZart82/yaman1x/pull/263) reconciled the then-current PKS status documentation and merged as `7802b8b310529562604857e8ee7fcab977401f20` from head `5c18c959e11a09cc0ce7623929e17fec358af773`. PR-head ROM-free CI `42634717942` and MSan `42634718124` passed; merge-commit ROM-free CI `42640712610` and MSan `42640713034` passed. The active ruleset required zero approvals and resolved threads. A Codex review-summary comment records completed code review without findings on that exact head; no GitHub review objects or review threads were present. Squash merge used the checked head without bypass.
+PR [#264](https://github.com/RobCZart82/yaman1x/pull/264) merged by squash at `a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c` on 2026-11-09T17:35:18Z from verified head `1092df38cb5278e3db50ef29ac6c99fa621c85ce`. PR-head checks passed (ROM-free CI `42652447163`, MSan `42652447223`, MAME research `42652447044`); merge-commit checks passed (ROM-free CI `42666087454`, MSan `42666087385`, MAME research `42666087403`). Codex review summary completed without findings on the exact head; no GitHub review objects or threads were present, and no quota issue was reported. The active ruleset required zero approvals and resolved review threads. Two macOS hosted-runner acquisition attempts failed with explicit hosted-capacity annotations; after each workflow completed, only the failed job was retried, and the third attempt passed. Squash merge used the verified head without bypass.
 
 ## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
