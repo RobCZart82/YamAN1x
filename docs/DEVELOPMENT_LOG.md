@@ -12,25 +12,13 @@ head without bypass. Main CI passed on the merge SHA: ROM-free CI run
 `42503526701` (Linux, macOS, Windows, ASan/UBSan) and initial-decode MSan run
 `42503526582`.
 
-## PKS writer caller sites — candidate #261, 2026-11-08
+## PKS control and ramp RAM reads — candidate #262, 2026-11-08
 
-A second nine-second passive/default-input run reproduced six distinct
-`R1L`-fed writes to `234ACC–234AD1`, including the same 128-fetch histories
-as the preceding run. Indexes 0–2 were preceded by last fetch `002A66`; indexes
-3–5 by `001FF2`. Static disassembly shows both calls enter `003AA4`, with
-`001FF2` reading `237205` and `002A66` using `2349EA` plus a register value.
-All baseline run fields except work path, executable hash and trace-line count
-were identical. This does not prove the control data source, ADC arithmetic,
-PKS response, boot, MIDI or audio. A new tap build did not complete because
-`SDL3/SDL.h` is unavailable locally; no tap result is claimed. See
-[bounded source-path observations](pks-payload-path.md).
+A local MAME build with read-only taps completed using explicit `OSD=mac`; SDL3 was not required. Two nine-second passive/default-input runs at fixed source `706dbb73281320c54d7c2f16262c1c3786f2be01` produced identical 65,370-line traces and identical run metadata. The ROM SHA-256 remained `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`. Counts: 956 reads and 9 writes across control word bases `237202` and `237204`; 480 reads and 483 writes at `2349E8`, where reads returned zero. Taps were read-only. Full boot remained false, MIDI and DMS were absent, DSP sample execution was disabled and VOP3 samples stayed zero. This does not assert ADC/PKS meaning or hardware agreement. Details and limits are in [pks-payload-path.md](pks-payload-path.md).
 
-PR #261 remains open and unmerged. Its initial exact head
-`c491716046b747e7723155ca0ad9000da5e10f90` passed Linux, macOS, Windows and
-initial-decode MSan (runs `42508696733` and `42508696730`). This status-ledger
-update now awaits checks on its new head. No automatic review result or quota
-evidence was recorded. The active ruleset requires zero approvals; no review
-comments or unresolved threads were present.
+## PKS writer caller sites — merged in #261, 2026-11-08
+
+PR #261 merged at `9c89f291a630c86b959c3e173cfabbae1b54164d`, from head `f3ce99d10fe34f33e668cfad3c2a62d3c03cba84`. Four PR-head checks passed (runs `42512461512`, `42512461563`); all four required main checks passed (runs `42515701366`, `42515701585`). Active ruleset required zero approvals and resolved threads; no reviews, comments or threads were recorded. No automatic-review outcome or quota evidence is claimed. Squash merge used the verified head without bypass.
 
 ## Local PKS writer-caller trace inputs — 2026-11-08
 

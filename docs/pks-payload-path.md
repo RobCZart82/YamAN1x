@@ -1,47 +1,23 @@
 # Bounded PKS payload path observations
 
-## Caller sites for the immediate RAM writer — candidate #261, 2026-11-08
+## Firmware control/ramp operand taps — candidate #262
 
-A second nine-second read-only run used the same unchanged 1.04 ROM, passive
-DSP profile, absent DMS board, no MIDI input and no DSP sample execution. The
-locked MAME source commit remained
-`706dbb73281320c54d7c2f16262c1c3786f2be01`; the diagnostic binary SHA-256 was
-`9bec05eb72cf23c2af560caa317ced45a406d439eafaeb51a7387b1c0fcc3b37`. The ROM
-SHA-256 remained
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+A local MAME binary was built with read-only taps using the explicit macOS OSD target (`OSD=mac`), which does not require SDL3. Two identical nine-second passive/default-input runs were made from the fixed MAME source commit `706dbb73281320c54d7c2f16262c1c3786f2be01`. The executable SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`; the unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`. Each trace contained 65,370 lines and the files were byte-identical.
 
-The second run reproduced the six distinct writes to `234ACC–234AD1` at the
-`0039A4` writer boundary, with indexes 0–5 and low-byte values
-`E0 00 20 E0 00 00`. The trace logger emitted two CPU-state observations per
-write; all 12 observations and their preceding 128-fetch histories matched
-the earlier run. Parsed run fields other than the temporary work-directory
-command, executable hash and trace-line count were identical.
+| Tap range (aligned word base) | Reads | Writes | Observed result |
+| --- | ---: | ---: | --- |
+| `237202`, `237204` | 478 each | 4, 5 | Firmware RAM byte-lane accesses; masks identify the lane |
+| `2349E8` | 480 | 483 | All observed reads returned `0000` in this profile |
 
-The fetch histories associate indexes 0–2 with a preceding call at last fetch
-`002A66`, and indexes 3–5 with `001FF2`. The static disassembly identifies
-both call instructions entering the common routine at `003AA4`. Before the
-`001FF2` call, the decoded path reads `237205` into R2L, derives R1L, and sets
-R0L to `E0`. Before `002A66`, the decoded path reads `2349EA`, uses R2L to
-derive R1L, and sets R0L to `E0`. At the common writer, only R1L is stored to
-the source buffer. These instruction and fetch observations narrow the next
-read-only probe; they do not establish what the control values mean, where
-they originate, whether either path consumes ADC results, or any PKS response.
+At `237204`, the low-byte read lane (`mask=00ff`) is consistent with the static disassembly `mov.b @h'237205,r2l` at `001fd2`; the read callback reports `pc=001fd8`. This is the CPU's reported post-fetch PC, not an instruction-start address. Reads also occur at other callback PCs; no semantic interpretation is claimed. Counts include startup accesses and do not imply one specific runtime phase.
 
-This remains one passive/default-input profile and one nine-second horizon;
-no alternate-input or hardware comparison was run. An attempted rebuild to add
-control-memory taps did not complete because this environment lacks
-`SDL3/SDL.h`. No results from those unbuilt taps are claimed. Next: observe
-reads and writes around `237205` and `2349EA` after resolving the local MAME
-build dependency or selecting a supported build configuration. No replies
-were injected; boot, MIDI and audio remain unaccepted, and VOP3 sample
-counters remain zero.
+Both run metadata objects matched. The profile used passive DSP, no DMS board, no MIDI input and no DSP sample execution. VOP3 samples stayed at zero and complete boot remained false. The taps log address/data/mask/PC and do not alter read data. This is limited evidence about RAM accesses in one profile, not evidence of ADC arithmetic, PKS behavior, hardware agreement or audio. Next: capture bounded CPU register context or instruction-fetch history around these reads and their preceding writes to follow value provenance.
 
-This documentation candidate is tracked by open, unmerged PR #261. Its initial
-head `c491716046b747e7723155ca0ad9000da5e10f90` passed three required platform
-checks and initial-decode MSan; the current status-ledger update awaits checks
-on its new head. No automatic review result or quota evidence was recorded;
-the active ruleset requires zero approvals and there are no unresolved review
-threads.
+## PKS writer caller sites — merged in #261
+
+PR [#261](https://github.com/RobCZart82/yaman1x/pull/261) merged at `9c89f291a630c86b959c3e173cfabbae1b54164d` from head `f3ce99d10fe34f33e668cfad3c2a62d3c03cba84`. All four PR-head checks passed (ROM-free CI `42512461512`, MSan `42512461563`); all four required main checks passed on the merge SHA (ROM-free CI `42515701366`, MSan `42515701585`). The active ruleset required zero approvals and resolved review threads. No reviews, comments or threads were recorded; no automatic-review outcome or quota evidence is claimed. Squash merge used the checked head without bypass.
+
+The earlier candidate observation reproduced six writes from R1L to `234ACC–234AD1` through the routine at `0039A4`, associated with calls at `002A66` and `001FF2`. This narrowed the operand reads to inspect but did not identify their meaning. The historical report said the follow-up taps were not built due to SDL3; the explicit `OSD=mac` build resolved that local issue and the results above supersede the limitation.
 
 ## Register-fed writer source RAM — merged in #260, 2026-11-08
 
