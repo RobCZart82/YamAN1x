@@ -1,17 +1,14 @@
 # Bounded PKS payload path observations
 
-## Firmware control/ramp operand taps — candidate #262
+## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
-A local MAME binary was built with read-only taps using the explicit macOS OSD target (`OSD=mac`), which does not require SDL3. Two identical nine-second passive/default-input runs were made from the fixed MAME source commit `706dbb73281320c54d7c2f16262c1c3786f2be01`. The executable SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`; the unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`. Each trace contained 65,370 lines and the files were byte-identical.
+A local MAME binary with read-only taps was built using the explicit macOS OSD target (`OSD=mac`); SDL3 was not required. Two identical nine-second passive/default-input runs at the locked source commit `706dbb73281320c54d7c2f16262c1c3786f2be01` produced byte-identical traces, each 65,370 lines. The unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the diagnostic binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`.
 
-| Tap range (aligned word base) | Reads | Writes | Observed result |
-| --- | ---: | ---: | --- |
-| `237202`, `237204` | 478 each | 4, 5 | Firmware RAM byte-lane accesses; masks identify the lane |
-| `2349E8` | 480 | 483 | All observed reads returned `0000` in this profile |
+The taps observed 956 reads across aligned word bases `237202` and `237204` (478 each), nine writes across those bases, and 480 reads plus 483 writes at `2349E8`. Reads at `2349E8` returned zero in this profile. At base `237204`, the low-byte read lane (`mask=00ff`) is consistent with the static disassembly `mov.b @h'237205,r2l` at `001fd2`, with the callback reporting `pc=001fd8`. Callback PC is the H8 CPU's reported post-fetch PC, not an instruction-start address. These are RAM address/lane observations only; they do not establish what the bytes mean or whether they are ADC/PKS inputs.
 
-At `237204`, the low-byte read lane (`mask=00ff`) is consistent with the static disassembly `mov.b @h'237205,r2l` at `001fd2`; the read callback reports `pc=001fd8`. This is the CPU's reported post-fetch PC, not an instruction-start address. Reads also occur at other callback PCs; no semantic interpretation is claimed. Counts include startup accesses and do not imply one specific runtime phase.
+Both run metadata objects matched. The profile used passive DSP, no DMS board, no MIDI input and no DSP sample execution. VOP3 samples stayed at zero and complete boot remained false. The tap callbacks log address/data/mask/PC and do not modify read data. This is limited evidence from one profile and horizon; no alternate-input or hardware comparison was run. It does not establish ADC arithmetic, PKS behavior, hardware agreement or audio. Next: capture bounded CPU context or instruction-fetch history around these operand accesses and their preceding writes to follow value provenance.
 
-Both run metadata objects matched. The profile used passive DSP, no DMS board, no MIDI input and no DSP sample execution. VOP3 samples stayed at zero and complete boot remained false. The taps log address/data/mask/PC and do not alter read data. This is limited evidence about RAM accesses in one profile, not evidence of ADC arithmetic, PKS behavior, hardware agreement or audio. Next: capture bounded CPU register context or instruction-fetch history around these reads and their preceding writes to follow value provenance.
+PR [#262](https://github.com/RobCZart82/yaman1x/pull/262) merged at `1cdeb8f7aa629aa969beae9cce55c9292502522a` from head `53c91d5855aded332c4bd457acd766e143eb800f` on 2026-11-09T06:17:57Z. All four PR-head checks passed (ROM-free CI `42520377872`, initial-decode MSan `42520377977`); all four required main checks passed on the merge commit (ROM-free CI `42572182568`, MSan `42572182585`). The active ruleset required zero approvals and resolved review threads. No reviews, comments or threads were recorded; no automatic-review outcome or quota evidence is claimed. Squash merge used the verified head without bypass.
 
 ## PKS writer caller sites — merged in #261
 

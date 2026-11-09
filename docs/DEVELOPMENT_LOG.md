@@ -12,9 +12,15 @@ head without bypass. Main CI passed on the merge SHA: ROM-free CI run
 `42503526701` (Linux, macOS, Windows, ASan/UBSan) and initial-decode MSan run
 `42503526582`.
 
-## PKS control and ramp RAM reads — candidate #262, 2026-11-08
+## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
-A local MAME build with read-only taps completed using explicit `OSD=mac`; SDL3 was not required. Two nine-second passive/default-input runs at fixed source `706dbb73281320c54d7c2f16262c1c3786f2be01` produced identical 65,370-line traces and identical run metadata. The ROM SHA-256 remained `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`. Counts: 956 reads and 9 writes across control word bases `237202` and `237204`; 480 reads and 483 writes at `2349E8`, where reads returned zero. Taps were read-only. Full boot remained false, MIDI and DMS were absent, DSP sample execution was disabled and VOP3 samples stayed zero. This does not assert ADC/PKS meaning or hardware agreement. Details and limits are in [pks-payload-path.md](pks-payload-path.md).
+A local MAME binary with read-only taps was built using the explicit macOS OSD target (`OSD=mac`); SDL3 was not required. Two identical nine-second passive/default-input runs at the locked source commit `706dbb73281320c54d7c2f16262c1c3786f2be01` produced byte-identical traces, each 65,370 lines. The unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the diagnostic binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`.
+
+The taps observed 956 reads across aligned word bases `237202` and `237204` (478 each), nine writes across those bases, and 480 reads plus 483 writes at `2349E8`. Reads at `2349E8` returned zero in this profile. At base `237204`, the low-byte read lane (`mask=00ff`) is consistent with the static disassembly `mov.b @h'237205,r2l` at `001fd2`, with the callback reporting `pc=001fd8`. Callback PC is the H8 CPU's reported post-fetch PC, not an instruction-start address. These are RAM address/lane observations only; they do not establish what the bytes mean or whether they are ADC/PKS inputs.
+
+Both run metadata objects matched. The profile used passive DSP, no DMS board, no MIDI input and no DSP sample execution. VOP3 samples stayed at zero and complete boot remained false. The tap callbacks log address/data/mask/PC and do not modify read data. This is limited evidence from one profile and horizon; no alternate-input or hardware comparison was run. It does not establish ADC arithmetic, PKS behavior, hardware agreement or audio. Next: capture bounded CPU context or instruction-fetch history around these operand accesses and their preceding writes to follow value provenance.
+
+PR [#262](https://github.com/RobCZart82/yaman1x/pull/262) merged at `1cdeb8f7aa629aa969beae9cce55c9292502522a` from head `53c91d5855aded332c4bd457acd766e143eb800f` on 2026-11-09T06:17:57Z. All four PR-head checks passed (ROM-free CI `42520377872`, initial-decode MSan `42520377977`); all four required main checks passed on the merge commit (ROM-free CI `42572182568`, MSan `42572182585`). The active ruleset required zero approvals and resolved review threads. No reviews, comments or threads were recorded; no automatic-review outcome or quota evidence is claimed. Squash merge used the verified head without bypass.
 
 ## PKS writer caller sites — merged in #261, 2026-11-08
 

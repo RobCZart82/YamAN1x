@@ -33,13 +33,13 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current firmware diagnostic — 2026-11-08
+## Current firmware diagnostic — 2026-11-09
 
-Merged [#261](https://github.com/RobCZart82/yaman1x/pull/261) documented two caller paths into the PKS source-buffer writer. The next read-only MAME candidate, [#262](https://github.com/RobCZart82/yaman1x/pull/262), adds observations of firmware RAM operands at `237205` and `2349EA`: two nine-second traces match byte-for-byte. This narrows the next value-provenance probe, but does not prove ADC arithmetic, PKS response, hardware fidelity, a complete boot or audio. The new taps are read-only, and the explicitly selected macOS MAME target built successfully without SDL3. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
+Merged [#262](https://github.com/RobCZart82/yaman1x/pull/262) adds read-only observations of firmware RAM word bases `237202`, `237204` and `2349E8` to the bounded PKS source-path investigation. Two nine-second passive/default-input MAME runs at a pinned source revision produced identical traces. This narrows a future value-provenance probe; it does not establish ADC arithmetic, PKS behavior, hardware fidelity, complete boot or audio. The taps leave read values unchanged. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
 
-## Current verified status — 2026-11-08
+## Current verified status — 2026-11-09
 
-Current `main` is `9c89f291a630c86b959c3e173cfabbae1b54164d` (merged #261). All four required checks passed on that merge commit: [ROM-free CI](https://github.com/RobCZart82/yaman1x/actions/runs/42515701366) and [initial-decode MSan](https://github.com/RobCZart82/yaman1x/actions/runs/42515701585). The active ruleset requires zero approvals and resolved review threads; #261 had no recorded reviews, comments or threads, so no automatic review result or quota issue is claimed. Open candidate #262 is a documentation/evidence increment; its checks must pass on its exact current head before merge.
+Current `main` is `1cdeb8f7aa629aa969beae9cce55c9292502522a` (#262). All four PR-head checks passed (ROM-free CI run `42520377872`, initial-decode MSan `42520377977`); all four required checks passed on the merge commit (ROM-free CI `42572182568`, MSan `42572182585`). The active ruleset requires zero approvals and resolved review threads. #262 had no reviews, comments or threads recorded, so no automatic-review result or quota issue is claimed. The merge used the checked head without bypass.
 
 The suite defines **134 CTest groups and 103 Python cases**.
 
