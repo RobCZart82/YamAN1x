@@ -5052,16 +5052,16 @@
   ],
   "active_change": {
     "branch": "docs/reconcile-pks-context-merge",
-    "status": "candidate_not_published",
+    "status": "candidate_published",
     "base_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
     "scope": "Reconcile README, status, first-sound plan, development log and structured ledger with the verified #264 squash merge, exact-head CI/review evidence and completed main checks; no runtime changes.",
     "repository_audit": "pass",
     "ledger_json_validation": "pass",
-    "pr": null,
+    "pr": 265,
     "head_commit": null,
-    "remote_ci": "not_applicable_candidate_not_published",
-    "automatic_review": "not applicable; PR not opened",
-    "review_evidence": "not applicable; PR not opened",
+    "remote_ci": "pending_after_ledger_update",
+    "automatic_review": "Current Codex review summary completed without findings on previous PR head cc8b736430386cb1d219135d3a0762db0cf73312; updated head review pending.",
+    "review_evidence": "No GitHub review objects or threads on current PR so far; previous-head review summary is not treated as current-head approval. Active ruleset requires zero approvals and resolved review threads; no quota evidence.",
     "hardware_validation": "not performed; documentation-only change"
   },
   "pending_changes": []
