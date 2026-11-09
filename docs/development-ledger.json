@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-09",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "1cdeb8f7aa629aa969beae9cce55c9292502522a",
+  "baseline_commit": "7802b8b310529562604857e8ee7fcab977401f20",
   "entries": [
     {
       "pr": 6,
@@ -4949,8 +4949,89 @@
         42572182568,
         42572182585
       ]
+    },
+    {
+      "branch": "docs/reconcile-pks-operand-merge",
+      "status": "merged",
+      "base_commit": "1cdeb8f7aa629aa969beae9cce55c9292502522a",
+      "scope": "Reconcile current PKS findings, test totals, merge and review state in README/status/plan/ledger documentation; no runtime changes.",
+      "pr": 263,
+      "head_commit": "5c18c959e11a09cc0ce7623929e17fec358af773",
+      "remote_ci": "all_required_success",
+      "ci_runs": [
+        42634717942,
+        42634718124
+      ],
+      "automatic_review": "Codex review summary completed without findings on exact PR head",
+      "review_evidence": "Active ruleset requires zero approvals and resolved threads; one Codex summary comment; zero GitHub review objects and zero review threads; no quota evidence.",
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "merge_commit": "7802b8b310529562604857e8ee7fcab977401f20",
+      "merged_at_utc": "2026-11-09T15:03:12Z",
+      "main_ci": "all_required_success",
+      "main_ci_runs": [
+        42640712610,
+        42640713034
+      ]
     }
   ],
-  "active_change": null,
+  "active_change": {
+    "branch": "research/pks-operand-context",
+    "status": "candidate_not_published",
+    "base_commit": "7802b8b310529562604857e8ee7fcab977401f20",
+    "scope": "Add a bounded read-only observer for CPU PC/time/CCR/ER0-ER7 at three previously observed PKS operand RAM word bases; add parser/tests, MAME patch lock and reviewed source-attribution inventory record; publish bounded local evidence and update current development docs.",
+    "seconds_per_run": 9,
+    "local_mame_runs": 3,
+    "instrumented_profile_runs": 2,
+    "instrumented_traces_byte_identical": true,
+    "instrumented_trace_sha256": "8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e",
+    "instrumented_trace_lines": 57261,
+    "context_events_per_run": 1928,
+    "context_dropped": 0,
+    "events_by_word_base": {
+      "2349E8": {
+        "R": 480,
+        "W": 483
+      },
+      "237202": {
+        "R": 478,
+        "W": 4
+      },
+      "237204": {
+        "R": 478,
+        "W": 5
+      }
+    },
+    "baseline_nontrace_fields_identical": true,
+    "baseline_compared_fields": 26,
+    "baseline_trace_lines": 55331,
+    "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "instrumented_mame_binary_sha256": "0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768",
+    "baseline_mame_binary_sha256": "6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "rom_hash_unchanged": true,
+    "rom_contents_in_repository": false,
+    "mame_build": "success; explicit OSD=mac; no SDL3 required",
+    "targeted_cxx_test": "pass",
+    "targeted_python_tests": "6/6 pass",
+    "python_suite": "109 pass",
+    "repository_audit": "pass",
+    "full_ctest": "137/137 pass, 52.09s; first run failed solely because candidate research patch was absent from attribution inventory, then corrected and rerun",
+    "attribution_audit": "pass; legal clearance and binary distribution remain unverified",
+    "complete_an1x_boot": false,
+    "vop3_samples": 0,
+    "midi_accepted": false,
+    "audio_accepted": false,
+    "adc_or_pks_semantics_proven": false,
+    "hardware_agreement_proven": false,
+    "next_step": "PR validation: check required platform CI and all triggered workflows on exact head, inspect Codex review summary and unresolved threads, merge only on all clear gates, then wait for main checks before continuing.",
+    "pr": null,
+    "head_commit": null,
+    "remote_ci": "not_applicable_candidate_not_published",
+    "automatic_review": "not applicable; PR not opened",
+    "review_evidence": "not applicable; PR not opened",
+    "hardware_validation": "not performed; limited passive profile only"
+  },
   "pending_changes": []
 }

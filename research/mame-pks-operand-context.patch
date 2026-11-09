@@ -1,0 +1,142 @@
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -11,6 +11,7 @@
+ *******************************************************************************/
+ 
+ #include "emu.h"
++#include "yamanix_pks_operand_context_trace.h"
+ #include "yamanix_sci_access_trace.h"
+ #include "bus/midi/midi.h"
+ #include "cpu/h8/h83002.h"
+@@ -61,8 +62,11 @@
+     TIMER_CALLBACK_MEMBER(trace_tick);
+     void sci_state(unsigned tick);
+     void sci_access(unsigned channel, char op, offs_t address, u16 data, u16 mask);
++    void pks_operand_context(char op, offs_t address, u16 data, u16 mask);
+     yamanix::SciAccessTrace m_sci_access_trace;
++    yamanix::PksOperandContextTrace m_pks_operand_context_trace;
+     memory_passthrough_handler m_read_trace, m_write_trace, m_dms_flag_trace;
++    memory_passthrough_handler m_pks_context_read_trace, m_pks_context_write_trace;
+     std::set<offs_t> m_reads, m_writes;
+     unsigned m_ticks = 0;
+     u64 m_dsp_events = 0, m_dsp_dropped = 0;
+@@ -121,6 +125,7 @@
+     auto &space = m_maincpu->space(AS_PROGRAM);
+     space.set_log_unmap(false);
+     logerror("YAMANIX DSP_BEGIN version=1 clock_hz=1000000000 limit=200000\n");
++    logerror("YAMANIX PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
+     machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::dsp_trace_end, this));
+     an1x_dasm_buffer buffer(space);
+     const std::pair<offs_t, offs_t> spans[] = {{0x3f650, 0x3f68a}, {0x565dc, 0x565fc}, {0x56792, 0x567d8}, {0x565dc, 0x56d20}, {0x6c532, 0x6c654}, {0x545e8, 0x546e6}, {0x51400, 0x517c0}, {0x50cc0, 0x51100}};
+@@ -140,6 +145,7 @@
+     m_read_trace = space.install_read_tap(0x300000, 0xffffff, "yamanix_read",
+         [this](offs_t address, u16 &data, u16 mask) {
+             if (machine().side_effects_disabled()) return;
++            pks_operand_context('R', address, data, mask);
+             if (m_bridge && ((address >= 0x440000 && address < 0x440100) || (address >= 0x480000 && address < 0x480100)))
+                 advance_bridge();
+             if (m_contract_enabled && (address == 0x440002 || address == 0x480002)) {
+@@ -157,6 +163,7 @@
+     m_write_trace = space.install_write_tap(0x300000, 0xffffff, "yamanix_write",
+         [this](offs_t address, u16 &data, u16 mask) {
+             if (machine().side_effects_disabled()) return;
++            pks_operand_context('W', address, data, mask);
+             if (m_contract_enabled && (address == 0x440002 || address == 0x480002))
+                 if (!m_upload_control[address == 0x480002].write(data, mask))
+                     fatalerror("Unsupported experimental DSP control write %04x/%04x", data, mask);
+@@ -169,6 +176,14 @@
+             if (m_writes.size() < 512 && m_writes.insert(address).second)
+                 logerror("YAMANIX WRITE pc=%06x address=%06x data=%04x mask=%04x\n", m_maincpu->pc(), address, data, mask);
+         });
++    m_pks_context_read_trace = space.install_read_tap(0x2349e8, 0x237205, "yamanix_pks_context_read",
++        [this](offs_t address, u16 &data, u16 mask) {
++            if (!machine().side_effects_disabled()) pks_operand_context('R', address, data, mask);
++        });
++    m_pks_context_write_trace = space.install_write_tap(0x2349e8, 0x237205, "yamanix_pks_context_write",
++        [this](offs_t address, u16 &data, u16 mask) {
++            if (!machine().side_effects_disabled()) pks_operand_context('W', address, data, mask);
++        });
+     space.install_read_tap(0xffffb0, 0xffffb5, "yamanix_sci0_read",
+         [this](offs_t address, u16 &data, u16 mask) {
+             if (machine().side_effects_disabled()) return;
+@@ -208,6 +223,25 @@
+         });
+     timer->adjust(attotime::zero, 0, attotime::from_msec(10));
+     logerror("YAMANIX research harness: H8 active; LC7985 connected; VOP3/MEG integration incomplete\n");
++}
++
++void an1x_state::pks_operand_context(char op, offs_t address, u16 data, u16 mask)
++{
++    yamanix::PksOperandContextTrace::Registers er;
++    for (unsigned i = 0; i < er.size(); ++i)
++        er[i] = u32(m_maincpu->state_int(h8_device::H8_R0 + i));
++
++    m_pks_operand_context_trace.observe(op, address, data, mask, m_maincpu->pc(),
++        machine().time().as_ticks(1000000000), er,
++        u8(m_maincpu->state_int(h8_device::H8_CCR)),
++        [this](uint64_t seq, char op, uint32_t address, uint16_t data, uint16_t mask,
++           uint32_t pc, uint64_t time_ns,
++           const yamanix::PksOperandContextTrace::Registers &er, uint8_t ccr) {
++            logerror("YAMANIX PKS_CONTEXT seq=%llu op=%c address=%06x data=%04x mask=%04x pc=%06x time_ns=%llu ccr=%02x er0=%08x er1=%08x er2=%08x er3=%08x er4=%08x er5=%08x er6=%08x er7=%08x\n",
++                (unsigned long long)seq, op, address, data, mask, pc,
++                (unsigned long long)time_ns, ccr, er[0], er[1], er[2], er[3],
++                er[4], er[5], er[6], er[7]);
++        });
+ }
+ 
+ TIMER_CALLBACK_MEMBER(an1x_state::trace_tick)
+@@ -269,6 +303,9 @@
+ 
+ void an1x_state::dsp_trace_end()
+ {
++    logerror("YAMANIX PKS_CONTEXT_END events=%llu dropped=%llu hardware_validated=0\n",
++        (unsigned long long)m_pks_operand_context_trace.events(),
++        (unsigned long long)m_pks_operand_context_trace.dropped());
+     logerror("YAMANIX SCI_ACCESS_END events=%llu dropped=%llu hardware_validated=0\n",
+         (unsigned long long)m_sci_access_trace.events(), (unsigned long long)m_sci_access_trace.dropped());
+     logerror("YAMANIX MIDI_RX transitions=%llu hardware_validated=0\n", (unsigned long long)m_midi_rx_edges);
+--- /dev/null
++++ b/src/mame/yamaha/yamanix_pks_operand_context_trace.h
+@@ -0,0 +1,42 @@
++#ifndef YAMANIX_PKS_OPERAND_CONTEXT_TRACE_H
++#define YAMANIX_PKS_OPERAND_CONTEXT_TRACE_H
++
++#include <array>
++#include <cstdint>
++
++namespace yamanix {
++
++// Bounded, read-only CPU snapshots around the three RAM word bases found in
++// the passive PKS operand investigation. This records observations only.
++class PksOperandContextTrace {
++public:
++    static constexpr uint64_t capacity = 4096;
++    using Registers = std::array<uint32_t, 8>;
++
++    uint64_t events() const { return m_events; }
++    uint64_t dropped() const { return m_dropped; }
++
++    template<class Emit>
++    void observe(char op, uint32_t address, uint16_t data, uint16_t mask,
++                 uint32_t pc, uint64_t time_ns, const Registers &er,
++                 uint8_t ccr, Emit emit) {
++        if ((op != 'R' && op != 'W') ||
++            (address != 0x237202 && address != 0x237204 && address != 0x2349e8))
++            return;
++
++        const uint64_t seq = m_events++;
++        if (seq >= capacity) {
++            ++m_dropped;
++            return;
++        }
++        emit(seq, op, address, data, mask, pc, time_ns, er, ccr);
++    }
++
++private:
++    uint64_t m_events = 0;
++    uint64_t m_dropped = 0;
++};
++
++}
++
++#endif

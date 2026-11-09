@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **134 CTest groups and 103 Python cases**. Tests generate synthetic
+The source-only build defines **137 CTest groups and 109 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -35,19 +35,27 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Current firmware diagnostic — 2026-11-09
 
-Merged [#262](https://github.com/RobCZart82/yaman1x/pull/262) adds read-only observations of firmware RAM word bases `237202`, `237204` and `2349E8` to the bounded PKS source-path investigation. Two nine-second passive/default-input MAME runs at a pinned source revision produced identical traces. This narrows a future value-provenance probe; it does not establish ADC arithmetic, PKS behavior, hardware fidelity, complete boot or audio. The taps leave read values unchanged. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
+## PKS operand CPU context — local candidate, not merged
+
+A bounded, read-only MAME observer now captures the post-fetch PC, virtual time, CCR and ER0–ER7 when firmware reads/writes the three previously observed aligned RAM word bases `237202`, `237204` and `2349E8`. The observer has a 4,096-event cap, reports overflow, filters all other addresses and does not change bus values. It was built against the pinned MAME source `706dbb73281320c54d7c2f16262c1c3786f2be01`; instrumented binary SHA-256 `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`. The matching uninstrumented build hash is `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`.
+
+Two nine-second passive/default-input runs produced byte-identical context traces (1,928 events; SHA-256 `8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e` each). Per run, `2349E8` had 480 reads/483 writes, `237202` had 478 reads/4 writes, and `237204` had 478 reads/5 writes. All events fit within the cap without drops. The baseline and instrumented `run.json` matched on all 26 non-trace fields; only command path, binary hash and trace-line count were excluded. ROM identity remained AN1x 1.04 SHA-256 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; no ROM contents were changed or added to the repository.
+
+This is limited repeatability evidence for one nine-second passive profile. The callback PC remains the CPU-reported post-fetch PC, not an instruction-start PC. The run does not establish operand meaning, ADC arithmetic, PKS behavior, complete boot, MIDI acceptance, hardware agreement or sound. VOP3 samples remained zero. Next: use these bounded snapshots to follow the preceding value writes and their instruction context, retaining independent value/address/flag/timing and continuation checks.
+
+The prior bounded RAM observations were merged in [#262](https://github.com/RobCZart82/yaman1x/pull/262). This candidate extends that work without asserting data semantics. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
 
 ## Current verified status — 2026-11-09
 
-Current `main` is `1cdeb8f7aa629aa969beae9cce55c9292502522a` (#262). All four PR-head checks passed (ROM-free CI run `42520377872`, initial-decode MSan `42520377977`); all four required checks passed on the merge commit (ROM-free CI `42572182568`, MSan `42572182585`). The active ruleset requires zero approvals and resolved review threads. #262 had no reviews, comments or threads recorded, so no automatic-review result or quota issue is claimed. The merge used the checked head without bypass.
+Current `main` is `7802b8b310529562604857e8ee7fcab977401f20` (#263). #263 reconciled the documentation for #262. Its PR head `5c18c959e11a09cc0ce7623929e17fec358af773` passed ROM-free CI run `42634717942` (Ubuntu, macOS, Windows) and initial-decode MSan run `42634718124`; the merge commit passed ROM-free CI `42640712610` and MSan `42640713034`. The active ruleset requires zero approvals and resolved review threads. Codex’s review-summary comment records completed code review without findings on the exact PR head; there were no GitHub review objects or threads. Squash merge used the checked head without bypass.
 
-The suite defines **134 CTest groups and 103 Python cases**.
+The suite defines **137 CTest groups and 109 Python cases**.
 
 Latest merged runtime fix before #260: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
 `d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
 Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
 
-The suite defines **134 CTest groups and 103 Python cases**.
+The suite then defined **134 CTest groups and 103 Python cases**.
 [Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
 [MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
 [MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686368).

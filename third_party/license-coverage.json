@@ -1600,6 +1600,10 @@
         {
           "path": "research/mame-upload-control-experiment.patch",
           "required_notices": []
+        },
+        {
+          "path": "research/mame-pks-operand-context.patch",
+          "required_notices": []
         }
       ],
       "license_files": [
