@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-09",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "7802b8b310529562604857e8ee7fcab977401f20",
+  "baseline_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
   "entries": [
     {
       "pr": 6,
@@ -4974,64 +4974,95 @@
         42640712610,
         42640713034
       ]
+    },
+    {
+      "branch": "research/pks-operand-context",
+      "status": "merged",
+      "base_commit": "7802b8b310529562604857e8ee7fcab977401f20",
+      "scope": "Add a bounded read-only observer for CPU PC/time/CCR/ER0-ER7 at three previously observed PKS operand RAM word bases; add parser/tests, MAME patch lock and reviewed source-attribution inventory record; publish bounded local evidence and update current development docs.",
+      "seconds_per_run": 9,
+      "local_mame_runs": 3,
+      "instrumented_profile_runs": 2,
+      "instrumented_traces_byte_identical": true,
+      "instrumented_trace_sha256": "8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e",
+      "instrumented_trace_lines": 57261,
+      "context_events_per_run": 1928,
+      "context_dropped": 0,
+      "events_by_word_base": {
+        "2349E8": {
+          "R": 480,
+          "W": 483
+        },
+        "237202": {
+          "R": 478,
+          "W": 4
+        },
+        "237204": {
+          "R": 478,
+          "W": 5
+        }
+      },
+      "baseline_nontrace_fields_identical": true,
+      "baseline_compared_fields": 26,
+      "baseline_trace_lines": 55331,
+      "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "instrumented_mame_binary_sha256": "0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768",
+      "baseline_mame_binary_sha256": "6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff",
+      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "rom_hash_unchanged": true,
+      "rom_contents_in_repository": false,
+      "mame_build": "success; explicit OSD=mac; no SDL3 required",
+      "targeted_cxx_test": "pass",
+      "targeted_python_tests": "6/6 pass",
+      "python_suite": "109 pass",
+      "repository_audit": "pass",
+      "full_ctest": "137/137 pass, 52.09s; first run failed solely because candidate research patch was absent from attribution inventory, then corrected and rerun",
+      "attribution_audit": "pass; legal clearance and binary distribution remain unverified",
+      "complete_an1x_boot": false,
+      "vop3_samples": 0,
+      "midi_accepted": false,
+      "audio_accepted": false,
+      "adc_or_pks_semantics_proven": false,
+      "hardware_agreement_proven": false,
+      "next_step": "Reconcile this merge record in the current documentation-only candidate; after it merges and its main checks pass, continue bounded PKS value/address/flag/timing/continuation analysis without claiming hardware acceptance or audio.",
+      "pr": 264,
+      "head_commit": "1092df38cb5278e3db50ef29ac6c99fa621c85ce",
+      "remote_ci": "all_required_success",
+      "automatic_review": "Codex review summary completed without findings on exact PR head",
+      "review_evidence": "Active ruleset required zero approvals and resolved threads; one Codex review summary comment on the exact head; zero GitHub review objects and zero review threads; no quota evidence.",
+      "hardware_validation": "not performed; limited passive profile only",
+      "ci_runs": [
+        42652447163,
+        42652447223,
+        42652447044
+      ],
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "merge_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
+      "merged_at_utc": "2026-11-09T17:35:18Z",
+      "main_ci": "all_required_success",
+      "main_ci_runs": [
+        42666087454,
+        42666087385,
+        42666087403
+      ],
+      "infrastructure_retry": "Two macOS hosted-runner acquisition attempts were explicitly annotated as capacity/infrastructure failures; after each workflow completed, only the failed job was retried, and the third attempt passed."
     }
   ],
   "active_change": {
-    "branch": "research/pks-operand-context",
-    "status": "candidate_not_published",
-    "base_commit": "7802b8b310529562604857e8ee7fcab977401f20",
-    "scope": "Add a bounded read-only observer for CPU PC/time/CCR/ER0-ER7 at three previously observed PKS operand RAM word bases; add parser/tests, MAME patch lock and reviewed source-attribution inventory record; publish bounded local evidence and update current development docs.",
-    "seconds_per_run": 9,
-    "local_mame_runs": 3,
-    "instrumented_profile_runs": 2,
-    "instrumented_traces_byte_identical": true,
-    "instrumented_trace_sha256": "8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e",
-    "instrumented_trace_lines": 57261,
-    "context_events_per_run": 1928,
-    "context_dropped": 0,
-    "events_by_word_base": {
-      "2349E8": {
-        "R": 480,
-        "W": 483
-      },
-      "237202": {
-        "R": 478,
-        "W": 4
-      },
-      "237204": {
-        "R": 478,
-        "W": 5
-      }
-    },
-    "baseline_nontrace_fields_identical": true,
-    "baseline_compared_fields": 26,
-    "baseline_trace_lines": 55331,
-    "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "instrumented_mame_binary_sha256": "0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768",
-    "baseline_mame_binary_sha256": "6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff",
-    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
-    "rom_hash_unchanged": true,
-    "rom_contents_in_repository": false,
-    "mame_build": "success; explicit OSD=mac; no SDL3 required",
-    "targeted_cxx_test": "pass",
-    "targeted_python_tests": "6/6 pass",
-    "python_suite": "109 pass",
+    "branch": "docs/reconcile-pks-context-merge",
+    "status": "candidate_published",
+    "base_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
+    "scope": "Reconcile README, status, first-sound plan, development log and structured ledger with the verified #264 squash merge, exact-head CI/review evidence and completed main checks; no runtime changes.",
     "repository_audit": "pass",
-    "full_ctest": "137/137 pass, 52.09s; first run failed solely because candidate research patch was absent from attribution inventory, then corrected and rerun",
-    "attribution_audit": "pass; legal clearance and binary distribution remain unverified",
-    "complete_an1x_boot": false,
-    "vop3_samples": 0,
-    "midi_accepted": false,
-    "audio_accepted": false,
-    "adc_or_pks_semantics_proven": false,
-    "hardware_agreement_proven": false,
-    "next_step": "PR validation: check required platform CI and all triggered workflows on exact head, inspect Codex review summary and unresolved threads, merge only on all clear gates, then wait for main checks before continuing.",
-    "pr": null,
+    "ledger_json_validation": "pass",
+    "pr": 265,
     "head_commit": null,
-    "remote_ci": "not_applicable_candidate_not_published",
-    "automatic_review": "not applicable; PR not opened",
-    "review_evidence": "not applicable; PR not opened",
-    "hardware_validation": "not performed; limited passive profile only"
+    "remote_ci": "pending_after_ledger_update",
+    "automatic_review": "Current Codex review summary completed without findings on previous PR head cc8b736430386cb1d219135d3a0762db0cf73312; updated head review pending.",
+    "review_evidence": "No GitHub review objects or threads on current PR so far; previous-head review summary is not treated as current-head approval. Active ruleset requires zero approvals and resolved review threads; no quota evidence.",
+    "hardware_validation": "not performed; documentation-only change"
   },
   "pending_changes": []
 }
