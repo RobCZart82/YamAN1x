@@ -1,10 +1,16 @@
 """Synthetic CPU-context logs; no firmware or private traces."""
+import copy
+import json
+import subprocess
+import tempfile
 import sys
 from pathlib import Path
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from pks_operand_context_audit import BEGIN, compare_run_manifests, parse_pks_operand_context
+from pks_operand_context_audit import (BEGIN, MANIFEST_TYPES, NULLABLE_FIELDS,
+                                       compare_run_manifests, parse_pks_operand_context)
+from rom_inspect import SIZE, CRC32, SHA1
 
 
 def event(seq, time_ns, address="237204", op="R", data="1234", mask="00ff"):
@@ -16,6 +22,21 @@ def event(seq, time_ns, address="237204", op="R", data="1234", mask="00ff"):
 def capture(events):
     return [f"YAMANIX {BEGIN}", *events,
             f"YAMANIX PKS_CONTEXT_END events={len(events)} dropped=0 hardware_validated=0"]
+
+
+def manifest():
+    # Metadata only;no ROM,bank or private capture is constructed by these tests.
+    return {"command": ["baseline"], "mame_sha256": "a" * 64, "trace_lines": 10,
+            "rom_identity": {"bytes": SIZE, "crc32": CRC32, "sha1": SHA1,
+                             "sha256": "b" * 64, "matches_known_an1x_104": True},
+            "returncode": 0, "midi_input": None, "dsp_profile": "passive",
+            "dsp_hardware_validated": False, "dms_board": "absent", "vop3_bridge": None,
+            "dsp_sample_execution": False, "dsp_sample_clock": "disabled",
+            "dsp_sample_rate_hz": None, "eg_readback": "zero", "live_bridge_completed": False,
+            "bridge_sha256": None, "complete_an1x_boot": False, "note": "synthetic metadata",
+            "pc_samples": 5, "unique_sampled_pcs": [256,258], "h8_cpu_progress_observed": True,
+            "read_addresses_observed": 0, "write_addresses_observed": 0,
+            "dsp_mmio_addresses_observed": []}
 
 
 class PksOperandContextAuditTests(unittest.TestCase):
@@ -43,13 +64,79 @@ class PksOperandContextAuditTests(unittest.TestCase):
         self.assertIsNone(parse_pks_operand_context(["YAMANIX PC tick=0 pc=000000"]))
 
     def test_run_comparison_allows_trace_only_deltas(self):
-        baseline = {"command": ["base"], "mame_sha256": "a", "trace_lines": 10,
-                    "rom_identity": {"sha256": "locked"}, "pc_samples": 5}
-        observed = {"command": ["new"], "mame_sha256": "b", "trace_lines": 12,
-                    "rom_identity": {"sha256": "locked"}, "pc_samples": 5}
+        baseline = manifest()
+        observed = copy.deepcopy(baseline)
+        observed.update(command=["instrumented"], mame_sha256="c" * 64, trace_lines=12)
         self.assertEqual(compare_run_manifests(baseline, observed), [])
         observed["pc_samples"] = 6
         self.assertEqual(compare_run_manifests(baseline, observed), ["pc_samples"])
+
+    def test_empty_incomplete_failed_and_mistyped_manifests_are_rejected(self):
+        good = manifest()
+        invalid = [{}, [], None, {"returncode": 0}]
+        for key in MANIFEST_TYPES.keys() | NULLABLE_FIELDS:
+            incomplete = copy.deepcopy(good)
+            del incomplete[key]
+            invalid.append(incomplete)
+        for key, value in (("returncode", 1), ("returncode", False), ("returncode", "0"),
+                           ("h8_cpu_progress_observed", False), ("pc_samples", 0),
+                           ("pc_samples", True), ("rom_identity", {}),
+                           ("mame_sha256", "short"), ("command", []),
+                           ("trace_lines", -1), ("dsp_profile", "unknown"),
+                           ("dsp_sample_execution", True), ("dsp_sample_rate_hz", 48000),
+                           ("vop3_bridge", "missing-evidence"), ("midi_input", {})):
+            bad = copy.deepcopy(good)
+            bad[key] = value
+            invalid.append(bad)
+        for bad in invalid:
+            with self.subTest(manifest=bad):
+                for baseline, observed in ((bad, good), (good, bad), (bad, bad)):
+                    with self.assertRaises(ValueError):
+                        compare_run_manifests(baseline, observed)
+
+    def test_optional_field_absence_is_distinct_from_null(self):
+        baseline, observed = manifest(), manifest()
+        baseline["extra_observation"] = None
+        self.assertEqual(compare_run_manifests(baseline, observed), ["extra_observation"])
+        observed["extra_observation"] = None
+        self.assertEqual(compare_run_manifests(baseline, observed), [])
+
+    def test_complete_experimental_bridge_and_midi_metadata_is_accepted(self):
+        good = manifest()
+        good.update(dsp_profile="firmware-contract", vop3_bridge="synthetic-bridge",
+                    bridge_sha256="d"*64, live_bridge_completed=True,
+                    dsp_sample_clock="assumed-48k", dsp_sample_execution=True,
+                    dsp_sample_rate_hz=48000, eg_readback="an1x-level-experiment",
+                    midi_input={"filename":"synthetic.mid", "bytes":42, "sha256":"e"*64})
+        self.assertEqual(compare_run_manifests(good, copy.deepcopy(good)), [])
+        bad = copy.deepcopy(good)
+        bad["live_bridge_completed"] = False
+        with self.assertRaises(ValueError):
+            compare_run_manifests(good, bad)
+
+    def test_cli_rejects_incomplete_or_failed_metadata_and_accepts_complete_pair(self):
+        tool = Path(__file__).resolve().parents[1] / "tools/pks_operand_context_audit.py"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            baseline, observed = root / "baseline", root / "observed"
+            baseline.mkdir();observed.mkdir()
+            (observed / "trace.log").write_text("\n".join(capture([event(0,10)])),encoding="utf-8")
+            command = [sys.executable, str(tool), str(observed), "--baseline", str(baseline)]
+            failed = manifest();failed["returncode"] = 1
+            incomplete = manifest();del incomplete["dms_board"]
+            for bad in ({}, failed, incomplete, []):
+                for directory in (baseline, observed):
+                    (directory / "run.json").write_text(json.dumps(bad),encoding="utf-8")
+                result = subprocess.run(command,capture_output=True,text=True,timeout=30)
+                self.assertNotEqual(result.returncode,0,result.stdout)
+                self.assertNotIn('"same_nontrace_observations": true',result.stdout)
+            for directory in (baseline, observed):
+                (directory / "run.json").write_text(json.dumps(manifest()),encoding="utf-8")
+            result = subprocess.run(command,capture_output=True,text=True,timeout=30)
+            self.assertEqual(result.returncode,0,result.stderr)
+            comparison = json.loads(result.stdout)["manifest_comparison"]
+            self.assertTrue(comparison["same_nontrace_observations"])
+            self.assertGreater(comparison["compared_fields"],0)
 
     def test_malformed_or_lossy_streams_are_rejected(self):
         valid = capture([event(0, 10), event(1, 20, address="237202", op="W")])

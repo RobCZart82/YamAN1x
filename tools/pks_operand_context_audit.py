@@ -3,6 +3,7 @@ import argparse
 import json
 import re
 from pathlib import Path
+from rom_inspect import SIZE, CRC32, SHA1
 
 BEGIN = "PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0"
 EVENT = re.compile(
@@ -68,11 +69,85 @@ def parse_pks_operand_context(lines):
                 note="Bounded CPU register/CCR snapshots at three observed RAM word bases; no data meaning or hardware agreement established.")
 
 
+MANIFEST_TYPES = {
+    "rom_identity": dict, "command": list, "returncode": int,
+    "dsp_profile": str, "dsp_hardware_validated": bool, "dms_board": str,
+    "dsp_sample_execution": bool, "dsp_sample_clock": str, "eg_readback": str,
+    "live_bridge_completed": bool, "mame_sha256": str, "trace_lines": int,
+    "complete_an1x_boot": bool, "note": str, "pc_samples": int,
+    "unique_sampled_pcs": list, "h8_cpu_progress_observed": bool,
+    "read_addresses_observed": int, "write_addresses_observed": int,
+    "dsp_mmio_addresses_observed": list,
+}
+NULLABLE_FIELDS = {"midi_input", "vop3_bridge", "bridge_sha256", "dsp_sample_rate_hz"}
+SHA256 = re.compile(r"[0-9a-f]{64}\Z")
+
+
+def validate_run_manifest(manifest):
+    """Require a successful run_h8_probe record, without opening local inputs."""
+    def require(condition, message):
+        if not condition:
+            raise ValueError("Invalid probe manifest: " + message)
+
+    require(type(manifest) is dict, "expected an object")
+    require((MANIFEST_TYPES.keys() | NULLABLE_FIELDS) <= manifest.keys(),
+            "required probe fields missing")
+    for key, kind in MANIFEST_TYPES.items():
+        require(type(manifest[key]) is kind, "wrong type for " + key)
+    require(manifest["returncode"] == 0, "run did not exit successfully")
+    require(manifest["h8_cpu_progress_observed"], "no H8 progress observed")
+    identity = manifest["rom_identity"]
+    require(type(identity.get("bytes")) is int and identity["bytes"] == SIZE and
+            identity.get("crc32") == CRC32 and identity.get("sha1") == SHA1 and
+            identity.get("matches_known_an1x_104") is True and
+            type(identity.get("sha256")) is str and SHA256.fullmatch(identity["sha256"]),
+            "missing or unknown ROM identity")
+    require(manifest["command"] and all(type(arg) is str and arg for arg in manifest["command"]),
+            "empty or malformed command")
+    require(SHA256.fullmatch(manifest["mame_sha256"]), "malformed binary hash")
+    for key in ("trace_lines", "pc_samples", "read_addresses_observed", "write_addresses_observed"):
+        require(manifest[key] >= 0, "negative count for " + key)
+    require(manifest["pc_samples"] > 0, "no PC samples")
+    for key in ("unique_sampled_pcs", "dsp_mmio_addresses_observed"):
+        require(all(type(address) is int and 0 <= address <= 0xffffff for address in manifest[key]),
+                "malformed addresses for " + key)
+    require(len(set(manifest["unique_sampled_pcs"]) - {0}) > 1,
+            "PC samples do not establish H8 progress")
+    require(manifest["dsp_profile"] in ("passive", "firmware-contract") and
+            manifest["dms_board"] in ("absent", "installed") and
+            manifest["eg_readback"] in ("zero", "an1x-level-experiment"), "unknown profile")
+    require(manifest["dsp_hardware_validated"] is False, "unverified hardware claim")
+    clock = manifest["dsp_sample_clock"]
+    require(clock in ("disabled", "assumed-48k"), "unknown DSP clock")
+    require(manifest["dsp_sample_execution"] == (clock != "disabled"), "DSP clock/execution mismatch")
+    rate = manifest["dsp_sample_rate_hz"]
+    require(rate is None if clock == "disabled" else type(rate) is int and rate == 48000,
+            "DSP clock/rate mismatch")
+    bridge = manifest["vop3_bridge"]
+    if bridge is None:
+        require(manifest["bridge_sha256"] is None and not manifest["live_bridge_completed"] and
+                clock == "disabled" and manifest["eg_readback"] == "zero", "bridge evidence missing")
+    else:
+        require(type(bridge) is str and bool(bridge) and
+                type(manifest["bridge_sha256"]) is str and SHA256.fullmatch(manifest["bridge_sha256"]) and
+                manifest["live_bridge_completed"] and manifest["dsp_profile"] == "firmware-contract",
+                "incomplete bridge run")
+    midi = manifest["midi_input"]
+    if midi is not None:
+        require(type(midi) is dict and type(midi.get("filename")) is str and bool(midi["filename"]) and
+                type(midi.get("bytes")) is int and midi["bytes"] >= 0 and
+                type(midi.get("sha256")) is str and SHA256.fullmatch(midi["sha256"]),
+                "malformed MIDI identity")
+
+
 def compare_run_manifests(baseline, observed):
-    """Compare all non-trace probe fields while allowing binary/path/line deltas."""
+    """Validate both runs, then compare every non-trace field including presence."""
+    validate_run_manifest(baseline)
+    validate_run_manifest(observed)
     excluded = {"command", "mame_sha256", "trace_lines"}
     keys = (set(baseline) | set(observed)) - excluded
-    return sorted(key for key in keys if baseline.get(key) != observed.get(key))
+    missing = object()
+    return sorted(key for key in keys if baseline.get(key, missing) != observed.get(key, missing))
 
 
 def main():
@@ -91,7 +166,10 @@ def main():
     if args.baseline:
         baseline = json.loads((args.baseline / "run.json").read_text())
         observed = json.loads((args.run / "run.json").read_text())
-        differences = compare_run_manifests(baseline, observed)
+        try:
+            differences = compare_run_manifests(baseline, observed)
+        except ValueError as error:
+            parser.error(str(error))
         if differences:
             parser.error("non-trace run fields changed: " + ", ".join(differences))
         comparison = {"same_nontrace_observations": True,

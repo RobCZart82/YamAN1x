@@ -267,3 +267,18 @@ callers, combining that investigation before another publication step.
 Original MAME remains locked at 706dbb73281320c54d7c2f16262c1c3786f2be01.
 No ROM contents or runtime changes are included. Boot, MIDI and audio
 remain unaccepted; VOP3 sample counters remain zero.
+
+## Run manifest validation — 2026-11-10 audit fix
+
+The context-audit comparison now requires complete run_h8_probe metadata with
+correct field types, known AN1x ROM identity, a zero exit code and observed H8
+progress. Profiles, optional MIDI identity and bridge/clock evidence are checked
+for consistency. Empty, incomplete, failed or mistyped records reject before
+comparison; field absence differs from explicit null for optional extra fields.
+Only command/binary-hash/trace-line deltas retain the existing comparison exception.
+This validates metadata, not authenticity or firmware acceptance, and never opens
+the referenced ROM, MIDI file or bridge. Trace-only parsing without --baseline
+remains available and does not claim a manifest comparison.
+Synthetic helper and CLI tests cover rejection on both sides, complete passive
+and bridge/MIDI profiles, metadata presence, and accepted trace-only deltas.
+Historical complete run observations are retained; they were not rerun here.
