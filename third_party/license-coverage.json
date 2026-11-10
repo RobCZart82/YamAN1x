@@ -1604,6 +1604,10 @@
         {
           "path": "research/mame-pks-operand-context.patch",
           "required_notices": []
+        },
+        {
+          "path": "research/mame-pks-source-context.patch",
+          "required_notices": []
         }
       ],
       "license_files": [

@@ -1,3 +1,24 @@
+## Helyi jelölt: PKS forrásbájt CPU-kontextus — 2026-11-10
+
+A jelenlegi `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a` mainről indított helyi
+ág egy kizárólag naplózó, legfeljebb 4096 eseményes MAME-megfigyelőt ad hozzá.
+Öt RAM-szóhatáron gyűjti a CPU által jelentett PC/idő/CCR/ER0–ER7 pillanatképet.
+Két, egyenként kilenc másodperces passzív futás új nyoma bájtról bájtra azonos
+(43 esemény, SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`),
+és a korábbi PKS-kontextus-nyom is egyezik (1928 sor; SHA-256
+`8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Hat
+forrásolvasás/`22D9EE` bájtaírás pár érték-, cím-, R0L/ER4- és 250 ns
+modellidő-ellenőrzést teljesített. A CCR csak rögzített adat, jelentését nem
+értelmezzük. A firmware helyi és változatlan maradt.
+
+Ez nem bizonyít PKS- vagy ADC-szemantikát, hardveregyezést, teljes bootot,
+MIDI-t vagy hangot. Helyi Release build, 138/138 CTest, 121/121 Python,
+18/18 célzott Python -O, forrásaudit/lefedettség és 13-patch MAME-előkészítés
+sikeres. A #267 PR első headje (`d7c901d99d90fd9d1cfa905677abb08c40c8e828`)
+mindhárom kötelező platform-CI-n, az MSan és a MAME-build ellenőrzésen átment;
+a Codex review azon a pontos headen észrevétel nélkül befejeződött. Az ezt
+rögzítő commit utáni új head CI/review kapui külön ellenőrzendők.
+
 ## Auditjavítások — 2026-11-10
 
 Ellenőrzött előkészítési alap: #265, `5421585951258f430ea13fd40207bdabd23ed654`.

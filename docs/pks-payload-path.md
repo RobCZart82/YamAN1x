@@ -1,5 +1,15 @@
 # Bounded PKS payload path observations
 
+## Source-byte CPU context — local candidate, not merged
+
+On branch `research/an1x-pks-r0l-context`, based on `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`, a new bounded read-only observer records CPU-reported PC/time/CCR/ER0–ER7 on aligned RAM words `234ACC`, `234ACE`, `234AD0`, `22D9EE` and `23F7FC`. Its cap is 4,096 events, with explicit drops/completion evidence and no bus-value changes. It is patch 13 in the locked chain, applied to MAME commit `706dbb73281320c54d7c2f16262c1c3786f2be01`. The instrumented ARM64 binary SHA-256 is `abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e`.
+
+Two nine-second passive/default-input runs each recorded 43 events with zero drops and byte-identical new traces (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`). The existing PKS context trace matched in both runs and the baseline: 1,928 lines, SHA-256 `8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`. The baseline and candidate run manifests matched on 26 non-trace fields.
+
+The auditor found six `FA92` reads of source words `234ACC/CE/D0` followed by `FA94` writes to byte `22D9EE`. It checks equality of the selected source byte, the low-byte bus lane, R0L and ER4 destination pointer, plus a 250 ns MAME virtual-time delta. Source-read snapshots retain index in ER0; the memory-load byte is compared at the following write callback. CCR is recorded only, with no asserted flag meaning. AN1x 1.04 ROM SHA-256 was unchanged at `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; ROM contents remain outside version control.
+
+This is one limited passive profile, not proof of PKS/ADC semantics, hardware agreement, full boot, MIDI acceptance or sound. PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) is open. Its first head `d7c901d99d90fd9d1cfa905677abb08c40c8e828` passed platform CI, MSan and MAME research (`42848962839`, `42848963029`, `42848962873`); Codex review found no issues on that exact head (comment `6772060805`). Ruleset evidence: zero approvals required, zero GitHub review objects/threads, no quota issue. The record-updating commit changes the head, so its checks and review are separate gates. MAME built successfully with Xcode 27.1; CI's pinned toolchain differs. Local source and audit checks are recorded in `docs/STATUS.md` after completion.
+
 ## PKS operand CPU context — local candidate, not merged
 
 A bounded, read-only MAME observer now captures the post-fetch PC, virtual time, CCR and ER0–ER7 when firmware reads/writes the three previously observed aligned RAM word bases `237202`, `237204` and `2349E8`. The observer has a 4,096-event cap, reports overflow, filters all other addresses and does not change bus values. It was built against the pinned MAME source `706dbb73281320c54d7c2f16262c1c3786f2be01`; instrumented binary SHA-256 `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`. The matching uninstrumented build hash is `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`.

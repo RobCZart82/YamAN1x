@@ -1,0 +1,151 @@
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -12,6 +12,7 @@
+ 
+ #include "emu.h"
+ #include "yamanix_pks_operand_context_trace.h"
++#include "yamanix_pks_source_context_trace.h"
+ #include "yamanix_sci_access_trace.h"
+ #include "bus/midi/midi.h"
+ #include "cpu/h8/h83002.h"
+@@ -63,10 +64,13 @@
+     void sci_state(unsigned tick);
+     void sci_access(unsigned channel, char op, offs_t address, u16 data, u16 mask);
+     void pks_operand_context(char op, offs_t address, u16 data, u16 mask);
++    void pks_source_context(char op, offs_t address, u16 data, u16 mask);
+     yamanix::SciAccessTrace m_sci_access_trace;
+     yamanix::PksOperandContextTrace m_pks_operand_context_trace;
++    yamanix::PksSourceContextTrace m_pks_source_context_trace;
+     memory_passthrough_handler m_read_trace, m_write_trace, m_dms_flag_trace;
+     memory_passthrough_handler m_pks_context_read_trace, m_pks_context_write_trace;
++    memory_passthrough_handler m_pks_source_read_trace[2], m_pks_source_write_trace[2];
+     std::set<offs_t> m_reads, m_writes;
+     unsigned m_ticks = 0;
+     u64 m_dsp_events = 0, m_dsp_dropped = 0;
+@@ -126,6 +130,7 @@
+     space.set_log_unmap(false);
+     logerror("YAMANIX DSP_BEGIN version=1 clock_hz=1000000000 limit=200000\n");
+     logerror("YAMANIX PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
++    logerror("YAMANIX PKS_SOURCE_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
+     machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::dsp_trace_end, this));
+     an1x_dasm_buffer buffer(space);
+     const std::pair<offs_t, offs_t> spans[] = {{0x3f650, 0x3f68a}, {0x565dc, 0x565fc}, {0x56792, 0x567d8}, {0x565dc, 0x56d20}, {0x6c532, 0x6c654}, {0x545e8, 0x546e6}, {0x51400, 0x517c0}, {0x50cc0, 0x51100}};
+@@ -184,6 +189,17 @@
+         [this](offs_t address, u16 &data, u16 mask) {
+             if (!machine().side_effects_disabled()) pks_operand_context('W', address, data, mask);
+         });
++    const offs_t pks_source_words[] = {0x22d9ee, 0x23f7fc};
++    for (unsigned i = 0; i < 2; ++i) {
++        m_pks_source_read_trace[i] = space.install_read_tap(pks_source_words[i], pks_source_words[i] + 1, "yamanix_pks_source_read",
++            [this](offs_t address, u16 &data, u16 mask) {
++                if (!machine().side_effects_disabled()) pks_source_context('R', address, data, mask);
++            });
++        m_pks_source_write_trace[i] = space.install_write_tap(pks_source_words[i], pks_source_words[i] + 1, "yamanix_pks_source_write",
++            [this](offs_t address, u16 &data, u16 mask) {
++                if (!machine().side_effects_disabled()) pks_source_context('W', address, data, mask);
++            });
++    }
+     space.install_read_tap(0xffffb0, 0xffffb5, "yamanix_sci0_read",
+         [this](offs_t address, u16 &data, u16 mask) {
+             if (machine().side_effects_disabled()) return;
+@@ -227,6 +243,7 @@
+ 
+ void an1x_state::pks_operand_context(char op, offs_t address, u16 data, u16 mask)
+ {
++    pks_source_context(op, address, data, mask);
+     yamanix::PksOperandContextTrace::Registers er;
+     for (unsigned i = 0; i < er.size(); ++i)
+         er[i] = u32(m_maincpu->state_int(h8_device::H8_R0 + i));
+@@ -238,6 +255,25 @@
+            uint32_t pc, uint64_t time_ns,
+            const yamanix::PksOperandContextTrace::Registers &er, uint8_t ccr) {
+             logerror("YAMANIX PKS_CONTEXT seq=%llu op=%c address=%06x data=%04x mask=%04x pc=%06x time_ns=%llu ccr=%02x er0=%08x er1=%08x er2=%08x er3=%08x er4=%08x er5=%08x er6=%08x er7=%08x\n",
++                (unsigned long long)seq, op, address, data, mask, pc,
++                (unsigned long long)time_ns, ccr, er[0], er[1], er[2], er[3],
++                er[4], er[5], er[6], er[7]);
++        });
++}
++
++void an1x_state::pks_source_context(char op, offs_t address, u16 data, u16 mask)
++{
++    yamanix::PksSourceContextTrace::Registers er;
++    for (unsigned i = 0; i < er.size(); ++i)
++        er[i] = u32(m_maincpu->state_int(h8_device::H8_R0 + i));
++
++    m_pks_source_context_trace.observe(op, address, data, mask, m_maincpu->pc(),
++        machine().time().as_ticks(1000000000), er,
++        u8(m_maincpu->state_int(h8_device::H8_CCR)),
++        [this](uint64_t seq, char op, uint32_t address, uint16_t data, uint16_t mask,
++           uint32_t pc, uint64_t time_ns,
++           const yamanix::PksSourceContextTrace::Registers &er, uint8_t ccr) {
++            logerror("YAMANIX PKS_SOURCE_CONTEXT seq=%llu op=%c address=%06x data=%04x mask=%04x pc=%06x time_ns=%llu ccr=%02x er0=%08x er1=%08x er2=%08x er3=%08x er4=%08x er5=%08x er6=%08x er7=%08x\n",
+                 (unsigned long long)seq, op, address, data, mask, pc,
+                 (unsigned long long)time_ns, ccr, er[0], er[1], er[2], er[3],
+                 er[4], er[5], er[6], er[7]);
+@@ -303,6 +339,9 @@
+ 
+ void an1x_state::dsp_trace_end()
+ {
++    logerror("YAMANIX PKS_SOURCE_CONTEXT_END events=%llu dropped=%llu hardware_validated=0\n",
++        (unsigned long long)m_pks_source_context_trace.events(),
++        (unsigned long long)m_pks_source_context_trace.dropped());
+     logerror("YAMANIX PKS_CONTEXT_END events=%llu dropped=%llu hardware_validated=0\n",
+         (unsigned long long)m_pks_operand_context_trace.events(),
+         (unsigned long long)m_pks_operand_context_trace.dropped());
+--- /dev/null
++++ b/src/mame/yamaha/yamanix_pks_source_context_trace.h
+@@ -0,0 +1,54 @@
++#ifndef YAMANIX_PKS_SOURCE_CONTEXT_TRACE_H
++#define YAMANIX_PKS_SOURCE_CONTEXT_TRACE_H
++
++#include <array>
++#include <cstdint>
++
++namespace yamanix {
++
++// Bounded, read-only snapshots at previously observed PKS source/control
++// words. The observer records model state only and never changes bus data.
++class PksSourceContextTrace {
++public:
++    static constexpr uint64_t capacity = 4096;
++    using Registers = std::array<uint32_t, 8>;
++
++    uint64_t events() const { return m_events; }
++    uint64_t dropped() const { return m_dropped; }
++
++    template<class Emit>
++    void observe(char op, uint32_t address, uint16_t data, uint16_t mask,
++                 uint32_t pc, uint64_t time_ns, const Registers &er,
++                 uint8_t ccr, Emit emit) {
++        if ((op != 'R' && op != 'W') || !tracks(address))
++            return;
++
++        const uint64_t seq = m_events++;
++        if (seq >= capacity) {
++            ++m_dropped;
++            return;
++        }
++        emit(seq, op, address, data, mask, pc, time_ns, er, ccr);
++    }
++
++    static bool tracks(uint32_t address) {
++        switch (address) {
++        case 0x22d9ee: // byte payload at 22d9ef
++        case 0x234acc: // indexed source byte words
++        case 0x234ace:
++        case 0x234ad0:
++        case 0x23f7fc: // byte control read at 23f7fd
++            return true;
++        default:
++            return false;
++        }
++    }
++
++private:
++    uint64_t m_events = 0;
++    uint64_t m_dropped = 0;
++};
++
++}
++
++#endif
