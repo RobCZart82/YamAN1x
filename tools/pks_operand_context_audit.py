@@ -123,6 +123,11 @@ def validate_run_manifest(manifest):
     rate = manifest["dsp_sample_rate_hz"]
     require(rate is None if clock == "disabled" else type(rate) is int and rate == 48000,
             "DSP clock/rate mismatch")
+    if clock != "disabled":
+        passes = manifest.get("dsp_sample_passes")
+        require(type(passes) is list and len(passes) == 2 and
+                all(type(count) is int and count > 0 for count in passes),
+                "DSP samples did not advance on both chips")
     bridge = manifest["vop3_bridge"]
     if bridge is None:
         require(manifest["bridge_sha256"] is None and not manifest["live_bridge_completed"] and

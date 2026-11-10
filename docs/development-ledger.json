@@ -5090,7 +5090,8 @@
       "source_notice": "230 files,5 license texts,pass",
       "documentation": "UTF8,links,ledger uniqueness and ancestry pass",
       "local_sanitizers": "not_run",
-      "ci_change": "slow ADC target added to Linux ASan/UBSan"
+      "ci_change": "slow ADC target added to Linux ASan/UBSan",
+      "review_followup": "Enabled-clock sample-pass evidence added;10/10 PKS helper/CLI tests pass normally and under -O;C++ unchanged"
     },
     "pr": 266
   }

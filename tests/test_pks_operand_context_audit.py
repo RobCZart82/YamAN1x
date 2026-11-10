@@ -106,9 +106,19 @@ class PksOperandContextAuditTests(unittest.TestCase):
         good.update(dsp_profile="firmware-contract", vop3_bridge="synthetic-bridge",
                     bridge_sha256="d"*64, live_bridge_completed=True,
                     dsp_sample_clock="assumed-48k", dsp_sample_execution=True,
-                    dsp_sample_rate_hz=48000, eg_readback="an1x-level-experiment",
+                    dsp_sample_rate_hz=48000, dsp_sample_passes=[42,43], eg_readback="an1x-level-experiment",
                     midi_input={"filename":"synthetic.mid", "bytes":42, "sha256":"e"*64})
         self.assertEqual(compare_run_manifests(good, copy.deepcopy(good)), [])
+        for passes in (None, [], [1], [1,2,3], [0,1], [1,0], [-1,2],
+                       [True,1], [1,"2"], [1,1.5]):
+            bad = copy.deepcopy(good)
+            if passes is None:
+                del bad["dsp_sample_passes"]
+            else:
+                bad["dsp_sample_passes"] = passes
+            for baseline, observed in ((bad,good), (good,bad), (bad,bad)):
+                with self.subTest(passes=passes), self.assertRaises(ValueError):
+                    compare_run_manifests(baseline,observed)
         bad = copy.deepcopy(good)
         bad["live_bridge_completed"] = False
         with self.assertRaises(ValueError):
@@ -124,7 +134,12 @@ class PksOperandContextAuditTests(unittest.TestCase):
             command = [sys.executable, str(tool), str(observed), "--baseline", str(baseline)]
             failed = manifest();failed["returncode"] = 1
             incomplete = manifest();del incomplete["dms_board"]
-            for bad in ({}, failed, incomplete, []):
+            clocked = manifest()
+            clocked.update(dsp_profile="firmware-contract",vop3_bridge="bridge",bridge_sha256="c"*64,
+                           live_bridge_completed=True,dsp_sample_clock="assumed-48k",
+                           dsp_sample_execution=True,dsp_sample_rate_hz=48000)
+            zero_chip = copy.deepcopy(clocked);zero_chip["dsp_sample_passes"]=[1,0]
+            for bad in ({}, failed, incomplete, [], clocked, zero_chip):
                 for directory in (baseline, observed):
                     (directory / "run.json").write_text(json.dumps(bad),encoding="utf-8")
                 result = subprocess.run(command,capture_output=True,text=True,timeout=30)

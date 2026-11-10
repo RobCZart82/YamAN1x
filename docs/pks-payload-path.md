@@ -282,3 +282,7 @@ remains available and does not claim a manifest comparison.
 Synthetic helper and CLI tests cover rejection on both sides, complete passive
 and bridge/MIDI profiles, metadata presence, and accepted trace-only deltas.
 Historical complete run observations are retained; they were not rerun here.
+
+For an enabled DSP sample clock, metadata must include two positive integer
+sample-pass counters. Missing/zero/negative/mistyped counters reject, including
+failed probes that wrote run.json before the producer performed its final check.

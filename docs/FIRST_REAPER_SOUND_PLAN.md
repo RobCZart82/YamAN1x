@@ -11,7 +11,10 @@ Három külön commitból álló javítás:
    1044 stale-restart eset mindkét bankkal, függő minta/eredmény megőrzése,
    azonos időpont, hiba/túlcsordulás és explicit reset utáni új epoch ellenőrizve.
 2. PKS: kötelező futásadatmezők és típusok, ismert ROM-azonosítás, sikeres kilépés,
-   CPU-előrehaladás és profil/bridge/MIDI-konzisztencia vizsgálata. Az üres,
+   CPU-előrehaladás és profil/bridge/MIDI-konzisztencia vizsgálata. Bekapcsolt DSP-órajel
+   esetén mindkét chip pozitív, egész mintafuttatási számlálója kötelező.
+   Review-kiegészítés: a futtató az adatlap kiírása után utasítja el a hiányzó/
+   nulla számlálót, ezért ezt az összehasonlítóban is ellenőrizni kell. Az üres,
    hiányos, sikertelen és hibás típusú adatok elutasítva. A hiányzó mező eltér a null-tól.
    Négy új Python-teszt; célzottan mind a tíz PKS-próba PASS, negatív CLI-vel is.
 3. Dokumentáció: 12 patch, #213 korabeli 131-es tesztszám, #265 lezárása,
