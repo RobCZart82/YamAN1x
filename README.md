@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **138 CTest groups and 121 Python cases**. Tests generate synthetic
+The source-only build defines **138 CTest groups and 125 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -32,6 +32,22 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
+
+## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
+
+A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
+értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
+írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
+a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
+ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
+előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
+
+A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
+helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
+teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
+rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
+távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
+nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
 
 ## PKS source-byte CPU context — merged in #267 — 2026-11-10
 

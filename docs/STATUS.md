@@ -1,5 +1,21 @@
 # Development status
 
+## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
+
+A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
+értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
+írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
+a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
+ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
+előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
+
+A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
+helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
+teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
+rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
+távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
+nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
+
 ## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
 PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as

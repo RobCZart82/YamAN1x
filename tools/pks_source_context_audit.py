@@ -22,18 +22,48 @@ PAYLOAD_REGISTER_ADDRESS = 0x22D9EF
 
 
 def verify_source_to_payload_transfers(events):
-    """Independently match observed FA92 byte reads to the following FA94 byte write."""
+    """Match FA92 reads to prior source writes and the following FA94 byte write."""
     transfers = []
+    preceding_source_writes = {}
     for index, event in enumerate(events):
+        if event["op"] == "W" and event["address"] in (0x234ACC, 0x234ACE, 0x234AD0):
+            if event["mask"] == 0xFFFF:
+                lanes = ((0xFF00, event["data"] >> 8),
+                         (0x00FF, event["data"] & 0xFF))
+            elif event["mask"] == 0xFF00:
+                lanes = ((0xFF00, event["data"] >> 8),)
+            elif event["mask"] == 0x00FF:
+                lanes = ((0x00FF, event["data"] & 0xFF),)
+            else:
+                raise ValueError("PKS source write has an unsupported byte-lane mask")
+            for lane, value in lanes:
+                preceding_source_writes[(event["address"], lane)] = dict(
+                    seq=event["seq"], time_ns=event["time_ns"], value=value,
+                    pc=event["pc"], mask=event["mask"])
+
         if (event["op"] != "R" or event["pc"] != SOURCE_READ_PC or
                 event["address"] not in (0x234ACC, 0x234ACE, 0x234AD0)):
             continue
+        source_index = event["er"][0] & 0xFF
+        if source_index > 5 or event["address"] != 0x234ACC + (source_index & 0xFE):
+            raise ValueError("PKS source read index does not select its observed word")
+        source_byte_address = 0x234ACC + source_index
+        source_lane = 0xFF00 if source_index % 2 == 0 else 0x00FF
+        if event["mask"] != source_lane:
+            raise ValueError("PKS source read lane does not match its selected byte address")
         if event["mask"] == 0xFF00:
             value = event["data"] >> 8
         elif event["mask"] == 0x00FF:
             value = event["data"] & 0xFF
         else:
             raise ValueError("PKS source read is not a single-byte lane access")
+        source_write = preceding_source_writes.get((event["address"], source_lane))
+        if source_write is None:
+            raise ValueError("PKS source read has no preceding write to the selected byte lane")
+        if source_write["seq"] >= event["seq"] or source_write["time_ns"] > event["time_ns"]:
+            raise ValueError("PKS source write does not precede the selected-byte read")
+        if source_write["value"] != value:
+            raise ValueError("PKS source read differs from its most recent preceding lane write")
         if index + 1 >= len(events):
             raise ValueError("PKS source read has no following payload event")
         payload = events[index + 1]
@@ -54,7 +84,12 @@ def verify_source_to_payload_transfers(events):
         if delta <= 0:
             raise ValueError("PKS source-to-payload event time did not advance")
         transfers.append(dict(seq=event["seq"], source_address=event["address"],
-                              source_index=event["er"][0] & 0xFF,
+                              source_index=source_index,
+                              source_byte_address=source_byte_address,
+                              source_write_seq=source_write["seq"],
+                              source_write_time_ns=source_write["time_ns"],
+                              source_write_pc=source_write["pc"],
+                              source_write_mask=source_write["mask"],
                               value=value, source_data=event["data"], source_mask=event["mask"],
                               source_ccr=event["ccr"], payload_seq=payload["seq"],
                               payload_ccr=payload["ccr"], time_delta_ns=delta))

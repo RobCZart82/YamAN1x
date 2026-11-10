@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-10",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "dae0d64db4d463d119ee7be1c452c90a8487513d",
+  "baseline_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
   "entries": [
     {
       "pr": 6,
@@ -5174,10 +5174,61 @@
       },
       "hardware_validation": "not performed; limited passive profile only",
       "next_step": "Trace writes and instruction context preceding the bounded source/payload observations; retain independent address/value/flag/timing/continuation checks, without semantic claims."
+    },
+    {
+      "pr": 268,
+      "title": "docs: record merged PKS source-context research",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/268",
+      "kind": "documentation",
+      "base_commit": "dae0d64db4d463d119ee7be1c452c90a8487513d",
+      "head_commit": "879d24181a1f9803a3c8e6f51bf35566da1b8eed",
+      "merge_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
+      "merged_at_utc": "2026-11-10T18:04:50Z",
+      "status": "merged",
+      "remote_ci": "all_required_success",
+      "pr_head_check_runs": {
+        "macos_14": 130007533810,
+        "ubuntu_24_04": 130007533779,
+        "windows_2025": 130007533761,
+        "msan": 130007533686
+      },
+      "main_check_runs": {
+        "macos_14": 130023614987,
+        "ubuntu_24_04": 130023614808,
+        "windows_2025": 130023614507,
+        "msan": 130023614706
+      },
+      "automated_review": "Codex summary completed without findings on exact head 879d24181a1f9803a3c8e6f51bf35566da1b8eed",
+      "review_comment": "https://github.com/RobCZart82/YamAN1x/pull/268#issuecomment-6774580487",
+      "review_evidence": "zero GitHub review objects; zero review threads; no quota error reported; active ruleset required zero approvals and resolved threads",
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false
     }
   ],
   "active_change": null,
-  "pending_changes": [],
+  "pending_changes": [
+    {
+      "branch": "research/an1x-source-write-provenance",
+      "status": "local_candidate_tests_passed_pr_pending",
+      "base_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
+      "scope": "Independently correlate each FA92 source read with the most recent earlier write to its exact byte lane; retain the existing FA94 address/value/register/flag/time checks. No new MAME tap or firmware behavior.",
+      "local_validation": {
+        "targeted_python": "12/12 pass",
+        "python_suite": "125/125 pass",
+        "diff_check": "pass",
+        "ctest": "not rerun; no C++/CMake changes",
+        "mame_build": "not run",
+        "firmware_run": "not run"
+      },
+      "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "rom_modified": false,
+      "rom_in_repository": false,
+      "remote_ci": "pending",
+      "automated_review": "pending"
+    }
+  ],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",

@@ -1,23 +1,36 @@
 # Bounded PKS payload path observations
 
-## Source-byte CPU context — local candidate, not merged
+## Source-byte CPU context — merged in #267
 
-On branch `research/an1x-pks-r0l-context`, based on `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`, a new bounded read-only observer records CPU-reported PC/time/CCR/ER0–ER7 on aligned RAM words `234ACC`, `234ACE`, `234AD0`, `22D9EE` and `23F7FC`. Its cap is 4,096 events, with explicit drops/completion evidence and no bus-value changes. It is patch 13 in the locked chain, applied to MAME commit `706dbb73281320c54d7c2f16262c1c3786f2be01`. The instrumented ARM64 binary SHA-256 is `abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e`.
+A bounded, read-only CPU-context trace of aligned RAM words `234ACC`,
+`234ACE`, `234AD0`, `22D9EE` and `23F7FC` is on main. Its 4,096-event
+cap and explicit loss/footer records remain in force; the MAME source is pinned
+at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Two nine-second
+passive/default-input runs produced identical 43-event traces with no drops.
+Six FA92 source reads were matched to FA94 writes at `22D9EE`; the observed
+byte, R0L/ER4 and 250 ns virtual-time delta agreed. CCR is recorded without
+assigning flag meaning. ROM identity remained unchanged and outside the repo.
+See [PR #267](https://github.com/RobCZart82/YamAN1x/pull/267) and the
+[current status](STATUS.md).
 
-Two nine-second passive/default-input runs each recorded 43 events with zero drops and byte-identical new traces (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`). The existing PKS context trace matched in both runs and the baseline: 1,928 lines, SHA-256 `8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`. The baseline and candidate run manifests matched on 26 non-trace fields.
+This bounded profile does not establish PKS or ADC semantics, hardware
+agreement, full boot, MIDI or audio.
 
-The auditor found six `FA92` reads of source words `234ACC/CE/D0` followed by `FA94` writes to byte `22D9EE`. It checks equality of the selected source byte, the low-byte bus lane, R0L and ER4 destination pointer, plus a 250 ns MAME virtual-time delta. Source-read snapshots retain index in ER0; the memory-load byte is compared at the following write callback. CCR is recorded only, with no asserted flag meaning. AN1x 1.04 ROM SHA-256 was unchanged at `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; ROM contents remain outside version control.
+## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
-This is one limited passive profile, not proof of PKS/ADC semantics, hardware agreement, full boot, MIDI acceptance or sound. PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) is open. Its first head `d7c901d99d90fd9d1cfa905677abb08c40c8e828` passed platform CI, MSan and MAME research (`42848962839`, `42848963029`, `42848962873`); Codex review found no issues on that exact head (comment `6772060805`). Ruleset evidence: zero approvals required, zero GitHub review objects/threads, no quota issue. The record-updating commit changes the head, so its checks and review are separate gates. MAME built successfully with Xcode 27.1; CI's pinned toolchain differs. Local source and audit checks are recorded in `docs/STATUS.md` after completion.
+A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
+értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
+írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
+a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
+ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
+előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
 
-## PKS operand CPU context — local candidate, not merged
-
-A bounded, read-only MAME observer now captures the post-fetch PC, virtual time, CCR and ER0–ER7 when firmware reads/writes the three previously observed aligned RAM word bases `237202`, `237204` and `2349E8`. The observer has a 4,096-event cap, reports overflow, filters all other addresses and does not change bus values. It was built against the pinned MAME source `706dbb73281320c54d7c2f16262c1c3786f2be01`; instrumented binary SHA-256 `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`. The matching uninstrumented build hash is `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`.
-
-Two nine-second passive/default-input runs produced byte-identical context traces (1,928 events; SHA-256 `8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e` each). Per run, `2349E8` had 480 reads/483 writes, `237202` had 478 reads/4 writes, and `237204` had 478 reads/5 writes. All events fit within the cap without drops. The baseline and instrumented `run.json` matched on all 26 non-trace fields; only command path, binary hash and trace-line count were excluded. ROM identity remained AN1x 1.04 SHA-256 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; no ROM contents were changed or added to the repository.
-
-This is limited repeatability evidence for one nine-second passive profile. The callback PC remains the CPU-reported post-fetch PC, not an instruction-start PC. The run does not establish operand meaning, ADC arithmetic, PKS behavior, complete boot, MIDI acceptance, hardware agreement or sound. VOP3 samples remained zero. Next: use these bounded snapshots to follow the preceding value writes and their instruction context, retaining independent value/address/flag/timing and continuation checks.
-
+A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
+helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
+teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
+rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
+távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
+nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
 
 ## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
