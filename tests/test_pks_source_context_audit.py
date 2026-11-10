@@ -55,28 +55,82 @@ class PksSourceContextAuditTests(unittest.TestCase):
         self.assertFalse(result["hardware_validated"])
 
     def test_independent_source_value_register_flag_and_timing_link(self):
-        source = event(0, 100, address="234acc", data="e000", mask="ff00")
-        payload = event(1, 350, address="22d9ee", op="W", data="00e0", mask="00ff")
-        source = source.replace("pc=057d42", "pc=00fa92").replace("er0=00000000", "er0=000000e0").replace(
-            "er4=00000004", "er4=0022d9ef").replace("ccr=80", "ccr=25")
-        payload = payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000001", "er0=000000e0").replace(
-            "er4=00000005", "er4=0022d9ef").replace("ccr=80", "ccr=29")
-        parsed = parse_pks_source_context(capture([source, payload]))
+        source_write = event(0, 50, address="234acc", op="W", data="e000", mask="ff00")
+        source = event(1, 100, address="234acc", data="e000", mask="ff00")
+        payload = event(2, 350, address="22d9ee", op="W", data="00e0", mask="00ff")
+        source = source.replace("pc=057d42", "pc=00fa92").replace("er0=00000001", "er0=00000000").replace(
+            "er1=00000002", "er1=000000e0").replace(
+            "er4=00000005", "er4=0022d9ef").replace("ccr=80", "ccr=25")
+        payload = payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000002", "er0=000000e0").replace(
+            "er4=00000006", "er4=0022d9ef").replace("ccr=80", "ccr=29")
+        parsed = parse_pks_source_context(capture([source_write, source, payload]))
         transfer, = verify_source_to_payload_transfers(parsed["events"])
         self.assertEqual((transfer["value"], transfer["source_address"],
                           transfer["source_ccr"], transfer["payload_ccr"],
-                          transfer["time_delta_ns"]), (0xe0, 0x234acc, 0x25, 0x29, 250))
-        broken_value = [parsed["events"][0], dict(parsed["events"][1], data=0x00e1)]
+                          transfer["source_byte_address"], transfer["source_write_seq"],
+                          transfer["source_write_time_ns"], transfer["time_delta_ns"]),
+                         (0xe0, 0x234acc, 0x25, 0x29, 0x234acc, 0, 50, 250))
+        broken_value = parsed["events"][:2] + [dict(parsed["events"][2], data=0x00e1)]
         with self.assertRaises(ValueError):
             verify_source_to_payload_transfers(broken_value)
-        wrong_r0l = list(parsed["events"][1]["er"])
+        wrong_r0l = list(parsed["events"][2]["er"])
         wrong_r0l[0] = 0
-        broken_register = [parsed["events"][0], dict(parsed["events"][1], er=wrong_r0l)]
+        broken_register = parsed["events"][:2] + [dict(parsed["events"][2], er=wrong_r0l)]
         with self.assertRaises(ValueError):
             verify_source_to_payload_transfers(broken_register)
-        broken_time = [parsed["events"][0], dict(parsed["events"][1], time_ns=100)]
+        broken_time = parsed["events"][:2] + [dict(parsed["events"][2], time_ns=100)]
         with self.assertRaises(ValueError):
             verify_source_to_payload_transfers(broken_time)
+
+    def test_source_read_must_match_the_latest_prior_write_to_its_byte_lane(self):
+        first = event(0, 10, address="234acc", op="W", data="e000", mask="ff00")
+        latest = event(1, 20, address="234acc", op="W", data="e100", mask="ff00")
+        source = event(2, 30, address="234acc", data="e000", mask="ff00")
+        source = source.replace("pc=057d42", "pc=00fa92").replace("er0=00000002", "er0=00000000")
+        payload = event(3, 40, address="22d9ee", op="W", data="0000", mask="00ff")
+        payload = payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000003", "er0=00000000")
+        with self.assertRaisesRegex(ValueError, "most recent preceding lane write"):
+            verify_source_to_payload_transfers(parse_pks_source_context(
+                capture([first, latest, source, payload]))["events"])
+
+    def test_word_write_tracks_the_odd_source_byte_lane(self):
+        word_write = event(0, 10, address="234acc", op="W", data="e0e1", mask="ffff")
+        source = event(1, 20, address="234acc", data="00e1", mask="00ff")
+        source = source.replace("pc=057d42", "pc=00fa92").replace("er4=00000005", "er4=0022d9ef")
+        payload = event(2, 40, address="22d9ee", op="W", data="00e1", mask="00ff")
+        payload = payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000002", "er0=000000e1").replace(
+            "er4=00000006", "er4=0022d9ef")
+        parsed = parse_pks_source_context(capture([word_write, source, payload]))
+        transfer, = parsed["source_to_payload_transfers"]
+        self.assertEqual((transfer["source_byte_address"], transfer["source_write_seq"],
+                          transfer["source_write_mask"], transfer["value"]),
+                         (0x234ACD, 0, 0xFFFF, 0xE1))
+
+    def test_source_read_requires_prior_write_and_matching_lane(self):
+        source = event(0, 20, address="234acc", data="00e0", mask="00ff")
+        source = source.replace("pc=057d42", "pc=00fa92").replace("er0=00000000", "er0=00000001")
+        payload = event(1, 30, address="22d9ee", op="W", data="00e0", mask="00ff")
+        payload = payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000001", "er0=000000e0")
+        with self.assertRaisesRegex(ValueError, "no preceding write"):
+            verify_source_to_payload_transfers(parse_pks_source_context(
+                capture([source, payload]))["events"])
+
+        wrong_lane = event(0, 10, address="234acc", op="W", data="e000", mask="ff00")
+        wrong_read = event(1, 20, address="234acc", data="00e0", mask="00ff")
+        wrong_read = wrong_read.replace("pc=057d42", "pc=00fa92").replace("er0=00000001", "er0=00000000")
+        wrong_payload = event(2, 30, address="22d9ee", op="W", data="00e0", mask="00ff")
+        wrong_payload = wrong_payload.replace("pc=057d42", "pc=00fa94").replace("er0=00000002", "er0=000000e0")
+        with self.assertRaisesRegex(ValueError, "lane does not match"):
+            parse_pks_source_context(capture([wrong_lane, wrong_read, wrong_payload]))
+
+    def test_source_index_selects_the_observed_aligned_word(self):
+        write = event(0, 10, address="234ace", op="W", data="00e0", mask="00ff")
+        source = event(1, 20, address="234ace", data="00e0", mask="00ff")
+        source = source.replace("pc=057d42", "pc=00fa92").replace("er0=00000001", "er0=00000000")
+        source = source.replace("mask=00ff", "mask=ff00").replace("data=00e0", "data=e000")
+        with self.assertRaisesRegex(ValueError, "index does not select"):
+            verify_source_to_payload_transfers(
+                parse_pks_source_context(capture([write, source]))["events"])
 
     def test_legacy_run_has_no_observer_section(self):
         self.assertIsNone(parse_pks_source_context(["YAMANIX PC tick=0 pc=000000"]))
