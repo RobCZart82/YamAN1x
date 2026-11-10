@@ -5072,7 +5072,54 @@
     }
   ],
   "active_change": null,
-  "pending_changes": [],
+  "pending_changes": [
+    {
+      "branch": "research/an1x-pks-r0l-context",
+      "status": "prepared_local_candidate",
+      "base_commit": "b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a",
+      "scope": "Add bounded read-only MAME CPU-context observation for PKS source/payload/control word bases, an independent parser/auditor and tests; no firmware or device behavior changes.",
+      "local_evidence": {
+        "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+        "mame_patches": 13,
+        "mame_build": "pass; Xcode 27.1; ARM64",
+        "instrumented_mame_binary_sha256": "abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e",
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+        "rom_modified": false,
+        "rom_in_repository": false,
+        "profile": "passive; no DMS; no MIDI; DSP sample execution disabled",
+        "instrumented_runs": 2,
+        "seconds_per_run": 9,
+        "source_context_events_per_run": 43,
+        "source_context_dropped_per_run": 0,
+        "source_context_trace_sha256": "012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76",
+        "existing_pks_context_events_per_run": 1928,
+        "existing_pks_context_trace_sha256": "8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c",
+        "baseline_non_trace_fields_identical": 26,
+        "matched_source_payload_pairs": 6,
+        "observed_virtual_time_delta_ns": 250,
+        "complete_boot_accepted": false,
+        "midi_accepted": false,
+        "audio_accepted": false,
+        "hardware_agreement_proven": false,
+        "pks_or_adc_semantics_proven": false
+      },
+      "local_validation": {
+        "targeted_cpp": "pass",
+        "targeted_python": "8/8 pass",
+        "optimized_python": "18/18 pass",
+        "targeted_ctest": "2/2 pass",
+        "full_release_build": "pass",
+        "python_suite": "121/121 pass",
+        "repository_audit": "pass",
+        "license_source_attribution": "pass; not legal clearance or binary distribution approval",
+        "mame_preflight": "pass; 13 patches; checkout unmodified",
+        "full_ctest": "138/138 pass; 247.99 s, parallel 4"
+      },
+      "pr": null,
+      "remote_ci": "not run; no PR yet",
+      "review": "not run; no PR yet"
+    }
+  ],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",

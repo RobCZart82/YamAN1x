@@ -22,13 +22,15 @@
     "mame-midi-input.patch",
     "mame-sci-state-observation.patch",
     "mame-sci-access-observation.patch",
-    "mame-pks-operand-context.patch"
+    "mame-pks-operand-context.patch",
+    "mame-pks-source-context.patch"
   ],
   "generated_headers": {
     "src/mame/yamaha/yamanix_lcd_bus.h": "src/lcd_bus.h",
     "src/mame/yamaha/yamanix_upload_control_contract.h": "src/upload_control_contract.h",
     "src/mame/yamaha/yamanix_vop3_bridge.h": "src/vop3_bridge.h",
     "src/mame/yamaha/yamanix_sci_access_trace.h": "src/sci_access_trace.h",
-    "src/mame/yamaha/yamanix_pks_operand_context_trace.h": "src/pks_operand_context_trace.h"
+    "src/mame/yamaha/yamanix_pks_operand_context_trace.h": "src/pks_operand_context_trace.h",
+    "src/mame/yamaha/yamanix_pks_source_context_trace.h": "src/pks_source_context_trace.h"
   }
 }

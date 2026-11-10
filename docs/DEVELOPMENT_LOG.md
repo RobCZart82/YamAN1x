@@ -1,3 +1,27 @@
+## Helyi jelölt — PKS forrásbájt-kontextus — 2026-11-10
+
+A `research/an1x-pks-r0l-context` ág a `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`
+mainről indult. Az új olvasás/írás observer és független auditor a három forrás-
+szócímet (`234ACC/CE/D0`), a bájt-célcímet (`22D9EE`) és kontrollszót (`23F7FC`)
+figyeli, legfeljebb 4096 eseménnyel, adatbusz-módosítás nélkül.
+
+Két helyi, 9 másodperces passzív futás 43 azonos eseményt adott, 0 veszteséggel;
+nyom SHA-256: `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`.
+A korábbi PKS CPU-kontextussorozat 1928 sora is azonos volt (SHA-256
+`8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Hat
+`FA92` forrásolvasást követett `FA94` írás: egyezett a byte, a low-byte adatbusz-
+lane, R0L és az ER4 célmutató; a MAME virtuális idő különbsége 250 ns. A callback
+utólagos fetch-PC-t rögzít, CCR jelentést nem rendel hozzá. Baseline futásadat 26
+nem-trace mezője egyezett. A lokális AN1x 1.04 hash változatlan:
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+Ez egy rövid, passzív profil korlátozott ismételhetőségi bizonyítéka; nem igazol
+protokollt, ADC-t, hardvert, teljes bootot, MIDI-t vagy hangot. A jelölt nincs
+beolvasztva, PR/CI/review még nincs; a ledgerben függő változásként szerepel.
+Lezárt helyi ellenőrzések: Release build PASS; 138/138 CTest PASS (247.99 s),
+121/121 Python PASS, 18/18 célzott Python -O PASS, repository audit, source
+notice coverage és a 13-patch rögzített MAME preflight PASS.
+
 ## Auditjavítások — 2026-11-10
 
 Ellenőrzött előkészítési alap: #265, `5421585951258f430ea13fd40207bdabd23ed654`.

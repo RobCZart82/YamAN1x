@@ -26,6 +26,7 @@ patch -p1 < /absolute/path/to/mame-midi-input.patch
 patch -p1 < /absolute/path/to/mame-sci-state-observation.patch
 patch -p1 < /absolute/path/to/mame-sci-access-observation.patch
 patch -p1 < /absolute/path/to/mame-pks-operand-context.patch
+patch -p1 < /absolute/path/to/mame-pks-source-context.patch
 make SUBTARGET=yamanix SOURCES=src/mame/yamaha/yman1x.cpp OSD=mac NO_USE_MIDI=1 NO_USE_PORTAUDIO=1 USE_QTDEBUG=0 USE_TAPTUN=0 USE_PCAP=0 REGENIE=1 -j4
 ```
 
@@ -42,6 +43,16 @@ A `mame-no-cocoa.patch` a kutatási Mac-változatból elhagyja a Cocoa alkalmaz�
 A `mame-lcd-controller.patch` új saját fejlécet is telepít a driver mellé; annak forrása a projekt `src/lcd_bus.h` állománya. A MAME LC7985 regiszter-, memória- és busy-időzítését változatlanul használja. Csak a nem használt grafikus karakterkészlet helyén van üres, helyi régió; a betűrajzok így nem hitelesek és nem kerülnek megjelenítésre. A firmware és a H8 mag változatlan. A patch néhány korai utasítás disassemblyjét is naplózza a kézfogás ellenőrzéséhez.
 
 A jelenlegi mérés friss processzusú hidegindításra készült. Save-state, visszatöltés és több egymást követő szoftveres reset működését még nem validáltuk.
+
+## PKS source-byte context observer (candidate)
+
+The thirteenth patch observes only CPU context for three source RAM word bases
+and the payload/control word bases, with a 4,096-event bound and explicit loss
+reporting. It is passive: no bus values or firmware/device behavior are changed.
+The helper is generated from `src/pks_source_context_trace.h`, and the parser
+checks address/lane/value pairing, ordering, timestamps and register snapshots.
+The limited local evidence is in [PKS payload-path observations](../docs/pks-payload-path.md).
+It does not prove PKS semantics, hardware agreement, complete boot, MIDI or audio.
 
 ## PKS operand CPU context observer
 

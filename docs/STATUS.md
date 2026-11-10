@@ -1,5 +1,13 @@
 # Development status
 
+## Local candidate — PKS source-byte context — 2026-11-10
+
+Current main is `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`; this local branch is based directly on it. A read-only observer captures CPU PC/time/CCR/register snapshots at aligned word bases `234ACC`, `234ACE`, `234AD0`, `22D9EE` and `23F7FC`, with a 4,096-event cap and dropped-event reporting. The MAME patch is the thirteenth locked patch; the pinned source is `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+Two local nine-second passive/default-input runs produced identical 43-event source-context traces (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`), no drops, and identical prior PKS-context lines (1,928; SHA-256 `8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Both retained all 26 baseline non-trace fields. Six `FA92` source-read snapshots at `234ACC/CE/D0` were followed by `FA94` writes to `22D9EE`; observed byte, low-byte bus lane, R0L and ER4 destination pointer matched, at 250 ns virtual-time delta. CCR is recorded only; no flag semantics are inferred.
+
+This is limited repeatability evidence from one passive profile and short horizon. It proves no PKS protocol semantics, ADC interpretation, hardware agreement, complete boot, MIDI acceptance or sound. AN1x 1.04 ROM SHA-256 remained `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it was not modified or added to the repository. Local Release build passed; 138/138 CTest groups passed (247.99 s), 121/121 Python tests and 18/18 targeted Python -O tests passed, repository/source-notice audits passed, and the 13-patch pinned MAME preflight passed without modifying its checkout. These are local results only. This candidate is not merged; no PR-head CI or review is claimed yet. Next step: open one PR and inspect checks, review evidence and repository rules on its exact head.
+
 ## Audit corrections and next work — 2026-11-10
 
 Recorded preparation baseline: [#265](https://github.com/RobCZart82/YamAN1x/pull/265),

@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **137 CTest groups and 113 Python cases**. Tests generate synthetic
+The source-only build defines **138 CTest groups and 121 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -32,6 +32,12 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
+
+## Local candidate — PKS source-byte context — 2026-11-10
+
+On branch `research/an1x-pks-r0l-context`, based on current main `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`, a bounded read-only observer records source/control RAM word accesses and CPU context. Two nine-second passive runs produced the same 43-event trace (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`), with no drops. Six observed source-read/payload-write pairs matched byte value, destination and R0L; each pair was 250 ns apart in MAME virtual time. The pre-existing PKS context trace also matched the baseline byte-for-byte. This is one limited profile: it does not establish PKS semantics, hardware agreement, complete boot, MIDI or audio. No PR has been opened yet; see [candidate evidence](docs/pks-payload-path.md).
+
+The current source tree defines **138 CTest groups and 121 Python cases**. These are local candidate counts; remote checks and review have not yet run for this change.
 
 ## Audit corrections and next work — 2026-11-10
 
