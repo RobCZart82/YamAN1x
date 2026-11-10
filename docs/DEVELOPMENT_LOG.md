@@ -1,32 +1,42 @@
-## Helyi jelölt — PKS forrásbájt-kontextus — 2026-11-10
+## #267 beolvadt — PKS forrásbájt CPU-kontextus — 2026-11-10
 
-A `research/an1x-pks-r0l-context` ág a `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`
-mainről indult. Az új olvasás/írás observer és független auditor a három forrás-
-szócímet (`234ACC/CE/D0`), a bájt-célcímet (`22D9EE`) és kontrollszót (`23F7FC`)
-figyeli, legfeljebb 4096 eseménnyel, adatbusz-módosítás nélkül.
+PR #267 squash merge: `dae0d64db4d463d119ee7be1c452c90a8487513d`; ellenőrzött
+PR head: `411524cd9797db6e0aa7b9f3d0b14340eb50b52c`; alap:
+`b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`. A korlátozott, csak olvasó MAME
+megfigyelő, auditor, tesztek és helyi bizonyíték bekerültek a főágba.
 
-Két helyi, 9 másodperces passzív futás 43 azonos eseményt adott, 0 veszteséggel;
-nyom SHA-256: `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`.
-A korábbi PKS CPU-kontextussorozat 1928 sora is azonos volt (SHA-256
-`8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Hat
-`FA92` forrásolvasást követett `FA94` írás: egyezett a byte, a low-byte adatbusz-
-lane, R0L és az ER4 célmutató; a MAME virtuális idő különbsége 250 ns. A callback
-utólagos fetch-PC-t rögzít, CCR jelentést nem rendel hozzá. Baseline futásadat 26
-nem-trace mezője egyezett. A lokális AN1x 1.04 hash változatlan:
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+A két, kilenc másodperces passzív futás 43 eseménye bájtról bájtra egyezett
+(nyom SHA-256: `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`);
+eseményvesztés nem volt. A korábbi 1928 soros PKS kontextusnyom is egyezett.
+Hat forrásolvasás/célírás pár értéke, címe, R0L/ER4 pillanatképe és 250 ns-os
+MAME modellidő-különbsége egyezett. A CCR rögzített, de nincs flag-szemantika
+tulajdonítva. A változatlan AN1x 1.04 ROM SHA-256:
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; a ROM
+nincs a repóban.
 
-Ez egy rövid, passzív profil korlátozott ismételhetőségi bizonyítéka; nem igazol
-protokollt, ADC-t, hardvert, teljes bootot, MIDI-t vagy hangot. A jelölt nincs
-beolvasztva, PR/CI/review még nincs; a ledgerben függő változásként szerepel.
-Lezárt helyi ellenőrzések: Release build PASS; 138/138 CTest PASS (247.99 s),
-121/121 Python PASS, 18/18 célzott Python -O PASS, repository audit, source
-notice coverage és a 13-patch rögzített MAME preflight PASS. PR #267 első head
-`d7c901d99d90fd9d1cfa905677abb08c40c8e828` platform-CI, MSan és MAME-buildje
-sikeres (runs `42848962839`, `42848963029`, `42848962873`); Codex review
-észrevétel nélkül lezárult ugyanazon a headen (comment `6772060805`). A GitHub
-reviews és review-threadek száma nulla, kvótajelzés nincs; az aktív szabály
-nulla approvalt és rendezett threadeket követel. Az ezt rögzítő commit után
-az új PR-head eredményeit ismét ellenőrizzük.
+A végső PR-head mind az öt checkje sikerült: Linux `129967758579`, macOS
+`129967758860`, Windows `129967758798`, MSan `129967758081`, MAME
+`129967758518`. Codex review ugyanazon a headen észrevétel nélkül zárult
+(issue comment `6772060805`). GitHub review-objektum: 0; review-thread: 0;
+kvótahiba nem volt jelezve. Az aktív szabály nulla approvalt és rendezett
+threadeket ír elő. A merge commit mind az öt checkje sikerült:
+`129989103239`, `129989103935`, `129989103739`, `129989105616`,
+`129989104714`. A squash merge ellenőrzött SHA-ra hivatkozott, szabálykerülés
+nélkül.
+
+Az eredmény egy rövid passzív profil korlátozott ismételhetőségi bizonyítéka.
+Nem igazol PKS/ADC-szemantikát, hardveregyezést, teljes bootot, MIDI-t vagy
+hangot. Következő: követni a megfigyelt forrásbájtok előtti írásokat és
+utasításkontextust, független cím/érték/flag/idő/folytathatósági ellenőrzésekkel.
+Protokollra ne következtessünk, és megfigyelésből ne adjunk hozzá HLE-választ.
+M0 részleges; M1 és teljes hanglánc-elfogadás nyitott.
+
+A közvetlen dokumentációs/audit előzmény, #266, szintén beolvadt:
+`b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a` (head
+`f9bd2433c5714c95afc950599b412a7b872b93ad`). Öt PR-head és öt main check
+sikerült; a végső Codex review észrevétel nélküli volt, a korábbi inline
+észrevételt megoldották. A ruleset nulla approvalt és rendezett threadeket
+követelt; squash merge történt bypass nélkül.
 
 ## Auditjavítások — 2026-11-10
 

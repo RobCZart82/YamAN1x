@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-10",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "5421585951258f430ea13fd40207bdabd23ed654",
+  "baseline_commit": "dae0d64db4d463d119ee7be1c452c90a8487513d",
   "entries": [
     {
       "pr": 6,
@@ -4989,10 +4989,6 @@
       "context_events_per_run": 1928,
       "context_dropped": 0,
       "events_by_word_base": {
-        "2349E8": {
-          "R": 480,
-          "W": 483
-        },
         "237202": {
           "R": 478,
           "W": 4
@@ -5000,6 +4996,10 @@
         "237204": {
           "R": 478,
           "W": 5
+        },
+        "2349E8": {
+          "R": 480,
+          "W": 483
         }
       },
       "baseline_nontrace_fields_identical": true,
@@ -5069,25 +5069,61 @@
       "ci_result": "all_four_success",
       "automated_review": "completed_no_findings_on_previous_head_only",
       "automated_review_head": "cc8b736430386cb1d219135d3a0762db0cf73312"
-    }
-  ],
-  "active_change": null,
-  "pending_changes": [
+    },
     {
+      "pr": 266,
+      "title": "Fix ADC restart chronology and PKS manifest validation; reconcile audit records",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/266",
+      "kind": "correctness-and-documentation",
+      "base_commit": "5421585951258f430ea13fd40207bdabd23ed654",
+      "head_commit": "f9bd2433c5714c95afc950599b412a7b872b93ad",
+      "merge_commit": "b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a",
+      "merged_at_utc": "2026-11-10T06:42:20Z",
+      "status": "merged",
+      "remote_ci": "all_required_success",
+      "pr_head_check_runs": [
+        129663362874,
+        129663362567,
+        129663362835,
+        129663258920,
+        129663365079
+      ],
+      "main_check_runs": [
+        129676280609,
+        129676280250,
+        129676280492,
+        129676277055,
+        129676280334
+      ],
+      "automated_review": "final head completed without findings; earlier inline finding was resolved",
+      "review_evidence": "active ruleset required zero approvals and resolved threads; one earlier inline thread was resolved; no quota issue reported",
+      "review_threads_at_merge": 1,
+      "unresolved_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "note": "audit_correction retains detailed local validation"
+    },
+    {
+      "pr": 267,
+      "title": "Research: trace PKS source byte context",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/267",
+      "kind": "research",
       "branch": "research/an1x-pks-r0l-context",
-      "status": "open_pr_first_head_checks_and_review_passed",
       "base_commit": "b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a",
-      "scope": "Add bounded read-only MAME CPU-context observation for PKS source/payload/control word bases, an independent parser/auditor and tests; no firmware or device behavior changes.",
+      "head_commit": "411524cd9797db6e0aa7b9f3d0b14340eb50b52c",
+      "merge_commit": "dae0d64db4d463d119ee7be1c452c90a8487513d",
+      "merged_at_utc": "2026-11-10T17:07:31Z",
+      "status": "merged",
+      "scope": "Bounded read-only MAME CPU-context observer for PKS source/payload/control word bases with independent parser/auditor, tests and limited passive-profile evidence; no firmware/device behavior change.",
       "local_evidence": {
         "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
         "mame_patches": 13,
-        "mame_build": "pass; Xcode 27.1; ARM64",
-        "instrumented_mame_binary_sha256": "abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e",
+        "mame_instrumented_binary_sha256": "abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e",
         "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
         "rom_modified": false,
         "rom_in_repository": false,
         "profile": "passive; no DMS; no MIDI; DSP sample execution disabled",
-        "instrumented_runs": 2,
+        "runs": 2,
         "seconds_per_run": 9,
         "source_context_events_per_run": 43,
         "source_context_dropped_per_run": 0,
@@ -5104,49 +5140,44 @@
         "pks_or_adc_semantics_proven": false
       },
       "local_validation": {
-        "targeted_cpp": "pass",
-        "targeted_python": "8/8 pass",
-        "optimized_python": "18/18 pass",
-        "targeted_ctest": "2/2 pass",
         "full_release_build": "pass",
+        "full_ctest": "138/138 pass; 247.99 s; parallel 4",
         "python_suite": "121/121 pass",
+        "optimized_targeted_python": "18/18 pass",
         "repository_audit": "pass",
-        "license_source_attribution": "pass; not legal clearance or binary distribution approval",
-        "mame_preflight": "pass; 13 patches; checkout unmodified",
-        "full_ctest": "138/138 pass; 247.99 s, parallel 4"
+        "source_attribution": "pass; not legal clearance or binary distribution approval",
+        "mame_preflight": "pass; 13 patches; checkout unmodified"
       },
-      "pr": 267,
-      "remote_ci": "not run; no PR yet",
-      "review": "not run; no PR yet",
-      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/267",
-      "checked_head_commit": "d7c901d99d90fd9d1cfa905677abb08c40c8e828",
-      "remote_ci_first_head": {
+      "pr_head_checks": {
         "required_platform_checks": "all_success",
-        "runs": {
-          "rom_free_ci": 42848962839,
-          "initial_decode_msan": 42848963029,
-          "mame_research": 42848962873
-        },
         "check_runs": {
-          "ubuntu_24_04": 129944027133,
-          "macos_14": 129944027481,
-          "windows_2025": 129944027563,
-          "msan": 129944028999,
-          "research_macos": 129944026860
-        }
+          "ubuntu_24_04": 129967758579,
+          "macos_14": 129967758860,
+          "windows_2025": 129967758798
+        },
+        "msan": 129967758081,
+        "mame_research": 129967758518
       },
-      "review_first_head": {
-        "status": "completed_no_findings",
-        "head_commit": "d7c901d99d90fd9d1cfa905677abb08c40c8e828",
-        "comment": "https://github.com/RobCZart82/YamAN1x/pull/267#issuecomment-6772060805",
-        "github_review_objects": 0,
-        "review_threads": 0,
-        "quota_evidence": false,
-        "ruleset": "zero approvals; review threads must be resolved"
+      "automated_review": "Codex summary completed without findings on exact head 411524cd9797db6e0aa7b9f3d0b14340eb50b52c",
+      "review_comment": "https://github.com/RobCZart82/YamAN1x/pull/267#issuecomment-6772060805",
+      "review_evidence": "zero GitHub review objects; zero review threads; no quota issue reported; active ruleset requires zero approvals and resolved threads.",
+      "review_threads_at_merge": 0,
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": "all five checks passed on merge commit",
+      "main_check_runs": {
+        "ubuntu_24_04": 129989103239,
+        "macos_14": 129989103935,
+        "windows_2025": 129989103739,
+        "msan": 129989105616,
+        "mame_research": 129989104714
       },
-      "current_head_after_record_commit": "pending new CI/review on documentation update"
+      "hardware_validation": "not performed; limited passive profile only",
+      "next_step": "Trace writes and instruction context preceding the bounded source/payload observations; retain independent address/value/flag/timing/continuation checks, without semantic claims."
     }
   ],
+  "active_change": null,
+  "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
@@ -5167,6 +5198,16 @@
       "ci_change": "slow ADC target added to Linux ASan/UBSan",
       "review_followup": "Enabled-clock sample-pass evidence added;10/10 PKS helper/CLI tests pass normally and under -O;C++ unchanged"
     },
-    "pr": 266
+    "pr": 266,
+    "status": "merged",
+    "head_commit": "f9bd2433c5714c95afc950599b412a7b872b93ad",
+    "merge_commit": "b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a",
+    "merged_at_utc": "2026-11-10T06:42:20Z",
+    "remote_ci": "all five PR-head and all five main checks passed",
+    "automated_review": "final head completed without findings; earlier inline finding was resolved",
+    "review_threads_at_merge": 1,
+    "unresolved_threads_at_merge": 0,
+    "merge_method": "squash",
+    "bypass_used": false
   }
 }

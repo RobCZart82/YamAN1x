@@ -1,12 +1,40 @@
 # Development status
 
-## Local candidate — PKS source-byte context — 2026-11-10
+## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
-Current main is `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`; this local branch is based directly on it. A read-only observer captures CPU PC/time/CCR/register snapshots at aligned word bases `234ACC`, `234ACE`, `234AD0`, `22D9EE` and `23F7FC`, with a 4,096-event cap and dropped-event reporting. The MAME patch is the thirteenth locked patch; the pinned source is `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as
+`dae0d64db4d463d119ee7be1c452c90a8487513d` from verified PR head
+`411524cd9797db6e0aa7b9f3d0b14340eb50b52c`, based on
+`b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`. The bounded, read-only MAME
+observer, independent parser/auditor, tests and evidence are now on main.
 
-Two local nine-second passive/default-input runs produced identical 43-event source-context traces (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`), no drops, and identical prior PKS-context lines (1,928; SHA-256 `8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Both retained all 26 baseline non-trace fields. Six `FA92` source-read snapshots at `234ACC/CE/D0` were followed by `FA94` writes to `22D9EE`; observed byte, low-byte bus lane, R0L and ER4 destination pointer matched, at 250 ns virtual-time delta. CCR is recorded only; no flag semantics are inferred.
+Two nine-second passive/default-input runs produced identical 43-event source
+context traces (SHA-256
+`012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`) with
+no drops. The prior 1,928-line PKS context trace also matched. Six observed
+source-read/payload-write pairs matched byte value, destination, R0L/ER4 and
+250 ns of MAME virtual time. CCR is recorded without assigning flag meaning.
+The local AN1x 1.04 ROM SHA-256 remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
+it was not modified or added to the repository.
 
-This is limited repeatability evidence from one passive profile and short horizon. It proves no PKS protocol semantics, ADC interpretation, hardware agreement, complete boot, MIDI acceptance or sound. AN1x 1.04 ROM SHA-256 remained `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it was not modified or added to the repository. Local Release build passed; 138/138 CTest groups passed (247.99 s), 121/121 Python tests and 18/18 targeted Python -O tests passed, repository/source-notice audits passed, and the 13-patch pinned MAME preflight passed without modifying its checkout. PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) is open. Its first head `d7c901d99d90fd9d1cfa905677abb08c40c8e828` passed all three required platform checks, MSan and MAME research (runs `42848962839`, `42848963029`, `42848962873`). Codex review completed without findings on that exact head (comment `6772060805`); GitHub review objects and threads count 0, no quota issue. The active ruleset requires zero approvals and resolved threads. This ledger/documentation update changes the PR head, so the new exact head must pass its checks and review before merge. Not merged; no protocol, hardware, boot, MIDI or audio acceptance is claimed.
+All five checks passed on the exact PR head: Linux, macOS, Windows, initial-decode
+MSan and MAME research (check-run IDs `129967758579`, `129967758860`,
+`129967758798`, `129967758081`, `129967758518`). Codex review completed
+without findings on that exact head (comment `6772060805`). GitHub recorded
+zero review objects and zero review threads; no quota issue was reported. The
+active ruleset requires zero approvals and resolved threads. All five checks
+also passed on the merge commit (IDs `129989103239`, `129989103935`,
+`129989103739`, `129989105616`, `129989104714`). Squash merge used the
+verified head without bypass.
+
+This evidence is limited to one passive profile and does not establish PKS or
+ADC semantics, hardware agreement, complete boot, MIDI acceptance or audio.
+Next: trace the preceding writes and instruction context around the bounded
+source/payload observations, retaining independent address/value/flag/time and
+continuation checks. Do not infer a protocol or add HLE replies from observation
+alone. Full reset, firmware/MIDI, DSP fidelity, audio, VST3/AU and REAPER
+acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
 
 ## Audit corrections and next work — 2026-11-10
 
