@@ -24,7 +24,7 @@ módban is PASS. Forrásaudit: 683 fájl/201 upstream azonosság; licencértesí
 230 fájl/5 szöveg PASS (nem jogi/bináris engedély). UTF-8/linkek/napló-ősök PASS.
 Helyi sanitizer nem futott; az ADC-célpont a Linux sanitizer CI-be bekerült.
 Saját távoli ellenőrzések a javítás PR-jén követhetők, korábbi CI nem új bizonyíték.
-A beolvadás állapotának hiteles forrása maga a PR; nem becsülünk előre saját merge-SHA-t.
+A beolvadás állapotának hiteles forrása a [#266 PR](https://github.com/RobCZart82/YamAN1x/pull/266); nem becsülünk előre saját merge-SHA-t.
 A régi lezárási és jelöltbejegyzések a saját dátumukra vonatkozó történeti adatok.
 M0 részleges, M1 elfogadása nyitott. ROM/bank/privát trace/hardverpróba nem készült;
 EG target-hold továbbra is csak hardveres bizonyíték alapján módosítható.

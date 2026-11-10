@@ -5076,7 +5076,7 @@
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
-    "status_source": "correction pull request;merge metadata recorded at next reconciliation",
+    "status_source": "https://github.com/RobCZart82/YamAN1x/pull/266",
     "local_validation": {
       "adc_target": "pass",
       "pks_target": "10/10 pass",
@@ -5091,6 +5091,7 @@
       "documentation": "UTF8,links,ledger uniqueness and ancestry pass",
       "local_sanitizers": "not_run",
       "ci_change": "slow ADC target added to Linux ASan/UBSan"
-    }
+    },
+    "pr": 266
   }
 }

@@ -40,7 +40,7 @@ Recorded preparation baseline: [#265](https://github.com/RobCZart82/YamAN1x/pull
 following the #264 read-only PKS-context research code. That baseline had
 137 CTest groups/109 Python cases. This source tree adds four Python regressions:
 **137 CTest groups/113 Python cases**. Exact merge/remote-check status of this
-correction is tracked on its pull request; no self-referential merge SHA is predicted.
+correction is tracked on [PR #266](https://github.com/RobCZart82/YamAN1x/pull/266); no self-referential merge SHA is predicted.
 
 The corrections reject stale standalone ADC scan restarts without mutation,
 validate complete successful PKS probe manifests before comparison, and reconcile
