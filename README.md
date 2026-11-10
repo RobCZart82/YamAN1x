@@ -33,11 +33,41 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Local candidate — PKS source-byte context — 2026-11-10
+## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
-On branch `research/an1x-pks-r0l-context`, based on current main `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`, a bounded read-only observer records source/control RAM word accesses and CPU context. Two nine-second passive runs produced the same 43-event trace (SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`), with no drops. Six observed source-read/payload-write pairs matched byte value, destination and R0L; each pair was 250 ns apart in MAME virtual time. The pre-existing PKS context trace also matched the baseline byte-for-byte. This is one limited profile: it does not establish PKS semantics, hardware agreement, complete boot, MIDI or audio. PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) is open. Its first head `d7c901d99d90fd9d1cfa905677abb08c40c8e828` passed platform CI, MSan and MAME research; Codex review completed without findings on that head. A ledger commit is recording those results, so the updated head must pass its own checks. See [candidate evidence](docs/pks-payload-path.md).
+PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as
+`dae0d64db4d463d119ee7be1c452c90a8487513d` from verified PR head
+`411524cd9797db6e0aa7b9f3d0b14340eb50b52c`, based on
+`b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a`. The bounded, read-only MAME
+observer, independent parser/auditor, tests and evidence are now on main.
 
-The current source tree defines **138 CTest groups and 121 Python cases**. These are local candidate counts; remote checks and review have not yet run for this change.
+Two nine-second passive/default-input runs produced identical 43-event source
+context traces (SHA-256
+`012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`) with
+no drops. The prior 1,928-line PKS context trace also matched. Six observed
+source-read/payload-write pairs matched byte value, destination, R0L/ER4 and
+250 ns of MAME virtual time. CCR is recorded without assigning flag meaning.
+The local AN1x 1.04 ROM SHA-256 remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
+it was not modified or added to the repository.
+
+All five checks passed on the exact PR head: Linux, macOS, Windows, initial-decode
+MSan and MAME research (check-run IDs `129967758579`, `129967758860`,
+`129967758798`, `129967758081`, `129967758518`). Codex review completed
+without findings on that exact head (comment `6772060805`). GitHub recorded
+zero review objects and zero review threads; no quota issue was reported. The
+active ruleset requires zero approvals and resolved threads. All five checks
+also passed on the merge commit (IDs `129989103239`, `129989103935`,
+`129989103739`, `129989105616`, `129989104714`). Squash merge used the
+verified head without bypass.
+
+This evidence is limited to one passive profile and does not establish PKS or
+ADC semantics, hardware agreement, complete boot, MIDI acceptance or audio.
+Next: trace the preceding writes and instruction context around the bounded
+source/payload observations, retaining independent address/value/flag/time and
+continuation checks. Do not infer a protocol or add HLE replies from observation
+alone. Full reset, firmware/MIDI, DSP fidelity, audio, VST3/AU and REAPER
+acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
 
 ## Audit corrections and next work — 2026-11-10
 

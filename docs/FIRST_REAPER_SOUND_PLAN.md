@@ -1,23 +1,22 @@
-## Helyi jelölt: PKS forrásbájt CPU-kontextus — 2026-11-10
+## PKS forrásbájt CPU-kontextus — #267 beolvadt — 2026-11-10
 
-A jelenlegi `b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a` mainről indított helyi
-ág egy kizárólag naplózó, legfeljebb 4096 eseményes MAME-megfigyelőt ad hozzá.
-Öt RAM-szóhatáron gyűjti a CPU által jelentett PC/idő/CCR/ER0–ER7 pillanatképet.
-Két, egyenként kilenc másodperces passzív futás új nyoma bájtról bájtra azonos
-(43 esemény, SHA-256 `012b91ce66f3b3fdef937ef374f405d6004a53fc7703059d1e75c3bcecbe2d76`),
-és a korábbi PKS-kontextus-nyom is egyezik (1928 sor; SHA-256
-`8fb86c7b3c9a387f6c27c50c1b295c6244bddd4a8ba489d9b89552a8187b431c`). Hat
-forrásolvasás/`22D9EE` bájtaírás pár érték-, cím-, R0L/ER4- és 250 ns
-modellidő-ellenőrzést teljesített. A CCR csak rögzített adat, jelentését nem
-értelmezzük. A firmware helyi és változatlan maradt.
+A #267 PR `dae0d64db4d463d119ee7be1c452c90a8487513d` merge-SHA-val beolvadt
+a `411524cd9797db6e0aa7b9f3d0b14340eb50b52c` ellenőrzött headről.
+A korlátozott, csak naplózó MAME-megfigyelő, a független auditor és a tesztek
+a főág részei. Két passzív futás azonos, 43 eseményes nyomot és hat egyező
+forrásolvasás/célírás párt adott. Ez nem igazol protokollt, ADC-t, hardvert,
+teljes bootot, MIDI-t vagy hangot; a ROM változatlan és a repón kívül maradt.
 
-Ez nem bizonyít PKS- vagy ADC-szemantikát, hardveregyezést, teljes bootot,
-MIDI-t vagy hangot. Helyi Release build, 138/138 CTest, 121/121 Python,
-18/18 célzott Python -O, forrásaudit/lefedettség és 13-patch MAME-előkészítés
-sikeres. A #267 PR első headje (`d7c901d99d90fd9d1cfa905677abb08c40c8e828`)
-mindhárom kötelező platform-CI-n, az MSan és a MAME-build ellenőrzésen átment;
-a Codex review azon a pontos headen észrevétel nélkül befejeződött. Az ezt
-rögzítő commit utáni új head CI/review kapui külön ellenőrzendők.
+A PR pontos headjén a Linux, macOS, Windows, MSan és MAME ellenőrzés sikeres
+volt; a Codex review ugyanazon a headen észrevétel nélkül zárult. A merge-SHA
+mind az öt kapcsolódó ellenőrzése szintén sikeres. Részletek a
+[fejlesztési naplóban](DEVELOPMENT_LOG.md) és a [forrásút megfigyelésében](pks-payload-path.md).
+
+Következő lépés: a rögzített forrás/cél megfigyelések előtti írások és
+utasításkontextus követése független cím-, érték-, flag-, időzítés- és
+folytathatósági ellenőrzésekkel. Az észlelésekből ne következtessünk protokollra,
+és ne adjunk hozzá HLE-választ. M0 részleges; M1, teljes boot, MIDI, DSP,
+hang, VST3/AU és REAPER-elfogadás nyitott.
 
 ## Auditjavítások — 2026-11-10
 
