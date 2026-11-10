@@ -49,6 +49,15 @@ rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba.
 távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
 nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
 
+PR [#269](https://github.com/RobCZart82/YamAN1x/pull/269) az eredeti
+headről (`0afd0e86fd4845514c2e969d809d25880b9d7d64`) nyílt, a
+`947d67950345c7e03362d40f25174fcbe3b1f268` alapra. Ezen a pontos headen
+mindhárom kötelező platformellenőrzés sikeres (Linux `130053106191`, macOS
+`130053106085`, Windows `130053105515`); az MSan is sikeres
+(`130053107228`). GitHub review-objektum, review-szál és PR-komment egyaránt
+0; kvótahibára nincs bizonyíték. A szabályzat 0 jóváhagyást ír elő, a review-
+szálak rendezését követeli. A naplófrissítés új PR-headet készít, ezért az új
+pontos head ellenőrzései még függőben vannak. A PR még nincs beolvasztva.
 ## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
 PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as

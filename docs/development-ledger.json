@@ -5210,7 +5210,7 @@
   "pending_changes": [
     {
       "branch": "research/an1x-source-write-provenance",
-      "status": "local_candidate_tests_passed_pr_pending",
+      "status": "open_pr_documentation_update_checks_pending",
       "base_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
       "scope": "Independently correlate each FA92 source read with the most recent earlier write to its exact byte lane; retain the existing FA94 address/value/register/flag/time checks. No new MAME tap or firmware behavior.",
       "local_validation": {
@@ -5225,8 +5225,31 @@
       "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
       "rom_modified": false,
       "rom_in_repository": false,
-      "remote_ci": "pending",
-      "automated_review": "pending"
+      "remote_ci": "initial_pr_head_all_success; documentation ledger update makes a new head whose checks are pending",
+      "automated_review": "not run; no automated review facility exposed in this session, with GitHub review objects/threads/comments all 0 and no quota issue evidence",
+      "pr": 269,
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/269",
+      "initial_pr_head_commit": "0afd0e86fd4845514c2e969d809d25880b9d7d64",
+      "initial_head_ci": {
+        "required": "all_success",
+        "checks": {
+          "ubuntu_24_04": 130053106191,
+          "macos_14": 130053106085,
+          "windows_2025": 130053105515,
+          "initial_decode_msan": 130053107228
+        }
+      },
+      "review_diagnostics": {
+        "github_review_objects": 0,
+        "review_threads": 0,
+        "issue_comments": 0,
+        "automated_review": "No automated review result was available in the connected tools for this PR.",
+        "quota_issue_evidence": false,
+        "ruleset_id": 25910947,
+        "required_approvals": 0,
+        "review_threads_must_be_resolved": true,
+        "initial_head_threads_unresolved": 0
+      }
     }
   ],
   "audit_correction": {

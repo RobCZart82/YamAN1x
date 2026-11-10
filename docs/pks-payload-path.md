@@ -32,6 +32,15 @@ rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba.
 távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
 nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
 
+PR [#269](https://github.com/RobCZart82/YamAN1x/pull/269) az eredeti
+headről (`0afd0e86fd4845514c2e969d809d25880b9d7d64`) nyílt, a
+`947d67950345c7e03362d40f25174fcbe3b1f268` alapra. Ezen a pontos headen
+mindhárom kötelező platformellenőrzés sikeres (Linux `130053106191`, macOS
+`130053106085`, Windows `130053105515`); az MSan is sikeres
+(`130053107228`). GitHub review-objektum, review-szál és PR-komment egyaránt
+0; kvótahibára nincs bizonyíték. A szabályzat 0 jóváhagyást ír elő, a review-
+szálak rendezését követeli. A naplófrissítés új PR-headet készít, ezért az új
+pontos head ellenőrzései még függőben vannak. A PR még nincs beolvasztva.
 ## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
 A local MAME binary with read-only taps was built using the explicit macOS OSD target (`OSD=mac`); SDL3 was not required. Two identical nine-second passive/default-input runs at the locked source commit `706dbb73281320c54d7c2f16262c1c3786f2be01` produced byte-identical traces, each 65,370 lines. The unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the diagnostic binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`.
