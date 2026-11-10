@@ -21,7 +21,10 @@ public:
             throw std::logic_error("ADC scan already active");
         if (previous_an3 > 1023)
             throw std::invalid_argument("Previous AN3 sample exceeds ten bits");
-        deadline_ = sample_deadline(cycle, 266, an0);
+        const auto next = sample_deadline(cycle, 266, an0);
+        require_time(cycle);
+        deadline_ = next;
+        last_cycle_ = cycle;
         pending_sample_ = an0;
         results_[3] = previous_an3;
         finished_ = previous_adf;
@@ -32,6 +35,7 @@ public:
             throw std::logic_error("ADC restart requires cleared ADST");
         if (first_channel != 0 && first_channel != 4)
             throw std::invalid_argument("Unsupported ADC scan bank");
+        require_time(cycle);
         const auto next = sample_deadline(cycle, 266, sample);
         first_channel_ = first_channel;
         channel_ = 0;
@@ -39,6 +43,7 @@ public:
         write_adf(keep_adf);
         pending_sample_ = sample;
         deadline_ = next;
+        last_cycle_ = cycle;
     }
 
     void service(uint64_t cycle, uint16_t next_sample) {
@@ -50,6 +55,7 @@ public:
         channel_ = (channel_ + 1) % results_.size();
         pending_sample_ = next_sample;
         deadline_ = next;
+        last_cycle_ = cycle;
     }
 
     // Original adcsr_w clears ADST without cancelling the existing REPEAT mode.
@@ -58,9 +64,15 @@ public:
         write_adf(keep_adf);
     }
     void write_adf(bool keep) { finished_ &= keep; }
+    // Reset starts a fresh component epoch;the enclosing bus owns absolute time.
     void reset() { *this = {}; }
 
 private:
+    void require_time(uint64_t cycle) const {
+        if (cycle < last_cycle_)
+            throw std::invalid_argument("ADC scan time moves backwards");
+    }
+
     static uint64_t sample_deadline(uint64_t cycle, unsigned delay, uint16_t sample) {
         if (sample > 1023)
             throw std::invalid_argument("ADC scan sample exceeds ten bits");
@@ -71,6 +83,7 @@ private:
 
     std::array<uint16_t, 4> results_{};
     std::optional<uint64_t> deadline_;
+    uint64_t last_cycle_ = 0;
     uint16_t pending_sample_ = 0;
     unsigned channel_ = 0;
     unsigned first_channel_ = 0;
