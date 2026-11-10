@@ -27,3 +27,15 @@ slice64,callback limit100000 next fails at byte writeFFFF61,PC0xA56,
 peripheral cycle239,after192 completed slice cycles/55 callbacks,9 GPIO outputs.
 The pinned map identifies FFFF61 as ITU TSYR;its behavior needs separate research.
 No full boot/audio/plugin acceptance or physical analog voltage is claimed.
+
+## Slow-scan restart time guard — 2026-11-10
+
+The later slow-scan component stores its last accepted start, restart or service
+time. Restart before that point rejects without changing the pending sample,
+result lanes, bank, flags or deadline. Equal timestamps remain valid. Validation
+and deadline-overflow failures leave the time watermark unchanged. Explicit
+component reset clears that watermark for a new epoch; the enclosing bus still
+owns its monotonic absolute clock. The bus already supplied monotonic times.
+Tests cover 1044 stale restart cases across both banks, continued sample delivery,
+same-time restart, invalid sample/overflow recovery and zero-time use after reset.
+No firmware or hardware behavior is inferred from these synthetic guards.

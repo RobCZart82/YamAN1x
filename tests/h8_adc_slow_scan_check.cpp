@@ -67,6 +67,38 @@ int main() {
         check(scan.control() == 0xb3 && scan.deadline() == 1666 &&
               scan.result_word(3) == 103 * 64 && scan.next_channel() == 1);
     }
+    // A failed stale restart must preserve the pending sample,flags,bank and time.
+    for (unsigned bank : {0u, 4u}) for (uint64_t stale = 0; stale < 522; ++stale) {
+        H8AdcSlowScan scan;
+        scan.start(0, 1);scan.service(266, 2);scan.service(522, 3);
+        scan.clear_start(false);
+        bool rejected = false;
+        try { scan.restart(stale, bank, 99, true); }
+        catch (const std::invalid_argument&) { rejected = true; }
+        check(rejected && scan.deadline() == 778 && scan.control() == 0x13 &&
+              scan.next_channel() == 3 && scan.result_word(0) == 64 &&
+              scan.result_word(1) == 128 && scan.result_word(2) == 0);
+        scan.service(778, 4);
+        check(scan.result_word(2) == 192 && scan.deadline() == 1034);
+        scan.restart(778, bank, 7, false); // Equal settled timestamp remains valid.
+        check(scan.deadline() == 1044 && scan.control() == (0x33 | bank));
+        scan.clear_start(false);
+        rejected = false;
+        try { scan.restart(777, bank, 8, false); }
+        catch (const std::invalid_argument&) { rejected = true; }
+        check(rejected && scan.deadline() == 1044);
+        scan.reset();scan.start(0, 5); // Explicit reset permits a fresh zero-time epoch.
+        check(scan.deadline() == 266 && scan.control() == 0x33);
+    }
+    // Invalid sample/overflow must not move the accepted-time watermark.
+    {
+        H8AdcSlowScan scan;scan.start(0,1);scan.service(266,2);scan.clear_start(false);
+        bool bad=false;try {scan.restart(1000,4,1024,false);}
+        catch(const std::invalid_argument&) {bad=true;}check(bad);
+        bad=false;try {scan.restart(std::numeric_limits<uint64_t>::max(),4,3,false);}
+        catch(const std::overflow_error&) {bad=true;}check(bad);
+        scan.restart(266,4,3,false);check(scan.deadline()==532);
+    }
     H8AdcSlowScan adc;
     adc.start(40, 1);
     for (auto cycle : {305, 307}) {

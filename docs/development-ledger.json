@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-09",
+  "recorded_date": "2026-11-10",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
+  "baseline_commit": "5421585951258f430ea13fd40207bdabd23ed654",
   "entries": [
     {
       "pr": 6,
@@ -5048,21 +5048,51 @@
         42666087403
       ],
       "infrastructure_retry": "Two macOS hosted-runner acquisition attempts were explicitly annotated as capacity/infrastructure failures; after each workflow completed, only the failed job was retried, and the third attempt passed."
+    },
+    {
+      "pr": 265,
+      "title": "docs: record merged PKS context report",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/265",
+      "kind": "documentation",
+      "status": "merged",
+      "merge_commit": "5421585951258f430ea13fd40207bdabd23ed654",
+      "reviewed_head": "08d72e334458e203a9dc385acb0511cf5a17cb17",
+      "merged_at_utc": "2026-11-09T19:56:03Z",
+      "ci_runs": [
+        42681766560,
+        42681766508
+      ],
+      "main_ci_runs": [
+        42688078789,
+        42688079192
+      ],
+      "ci_result": "all_four_success",
+      "automated_review": "completed_no_findings_on_previous_head_only",
+      "automated_review_head": "cc8b736430386cb1d219135d3a0762db0cf73312"
     }
   ],
-  "active_change": {
-    "branch": "docs/reconcile-pks-context-merge",
-    "status": "candidate_published",
-    "base_commit": "a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c",
-    "scope": "Reconcile README, status, first-sound plan, development log and structured ledger with the verified #264 squash merge, exact-head CI/review evidence and completed main checks; no runtime changes.",
-    "repository_audit": "pass",
-    "ledger_json_validation": "pass",
-    "pr": 265,
-    "head_commit": null,
-    "remote_ci": "pending_after_ledger_update",
-    "automatic_review": "Current Codex review summary completed without findings on previous PR head cc8b736430386cb1d219135d3a0762db0cf73312; updated head review pending.",
-    "review_evidence": "No GitHub review objects or threads on current PR so far; previous-head review summary is not treated as current-head approval. Active ruleset requires zero approvals and resolved review threads; no quota evidence.",
-    "hardware_validation": "not performed; documentation-only change"
-  },
-  "pending_changes": []
+  "active_change": null,
+  "pending_changes": [],
+  "audit_correction": {
+    "branch": "fix/audit-adc-pks-validation",
+    "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
+    "status_source": "https://github.com/RobCZart82/YamAN1x/pull/266",
+    "local_validation": {
+      "adc_target": "pass",
+      "pks_target": "10/10 pass",
+      "ctest_groups": 137,
+      "python_cases": 113,
+      "full_suite": "136/136 runnable CTest PASS,51.54s;Python wrapper tested separately",
+      "release_build": "pass",
+      "python": "112/113 pass;one WinError1314 symlink privilege error",
+      "python_optimized": "10/10 targeted PKS tests pass",
+      "repository_audit": "683 files,201 upstream identities,pass",
+      "source_notice": "230 files,5 license texts,pass",
+      "documentation": "UTF8,links,ledger uniqueness and ancestry pass",
+      "local_sanitizers": "not_run",
+      "ci_change": "slow ADC target added to Linux ASan/UBSan",
+      "review_followup": "Enabled-clock sample-pass evidence added;10/10 PKS helper/CLI tests pass normally and under -O;C++ unchanged"
+    },
+    "pr": 266
+  }
 }

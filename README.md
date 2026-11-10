@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **137 CTest groups and 109 Python cases**. Tests generate synthetic
+The source-only build defines **137 CTest groups and 113 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,7 +33,37 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Current firmware diagnostic — 2026-11-09
+## Audit corrections and next work — 2026-11-10
+
+Recorded preparation baseline: [#265](https://github.com/RobCZart82/YamAN1x/pull/265),
+`5421585951258f430ea13fd40207bdabd23ed654` (documentation reconciliation),
+following the #264 read-only PKS-context research code. That baseline had
+137 CTest groups/109 Python cases. This source tree adds four Python regressions:
+**137 CTest groups/113 Python cases**. Exact merge/remote-check status of this
+correction is tracked on [PR #266](https://github.com/RobCZart82/YamAN1x/pull/266); no self-referential merge SHA is predicted.
+
+The corrections reject stale standalone ADC scan restarts without mutation,
+validate complete successful PKS probe manifests before comparison, and reconcile
+the development records and twelve-patch source inventory. ADC guard tests also
+run in the Linux ASan/UBSan group. Release build and 136/136 locally runnable CTest groups pass (51.54s). Python:
+112/113 pass; one established Windows symlink privilege case is blocked. All ten
+PKS audit tests also pass under Python -O. Source/notice/link/ledger checks pass.
+Local sanitizers were not run; this change adds the ADC target to Linux sanitizer CI.
+Own remote checks and merge status are recorded on the correction PR.
+No firmware/hardware/MIDI/audio acceptance is added by these synthetic checks.
+
+Active internal-clock ITU scheduler/MMIO/CPU IRQ delivery was completed in
+#215–222; bounded ADC conversion/scan/restart integration followed in #229–242.
+These are supported source profiles, not complete peripheral/hardware coverage.
+Next research step: follow the preceding writes/instruction context of the PKS
+operand RAM snapshots from #264, with independent address/value/flag/time checks.
+Do not infer the PKS protocol or introduce HLE replies from observations alone.
+Full reset, firmware boot/MIDI, DSP clock/table/EG fidelity, audio, VST3/AU and
+REAPER acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
+Older dated candidate/pending entries preserve their preparation-time observations;
+they do not override this summary.
+
+## Firmware diagnostic evidence — 2026-11-09
 
 ## PKS operand CPU context — merged in #264
 
@@ -47,17 +77,17 @@ PR [#264](https://github.com/RobCZart82/yaman1x/pull/264) merged by squash at `a
 
 The prior bounded RAM observations were merged in [#262](https://github.com/RobCZart82/yaman1x/pull/262). This merged context trace extends that work without asserting data semantics. See [current status](docs/STATUS.md) and [bounded observations](docs/pks-payload-path.md).
 
-## Current verified status — 2026-11-09
+## Verified research baseline — 2026-11-09
 
-Current `main` is `a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c` (#264). #264 records the bounded PKS operand CPU-context observer and its limited passive-profile evidence. PR-head ROM-free CI `42652447163`, MSan `42652447223` and MAME research `42652447044` passed; merge-commit checks `42666087454`, `42666087385` and `42666087403` passed. Codex’s review summary completed without findings on the exact PR head; no GitHub review objects or threads were present and no quota issue was reported. The ruleset requires zero approvals and resolved review threads. Squash merge used the checked head without bypass.
+Verified research-code baseline: `a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c` (#264); #265 reconciled its records. #264 records the bounded PKS operand CPU-context observer and its limited passive-profile evidence. PR-head ROM-free CI `42652447163`, MSan `42652447223` and MAME research `42652447044` passed; merge-commit checks `42666087454`, `42666087385` and `42666087403` passed. Codex’s review summary completed without findings on the exact PR head; no GitHub review objects or threads were present and no quota issue was reported. The ruleset requires zero approvals and resolved review threads. Squash merge used the checked head without bypass.
 
 The suite defines **137 CTest groups and 109 Python cases**.
 
-Latest merged runtime fix before #260: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
+Historical research-sink reset fix: [#213](https://github.com/RobCZart82/yaman1x/pull/213),
 `d60e6eb9907d0a9c89938e1677d68e54b319da74`, merged 2026-11-05T09:09:33Z (10:09:33 Europe/Budapest).
 Tested PR head: `a421a261a6647e759dac7d5132567d82f2de32fc`.
 
-The suite then defined **134 CTest groups and 103 Python cases**.
+The #213 suite defined **131 CTest groups and 103 Python cases**.
 [Linux/macOS/Windows and Linux sanitizers PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686134),
 [MSan PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686447),
 [MAME research PASS](https://github.com/RobCZart82/yaman1x/actions/runs/41996686368).
@@ -68,9 +98,9 @@ documentation changed afterwards (three files). No final-head review is claimed.
 Bounded shared SYSCR modes, absolute machine time, supported subset reset,
 LCD/MEG/native register-only VOP3 research adapters, and standalone ITU counter,
 flags, deadlines and exact-time vector dispatch are implemented. The full
-hardware RESET line and boot remain unaccepted. Next: selected active ITU
-scheduler/MMIO integration and actual CPU IRQ delivery, then fresh local
-firmware diagnostics at the documented FFFF60 timer-start boundary.
+hardware RESET line and boot remain unaccepted. ITU scheduler/MMIO/CPU IRQ
+integration and subsequent firmware diagnostics were completed later in #215–222;
+the FFFF60 boundary describes the historical #213 stage.
 PKS/MIDI, DSP clock/table/EG fidelity, audio rendering, VST3/AU and REAPER
 acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
 

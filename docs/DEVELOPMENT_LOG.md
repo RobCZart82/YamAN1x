@@ -1,3 +1,37 @@
+## Auditjavítások — 2026-11-10
+
+Ellenőrzött előkészítési alap: #265, `5421585951258f430ea13fd40207bdabd23ed654`.
+A #265 dokumentációs PR már beolvadt; végső headje `08d72e334458e203a9dc385acb0511cf5a17cb17`.
+PR CI: 42681766560/42681766508; merge CI: 42688078789/42688079192, mind a négy
+feladat sikeres. Review a korábbi `cc8b736430386cb1d219135d3a0762db0cf73312`
+headre zárult észrevétel nélkül; végső headre külön review-t nem állítunk.
+
+Három külön commitból álló javítás:
+1. ADC: utolsó elfogadott időbélyeg, régebbi restart elutasítása változtatás nélkül.
+   1044 stale-restart eset mindkét bankkal, függő minta/eredmény megőrzése,
+   azonos időpont, hiba/túlcsordulás és explicit reset utáni új epoch ellenőrizve.
+2. PKS: kötelező futásadatmezők és típusok, ismert ROM-azonosítás, sikeres kilépés,
+   CPU-előrehaladás és profil/bridge/MIDI-konzisztencia vizsgálata. Bekapcsolt DSP-órajel
+   esetén mindkét chip pozitív, egész mintafuttatási számlálója kötelező.
+   Review-kiegészítés: a futtató az adatlap kiírása után utasítja el a hiányzó/
+   nulla számlálót, ezért ezt az összehasonlítóban is ellenőrizni kell. Az üres,
+   hiányos, sikertelen és hibás típusú adatok elutasítva. A hiányzó mező eltér a null-tól.
+   Négy új Python-teszt; célzottan mind a tíz PKS-próba PASS, negatív CLI-vel is.
+3. Dokumentáció: 12 patch, #213 korabeli 131-es tesztszám, #265 lezárása,
+   az elkészült ITU/ADC-integráció és a következő PKS-kutatási lépés egyeztetve.
+
+A forrásfa 137 CTest/113 Python esetet tartalmaz. Helyi Release-fordítás és
+136/136 külön futtatható CTest PASS (51,54 s). Python 112/113 PASS; egy ismert
+WinError1314 symlink-jogosultsági korlát marad. A tíz célzott PKS-próba -O
+módban is PASS. Forrásaudit: 683 fájl/201 upstream azonosság; licencértesítés:
+230 fájl/5 szöveg PASS (nem jogi/bináris engedély). UTF-8/linkek/napló-ősök PASS.
+Helyi sanitizer nem futott; az ADC-célpont a Linux sanitizer CI-be bekerült.
+Saját távoli ellenőrzések a javítás PR-jén követhetők, korábbi CI nem új bizonyíték.
+A beolvadás állapotának hiteles forrása a [#266 PR](https://github.com/RobCZart82/YamAN1x/pull/266); nem becsülünk előre saját merge-SHA-t.
+A régi lezárási és jelöltbejegyzések a saját dátumukra vonatkozó történeti adatok.
+M0 részleges, M1 elfogadása nyitott. ROM/bank/privát trace/hardverpróba nem készült;
+EG target-hold továbbra is csak hardveres bizonyíték alapján módosítható.
+
 ## #264 merged — 2026-11-09
 
 The new bounded read-only observer captured 1,928 events at word bases 237202, 237204 and 2349E8 over two identical nine-second passive/default-input runs. Both traces were byte-identical (SHA-256 `8acf5f8c23ce9a912be8fa0a25323be342ab3f37084d3fbed012a18b5133172e`); no events were dropped. The instrumented MAME binary was `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`, baseline binary `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`, both built from locked source `706dbb73281320c54d7c2f16262c1c3786f2be01`. Baseline metadata was identical on 26 non-trace fields. The local AN1x 1.04 ROM hash stayed `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it remains outside the repository and unchanged. This does not prove ADC/PKS semantics, hardware agreement, full boot, MIDI or audio; VOP3 samples stayed zero.

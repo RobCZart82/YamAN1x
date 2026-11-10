@@ -1,5 +1,35 @@
 # Development status
 
+## Audit corrections and next work — 2026-11-10
+
+Recorded preparation baseline: [#265](https://github.com/RobCZart82/YamAN1x/pull/265),
+`5421585951258f430ea13fd40207bdabd23ed654` (documentation reconciliation),
+following the #264 read-only PKS-context research code. That baseline had
+137 CTest groups/109 Python cases. This source tree adds four Python regressions:
+**137 CTest groups/113 Python cases**. Exact merge/remote-check status of this
+correction is tracked on [PR #266](https://github.com/RobCZart82/YamAN1x/pull/266); no self-referential merge SHA is predicted.
+
+The corrections reject stale standalone ADC scan restarts without mutation,
+validate complete successful PKS probe manifests before comparison, and reconcile
+the development records and twelve-patch source inventory. ADC guard tests also
+run in the Linux ASan/UBSan group. Release build and 136/136 locally runnable CTest groups pass (51.54s). Python:
+112/113 pass; one established Windows symlink privilege case is blocked. All ten
+PKS audit tests also pass under Python -O. Source/notice/link/ledger checks pass.
+Local sanitizers were not run; this change adds the ADC target to Linux sanitizer CI.
+Own remote checks and merge status are recorded on the correction PR.
+No firmware/hardware/MIDI/audio acceptance is added by these synthetic checks.
+
+Active internal-clock ITU scheduler/MMIO/CPU IRQ delivery was completed in
+#215–222; bounded ADC conversion/scan/restart integration followed in #229–242.
+These are supported source profiles, not complete peripheral/hardware coverage.
+Next research step: follow the preceding writes/instruction context of the PKS
+operand RAM snapshots from #264, with independent address/value/flag/time checks.
+Do not infer the PKS protocol or introduce HLE replies from observations alone.
+Full reset, firmware boot/MIDI, DSP clock/table/EG fidelity, audio, VST3/AU and
+REAPER acceptance remain open. M0 is partial; M1 is prepared but unaccepted.
+Older dated candidate/pending entries preserve their preparation-time observations;
+they do not override this summary.
+
 ## PKS operand CPU context — merged in #264
 
 A bounded, read-only MAME observer now captures the post-fetch PC, virtual time, CCR and ER0–ER7 when firmware reads/writes the three previously observed aligned RAM word bases `237202`, `237204` and `2349E8`. The observer has a 4,096-event cap, reports overflow, filters all other addresses and does not change bus values. It was built against the pinned MAME source `706dbb73281320c54d7c2f16262c1c3786f2be01`; instrumented binary SHA-256 `0a7115cb99760c3644affe2a8f22a4491a180a824ab21b1d2b18d700174c1768`. The matching uninstrumented build hash is `6269f609a41a7e9e7202d2be9d3edc03f8744b48219fac0c9ebdfe1fea0746ff`.

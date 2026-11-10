@@ -1,3 +1,37 @@
+## Auditjavítások — 2026-11-10
+
+Ellenőrzött előkészítési alap: #265, `5421585951258f430ea13fd40207bdabd23ed654`.
+A #265 dokumentációs PR már beolvadt; végső headje `08d72e334458e203a9dc385acb0511cf5a17cb17`.
+PR CI: 42681766560/42681766508; merge CI: 42688078789/42688079192, mind a négy
+feladat sikeres. Review a korábbi `cc8b736430386cb1d219135d3a0762db0cf73312`
+headre zárult észrevétel nélkül; végső headre külön review-t nem állítunk.
+
+Három külön commitból álló javítás:
+1. ADC: utolsó elfogadott időbélyeg, régebbi restart elutasítása változtatás nélkül.
+   1044 stale-restart eset mindkét bankkal, függő minta/eredmény megőrzése,
+   azonos időpont, hiba/túlcsordulás és explicit reset utáni új epoch ellenőrizve.
+2. PKS: kötelező futásadatmezők és típusok, ismert ROM-azonosítás, sikeres kilépés,
+   CPU-előrehaladás és profil/bridge/MIDI-konzisztencia vizsgálata. Bekapcsolt DSP-órajel
+   esetén mindkét chip pozitív, egész mintafuttatási számlálója kötelező.
+   Review-kiegészítés: a futtató az adatlap kiírása után utasítja el a hiányzó/
+   nulla számlálót, ezért ezt az összehasonlítóban is ellenőrizni kell. Az üres,
+   hiányos, sikertelen és hibás típusú adatok elutasítva. A hiányzó mező eltér a null-tól.
+   Négy új Python-teszt; célzottan mind a tíz PKS-próba PASS, negatív CLI-vel is.
+3. Dokumentáció: 12 patch, #213 korabeli 131-es tesztszám, #265 lezárása,
+   az elkészült ITU/ADC-integráció és a következő PKS-kutatási lépés egyeztetve.
+
+A forrásfa 137 CTest/113 Python esetet tartalmaz. Helyi Release-fordítás és
+136/136 külön futtatható CTest PASS (51,54 s). Python 112/113 PASS; egy ismert
+WinError1314 symlink-jogosultsági korlát marad. A tíz célzott PKS-próba -O
+módban is PASS. Forrásaudit: 683 fájl/201 upstream azonosság; licencértesítés:
+230 fájl/5 szöveg PASS (nem jogi/bináris engedély). UTF-8/linkek/napló-ősök PASS.
+Helyi sanitizer nem futott; az ADC-célpont a Linux sanitizer CI-be bekerült.
+Saját távoli ellenőrzések a javítás PR-jén követhetők, korábbi CI nem új bizonyíték.
+A beolvadás állapotának hiteles forrása a [#266 PR](https://github.com/RobCZart82/YamAN1x/pull/266); nem becsülünk előre saját merge-SHA-t.
+A régi lezárási és jelöltbejegyzések a saját dátumukra vonatkozó történeti adatok.
+M0 részleges, M1 elfogadása nyitott. ROM/bank/privát trace/hardverpróba nem készült;
+EG target-hold továbbra is csak hardveres bizonyíték alapján módosítható.
+
 # YamAN1x: fejlesztési terv az első REAPER-ben megszólaló hangig
 
 ## PKS operand CPU context — merged in #264
@@ -3036,7 +3070,7 @@ Részletek: [STATUS](STATUS.md), [SCI-megfigyelések](sci-state-milestone.md),
 
 ### M0 — Rögzített fejlesztési alap és motorarchitektúra
 
-2026-10-30: **részben teljesült**. A következő alapok elkészültek:
+2026-11-10: **részben teljesült**. A következő alapok elkészültek:
 
 - Az [ADR-0001](ADR-0001-engine-boundary.md) kiválasztotta a motorhatárt, a
   külön MAME kutatási utat és a tervezett VST3 SDK-t. Az architekturális választás
@@ -3073,10 +3107,11 @@ Nyitott feladatok, végrehajtási sorrendben:
    leltárban 0 hiányzó sor van (135 kizárt sor külön hatókör). Ez nem teljes
    CPU- vagy hardverelfogadás. A közös ROM/RAM/SCI/GPIO/IRQ-busz szintetikus
    integrációja elkészült. A közös korlátozott SYSCR-módok és a támogatott részreset
-   már teszteltek. Következő: az ITU önálló számláló/esemény/deadline/dispatch
-   komponenseinek aktív gépütemező/MMIO- és CPU IRQ-bekötése, majd friss helyi
-   firmware-diagnosztika. Teljes hardver-reset, további perifériák és a teljes
-   címtér/időzítés igazolása továbbra is nyitott.
+   már teszteltek. Az aktív belső órás ITU gépütemező/MMIO- és CPU IRQ-bekötése
+   #215–222-ben elkészült; a korlátozott ADC-konverzió/scan/restart #229–242-ben
+   kapcsolódott a buszhoz. További perifériaprofilok, teljes hardver-reset,
+   címtér/időzítés és gépszintű elfogadás továbbra is szükséges. A friss
+   PKS-operandusok érték-/utasítási eredetének vizsgálata az M1 kutatási iránya.
 2. A teljes gép CPU-/RAM-/periféria-/DSP-/MIDI-állapotának példányizolációját,
    resetjét és blokkfelosztástól független időléptetését igazolni.
 3. Az újonnan ténylegesen beépített függőségek licenceit lezárni; a saját kód
