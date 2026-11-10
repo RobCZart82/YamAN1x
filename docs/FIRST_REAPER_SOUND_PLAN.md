@@ -14,8 +14,10 @@ modellidő-ellenőrzést teljesített. A CCR csak rögzített adat, jelentését
 Ez nem bizonyít PKS- vagy ADC-szemantikát, hardveregyezést, teljes bootot,
 MIDI-t vagy hangot. Helyi Release build, 138/138 CTest, 121/121 Python,
 18/18 célzott Python -O, forrásaudit/lefedettség és 13-patch MAME-előkészítés
-sikeres. Ezek helyi ellenőrzések; a jelölt még nincs PR-ben, ezért távoli CI
-és review eredményt nem állítunk.
+sikeres. A #267 PR első headje (`d7c901d99d90fd9d1cfa905677abb08c40c8e828`)
+mindhárom kötelező platform-CI-n, az MSan és a MAME-build ellenőrzésen átment;
+a Codex review azon a pontos headen észrevétel nélkül befejeződött. Az ezt
+rögzítő commit utáni új head CI/review kapui külön ellenőrzendők.
 
 ## Auditjavítások — 2026-11-10
 

@@ -20,7 +20,13 @@ protokollt, ADC-t, hardvert, teljes bootot, MIDI-t vagy hangot. A jelölt nincs
 beolvasztva, PR/CI/review még nincs; a ledgerben függő változásként szerepel.
 Lezárt helyi ellenőrzések: Release build PASS; 138/138 CTest PASS (247.99 s),
 121/121 Python PASS, 18/18 célzott Python -O PASS, repository audit, source
-notice coverage és a 13-patch rögzített MAME preflight PASS.
+notice coverage és a 13-patch rögzített MAME preflight PASS. PR #267 első head
+`d7c901d99d90fd9d1cfa905677abb08c40c8e828` platform-CI, MSan és MAME-buildje
+sikeres (runs `42848962839`, `42848963029`, `42848962873`); Codex review
+észrevétel nélkül lezárult ugyanazon a headen (comment `6772060805`). A GitHub
+reviews és review-threadek száma nulla, kvótajelzés nincs; az aktív szabály
+nulla approvalt és rendezett threadeket követel. Az ezt rögzítő commit után
+az új PR-head eredményeit ismét ellenőrizzük.
 
 ## Auditjavítások — 2026-11-10
 

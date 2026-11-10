@@ -5075,7 +5075,7 @@
   "pending_changes": [
     {
       "branch": "research/an1x-pks-r0l-context",
-      "status": "prepared_local_candidate",
+      "status": "open_pr_first_head_checks_and_review_passed",
       "base_commit": "b04ff5e8ed1d8537c51b8a9ad0d03cf11494d36a",
       "scope": "Add bounded read-only MAME CPU-context observation for PKS source/payload/control word bases, an independent parser/auditor and tests; no firmware or device behavior changes.",
       "local_evidence": {
@@ -5115,9 +5115,36 @@
         "mame_preflight": "pass; 13 patches; checkout unmodified",
         "full_ctest": "138/138 pass; 247.99 s, parallel 4"
       },
-      "pr": null,
+      "pr": 267,
       "remote_ci": "not run; no PR yet",
-      "review": "not run; no PR yet"
+      "review": "not run; no PR yet",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/267",
+      "checked_head_commit": "d7c901d99d90fd9d1cfa905677abb08c40c8e828",
+      "remote_ci_first_head": {
+        "required_platform_checks": "all_success",
+        "runs": {
+          "rom_free_ci": 42848962839,
+          "initial_decode_msan": 42848963029,
+          "mame_research": 42848962873
+        },
+        "check_runs": {
+          "ubuntu_24_04": 129944027133,
+          "macos_14": 129944027481,
+          "windows_2025": 129944027563,
+          "msan": 129944028999,
+          "research_macos": 129944026860
+        }
+      },
+      "review_first_head": {
+        "status": "completed_no_findings",
+        "head_commit": "d7c901d99d90fd9d1cfa905677abb08c40c8e828",
+        "comment": "https://github.com/RobCZart82/YamAN1x/pull/267#issuecomment-6772060805",
+        "github_review_objects": 0,
+        "review_threads": 0,
+        "quota_evidence": false,
+        "ruleset": "zero approvals; review threads must be resolved"
+      },
+      "current_head_after_record_commit": "pending new CI/review on documentation update"
     }
   ],
   "audit_correction": {
