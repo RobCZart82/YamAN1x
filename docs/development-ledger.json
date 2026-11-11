@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-11",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "97e341ef56ff81a511ae64b6f98ca8af01251f84",
+  "baseline_commit": "b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88",
   "entries": [
     {
       "pr": 6,
@@ -5254,6 +5254,62 @@
         42885941250,
         42885941221
       ]
+    },
+    {
+      "pr": 270,
+      "title": "Validate standalone PKS source runs and retain source-writer CPU snapshots",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/270",
+      "kind": "correctness-and-research-evidence",
+      "branch": "fix/pks-source-run-validation",
+      "base_commit": "97e341ef56ff81a511ae64b6f98ca8af01251f84",
+      "head_commit": "2264c7a53415584af718f9e941ef029c84acf302",
+      "merge_commit": "b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88",
+      "merged_at_utc": "2026-11-11T06:06:49Z",
+      "status": "merged",
+      "scope": "Require complete successful run metadata for every standalone PKS source-context audit; add negative/positive CLI regressions; preserve a copied preceding-writer CCR and ER0-ER7 snapshot on matched source transfers.",
+      "local_evidence": {
+        "source_tests": "13/13 pass",
+        "release_build": "pass",
+        "ctest": "137/137 runnable groups pass (60.63 s)",
+        "python": "125/126 pass; one existing Windows symlink privilege limitation (WinError 1314)",
+        "source_audit": "688 files, 201 upstream identities; pass",
+        "source_notice": "231 files, 5 license texts; pass",
+        "docs": "UTF-8, links, ledger ancestry and counts pass",
+        "local_sanitizers": "not run",
+        "rom_modified": false,
+        "rom_in_repository": false
+      },
+      "pr_head_checks": {
+        "ubuntu_24_04": 130344216845,
+        "macos_14": 130344216645,
+        "windows_2025": 130344216370,
+        "msan": 130344117986,
+        "all_success": true,
+        "mame_research": "path-filtered; not run for this Python/documentation change"
+      },
+      "review_diagnostics": {
+        "github_review_objects": 0,
+        "review_threads": 0,
+        "issue_comments": 0,
+        "automated_review": "No result was recorded at merge inspection.",
+        "quota_issue_evidence": false,
+        "ruleset_id": 25910947,
+        "required_approvals": 0,
+        "review_threads_must_be_resolved": true
+      },
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": {
+        "all_four_success": true,
+        "checks": {
+          "ubuntu_24_04": 130356491771,
+          "macos_14": 130356491432,
+          "windows_2025": 130356491846,
+          "msan": 130356492076
+        }
+      },
+      "hardware_validation": "not performed; bounded source-only evidence does not establish hardware agreement, complete boot, MIDI acceptance or audio.",
+      "next_step": "Trace the source writer's preceding inputs and instruction path using independent value/address/flags/timing/continuation checks, without semantic claims."
     }
   ],
   "active_change": null,
@@ -5304,6 +5360,23 @@
       "documentation": "utf8,links,ledger ancestry and counts pass",
       "local_sanitizers": "not_run"
     },
-    "pr": 270
+    "pr": 270,
+    "status": "merged",
+    "head_commit": "2264c7a53415584af718f9e941ef029c84acf302",
+    "merge_commit": "b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88",
+    "merged_at_utc": "2026-11-11T06:06:49Z",
+    "pr_head_checks": {
+      "ubuntu_24_04": 130344216845,
+      "macos_14": 130344216645,
+      "windows_2025": 130344216370,
+      "msan": 130344117986
+    },
+    "main_checks": {
+      "ubuntu_24_04": 130356491771,
+      "macos_14": 130356491432,
+      "windows_2025": 130356491846,
+      "msan": 130356492076
+    },
+    "review": "No GitHub reviews, threads or comments; no automated-review result or quota evidence; ruleset required zero approvals; no bypass."
   }
 }

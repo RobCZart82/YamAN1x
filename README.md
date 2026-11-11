@@ -33,33 +33,22 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## Repository audit and source-context follow-up — 2026-11-11
+## PKS source-context follow-up — merged #270 — 2026-11-11
 
-Correction and merge status: [PR #270](https://github.com/RobCZart82/YamAN1x/pull/270).
+PR [#270](https://github.com/RobCZart82/YamAN1x/pull/270) is merged on the
+current main baseline `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`; its verified head was
+`2264c7a53415584af718f9e941ef029c84acf302`. It validates successful run
+manifests for standalone source-context audits and preserves the selected
+writer's CCR and ER0–ER7 snapshot for the next source-provenance investigation.
+The PR-head and merge-commit Linux/macOS/Windows/MSan checks passed. No review
+submission, thread, comment, automated-review result or quota error was
+recorded; the active ruleset required zero approvals and no bypass was used.
+See [current status](docs/STATUS.md) and the [development ledger](docs/development-ledger.json).
 
-Preparation baseline is merged #269, `97e341ef56ff81a511ae64b6f98ca8af01251f84`.
-The preceding changes add bounded PKS source-context observations and correlate
-FA92 reads with the latest earlier write to the selected byte lane. #269 final
-PR-head platform/MSan runs 42885941250/42885941221 passed all four jobs.
-
-The audit found that the source-context CLI checked complete successful run
-metadata only when --baseline was supplied. Its standalone entry now uses the
-same full validator, so failed/partial runs reject before reporting transfers.
-A synthetic end-to-end CLI regression covers failed, identity-only, malformed
-and complete records. The provenance report now carries the earlier writer's
-CCR and ER0–ER7 snapshot, copied independently from later read/write snapshots.
-These fields support tracing the register value that produced the source byte.
-
-Current source inventory is **138 CTest groups and 126 Python cases**, with
-13 research patches. Release build and137/137 runnable CTest pass (60.63s).
-Python125/126 pass;one established WinError1314 symlink-privilege limit. All13
-source tests pass. Source/notice audits pass (688 files,201 upstream identities,
-231 covered files/five licence texts),as do UTF8/links/ledger checks. Local
-sanitizers were not run;this change's remote checks are recorded in its PR.
-Next research work follows the preceding writer's inputs and instruction path.
-M0 remains partial and M1 prepared/unaccepted. Full boot/MIDI/audio/REAPER gates
-remain open. Older candidate labels below describe their preparation dates.
-
+The bounded profile remains observation only. It does not establish hardware
+agreement, complete boot, MIDI or audio. The next step follows the writer's
+preceding inputs and instruction path with independent value/address/flags/time
+and continuation checks.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
