@@ -16,6 +16,27 @@ See [PR #267](https://github.com/RobCZart82/YamAN1x/pull/267) and the
 This bounded profile does not establish PKS or ADC semantics, hardware
 agreement, full boot, MIDI or audio.
 
+## Source-context audit follow-up — merged #270 — 2026-11-11
+
+PR [#270](https://github.com/RobCZart82/YamAN1x/pull/270) merged from exact
+head `2264c7a53415584af718f9e941ef029c84acf302` as
+`b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`. It adds complete run-manifest
+validation for standalone source-context audits and retains the preceding
+writer's CCR/ER0–ER7 snapshot on each matched transfer. This enables a bounded
+follow-up into the writer inputs and instruction path without assigning PKS
+meaning.
+
+All four PR-head checks and all four merge-commit checks passed. The MAME
+workflow was path-filtered for the Python/documentation change. GitHub recorded
+no review submissions, threads or comments; no automated-review result or
+quota error was available. The ruleset required zero approvals; no bypass was
+used. Local validation and limitations are summarized in [STATUS](STATUS.md)
+and the [ledger](development-ledger.json). The ROM was not changed or added.
+
+Next: trace preceding value inputs/instructions with independent
+value/address/flags/timing/continuation checks. This profile is not hardware,
+boot, MIDI or audio acceptance.
+
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

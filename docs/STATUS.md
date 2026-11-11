@@ -1,32 +1,39 @@
 # Development status
 
-## Repository audit and source-context follow-up — 2026-11-11
+## PKS source-context follow-up — merged #270 — 2026-11-11
 
-Correction and merge status: [PR #270](https://github.com/RobCZart82/YamAN1x/pull/270).
+PR [#270](https://github.com/RobCZart82/YamAN1x/pull/270) was squash-merged from
+verified head `2264c7a53415584af718f9e941ef029c84acf302` onto
+`97e341ef56ff81a511ae64b6f98ca8af01251f84`. The merge commit is
+`b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88` (2026-11-11T06:06:49Z UTC).
 
-Preparation baseline is merged #269, `97e341ef56ff81a511ae64b6f98ca8af01251f84`.
-The preceding changes add bounded PKS source-context observations and correlate
-FA92 reads with the latest earlier write to the selected byte lane. #269 final
-PR-head platform/MSan runs 42885941250/42885941221 passed all four jobs.
+The change validates complete successful source-context run manifests even
+without `--baseline`, with CLI rejection/acceptance regressions. Matched source
+transfers also retain a copied earlier-writer CCR and ER0–ER7 snapshot. This
+supports tracing the value-producing register and instruction path; it does not
+assign PKS semantics.
 
-The audit found that the source-context CLI checked complete successful run
-metadata only when --baseline was supplied. Its standalone entry now uses the
-same full validator, so failed/partial runs reject before reporting transfers.
-A synthetic end-to-end CLI regression covers failed, identity-only, malformed
-and complete records. The provenance report now carries the earlier writer's
-CCR and ER0–ER7 snapshot, copied independently from later read/write snapshots.
-These fields support tracing the register value that produced the source byte.
+On exact PR head `2264c7a...`, all four jobs passed: Ubuntu
+(`130344216845`), macOS (`130344216645`), Windows (`130344216370`) and
+MSan (`130344117986`). The same four jobs passed on exact merge commit
+`b306ed99...`: Ubuntu `130356491771`, macOS `130356491432`, Windows
+`130356491846`, and MSan `130356492076`. The MAME workflow was path-filtered
+for this Python/documentation change. The active ruleset `25910947` requires
+zero approvals, resolved review threads and the three platform checks; no
+bypass was used. At merge inspection, GitHub had zero review submissions,
+review threads or PR comments; no automated-review result or quota error was
+recorded.
 
-Current source inventory is **138 CTest groups and 126 Python cases**, with
-13 research patches. Release build and137/137 runnable CTest pass (60.63s).
-Python125/126 pass;one established WinError1314 symlink-privilege limit. All13
-source tests pass. Source/notice audits pass (688 files,201 upstream identities,
-231 covered files/five licence texts),as do UTF8/links/ledger checks. Local
-sanitizers were not run;this change's remote checks are recorded in its PR.
-Next research work follows the preceding writer's inputs and instruction path.
-M0 remains partial and M1 prepared/unaccepted. Full boot/MIDI/audio/REAPER gates
-remain open. Older candidate labels below describe their preparation dates.
+Local validation recorded by the PR: Release build; 137/137 runnable CTest
+groups; 125/126 Python cases (one existing Windows symlink privilege failure,
+WinError 1314); 13/13 targeted source tests; source/notice/document audits
+passed. Local sanitizers were not run. The original AN1x ROM remains unchanged
+and outside the repository. These checks do not establish hardware behavior,
+complete boot, MIDI acceptance or audio.
 
+The next research step is to trace the captured source writer's preceding
+inputs/instruction path while retaining independent value, address, flags,
+timing and continuation checks.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
