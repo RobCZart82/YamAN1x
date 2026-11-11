@@ -1,3 +1,54 @@
+## PR #274 — Keep optional AN3 result reads fail-closed — 2026-11-11
+
+The first code head received a Codex review finding on commit
+`2e2dcc08a24ac9aee9c59a9f0e9b995481d5a2d29` (comment
+`4542789621`, thread `PRRT_kwDOVYYWIs62V_vy`). The bounded probe's sink always
+had an `adc_an3_sample` method, so compile-time detection exposed ADDRD result
+reads even when no `--adc-an3` value was configured. Added the optional
+`adc_an3_enabled()` sink predicate and gate aligned word plus high/low byte
+result reads on it. Sinks without this predicate retain their prior callback
+mapping behavior.
+
+Synthetic CPU programs now prove that the no-input profile fails at the exact
+`FFFFE6` word read and `FFFFE6`/`FFFFE7` byte reads, while an explicit AN3
+sample still permits a result-word read after conversion. The targeted probe
+CTest passed; full Release build and 138/138 CTest groups passed; the Python
+suite passed 127/127; `git diff --check` passed. The MAME and MSan research
+workflows and all three platform jobs for the previous exact PR head completed
+successfully. Corrective-head checks and review are pending; the old finding
+has been fixed in this candidate but its GitHub thread remains to be answered
+and resolved after push. No quota error was reported. No new MAME build/run or
+ROM access was performed for this source correction.
+
+## PR #273 merge and explicit AN3 boot-probe input — 2026-11-11
+
+PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
+checked head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` to
+`f8efa6bb8c7fb349cd75ca3ad713038754687d68`. Its Linux/macOS/Windows/MSan
+checks and the four exact-main checks passed. The Codex review summary on the
+PR head completed without findings (comment `6804342900`); there were no
+GitHub review objects or threads, no quota evidence, and no bypass.
+
+The following candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274)
+and adds explicit `--adc-an3=0..1023` support to the bounded firmware probe.
+Its final-head CI and review are pending. No option preserves the previous strict failure. A
+synthetic program tests 0 and 1023, rejects malformed/duplicate options,
+checks exactly one sample callback and checks that its cycle is invariant
+across CPU slice partitions. Release build, 138/138 CTest groups, 127/127
+Python tests and the repository audit (688 files, 201 upstream identities)
+passed.
+
+Fresh read-only AN1x 1.04 diagnostics with constant inputs 0 and 1023, and
+4,096/1,000,000-cycle slices, all sampled once at cycle 95,706,795 and reached
+the same later unsupported byte write at FFFFE8, PC 1B84, cycle 95,707,121.
+The four non-slice reports matched. This does not show an input-dependent
+firmware result or establish full boot, hardware agreement, MIDI, sound or
+REAPER. ROM SHA-256 remained
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the ROM
+was unchanged and outside the repository. No MAME build/run was made for this
+probe-only change; the pinned source remains
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
 ## Repository-audit és forráskontextus-javítás — 2026-11-11
 
 Aktuális PR- és merge-állapot: [#270](https://github.com/RobCZart82/YamAN1x/pull/270).

@@ -21,9 +21,9 @@ def main(binary):
             for offset, word in enumerate(words):
                 data[256 + 2*offset:258 + 2*offset] = word.to_bytes(2, "big")
             path.write_bytes(data)
-        def run(args, view="raw", profile=None):
+        def run(args, view="raw", profile=None, extra=()):
             before = hashlib.sha256(path.read_bytes()).hexdigest()
-            result = subprocess.run([binary, str(path), *map(str, args), view, *([] if profile is None else [profile])], capture_output=True, text=True, timeout=20)
+            result = subprocess.run([binary, str(path), *map(str, args), view, *([] if profile is None else [profile]), *extra], capture_output=True, text=True, timeout=20)
             require(hashlib.sha256(path.read_bytes()).hexdigest() == before, "Input must remain byte-identical")
             report = json.loads(result.stdout)
             require(report["firmware_boot_accepted"] is False, "Bounded progress is never boot acceptance")
@@ -69,6 +69,48 @@ def main(binary):
         require(code == 2 and report["fault_access"]["address"] == 0xffffd2, "Default does not assume P9 input levels")
         code, report = run([64,8,10000], profile="always-ready")
         require(code == 1, "Unknown LCD profiles reject")
+        # The input is opt-in and constant for this bounded probe; the default
+        # remains fail-closed. MOV.L loads ER0, then MOV.B writes immediate 0x23 via R3L.
+        image([0x7a00,0xff,0xffe8,0xf323,0x6883,0x40fe])
+        code, report = run([2048,1,10000])
+        require(code == 2 and report["fault_access"] == {"kind":"data_write","address":0xffffe8,"width":1}
+                and report["error"] == "Unsupported ADC conversion or IRQ enable"
+                and report["adc_an3_input_profile"] == "disabled" and report["adc_an3_samples"] == 0,
+                "AN3 remains strict without explicit input")
+        for address, opcode, width in ((0xffffe6, 0x6901, 2), (0xffffe6, 0x680a, 1), (0xffffe7, 0x680a, 1)):
+            image([0x7a00, address >> 16, address & 0xffff, opcode, 0x40fe])
+            code, report = run([64,8,10000])
+            require(code == 2 and report["fault_access"] == {"kind":"data_read","address":address,"width":width},
+                    "AN3 result lanes remain unmapped without explicit input")
+        for sample in (0, 1023):
+            image([0x7a00,0xff,0xffe8,0xf323,0x6883,0x40fe])
+            first_cycle = None
+            for slice_size in (1, 8, 64):
+                code, report = run([2048,slice_size,10000], extra=(f"--adc-an3={sample}",))
+                require(code == 0 and report["status"] == "cycle_limit" and report["fault_access"] is None,
+                        "Explicit AN3 input continues the bounded synthetic program")
+                require(report["adc_an3_input_profile"] == "explicit-constant" and
+                        report["adc_an3_value"] == sample and report["adc_an3_samples"] == 1 and
+                        report["adc_an3_first_sample_cycle"] is not None,
+                        "Probe reports the selected input and exact sample callback")
+                if first_cycle is None:
+                    first_cycle = report["adc_an3_first_sample_cycle"]
+                require(report["adc_an3_first_sample_cycle"] == first_cycle,
+                        "AN3 callback timing is independent of CPU slice partition")
+        image([0x7a00,0xff,0xffe8,0xf323,0x6883,
+               0x7a00,0xff,0xffe6,0x6901,0x40fe])
+        code, report = run([2048,8,10000], extra=("--adc-an3=1023",))
+        require(code == 0 and report["fault_access"] is None and report["adc_an3_samples"] == 1,
+                "Explicit AN3 input keeps the result word readable after conversion")
+        for option in ("--adc-an3=-1", "--adc-an3=1024", "--adc-an3=NaN", "--adc-an3=18446744073709551616"):
+            code, report = run([64,8,10000], extra=(option,))
+            require(code == 1 and report["status"] == "input_error", "Reject out-of-range or malformed AN3 values")
+        code, report = run([64,8,10000], extra=("--adc-an3=1", "--adc-an3=2"))
+        require(code == 1 and report["status"] == "input_error", "Reject duplicate AN3 inputs")
+        code, report = run([64,8,10000], profile="lcd-16mhz", extra=("lcd-meg-observe-16mhz",))
+        require(code == 1 and report["status"] == "input_error", "Reject duplicate LCD profiles")
+        code, report = run([64,8,10000], extra=("disabled",))
+        require(code == 1 and report["status"] == "input_error", "Reject unknown profile words")
         image([0x7a00, 0x40, 7, 0xfa5a, 0x688a, 0x40fe])
         code, report = run([64,8,10000], profile="lcd-meg-observe-16mhz")
         require(code == 0 and report["meg_observed_controls"] == 1, "Explicit MEG profile observes one control without fake response")

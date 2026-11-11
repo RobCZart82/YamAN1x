@@ -11,6 +11,25 @@ or a screenshot of YamAN1x.*
 First public research snapshot: **2026-10-26** — [v0.1.0-research](https://github.com/RobCZart82/YamAN1x/releases/tag/v0.1.0-research). This is a development foundation. It does not yet produce AN1x audio,
 complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
+## Current verified baseline and next diagnostic increment — 2026-11-11
+
+PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
+the checked head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` as main
+`f8efa6bb8c7fb349cd75ca3ad713038754687d68`. Its four required PR checks and
+four main checks passed; Codex completed the exact-head review without findings.
+The open [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274) adds an
+**opt-in constant AN3 input** to the bounded firmware probe and keeps ADDRD
+reads unmapped until that input is explicitly enabled. Codex found a fail-closed
+gap on the initial PR head; the bus mapping and synthetic word/high-byte/low-byte
+tests now address it. The corrective head's CI and review are pending. The
+fresh read-only AN1x 1.04 diagnostic now completes one 266-cycle conversion and
+then stops at a later unsupported ADC control write at `FFFFE8`. Runs at input
+0 and 1023, each split at 4,096 and 1,000,000 cycles, reached the same boundary.
+This is limited firmware progress only: full boot, physical ADC agreement,
+MIDI, audio and REAPER acceptance remain open. The original MAME reference is
+pinned at `706dbb73281320c54d7c2f16262c1c3786f2be01`; no new MAME build/run was
+made for this probe-only increment. The ROM stayed unchanged and outside Git.
+
 ## Build and test — no ROM required
 
 Requirements: CMake 3.20+, a C++20 compiler, Python 3.9+, Git and platform build

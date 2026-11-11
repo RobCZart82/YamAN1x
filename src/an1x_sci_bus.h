@@ -18,6 +18,7 @@ namespace yamanix {
 // Sink:tx(channel,cycle,level),clock(channel,cycle,level),dma_request(vector,cycle).
 // GPIO access requires gpio_read(port,cycle)/gpio_write(port,cycle,data,direction).
 // Optional adc_an3_sample(cycle) and adc_scan_sample(channel,cycle) supply ADC inputs.
+// An optional adc_an3_enabled() also gates single-channel result-register reads.
 // Optional exception_hook(vector). No real-time threading/reentry support.
 // MEG writes require both pure meg_write_enabled() and meg_write_byte(address,cycle,value).
 // MEG has only explicit byte routing. VOP3 requires pure vop3_word_enabled()
@@ -93,7 +94,7 @@ public:
         if (adc_scan_.deadline() && a >= 0xffffe0 && a <= 0xffffe6 && !(a & 1))
             return adc_scan_.result_word((a - 0xffffe0) / 2);
         if constexpr (requires { sink_.adc_an3_sample(now_); }) {
-            if (a == 0xffffe6)
+            if (adc_an3_read_enabled() && a == 0xffffe6)
                 return uint16_t((uint16_t(adc_.result_high()) << 8) | adc_.result_low());
         }
         if (const auto channel = itu_counter_index(a & ~1u); channel >= 0) {
@@ -230,8 +231,8 @@ private:
             return uint8_t((a & 1) ? word : word >> 8);
         }
         if constexpr (requires { sink_.adc_an3_sample(now_); }) {
-            if (a == 0xffffe6) return adc_.result_high();
-            if (a == 0xffffe7) return adc_.result_low();
+            if (adc_an3_read_enabled() && a == 0xffffe6) return adc_.result_high();
+            if (adc_an3_read_enabled() && a == 0xffffe7) return adc_.result_low();
         }
         if (a == 0x680000) {
             if constexpr (requires { std::as_const(sink_).idle_panel_read_enabled(); })
@@ -242,6 +243,11 @@ private:
                 if(std::as_const(sink_).meg_read_enabled())return sink_.meg_read_byte(a,now_);
         }
         return memory_.read_byte(a);
+    }
+    bool adc_an3_read_enabled() const {
+        if constexpr (requires(const Sink& s) { s.adc_an3_enabled(); })
+            return std::as_const(sink_).adc_an3_enabled();
+        return true;
     }
     // TIER and TSR use scheduler state. Running channels publish enabled timer IRQs.
     static bool itu_io_mapped(uint32_t a){return a==0xffff65||a==0xffff6f||a==0xffff79||a==0xffff83||a==0xffff93;}
