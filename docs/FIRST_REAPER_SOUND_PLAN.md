@@ -1,22 +1,20 @@
-## A #270 forráskontextus-javítás és #271 naplóegyeztetés beolvadt — 2026-11-11
+## A #272 main-ellenőrzés és a PKS íróregiszter-követés — 2026-11-11
 
-A #270 forráskontextus-javítás PR-headje `2264c7a53415584af718f9e941ef029c84acf302`,
-merge-commitja `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`. A #271 ezt
-dokumentációs egyeztetéssel követte: ellenőrzött headje `c040b521054c085c2b0fc8fb513f222b0731004c`, main
-merge-SHA-ja `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`. Mindkét változás beolvadt; a #271 négy kötelező PR-
-ellenőrzése és ugyanaz a négy main ellenőrzés sikeres volt. A MAME munkafolyamat
-a dokumentációs módosításnál útvonal szerint nem futott.
+A #272 PR ellenőrzött headje `69a38a8a9d255afb967e9be55589c4ac2e1310f2`,
+merge-SHA-ja és current main `d37a305779b1c2ea53e014ac2eaefd3c67c9b63b`.
+Mind a négy szükséges PR-head és main ellenőrzés sikerült; MAME a dokumentációs
+módosításnál útvonal szerint nem futott. GitHubon nem volt review, szál vagy
+komment, automatikus review-eredmény vagy kvótahiba sem volt rögzítve; a
+szabályzat nulla jóváhagyást követelt, megkerülés nem történt.
 
-A #271 merge-ellenőrzésekor nem volt GitHub review, szál vagy komment, és nem
-volt automatikus review-eredményre vagy kvótahibára utaló adat. A szabályzat
-nulla jóváhagyást követelt, a review-szálak rendezését előírta; megkerülés nem
-történt. A fejlesztési naplóban a pontos futások szerepelnek.
-
-A következő kutatási lépés változatlanul a megfigyelt forrásíró előtti
-bemenetek és utasításút követése. Az érték, cím, flag-ek, időzítés és
-folytathatóság külön ellenőrzendő. A korlátozott megfigyelés nem bizonyít
-hardver-egyezést, teljes bootot, MIDI-t vagy hangot; az eredeti ROM nem
-változott és nem került a repositoryba.
+A következő korlátozott kódjelölt a megfigyelt forrásíró mentett R1L alsó
+bájtját ellenőrzi a `0039AC` post-fetch PC-nél rögzített írási bájtlane-nel.
+Az eredeti MAME-hivatkozás kilenc másodperces passzív profiljának mind a hat
+ilyen írása megfelel. Ez CPU-regiszter/buszérték-egyezés; nem azonosítja az
+utasítás kezdetét, a korábbi számítást vagy az adat jelentését. A célzott
+tesztek 14/14, a teljes Python-suite 127/127; az audit a rögzített nyomot is
+elfogadja. A ROM változatlan és a repositoryn kívül maradt. M0 részleges;
+hardver, teljes boot, MIDI, hang és REAPER továbbra sincs elfogadva.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

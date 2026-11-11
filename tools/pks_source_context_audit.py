@@ -16,6 +16,7 @@ END = re.compile(r"PKS_SOURCE_CONTEXT_END events=(\d+) dropped=(\d+) hardware_va
 ADDRESSES = (0x22D9EE, 0x234ACC, 0x234ACE, 0x234AD0, 0x23F7FC)
 SOURCE_READ_PC = 0x00FA92
 PAYLOAD_WRITE_PC = 0x00FA94
+SOURCE_WRITER_POSTFETCH_PC = 0x0039AC
 PAYLOAD_BYTE_ADDRESS = 0x22D9EE
 PAYLOAD_REGISTER_ADDRESS = 0x22D9EF
 
@@ -64,6 +65,11 @@ def verify_source_to_payload_transfers(events):
             raise ValueError("PKS source write does not precede the selected-byte read")
         if source_write["value"] != value:
             raise ValueError("PKS source read differs from its most recent preceding lane write")
+        source_writer_r1l = None
+        if source_write["pc"] == SOURCE_WRITER_POSTFETCH_PC:
+            source_writer_r1l = source_write["er"][1] & 0xFF
+            if source_writer_r1l != source_write["value"]:
+                raise ValueError("PKS source writer R1L snapshot differs from the written byte lane")
         if index + 1 >= len(events):
             raise ValueError("PKS source read has no following payload event")
         payload = events[index + 1]
@@ -92,6 +98,7 @@ def verify_source_to_payload_transfers(events):
                               source_write_mask=source_write["mask"],
                               source_write_ccr=source_write["ccr"],
                               source_write_er=source_write["er"],
+                              source_writer_r1l=source_writer_r1l,
                               value=value, source_data=event["data"], source_mask=event["mask"],
                               source_ccr=event["ccr"], payload_seq=payload["seq"],
                               payload_ccr=payload["ccr"], time_delta_ns=delta))

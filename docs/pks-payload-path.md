@@ -1,5 +1,25 @@
 # Bounded PKS payload path observations
 
+## Source-writer R1L cross-check — candidate — 2026-11-11
+
+The existing independent source-context audit now checks the copied writer
+snapshot for the six writes at CPU-reported post-fetch PC `0039AC`: the low byte
+of ER1/R1L must equal the byte selected by the write mask. The locked MAME
+trace passes for all six; trace SHA-256 is
+`58d4c5008a95d85989eb8a66b8fbd3d400538564f9353bc6481aacd4439ac079`, the
+instrumented executable SHA-256 is
+`abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e`, and the
+AN1x 1.04 ROM identity remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+The source reference stays pinned to
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. No new observer or firmware run
+was needed for this auditor-only check.
+
+Focused tests: 14/14 normally and with Python `-O`; full Python suite: 127/127.
+This confirms only the observed R1L-to-write-lane relation for this profile;
+it does not establish instruction-start PC, upstream arithmetic, PKS semantics,
+hardware agreement, boot, MIDI or sound. The ROM was not changed or added.
+
 ## Source-byte CPU context — merged in #267
 
 A bounded, read-only CPU-context trace of aligned RAM words `234ACC`,
