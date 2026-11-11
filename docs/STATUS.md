@@ -1,26 +1,29 @@
 # Development status
 
-## PKS source-context follow-up — #271 reconciliation merged — 2026-11-11
+## PKS source-writer register cross-check — candidate — 2026-11-11
 
-PR [#271](https://github.com/RobCZart82/YamAN1x/pull/271) was squash-merged
-from exact head `c040b521054c085c2b0fc8fb513f222b0731004c` onto `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`.
-The merge commit and current main are `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`. This documentation-only
-change records #270 against the verified main history and advances the ledger
-baseline; no firmware or hardware behavior changed.
+This candidate adds an independent check of the saved source-writer R1L
+snapshot against the byte lane written at CPU-reported post-fetch PC `0039AC`.
+All six matching writes in the existing bounded nine-second passive trace pass.
+The trace SHA-256 is
+`58d4c5008a95d85989eb8a66b8fbd3d400538564f9353bc6481aacd4439ac079`; the MAME
+source remains pinned at `706dbb73281320c54d7c2f16262c1c3786f2be01`.
 
-All four required PR-head checks passed (Ubuntu `130609733905`,
-macOS `130609734312`, Windows `130609734519`, MSan
-`130609726040`). All four passed on the exact merge commit
-(IDs `130626294467`, `130626294211`,
-`130626294396`, `130626294181`). MAME
-was path-filtered. No review submissions, threads, comments, automated-review
-result or quota error were recorded; ruleset `25910947` required zero
-approvals and resolved threads. No bypass was used.
+Validation: source-context tests 14/14 normally and under Python `-O`; full
+Python suite 127/127; the existing MAME trace passes the updated independent
+audit. No C++ or CMake source changed, and no new MAME run was made. The ROM
+remains unchanged and outside the repository. This is only a captured
+register-to-bus value check: it does not establish instruction-start PC,
+upstream arithmetic, PKS meaning, hardware agreement, full boot, MIDI or audio.
+Remote checks and exact-head review remain the PR gates.
 
-The ROM remains unchanged and outside the repository. Hardware agreement,
-complete boot, MIDI and audio remain unaccepted. The next bounded research step
-follows the observed source writer's preceding inputs/instruction path with
-independent value, address, flags, timing and continuation checks.
+PR [#272](https://github.com/RobCZart82/YamAN1x/pull/272) merged from exact
+head `69a38a8a9d255afb967e9be55589c4ac2e1310f2` as current main
+`d37a305779b1c2ea53e014ac2eaefd3c67c9b63b` on 2026-11-11T17:53:47Z UTC.
+All four PR-head and all four merge-commit checks passed. MAME was path-filtered.
+No review, thread, comment, automated-review result or quota error was recorded;
+ruleset `25910947` required zero approvals and resolved threads, with no bypass.
+The ROM was unchanged and outside the repository.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

@@ -24,7 +24,7 @@ ctest --test-dir build -C Release --output-on-failure
 python3 tools/repository_audit.py
 ```
 
-The source-only build defines **138 CTest groups and 126 Python cases**. Tests generate synthetic
+The source-only build defines **138 CTest groups and 127 Python cases**. Tests generate synthetic
 programs/banks in temporary directories. The two upstream tests that require
 Yamaha images are not part of this suite. ROM-free GitHub Actions checks this suite on Linux x64, macOS Apple Silicon and
 Windows x64; see the current status below for tested revisions.
@@ -33,33 +33,31 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## PKS source-context follow-up — #271 documentation reconciliation merged — 2026-11-11
+## PKS source-writer register cross-check — candidate — 2026-11-11
 
-PR [#271](https://github.com/RobCZart82/YamAN1x/pull/271) was squash-merged
-from exact head `c040b521054c085c2b0fc8fb513f222b0731004c` onto `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`.
-The resulting main commit is `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d` (2026-11-11T15:39:43Z UTC). This
-documentation-only change reconciles the #270 evidence with the actual main
-history and brings the ledger baseline forward; it adds no firmware or
-hardware-behavior claim.
+The bounded candidate checks the saved R1L low byte against the written source
+byte lane at CPU-reported post-fetch PC `0039AC`. All six matching writes in
+the locked nine-second passive MAME trace agree. This confirms only the
+observed register-to-bus relation; it does not identify an instruction-start
+PC, upstream calculation, PKS meaning, hardware behavior or audio. The trace
+SHA-256 is `58d4c5008a95d85989eb8a66b8fbd3d400538564f9353bc6481aacd4439ac079`;
+the MAME source remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. Focused tests pass 14/14 normally
+and under Python `-O`; the full Python suite passes 127/127. The ROM remains
+unchanged and outside the repository. This candidate is not hardware, boot,
+MIDI or audio acceptance.
 
-All four required PR-head checks passed on `c040b521054c085c2b0fc8fb513f222b0731004c`: Ubuntu
-(`130609733905`), macOS (`130609734312`), Windows
-(`130609734519`) and initial-decode MSan
-(`130609726040`). The same four checks passed on exact main
-commit `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`: Ubuntu (`130626294467`), macOS
-(`130626294211`), Windows (`130626294396`) and MSan
-(`130626294181`). The MAME workflow was path-filtered for
-the documentation change. At merge inspection GitHub recorded no review
-submissions, threads or comments; no automated-review result or quota error
-was available. Ruleset `25910947` required zero approvals and resolved
-threads; none were unresolved, and no bypass was used.
-
-The original ROM remains unchanged and outside the repository. This update does
-not establish hardware agreement, complete boot, MIDI or audio. The next
-bounded research step remains tracing the captured source writer's preceding
-inputs and instruction path with independent value, address, flags, timing and
-continuation checks.
-
+PR [#272](https://github.com/RobCZart82/YamAN1x/pull/272) reconciled the #271
+merge record and ledger baseline. It was squash-merged from exact head
+`69a38a8a9d255afb967e9be55589c4ac2e1310f2` as
+`d37a305779b1c2ea53e014ac2eaefd3c67c9b63b` on 2026-11-11T17:53:47Z UTC.
+All four required PR-head checks (`130651156472`, `130651155702`,
+`130651156277`, `130651154922`) and all four exact-main checks
+(`130703923814`, `130703924092`, `130703924103`, `130703924346`) passed.
+MAME was path-filtered. GitHub had no reviews, threads or comments; no
+automated-review result or quota error was recorded. Ruleset `25910947`
+required zero approvals and resolved threads; no bypass was used. The original
+ROM remained unchanged and outside the repository.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

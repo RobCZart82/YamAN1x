@@ -89,6 +89,25 @@ class PksSourceContextAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify_source_to_payload_transfers(broken_time)
 
+    def test_observed_source_writer_r1l_matches_the_written_byte_lane(self):
+        writer = event(0, 50, address="234acc", op="W", data="e000", mask="ff00")
+        writer = writer.replace("pc=057d42", "pc=0039ac").replace(
+            "er1=00000001", "er1=000000e0")
+        source = event(1, 100, address="234acc", data="e000", mask="ff00")
+        source = source.replace("pc=057d42", "pc=00fa92").replace(
+            "er0=00000001", "er0=00000000").replace("er4=00000005", "er4=0022d9ef")
+        payload = event(2, 350, address="22d9ee", op="W", data="00e0", mask="00ff")
+        payload = payload.replace("pc=057d42", "pc=00fa94").replace(
+            "er0=00000002", "er0=000000e0").replace("er4=00000006", "er4=0022d9ef")
+        events = parse_pks_source_context(capture([writer, source, payload]))["events"]
+        transfer, = verify_source_to_payload_transfers(events)
+        self.assertEqual(transfer["source_writer_r1l"], 0xE0)
+
+        changed_writer = dict(events[0], er=list(events[0]["er"]))
+        changed_writer["er"][1] = 0xE1
+        with self.assertRaisesRegex(ValueError, "writer R1L snapshot"):
+            verify_source_to_payload_transfers([changed_writer, *events[1:]])
+
     def test_source_read_must_match_the_latest_prior_write_to_its_byte_lane(self):
         first = event(0, 10, address="234acc", op="W", data="e000", mask="ff00")
         latest = event(1, 20, address="234acc", op="W", data="e100", mask="ff00")
