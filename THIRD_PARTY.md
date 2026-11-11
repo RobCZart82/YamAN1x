@@ -4,7 +4,7 @@
 |---|---|---|
 | [musicastudio/VOP3](https://github.com/musicastudio/VOP3) | Five C++ source/header files; one reviewed initialization adaptation in `third_party/vop3/src` | BSD-3-Clause; `third_party/vop3/LICENSE`; copyright 2026 Wouter van Nifterick, Zhiyuan Wan, James Hansen |
 | AsmJit snapshot supplied with VOP3 | Unchanged source files under `third_party/vop3/third_party/asmjit/asmjit` | zlib; `third_party/vop3/third_party/asmjit/LICENSE.md`; copyright 2008–2025 Petr Kobalicek |
-| [MAME](https://github.com/mamedev/mame) | Twelve research patch files; no executable or full source tree | Specific upstream files listed below are BSD-3-Clause; full MAME distribution has GPL-2.0 terms. License texts and original distribution notice are under `licenses/`. |
+| [MAME](https://github.com/mamedev/mame) | Thirteen research patch files; no executable or full source tree | Specific upstream files listed below are BSD-3-Clause; full MAME distribution has GPL-2.0 terms. License texts and original distribution notice are under `licenses/`. |
 | MAME H8 adaptations | Eleven GPIO/IRQ/SCI/bus/budget headers, including two compatibility facades and the H83002 SCI MMIO/IRQ adapter under `src/`; source identities in the peripheral provenance records | BSD-3-Clause; Olivier Galibert; `licenses/MAME-BSD-3-Clause.txt` and retained file headers |
 
 The VOP3 input archive has SHA-256

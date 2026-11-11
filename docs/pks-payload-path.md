@@ -318,3 +318,13 @@ Historical complete run observations are retained; they were not rerun here.
 For an enabled DSP sample clock, metadata must include two positive integer
 sample-pass counters. Missing/zero/negative/mistyped counters reject, including
 failed probes that wrote run.json before the producer performed its final check.
+
+## Standalone source-run validation and writer snapshots — 2026-11-11
+
+The source CLI requires complete successful probe metadata even without a
+baseline. It reuses the operand auditor validator, including sample-clock and
+bridge evidence. The legacy validate_local_rom_identity helper name remains
+available with the stricter full-run contract.
+Transfers now expose source_write_ccr and source_write_er from the selected
+most recent preceding lane write. Registers are copied at capture selection.
+This supplies the next input to writer-value provenance research.
