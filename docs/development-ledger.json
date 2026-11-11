@@ -5497,9 +5497,11 @@
       "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "new_build_or_run": false
     },
-    "remote_ci": "pending on exact PR head",
-    "review": "pending exact-head inspection",
-    "pr": null
+    "remote_ci": "pending on current exact PR head after ledger reconciliation",
+    "review": "pending on current exact PR head; no outcome or quota claim yet",
+    "pr": 274,
+    "pr_url": "https://github.com/RobCZ82/YamAN1x/pull/274",
+    "initial_pr_head_commit": "2e2dcc08"
   },
   "pending_changes": [],
   "audit_correction": {

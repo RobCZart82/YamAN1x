@@ -7,8 +7,10 @@ négy merge-main check sikerült. A Codex pontos headre szóló összefoglalója
 review-szál; a PR egyetlen hozzászólása ez az automatikus összefoglaló volt.
 Kvótahibát nem jeleztek, normál squash merge történt megkerülés nélkül.
 
-A következő jelölt a firmware-próba AN3 ADC callbackjéhez kizárólag explicit,
-`--adc-an3=0..1023` kapcsolóval ad állandó mintát. Kapcsoló nélkül a korábbi
+A következő jelölt a [#274 PR](https://github.com/RobCZ82/YamAN1x/pull/274): a
+firmware-próba AN3 ADC callbackjéhez kizárólag explicit,
+`--adc-an3=0..1023` kapcsolóval ad állandó mintát. A végleges PR-head CI-je és
+review-ja még függőben van. Kapcsoló nélkül a korábbi
 fail-closed működés marad. A 10 bites széleket, a bemenet ellenőrzését, a
 callback ciklusát és a CPU-szeletektől független időzítést szintetikus tesztek
 ellenőrzik. A Release build, 138/138 CTest-csoport, 127/127 Python-teszt és a

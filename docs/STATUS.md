@@ -15,9 +15,10 @@ The merge was a normal squash, with no bypass. The ruleset REST endpoint was not
 available to the current token (404); the recorded repository rule requires zero
 approvals and resolved threads, and the merged PR had no open review threads.
 
-The next code candidate is on branch
-`research/boot-probe-explicit-an3-input`, based on the verified main above. It
-adds an explicit `--adc-an3=0..1023` constant input to the bounded probe and
+The next code candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274),
+branch `research/boot-probe-explicit-an3-input`, based on the verified main
+above. Its current head CI and review are pending. It adds an explicit
+`--adc-an3=0..1023` constant input to the bounded probe and
 reports the selected value, callback count and first sample cycle. With no
 argument, the existing strict failure is preserved. Synthetic tests cover both
 ends of the 10-bit range, malformed/duplicate options, the exact conversion

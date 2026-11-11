@@ -7,8 +7,9 @@ checks and the four exact-main checks passed. The Codex review summary on the
 PR head completed without findings (comment `6804342900`); there were no
 GitHub review objects or threads, no quota evidence, and no bypass.
 
-The following candidate adds explicit `--adc-an3=0..1023` support to the
-bounded firmware probe. No option preserves the previous strict failure. A
+The following candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274)
+and adds explicit `--adc-an3=0..1023` support to the bounded firmware probe.
+Its final-head CI and review are pending. No option preserves the previous strict failure. A
 synthetic program tests 0 and 1023, rejects malformed/duplicate options,
 checks exactly one sample callback and checks that its cycle is invariant
 across CPU slice partitions. Release build, 138/138 CTest groups, 127/127
