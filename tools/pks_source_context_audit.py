@@ -3,8 +3,7 @@ import argparse
 import json
 import re
 from pathlib import Path
-from rom_inspect import SIZE, CRC32, SHA1
-from pks_operand_context_audit import compare_run_manifests
+from pks_operand_context_audit import compare_run_manifests, validate_run_manifest
 
 BEGIN = "PKS_SOURCE_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0"
 EVENT = re.compile(
@@ -39,7 +38,8 @@ def verify_source_to_payload_transfers(events):
             for lane, value in lanes:
                 preceding_source_writes[(event["address"], lane)] = dict(
                     seq=event["seq"], time_ns=event["time_ns"], value=value,
-                    pc=event["pc"], mask=event["mask"])
+                    pc=event["pc"], mask=event["mask"],
+                    ccr=event["ccr"], er=list(event["er"]))
 
         if (event["op"] != "R" or event["pc"] != SOURCE_READ_PC or
                 event["address"] not in (0x234ACC, 0x234ACE, 0x234AD0)):
@@ -90,6 +90,8 @@ def verify_source_to_payload_transfers(events):
                               source_write_time_ns=source_write["time_ns"],
                               source_write_pc=source_write["pc"],
                               source_write_mask=source_write["mask"],
+                              source_write_ccr=source_write["ccr"],
+                              source_write_er=source_write["er"],
                               value=value, source_data=event["data"], source_mask=event["mask"],
                               source_ccr=event["ccr"], payload_seq=payload["seq"],
                               payload_ccr=payload["ccr"], time_delta_ns=delta))
@@ -151,15 +153,9 @@ def parse_pks_source_context(lines):
 
 
 def validate_local_rom_identity(run):
-    """Check manifest identity fields without opening any ROM or archive."""
+    """Validate a complete successful probe record without opening its inputs."""
     manifest = json.loads((run / "run.json").read_text())
-    identity = manifest.get("rom_identity")
-    if (type(identity) is not dict or identity.get("bytes") != SIZE or
-            identity.get("crc32") != CRC32 or identity.get("sha1") != SHA1 or
-            identity.get("matches_known_an1x_104") is not True or
-            type(identity.get("sha256")) is not str or
-            not re.fullmatch(r"[0-9a-f]{64}", identity["sha256"])):
-        raise ValueError("Probe manifest does not identify the known AN1x 1.04 image")
+    validate_run_manifest(manifest)
     return manifest
 
 
@@ -178,10 +174,9 @@ def main():
         if not result["source_to_payload_transfers"]:
             parser.error("run has no independently matched source-to-payload transfers")
         manifest_comparison = None
-        validate_local_rom_identity(args.run)
+        observed = validate_local_rom_identity(args.run)
         if args.baseline:
             baseline = validate_local_rom_identity(args.baseline)
-            observed = validate_local_rom_identity(args.run)
             differences = compare_run_manifests(baseline, observed)
             if differences:
                 parser.error("non-trace run fields changed: " + ", ".join(differences))

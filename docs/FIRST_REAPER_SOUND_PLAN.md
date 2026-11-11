@@ -1,3 +1,33 @@
+## Repository-audit és forráskontextus-javítás — 2026-11-11
+
+Aktuális PR- és merge-állapot: [#270](https://github.com/RobCZart82/YamAN1x/pull/270).
+
+Átvizsgált main: #269, `97e341ef56ff81a511ae64b6f98ca8af01251f84`.
+A #267–269 változások a PKS forrásbájt CPU-kontextusát és a kiválasztott lane
+legutóbbi korábbi írását kapcsolják össze. A #269 2026-11-10T19:59:59Z-kor
+beolvadt, végső head `a533507e311404eedb68866572aeec00dab87f63`; a végső
+platform/MSan futások 42885941250/42885941221 mind a négy feladata PASS.
+A korábbi „jelölt” szövegek a saját előkészítési állapotukat őrzik.
+
+Reprodukálható rés: --baseline nélkül az új source-context CLI csak a ROM-
+azonosítást vizsgálta. Most a közös teljes futásvalidátort használja minden
+belépéskor. Hiányos/sikertelen/malformált adatlap negatív CLI-próbákkal elutasítva,
+teljes sikeres szintetikus rekord elfogadva. A régi helper neve kompatibilis marad,
+szerződése teljes, sikeres run_h8_probe adatlapot kér. A korábbi teljes helyi
+kutatási felvételek újbóli elfogadását ez a javítás nem állítja.
+
+Következő kis fejlesztés: a proveniencia-jelentés a kiválasztott korábbi írás
+CCR/ER0–ER7 pillanatképét is megőrzi. A teszt ellenőrzi, hogy az író állapotát
+adja vissza és a jelentés nem osztozik a bemeneti regiszterlistán. Így a következő
+vizsgálat az értéket előállító regiszter/utasítás felé haladhat.
+
+138 CTest/126 Python eset,13 patch. Helyi Release build és137/137 külön
+futtatható CTest PASS(60,63s);Python125/126 PASS,egy WinError1314 symlink-korlát.
+A13 célzott teszt PASS. UTF8/linkek/napló-ősök PASS;helyi sanitizer nem futott. Forrásaudit 688 fájl/201 upstream azonosság,
+licencértesítés 231 fájl/5 szöveg PASS. Jogi/bináris megfelelés nyitott.
+M0 részleges,M1 nincs elfogadva;hardver/firmware/MIDI/hang/REAPER kapuk nyitottak.
+A javítás és a kis fejlesztés saját távoli állapota a kapcsolódó PR-en követhető.
+
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

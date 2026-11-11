@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-10",
+  "recorded_date": "2026-11-11",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
+  "baseline_commit": "97e341ef56ff81a511ae64b6f98ca8af01251f84",
   "entries": [
     {
       "pr": 6,
@@ -5204,13 +5204,10 @@
       "review_threads_at_merge": 0,
       "merge_method": "squash",
       "bypass_used": false
-    }
-  ],
-  "active_change": null,
-  "pending_changes": [
+    },
     {
       "branch": "research/an1x-source-write-provenance",
-      "status": "open_pr_documentation_update_checks_pending",
+      "status": "merged",
       "base_commit": "947d67950345c7e03362d40f25174fcbe3b1f268",
       "scope": "Independently correlate each FA92 source read with the most recent earlier write to its exact byte lane; retain the existing FA94 address/value/register/flag/time checks. No new MAME tap or firmware behavior.",
       "local_validation": {
@@ -5225,8 +5222,8 @@
       "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
       "rom_modified": false,
       "rom_in_repository": false,
-      "remote_ci": "initial_pr_head_all_success; documentation ledger update makes a new head whose checks are pending",
-      "automated_review": "not run; no automated review facility exposed in this session, with GitHub review objects/threads/comments all 0 and no quota issue evidence",
+      "remote_ci": "all_four_final_head_jobs_success",
+      "automated_review": "not_reverified_for_final_head_in_this_audit",
       "pr": 269,
       "url": "https://github.com/RobCZart82/YamAN1x/pull/269",
       "initial_pr_head_commit": "0afd0e86fd4845514c2e969d809d25880b9d7d64",
@@ -5249,9 +5246,18 @@
         "required_approvals": 0,
         "review_threads_must_be_resolved": true,
         "initial_head_threads_unresolved": 0
-      }
+      },
+      "merge_commit": "97e341ef56ff81a511ae64b6f98ca8af01251f84",
+      "head_commit": "a533507e311404eedb68866572aeec00dab87f63",
+      "merged_at_utc": "2026-11-10T19:59:59Z",
+      "final_ci_runs": [
+        42885941250,
+        42885941221
+      ]
     }
   ],
+  "active_change": null,
+  "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
@@ -5283,5 +5289,21 @@
     "unresolved_threads_at_merge": 0,
     "merge_method": "squash",
     "bypass_used": false
+  },
+  "source_audit_followup": {
+    "branch": "fix/pks-source-run-validation",
+    "scope": "Full standalone run validation and source-writer register provenance",
+    "status_source": "https://github.com/RobCZart82/YamAN1x/pull/270",
+    "validation": {
+      "source_tests": "13/13 pass",
+      "python": "125/126 pass;one WinError1314 symlink limitation",
+      "ctest": "137/137 runnable groups pass,60.63s;Python wrapper separately tested",
+      "source_audit": "688 files,201 upstream identities,pass",
+      "source_notice": "231 files,5 texts,pass",
+      "release_build": "pass",
+      "documentation": "utf8,links,ledger ancestry and counts pass",
+      "local_sanitizers": "not_run"
+    },
+    "pr": 270
   }
 }

@@ -1,4 +1,5 @@
 """Synthetic source-context logs; no firmware or private traces."""
+import subprocess
 import json
 import tempfile
 import sys
@@ -9,7 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from pks_source_context_audit import (ADDRESSES, BEGIN, parse_pks_source_context,
                                       validate_local_rom_identity,
                                       verify_source_to_payload_transfers)
-from rom_inspect import SIZE, CRC32, SHA1
+from rom_inspect import SHA1
+from test_pks_operand_context_audit import manifest as complete_manifest
 
 
 def event(seq, time_ns, address="234ace", op="R", data="1234", mask="00ff"):
@@ -24,8 +26,7 @@ def capture(events):
 
 
 def manifest():
-    return {"rom_identity": {"bytes": SIZE, "crc32": CRC32, "sha1": SHA1,
-                             "sha256": "b" * 64, "matches_known_an1x_104": True}}
+    return complete_manifest()
 
 
 class PksSourceContextAuditTests(unittest.TestCase):
@@ -70,6 +71,12 @@ class PksSourceContextAuditTests(unittest.TestCase):
                           transfer["source_byte_address"], transfer["source_write_seq"],
                           transfer["source_write_time_ns"], transfer["time_delta_ns"]),
                          (0xe0, 0x234acc, 0x25, 0x29, 0x234acc, 0, 50, 250))
+        self.assertEqual(transfer["source_write_ccr"], 0x80)
+        self.assertEqual(transfer["source_write_er"], list(range(8)))
+        # Report the writer snapshot,not the later read/write register values.
+        self.assertNotEqual(transfer["source_write_er"], parsed["events"][1]["er"])
+        parsed["events"][0]["er"][0] = 0xffffffff
+        self.assertEqual(transfer["source_write_er"][0], 0)
         broken_value = parsed["events"][:2] + [dict(parsed["events"][2], data=0x00e1)]
         with self.assertRaises(ValueError):
             verify_source_to_payload_transfers(broken_value)
@@ -156,10 +163,32 @@ class PksSourceContextAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_pks_source_context(capture(events + [event(4096, 4096)]))
 
+    def test_source_cli_rejects_failed_or_partial_run_without_baseline(self):
+        tool = Path(__file__).resolve().parents[1] / "tools/pks_source_context_audit.py"
+        write = event(0,10,address="234acc",op="W",data="e000",mask="ff00")
+        read = event(1,20,address="234acc",data="e000",mask="ff00")
+        read = read.replace("pc=057d42","pc=00fa92").replace("er0=00000001","er0=00000000").replace("er4=00000005","er4=0022d9ef")
+        payload = event(2,30,address="22d9ee",op="W",data="00e0",mask="00ff")
+        payload = payload.replace("pc=057d42","pc=00fa94").replace("er0=00000002","er0=000000e0").replace("er4=00000006","er4=0022d9ef")
+        with tempfile.TemporaryDirectory() as temporary:
+            run = Path(temporary)
+            (run / "trace.log").write_text("\n".join(capture([write,read,payload])),encoding="utf-8")
+            failed = manifest();failed["returncode"] = 1
+            partial = {"rom_identity": manifest()["rom_identity"]}
+            for record in (partial,failed,[],{},None,manifest()):
+                (run / "run.json").write_text(json.dumps(record),encoding="utf-8")
+                result = subprocess.run([sys.executable,str(tool),str(run)],capture_output=True,text=True,timeout=30)
+                if record == manifest():
+                    self.assertEqual(result.returncode,0,result.stderr)
+                    self.assertEqual(len(json.loads(result.stdout)["source_to_payload_transfers"]),1)
+                else:
+                    self.assertNotEqual(result.returncode,0,result.stdout)
+                    self.assertNotIn('"complete": true',result.stdout)
+
     def test_rom_manifest_identity_is_checked_without_opening_rom(self):
         with tempfile.TemporaryDirectory() as temporary:
             run = Path(temporary)
-            (run / "run.json").write_text(json.dumps({"rom_identity": manifest()["rom_identity"]}), encoding="utf-8")
+            (run / "run.json").write_text(json.dumps(manifest()), encoding="utf-8")
             self.assertEqual(validate_local_rom_identity(run)["rom_identity"]["sha1"], SHA1)
             bad = manifest()
             bad["rom_identity"]["sha256"] = "unknown"
