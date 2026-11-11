@@ -1,5 +1,48 @@
 # Development status
 
+## Current verified main and AN3 input candidate — 2026-11-11
+
+PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
+exact PR head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` to main
+`f8efa6bb8c7fb349cd75ca3ad713038754687d68`. The PR's four required checks
+passed (Linux `130731723212`, macOS `130731723022`, Windows `130731723494`,
+MSan `130731723012`); all four main jobs also passed (Linux `130747788160`,
+macOS `130747788261`, Windows `130747787876`, MSan `130747788278`). Codex's
+review summary completed without findings on that exact head
+(`6804342900`). GitHub had no submitted review objects or review threads; the
+single issue comment was that exact Codex summary. No quota error was reported.
+The merge was a normal squash, with no bypass. The ruleset REST endpoint was not
+available to the current token (404); the recorded repository rule requires zero
+approvals and resolved threads, and the merged PR had no open review threads.
+
+The next code candidate is on branch
+`research/boot-probe-explicit-an3-input`, based on the verified main above. It
+adds an explicit `--adc-an3=0..1023` constant input to the bounded probe and
+reports the selected value, callback count and first sample cycle. With no
+argument, the existing strict failure is preserved. Synthetic tests cover both
+ends of the 10-bit range, malformed/duplicate options, the exact conversion
+callback and split-independent timing. Release build passed; all 138 CTest
+groups and all 127 Python tests passed; the repository audit checked 688 files
+and 201 upstream identities without issues.
+
+The fresh read-only AN1x 1.04 run used the explicit idle-panel profile, swap16
+view, 100,000,000-cycle limit and 20,000,000-callback limit. Constant inputs 0
+and 1023, each run with 4,096- and 1,000,000-cycle slices, each produced one
+sample at cycle `95,706,795` and stopped at the same later byte write to
+`FFFFE8`, width 1, post-fetch PC `1B84`, peripheral cycle `95,707,121`, with
+`Unsupported ADC control mode`. The non-slice metrics matched across all four
+runs: VOP3 writes `[12208,1167]`, reads `[449,1]`, GPIO writes `12945`, MEG
+controls `5`, source-status reads `1`, and no DSP sample passes. Thus the chosen
+value was delivered to the converter and execution continued through its
+266-cycle deadline; this diagnostic does not show that the input changes a
+firmware-visible result. The preceding no-input run stopped at `FFFFE8`, PC
+`1B64`, cycle `95,706,795`; a level-only profile stopped at panel read
+`680000`, PC `EA98`, cycle `92,381,680`. This increment does not accept full
+boot, hardware, MIDI, audio or REAPER behavior. The ROM SHA-256 remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it is
+unchanged and outside the repository. No new MAME build or run was made; the
+locked reference remains `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
 ## PKS source-writer register cross-check — candidate — 2026-11-11
 
 This candidate adds an independent check of the saved source-writer R1L

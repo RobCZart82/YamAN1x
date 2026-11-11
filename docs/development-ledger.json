@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-11",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "d37a305779b1c2ea53e014ac2eaefd3c67c9b63b",
+  "baseline_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
   "entries": [
     {
       "pr": 6,
@@ -5400,36 +5400,103 @@
       },
       "hardware_validation": "not performed; documentation-only update does not establish hardware agreement, complete boot, MIDI or audio.",
       "next_step": "Check the captured source writer R1L low byte independently against its observed byte lane at the recorded post-fetch PC; trace remains observation-only."
+    },
+    {
+      "pr": 273,
+      "title": "Check captured PKS writer low-byte lane",
+      "url": "https://github.com/RobCZ82/YamAN1x/pull/273",
+      "kind": "research",
+      "branch": "docs/record-pr271-main",
+      "base_commit": "d37a305779b1c2ea53e014ac2eaefd3c67c9b63b",
+      "head_commit": "37d1fd8e6a75b7a22dffeecc4004aece45e76dfe",
+      "merge_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
+      "merged_at_utc": "2026-11-11T19:13:49Z",
+      "status": "merged",
+      "scope": "Independently check the saved source-writer R1L low byte against its observed source byte lane at post-fetch PC 0039AC; keep the bounded trace observational.",
+      "pr_head_checks": {
+        "ubuntu_24_04": 130731723212,
+        "macos_14": 130731723022,
+        "windows_2025": 130731723494,
+        "initial_decode_msan": 130731723012,
+        "all_success": true
+      },
+      "review_diagnostics": {
+        "github_review_objects": 0,
+        "review_threads": 0,
+        "issue_comments": 1,
+        "automated_review": "Codex completed without findings on exact head 37d1fd8e6a75b7a22dffeecc4004aece45e76dfe; issue comment 6804342900.",
+        "quota_issue_evidence": false,
+        "ruleset_id": 25910947,
+        "required_approvals": 0,
+        "review_threads_must_be_resolved": true,
+        "ruleset_api": "REST endpoint returned 404 for current token; no bypass used, merge succeeded through normal path."
+      },
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": {
+        "all_four_success": true,
+        "checks": {
+          "ubuntu_24_04": 130747788160,
+          "macos_14": 130747788261,
+          "windows_2025": 130747787876,
+          "initial_decode_msan": 130747788278
+        }
+      },
+      "hardware_validation": "not performed; source-writer value/lane agreement does not establish hardware behavior, complete boot, MIDI acceptance or audio.",
+      "next_step": "Pass a synthetic AN3 value into the opt-in firmware probe, preserving strict no-input default."
     }
   ],
   "active_change": {
-    "branch": "research/pks-source-writer-lane-provenance",
+    "branch": "research/boot-probe-explicit-an3-input",
     "status": "candidate",
-    "base_commit": "d37a305779b1c2ea53e014ac2eaefd3c67c9b63b",
-    "scope": "Independently verify the captured R1L low-byte snapshot against the source byte lane written at CPU-reported post-fetch PC 0039AC. Do not infer instruction-start PC, upstream arithmetic, PKS meaning, or hardware behavior.",
+    "base_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
+    "scope": "Add an explicit constant AN3 input option to the bounded firmware probe. Keep conversion fail-closed without the option and preserve unsupported scan-mode rejection.",
     "local_validation": {
-      "targeted_source_tests": "14/14 pass",
-      "targeted_source_tests_optimized": "14/14 pass under Python -O",
-      "full_python_suite": "127/127 pass",
-      "py_compile": "pass",
-      "existing_mame_trace_audit": "43 context events accepted; six source-writer R1L/lane pairs agree",
-      "ctest": "not rerun; Python-only change",
-      "mame_build": "not run; no observer/source patch change",
-      "new_firmware_run": "not run"
+      "release_build": "pass",
+      "boot_probe_targeted_ctest": "pass; strict default, 0/1023 input bounds, callback count/cycle, split invariance, duplicate/malformed args and no fabricated ADC input",
+      "ctest": "138/138 pass (94.46 s)",
+      "python": "127/127 pass",
+      "repository_audit": "688 files, 201 upstream identities, no issues",
+      "diff_check": "pass",
+      "local_sanitizers": "not run",
+      "mame_build_or_run": "not run; no MAME source change"
+    },
+    "firmware_diagnostic": {
+      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "rom_modified": false,
+      "rom_in_repository": false,
+      "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit constant AN3",
+      "sample_values": [
+        0,
+        1023
+      ],
+      "slice_cycles": [
+        4096,
+        1000000
+      ],
+      "runs": "All four runs sampled once at cycle 95706795 and stopped on a byte write to FFFFE8, width 1, post-fetch PC 1B84, peripheral cycle 95707121; Unsupported ADC control mode.",
+      "continuation_comparison": "All non-slice metrics matched across all four runs; input values were reported and delivered to the callback, but no firmware-visible difference was established.",
+      "vop3_writes": [
+        12208,
+        1167
+      ],
+      "vop3_reads": [
+        449,
+        1
+      ],
+      "vop3_sample_passes": [
+        0,
+        0
+      ],
+      "gpio_writes": 12945,
+      "meg_observed_controls": 5,
+      "meg_source_status_reads": 1,
+      "acceptance": "limited diagnostic only; no full boot, hardware, MIDI, audio or REAPER acceptance"
     },
     "mame_reference": {
       "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "instrumented_binary_sha256": "abee99246c1f018bcca146a848eb1c8500bbef0606794c227ce85f17c387e57e",
-      "trace_sha256": "58d4c5008a95d85989eb8a66b8fbd3d400538564f9353bc6481aacd4439ac079",
-      "run_metadata_sha256": "ff303949281e458807d69e3daee43aae3c6a76a4a74b411618b6474f6ff41e61",
-      "trace_events": 43,
-      "matching_writer_pairs": 6,
-      "profile": "nine-second passive/default-input; no DMS/MIDI; DSP sample execution disabled"
+      "new_build_or_run": false
     },
-    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
-    "rom_modified": false,
-    "rom_in_repository": false,
-    "hardware_validation": "not performed; bounded source trace does not establish hardware agreement, complete boot, MIDI acceptance or audio.",
     "remote_ci": "pending on exact PR head",
     "review": "pending exact-head inspection",
     "pr": null

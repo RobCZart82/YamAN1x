@@ -1,3 +1,33 @@
+## A #273 merge utáni főág és az AN3-próba — 2026-11-11
+
+A friss főág `f8efa6bb8c7fb349cd75ca3ad713038754687d68`. A #273 PR ellenőrzött
+headje `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe`; a négy PR-head és mind a
+négy merge-main check sikerült. A Codex pontos headre szóló összefoglalója
+észrevétel nélkül zárult (`6804342900`). Nem volt GitHub review-objektum vagy
+review-szál; a PR egyetlen hozzászólása ez az automatikus összefoglaló volt.
+Kvótahibát nem jeleztek, normál squash merge történt megkerülés nélkül.
+
+A következő jelölt a firmware-próba AN3 ADC callbackjéhez kizárólag explicit,
+`--adc-an3=0..1023` kapcsolóval ad állandó mintát. Kapcsoló nélkül a korábbi
+fail-closed működés marad. A 10 bites széleket, a bemenet ellenőrzését, a
+callback ciklusát és a CPU-szeletektől független időzítést szintetikus tesztek
+ellenőrzik. A Release build, 138/138 CTest-csoport, 127/127 Python-teszt és a
+688 fájlt/201 upstream azonosságot vizsgáló repository audit sikeres.
+
+A változatlan, csak olvasott AN1x 1.04 ROM-mal végzett, idle-paneles swap16
+diagnosztika az AN3 0 és 1023 bemenetet is egy alkalommal, ciklus `95,706,795`
+értéknél mintázta; 4,096-os és 1,000,000-os CPU-szeletekkel is azonos
+perifériaállapotig jutott. Mind a négy futás a későbbi `FFFFE8` byte írásnál
+állt meg (post-fetch PC `1B84`, ciklus `95,707,121`), `Unsupported ADC control
+mode` hibával. A különbségmentes folytatás azt igazolja, hogy a callback
+bekötődött és a 266 ciklusos konverzió lefutott; a futás nem mutat különbséget
+a két bemeneti érték firmware-hatásában. Nem igazol teljes bootot, fizikai
+ADC-egyezést, MIDI-t, hangot vagy REAPER-t. A ROM SHA változatlan:
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; a ROM
+nincs a repóban. A zárolt MAME-forrás azonosítója
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; ehhez a kis próbalépéshez új
+MAME-fordítás/futtatás nem történt.
+
 ## A #272 main-ellenőrzés és a PKS íróregiszter-követés — 2026-11-11
 
 A #272 PR ellenőrzött headje `69a38a8a9d255afb967e9be55589c4ac2e1310f2`,

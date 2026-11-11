@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <optional>
 #include <string>
 
 namespace {
@@ -15,6 +16,8 @@ struct Sink {
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
  std::unique_ptr<yamanix::An1xVop3ResearchSink> vop3;
  bool idle_panel;
+ std::optional<uint16_t> an3_sample;
+ uint64_t an3_sample_count=0,an3_first_sample_cycle=0;
  explicit Sink(bool enabled,bool meg_enabled,bool source_status,bool native,bool level,bool panel):idle_panel(panel){
   if(native)vop3=std::make_unique<yamanix::An1xVop3ResearchSink>(16,
    yamanix::An1xVop3ResearchSink::Adapter::ControlPolicy::experimental_firmware_contract,
@@ -22,6 +25,11 @@ struct Sink {
    level?yamanix::Vop3LevelReadPolicy::experimental_an1x_level:yamanix::Vop3LevelReadPolicy::reject);
   else if(meg_enabled)meg=std::make_unique<yamanix::An1xMegResearchSink>(16,source_status?yamanix::MegSourceStatus::Policy::original_zero_stubs:yamanix::MegSourceStatus::Policy::reject);
   else if(enabled)lcd=std::make_unique<yamanix::An1xLcdResearchSink>(16);
+ }
+ uint16_t adc_an3_sample(uint64_t cycle){
+  if(!an3_sample)throw std::logic_error("Unsupported ADC conversion or IRQ enable");
+  if(an3_sample_count++==0)an3_first_sample_cycle=cycle;
+  return *an3_sample;
  }
  yamanix::An1xMegResearchSink* meg_sink()const{return vop3?static_cast<yamanix::An1xMegResearchSink*>(vop3.get()):meg.get();}
  bool idle_panel_read_enabled()const{return idle_panel;}
@@ -63,6 +71,15 @@ uint64_t number(const char*s,uint64_t maximum){
  if(error!=std::errc{}||end!=v.data()+v.size()||n==0||n>maximum)throw std::invalid_argument("Invalid bounded numeric argument");
  return n;
 }
+uint16_t parse_adc_an3(std::string_view argument){
+ constexpr std::string_view prefix="--adc-an3=";
+ if(!argument.starts_with(prefix))throw std::invalid_argument("Expected --adc-an3=0..1023");
+ const auto value=argument.substr(prefix.size());uint64_t n=0;
+ const auto [end,error]=std::from_chars(value.data(),value.data()+value.size(),n);
+ if(error!=std::errc{}||end!=value.data()+value.size()||n>1023)
+  throw std::invalid_argument("AN3 sample must be an integer from 0 through 1023");
+ return uint16_t(n);
+}
 std::vector<uint8_t>load(const char*path){
  std::ifstream in(path,std::ios::binary|std::ios::ate);
  if(!in||in.tellg()!=std::streamoff(yamanix::An1xMemoryMap::rom_size))throw std::invalid_argument("Expected exactly 1048576 ROM bytes");
@@ -74,20 +91,31 @@ std::vector<uint8_t>load(const char*path){
 }
 int main(int argc,char**argv){
  try{
-  if(argc!=6&&argc!=7)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [lcd-16mhz|lcd-meg-observe-16mhz|lcd-meg-source-stubs-16mhz|lcd-meg-vop3-register-experiment-16mhz|lcd-meg-vop3-level-experiment-16mhz|lcd-meg-vop3-idle-panel-experiment-16mhz]");
+  if(argc<6||argc>8)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023]");
   const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],20000000);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  const bool lcd_enabled=argc==7;
-  const bool panel=lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-idle-panel-experiment-16mhz";
-  const bool level=panel||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-level-experiment-16mhz");
-  const bool native=level||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-vop3-register-experiment-16mhz");
-  const bool source_status=native||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-source-stubs-16mhz");
-  const bool meg_enabled=source_status||(lcd_enabled&&std::string_view(argv[6])=="lcd-meg-observe-16mhz");
-  if(lcd_enabled&&!meg_enabled&&std::string_view(argv[6])!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
+  std::string_view profile="disabled";bool profile_seen=false;std::optional<uint16_t> adc_sample;
+  for(int i=6;i<argc;++i){
+   const std::string_view option(argv[i]);
+   if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
+   else if(option=="lcd-16mhz"||option=="lcd-meg-observe-16mhz"||
+           option=="lcd-meg-source-stubs-16mhz"||option=="lcd-meg-vop3-register-experiment-16mhz"||
+           option=="lcd-meg-vop3-level-experiment-16mhz"||option=="lcd-meg-vop3-idle-panel-experiment-16mhz"){
+    if(profile_seen)throw std::invalid_argument("Duplicate LCD profile");profile=option;profile_seen=true;
+   }
+   else throw std::invalid_argument("Unexpected or duplicate probe option");
+  }
+  const bool lcd_enabled=profile_seen;
+  const bool panel=profile=="lcd-meg-vop3-idle-panel-experiment-16mhz";
+  const bool level=panel||profile=="lcd-meg-vop3-level-experiment-16mhz";
+  const bool native=level||profile=="lcd-meg-vop3-register-experiment-16mhz";
+  const bool source_status=native||profile=="lcd-meg-source-stubs-16mhz";
+  const bool meg_enabled=source_status||profile=="lcd-meg-observe-16mhz";
+  if(lcd_enabled&&!meg_enabled&&profile!="lcd-16mhz")throw std::invalid_argument("Unknown LCD profile");
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -99,7 +127,13 @@ int main(int argc,char**argv){
   const char*stop_reason=error.empty()?"cycle_limit":error=="H8 execution callback limit"?"callback_limit":"execution_error";
   std::cout<<"{\"schema_version\":1,\"status\":"<<std::quoted(error.empty()?"cycle_limit":"stopped")
    <<",\"stop_reason\":"<<std::quoted(stop_reason)<<",\"callback_limit_requested\":"<<limit
-   <<",\"lcd_profile\":"<<std::quoted(panel?"lcd-meg-vop3-idle-panel-experiment-16mhz":level?"lcd-meg-vop3-level-experiment-16mhz":native?"lcd-meg-vop3-register-experiment-16mhz":source_status?"lcd-meg-source-stubs-16mhz":meg_enabled?"lcd-meg-observe-16mhz":lcd_enabled?"lcd-16mhz":"disabled")
+   <<",\"lcd_profile\":"<<std::quoted(profile)
+   <<",\"adc_an3_input_profile\":"<<std::quoted(adc_sample?"explicit-constant":"disabled")
+   <<",\"adc_an3_value\":";
+  if(adc_sample)std::cout<<*adc_sample;else std::cout<<"null";
+  std::cout<<",\"adc_an3_samples\":"<<sink.an3_sample_count<<",\"adc_an3_first_sample_cycle\":";
+  if(sink.an3_sample_count)std::cout<<sink.an3_first_sample_cycle;else std::cout<<"null";
+  std::cout
    <<",\"meg_observed_controls\":"<<(sink.meg_sink()?sink.meg_sink()->meg_observation().count:0)
    <<",\"meg_source_status_reads\":"<<(sink.meg_sink()?sink.meg_sink()->meg_status_reads():0)
    <<",\"vop3_profile\":"<<std::quoted(level?"native-registers-experimental-upload-and-level":native?"native-registers-experimental-upload":"disabled")
