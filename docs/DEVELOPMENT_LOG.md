@@ -1,5 +1,7 @@
 ## Repository-audit és forráskontextus-javítás — 2026-11-11
 
+Aktuális PR- és merge-állapot: [#270](https://github.com/RobCZart82/YamAN1x/pull/270).
+
 Átvizsgált main: #269, `97e341ef56ff81a511ae64b6f98ca8af01251f84`.
 A #267–269 változások a PKS forrásbájt CPU-kontextusát és a kiválasztott lane
 legutóbbi korábbi írását kapcsolják össze. A #269 2026-11-10T19:59:59Z-kor

@@ -5293,7 +5293,7 @@
   "source_audit_followup": {
     "branch": "fix/pks-source-run-validation",
     "scope": "Full standalone run validation and source-writer register provenance",
-    "status_source": "follow-up pull request",
+    "status_source": "https://github.com/RobCZart82/YamAN1x/pull/270",
     "validation": {
       "source_tests": "13/13 pass",
       "python": "125/126 pass;one WinError1314 symlink limitation",
@@ -5303,6 +5303,7 @@
       "release_build": "pass",
       "documentation": "utf8,links,ledger ancestry and counts pass",
       "local_sanitizers": "not_run"
-    }
+    },
+    "pr": 270
   }
 }

@@ -35,6 +35,8 @@ See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 
 ## Repository audit and source-context follow-up — 2026-11-11
 
+Correction and merge status: [PR #270](https://github.com/RobCZart82/YamAN1x/pull/270).
+
 Preparation baseline is merged #269, `97e341ef56ff81a511ae64b6f98ca8af01251f84`.
 The preceding changes add bounded PKS source-context observations and correlate
 FA92 reads with the latest earlier write to the selected byte lane. #269 final
