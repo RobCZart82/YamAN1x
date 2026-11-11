@@ -1,31 +1,22 @@
-## Forráskontextus-követő javítás — #270 beolvadt — 2026-11-11
+## A #270 forráskontextus-javítás és #271 naplóegyeztetés beolvadt — 2026-11-11
 
-A [#270 PR](https://github.com/RobCZart82/YamAN1x/pull/270) beolvadt a
-`b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88` mainre. Ellenőrzött PR-headje
-`2264c7a53415584af718f9e941ef029c84acf302`, beolvasztó commitja
-`b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`.
+A #270 forráskontextus-javítás PR-headje `2264c7a53415584af718f9e941ef029c84acf302`,
+merge-commitja `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`. A #271 ezt
+dokumentációs egyeztetéssel követte: ellenőrzött headje `c040b521054c085c2b0fc8fb513f222b0731004c`, main
+merge-SHA-ja `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`. Mindkét változás beolvadt; a #271 négy kötelező PR-
+ellenőrzése és ugyanaz a négy main ellenőrzés sikeres volt. A MAME munkafolyamat
+a dokumentációs módosításnál útvonal szerint nem futott.
 
-A forráskontextus-auditor most önálló futásnál is megköveteli a teljes,
-sikeres futásjegyzéket; célzott CLI-próbák igazolják a hibás adatok elutasítását
-és a teljes szintetikus rekord elfogadását. A párosított átviteli jelentés
-megtartja a kiválasztott korábbi író CCR- és ER0–ER7-pillanatképét. Ez a
-következő adat- és utasításút-követés előfeltétele, de nem állít PKS-szemantikát.
+A #271 merge-ellenőrzésekor nem volt GitHub review, szál vagy komment, és nem
+volt automatikus review-eredményre vagy kvótahibára utaló adat. A szabályzat
+nulla jóváhagyást követelt, a review-szálak rendezését előírta; megkerülés nem
+történt. A fejlesztési naplóban a pontos futások szerepelnek.
 
-A PR pontos headjén Linux/macOS/Windows/MSan, a merge commiton ugyanez a négy
-ellenőrzés sikerült. A MAME munkafolyamat erre a Python/dokumentációs változásra
-útvonal szerint nem futott. A szabályzat nulla jóváhagyást követelt; GitHubon
-nem volt review, szál vagy PR-komment, automatikus review-eredmény vagy
-kvótahiba sem volt rögzítve. Megkerülés nélkül, squash módszerrel olvadt be.
-
-A helyi PR-validáció 137/137 futtatható CTest-csoport, 125/126 Python-eset
-(egy meglévő Windows WinError 1314 symlink-korlát), 13/13 célzott teszt,
-sikeres forrás-/értesítés-/dokumentumaudit volt; helyi sanitizer nem futott.
-ROM nem változott és nem került a repóba. Ez nem hardver-, teljes boot-, MIDI-
-vagy hangelfogadás.
-
-**Következő kutatási lépés:** a mentett íróregiszterekből visszafelé követni az
-értéket előállító bemeneteket és utasításútvonalat, külön ellenőrizve az
-értéket, címet, flag-eket, időzítést és a folytathatóságot.
+A következő kutatási lépés változatlanul a megfigyelt forrásíró előtti
+bemenetek és utasításút követése. Az érték, cím, flag-ek, időzítés és
+folytathatóság külön ellenőrzendő. A korlátozott megfigyelés nem bizonyít
+hardver-egyezést, teljes bootot, MIDI-t vagy hangot; az eredeti ROM nem
+változott és nem került a repositoryba.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

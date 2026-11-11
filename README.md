@@ -1,6 +1,6 @@
 <img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520"><br>
 Firmware-based Yamaha AN1x emulator research, preparing a future **VST3/AU**
-plugin. Repository name: **yaman1x**.
+plugin. Repository name: **YamAN1x**.
 
 ![Original Yamaha AN1x hardware photographed for the YamAN1x project](docs/images/an1x-hardware.png)
 
@@ -8,7 +8,7 @@ plugin. Repository name: **yaman1x**.
 owner. This is a photograph of the physical synthesizer, not a VST3/AU plugin
 or a screenshot of YamAN1x.*
 
-First public research snapshot: **2026-10-26** — [v0.1.0-research](https://github.com/RobCZart82/yaman1x/releases/tag/v0.1.0-research). This is a development foundation. It does not yet produce AN1x audio,
+First public research snapshot: **2026-10-26** — [v0.1.0-research](https://github.com/RobCZart82/YamAN1x/releases/tag/v0.1.0-research). This is a development foundation. It does not yet produce AN1x audio,
 complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 ## Build and test — no ROM required
@@ -33,22 +33,33 @@ This checks the source build, not AN1x hardware fidelity or plugin-host support.
 See [engine architecture decision](docs/ADR-0001-engine-boundary.md) and
 [build baseline](docs/BUILD_BASELINE.md) for the M0 decisions and remaining gates.
 
-## PKS source-context follow-up — merged #270 — 2026-11-11
+## PKS source-context follow-up — #271 documentation reconciliation merged — 2026-11-11
 
-PR [#270](https://github.com/RobCZart82/YamAN1x/pull/270) is merged on the
-current main baseline `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`; its verified head was
-`2264c7a53415584af718f9e941ef029c84acf302`. It validates successful run
-manifests for standalone source-context audits and preserves the selected
-writer's CCR and ER0–ER7 snapshot for the next source-provenance investigation.
-The PR-head and merge-commit Linux/macOS/Windows/MSan checks passed. No review
-submission, thread, comment, automated-review result or quota error was
-recorded; the active ruleset required zero approvals and no bypass was used.
-See [current status](docs/STATUS.md) and the [development ledger](docs/development-ledger.json).
+PR [#271](https://github.com/RobCZart82/YamAN1x/pull/271) was squash-merged
+from exact head `c040b521054c085c2b0fc8fb513f222b0731004c` onto `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`.
+The resulting main commit is `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d` (2026-11-11T15:39:43Z UTC). This
+documentation-only change reconciles the #270 evidence with the actual main
+history and brings the ledger baseline forward; it adds no firmware or
+hardware-behavior claim.
 
-The bounded profile remains observation only. It does not establish hardware
-agreement, complete boot, MIDI or audio. The next step follows the writer's
-preceding inputs and instruction path with independent value/address/flags/time
-and continuation checks.
+All four required PR-head checks passed on `c040b521054c085c2b0fc8fb513f222b0731004c`: Ubuntu
+(`130609733905`), macOS (`130609734312`), Windows
+(`130609734519`) and initial-decode MSan
+(`130609726040`). The same four checks passed on exact main
+commit `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`: Ubuntu (`130626294467`), macOS
+(`130626294211`), Windows (`130626294396`) and MSan
+(`130626294181`). The MAME workflow was path-filtered for
+the documentation change. At merge inspection GitHub recorded no review
+submissions, threads or comments; no automated-review result or quota error
+was available. Ruleset `25910947` required zero approvals and resolved
+threads; none were unresolved, and no bypass was used.
+
+The original ROM remains unchanged and outside the repository. This update does
+not establish hardware agreement, complete boot, MIDI or audio. The next
+bounded research step remains tracing the captured source writer's preceding
+inputs and instruction path with independent value, address, flags, timing and
+continuation checks.
+
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

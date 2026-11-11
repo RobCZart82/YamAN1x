@@ -37,6 +37,17 @@ Next: trace preceding value inputs/instructions with independent
 value/address/flags/timing/continuation checks. This profile is not hardware,
 boot, MIDI or audio acceptance.
 
+## Documentation reconciliation — merged #271
+
+PR #271 recorded the verified #270 and current-main evidence, and advanced the
+development ledger baseline to `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`. Its exact head was `c040b521054c085c2b0fc8fb513f222b0731004c`.
+All four required PR-head checks and all four merge-commit checks passed; MAME
+was path-filtered for this documentation-only change. GitHub recorded no
+reviews, threads or comments, and no automated-review result or quota error.
+The active ruleset required zero approvals and resolved review threads; no
+bypass was used. The original ROM remains unchanged and outside the repository.
+This documentation update does not add hardware or audio acceptance.
+
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-11",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88",
+  "baseline_commit": "f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d",
   "entries": [
     {
       "pr": 6,
@@ -5310,6 +5310,51 @@
       },
       "hardware_validation": "not performed; bounded source-only evidence does not establish hardware agreement, complete boot, MIDI acceptance or audio.",
       "next_step": "Trace the source writer's preceding inputs and instruction path using independent value/address/flags/timing/continuation checks, without semantic claims."
+    },
+    {
+      "pr": 271,
+      "title": "Reconcile PKS source-context records with verified #270 main merge",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/271",
+      "kind": "documentation",
+      "branch": "docs/reconcile-pks-source-context-merge",
+      "base_commit": "b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88",
+      "head_commit": "c040b521054c085c2b0fc8fb513f222b0731004c",
+      "merge_commit": "f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d",
+      "merged_at_utc": "2026-11-11T15:39:43Z",
+      "status": "merged",
+      "scope": "Reconcile current README, STATUS, REAPER plan, PKS path notes, and structured ledger with verified #270/#271 history; advance the ledger baseline. README repository display casing updated to YamAN1x.",
+      "local_validation": "not run in the read-only checkout; exact-head and merge-commit GitHub checks recorded below",
+      "pr_head_checks": {
+        "ubuntu_24_04": 130609733905,
+        "macos_14": 130609734312,
+        "windows_2025": 130609734519,
+        "initial_decode_msan": 130609726040,
+        "all_success": true,
+        "mame_research": "path-filtered for documentation-only change"
+      },
+      "review_diagnostics": {
+        "github_review_objects": 0,
+        "review_threads": 0,
+        "issue_comments": 0,
+        "automated_review": "No result recorded at merge inspection.",
+        "quota_issue_evidence": false,
+        "ruleset_id": 25910947,
+        "required_approvals": 0,
+        "review_threads_must_be_resolved": true
+      },
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": {
+        "all_four_success": true,
+        "checks": {
+          "ubuntu_24_04": 130626294467,
+          "windows_2025": 130626294396,
+          "macos_14": 130626294211,
+          "initial_decode_msan": 130626294181
+        }
+      },
+      "hardware_validation": "not performed; documentation-only change does not establish hardware agreement, complete boot, MIDI acceptance or audio.",
+      "next_step": "Trace captured source writer's preceding inputs/instruction path using independent value/address/flags/timing/continuation checks."
     }
   ],
   "active_change": null,
@@ -5378,5 +5423,25 @@
       "msan": 130356492076
     },
     "review": "No GitHub reviews, threads or comments; no automated-review result or quota evidence; ruleset required zero approvals; no bypass."
+  },
+  "documentation_reconciliation": {
+    "pr": 271,
+    "status": "merged",
+    "head_commit": "c040b521054c085c2b0fc8fb513f222b0731004c",
+    "merge_commit": "f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d",
+    "merged_at_utc": "2026-11-11T15:39:43Z",
+    "pr_head_checks": {
+      "windows_2025": 130609734519,
+      "macos_14": 130609734312,
+      "ubuntu_24_04": 130609733905,
+      "initial_decode_msan": 130609726040
+    },
+    "main_checks": {
+      "ubuntu_24_04": 130626294467,
+      "windows_2025": 130626294396,
+      "macos_14": 130626294211,
+      "initial_decode_msan": 130626294181
+    },
+    "review": "No GitHub review submissions, threads or comments; no automated-review result or quota evidence. Ruleset required zero approvals and resolved threads; no bypass."
   }
 }

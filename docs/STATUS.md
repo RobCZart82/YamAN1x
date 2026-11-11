@@ -1,39 +1,26 @@
 # Development status
 
-## PKS source-context follow-up — merged #270 — 2026-11-11
+## PKS source-context follow-up — #271 reconciliation merged — 2026-11-11
 
-PR [#270](https://github.com/RobCZart82/YamAN1x/pull/270) was squash-merged from
-verified head `2264c7a53415584af718f9e941ef029c84acf302` onto
-`97e341ef56ff81a511ae64b6f98ca8af01251f84`. The merge commit is
-`b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88` (2026-11-11T06:06:49Z UTC).
+PR [#271](https://github.com/RobCZart82/YamAN1x/pull/271) was squash-merged
+from exact head `c040b521054c085c2b0fc8fb513f222b0731004c` onto `b306ed99bcd8db49ecd2f4bbc24d92c9bab56a88`.
+The merge commit and current main are `f35dbbd2f67b710bf6cd6ea831c4240dbc3f9c4d`. This documentation-only
+change records #270 against the verified main history and advances the ledger
+baseline; no firmware or hardware behavior changed.
 
-The change validates complete successful source-context run manifests even
-without `--baseline`, with CLI rejection/acceptance regressions. Matched source
-transfers also retain a copied earlier-writer CCR and ER0–ER7 snapshot. This
-supports tracing the value-producing register and instruction path; it does not
-assign PKS semantics.
+All four required PR-head checks passed (Ubuntu `130609733905`,
+macOS `130609734312`, Windows `130609734519`, MSan
+`130609726040`). All four passed on the exact merge commit
+(IDs `130626294467`, `130626294211`,
+`130626294396`, `130626294181`). MAME
+was path-filtered. No review submissions, threads, comments, automated-review
+result or quota error were recorded; ruleset `25910947` required zero
+approvals and resolved threads. No bypass was used.
 
-On exact PR head `2264c7a...`, all four jobs passed: Ubuntu
-(`130344216845`), macOS (`130344216645`), Windows (`130344216370`) and
-MSan (`130344117986`). The same four jobs passed on exact merge commit
-`b306ed99...`: Ubuntu `130356491771`, macOS `130356491432`, Windows
-`130356491846`, and MSan `130356492076`. The MAME workflow was path-filtered
-for this Python/documentation change. The active ruleset `25910947` requires
-zero approvals, resolved review threads and the three platform checks; no
-bypass was used. At merge inspection, GitHub had zero review submissions,
-review threads or PR comments; no automated-review result or quota error was
-recorded.
-
-Local validation recorded by the PR: Release build; 137/137 runnable CTest
-groups; 125/126 Python cases (one existing Windows symlink privilege failure,
-WinError 1314); 13/13 targeted source tests; source/notice/document audits
-passed. Local sanitizers were not run. The original AN1x ROM remains unchanged
-and outside the repository. These checks do not establish hardware behavior,
-complete boot, MIDI acceptance or audio.
-
-The next research step is to trace the captured source writer's preceding
-inputs/instruction path while retaining independent value, address, flags,
-timing and continuation checks.
+The ROM remains unchanged and outside the repository. Hardware agreement,
+complete boot, MIDI and audio remain unaccepted. The next bounded research step
+follows the observed source writer's preceding inputs/instruction path with
+independent value, address, flags, timing and continuation checks.
 ## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
 A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
