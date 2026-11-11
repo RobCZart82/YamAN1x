@@ -18,9 +18,10 @@ the checked head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` as main
 `f8efa6bb8c7fb349cd75ca3ad713038754687d68`. Its four required PR checks and
 four main checks passed; Codex completed the exact-head review without findings.
 The open [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274) adds an
-**opt-in constant AN3 input** to the bounded firmware probe; without
-`--adc-an3=0..1023`, conversion still fails closed. Its final-head CI and review
-are pending. The
+**opt-in constant AN3 input** to the bounded firmware probe and keeps ADDRD
+reads unmapped until that input is explicitly enabled. Codex found a fail-closed
+gap on the initial PR head; the bus mapping and synthetic word/high-byte/low-byte
+tests now address it. The corrective head's CI and review are pending. The
 fresh read-only AN1x 1.04 diagnostic now completes one 266-cycle conversion and
 then stops at a later unsupported ADC control write at `FFFFE8`. Runs at input
 0 and 1023, each split at 4,096 and 1,000,000 cycles, reached the same boundary.

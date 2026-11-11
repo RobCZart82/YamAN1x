@@ -9,12 +9,17 @@ Kvótahibát nem jeleztek, normál squash merge történt megkerülés nélkül.
 
 A következő jelölt a [#274 PR](https://github.com/RobCZ82/YamAN1x/pull/274): a
 firmware-próba AN3 ADC callbackjéhez kizárólag explicit,
-`--adc-an3=0..1023` kapcsolóval ad állandó mintát. A végleges PR-head CI-je és
-review-ja még függőben van. Kapcsoló nélkül a korábbi
-fail-closed működés marad. A 10 bites széleket, a bemenet ellenőrzését, a
-callback ciklusát és a CPU-szeletektől független időzítést szintetikus tesztek
-ellenőrzik. A Release build, 138/138 CTest-csoport, 127/127 Python-teszt és a
-688 fájlt/201 upstream azonosságot vizsgáló repository audit sikeres.
+`--adc-an3=0..1023` kapcsolóval ad állandó mintát. Az első kódhead Codex
+review-ja talált egy fail-closed rést: az ADDRD eredményword és bájtlane-jei
+explicit minta nélkül is olvashatók voltak. A busz most a minta runtime
+engedélyezését is ellenőrzi; szintetikus programok az `FFFFE6` word, az `FFFFE6`
+high-byte és az `FFFFE7` low-byte hozzáférés pontos unmapped hibáját vizsgálják.
+Explicit bemenettel a konverzió utáni word-olvasás továbbra is engedélyezett.
+A korábbi exact-head CI és MAME-kutatási workflow sikerrel lezárult; a javított
+head CI-je, Codex-review-ja és a régi review-szál rendezése még hátravan. A 10
+bit széleit, a bemenet ellenőrzését, callback-ciklust és szétvágásfüggetlen
+időzítést is ellenőrizzük. A Release build, 138/138 CTest-csoport, 127/127
+Python-teszt és a 688 fájlt/201 upstream azonosságot vizsgáló audit sikeres.
 
 A változatlan, csak olvasott AN1x 1.04 ROM-mal végzett, idle-paneles swap16
 diagnosztika az AN3 0 és 1023 bemenetet is egy alkalommal, ciklus `95,706,795`

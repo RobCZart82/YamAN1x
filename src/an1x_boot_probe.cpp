@@ -31,6 +31,7 @@ struct Sink {
   if(an3_sample_count++==0)an3_first_sample_cycle=cycle;
   return *an3_sample;
  }
+ bool adc_an3_enabled()const{return an3_sample.has_value();}
  yamanix::An1xMegResearchSink* meg_sink()const{return vop3?static_cast<yamanix::An1xMegResearchSink*>(vop3.get()):meg.get();}
  bool idle_panel_read_enabled()const{return idle_panel;}
  bool vop3_word_enabled()const{return bool(vop3);}

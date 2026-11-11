@@ -5450,11 +5450,11 @@
     "branch": "research/boot-probe-explicit-an3-input",
     "status": "candidate",
     "base_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
-    "scope": "Add an explicit constant AN3 input option to the bounded firmware probe. Keep conversion fail-closed without the option and preserve unsupported scan-mode rejection.",
+    "scope": "Add an explicit constant AN3 input option to the bounded firmware probe; keep conversion and ADDRD result reads fail-closed without the option, and preserve unsupported scan-mode rejection.",
     "local_validation": {
-      "release_build": "pass",
-      "boot_probe_targeted_ctest": "pass; strict default, 0/1023 input bounds, callback count/cycle, split invariance, duplicate/malformed args and no fabricated ADC input",
-      "ctest": "138/138 pass (94.46 s)",
+      "release_build": "pass; full incremental build after fail-closed result-read correction",
+      "boot_probe_targeted_ctest": "pass; strict default conversion, exact unmapped ADDRD word/high/low byte reads without input, enabled result read after conversion, 0/1023 input bounds, callback count/cycle, split invariance, duplicate/malformed args",
+      "ctest": "138/138 pass (63.47 s)",
       "python": "127/127 pass",
       "repository_audit": "688 files, 201 upstream identities, no issues",
       "diff_check": "pass",
@@ -5497,8 +5497,8 @@
       "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "new_build_or_run": false
     },
-    "remote_ci": "pending on current exact PR head after ledger reconciliation",
-    "review": "pending on current exact PR head; no outcome or quota claim yet",
+    "remote_ci": "previous exact head cb1c99da2f368dade43964a986e65e65ea26c9ed: ROM-free CI, MAME research build and MSan all completed successfully; corrective head pending after push",
+    "review": "Codex found one fail-closed result-read finding on initial head 2e2dcc08a24ac9aee9c59a9f0e9b995481d5a2d29 (comment 4542789621, thread PRRT_kwDOVYYWIs62V_vy); fixed locally with runtime input gate and word/high/low read tests. Corrective-head review pending; old thread must be answered/resolved after push. No quota error evidence.",
     "pr": 274,
     "pr_url": "https://github.com/RobCZ82/YamAN1x/pull/274",
     "initial_pr_head_commit": "2e2dcc08"

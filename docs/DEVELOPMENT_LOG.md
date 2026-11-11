@@ -1,3 +1,25 @@
+## PR #274 — Keep optional AN3 result reads fail-closed — 2026-11-11
+
+The first code head received a Codex review finding on commit
+`2e2dcc08a24ac9aee9c59a9f0e9b995481d5a2d29` (comment
+`4542789621`, thread `PRRT_kwDOVYYWIs62V_vy`). The bounded probe's sink always
+had an `adc_an3_sample` method, so compile-time detection exposed ADDRD result
+reads even when no `--adc-an3` value was configured. Added the optional
+`adc_an3_enabled()` sink predicate and gate aligned word plus high/low byte
+result reads on it. Sinks without this predicate retain their prior callback
+mapping behavior.
+
+Synthetic CPU programs now prove that the no-input profile fails at the exact
+`FFFFE6` word read and `FFFFE6`/`FFFFE7` byte reads, while an explicit AN3
+sample still permits a result-word read after conversion. The targeted probe
+CTest passed; full Release build and 138/138 CTest groups passed; the Python
+suite passed 127/127; `git diff --check` passed. The MAME and MSan research
+workflows and all three platform jobs for the previous exact PR head completed
+successfully. Corrective-head checks and review are pending; the old finding
+has been fixed in this candidate but its GitHub thread remains to be answered
+and resolved after push. No quota error was reported. No new MAME build/run or
+ROM access was performed for this source correction.
+
 ## PR #273 merge and explicit AN3 boot-probe input — 2026-11-11
 
 PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from

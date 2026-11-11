@@ -17,14 +17,19 @@ approvals and resolved threads, and the merged PR had no open review threads.
 
 The next code candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274),
 branch `research/boot-probe-explicit-an3-input`, based on the verified main
-above. Its current head CI and review are pending. It adds an explicit
-`--adc-an3=0..1023` constant input to the bounded probe and
-reports the selected value, callback count and first sample cycle. With no
-argument, the existing strict failure is preserved. Synthetic tests cover both
-ends of the 10-bit range, malformed/duplicate options, the exact conversion
-callback and split-independent timing. Release build passed; all 138 CTest
-groups and all 127 Python tests passed; the repository audit checked 688 files
-and 201 upstream identities without issues.
+above. The initial code head received a Codex finding: compile-time callback
+presence had made ADDRD word and byte reads appear mapped even when the optional
+AN3 input was disabled. The bus now also checks the sink's runtime
+`adc_an3_enabled()` predicate, and synthetic probe tests require exact unmapped
+faults for the result word and both byte lanes without the option. An explicit
+input still permits the result word after conversion. The previous exact-head
+ROM-free CI, MAME research build and MSan workflows have all closed successfully;
+the corrective head's CI and review are pending, and the earlier review thread
+must be resolved after the fix is pushed. The probe reports the selected value,
+callback count and first sample cycle. Synthetic tests also cover both ends of
+the 10-bit range, malformed/duplicate options, and split-independent timing.
+Release build passed; all 138 CTest groups and all 127 Python tests passed; the
+repository audit checked 688 files and 201 upstream identities without issues.
 
 The fresh read-only AN1x 1.04 run used the explicit idle-panel profile, swap16
 view, 100,000,000-cycle limit and 20,000,000-callback limit. Constant inputs 0
