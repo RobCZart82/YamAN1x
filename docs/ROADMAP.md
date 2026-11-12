@@ -1,5 +1,30 @@
 # Development roadmap
 
+## Verified runtime baseline — 2026-11-12
+
+PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
+2026-11-11 at 21:56:03 UTC (22:56:03 Europe/Budapest), from final head
+`329a7bf626e251c39a3273eef69dad24ad3e161e` to main
+`d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94`. The final-head platform CI,
+MSan and MAME research workflows passed (runs `43102583960`, `43102583923`,
+`43102583907`). The exact-main runs also passed:
+[Linux/macOS/Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390172),
+[MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390248) and
+[MAME research](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390414).
+[Codex review](https://github.com/RobCZart82/YamAN1x/pull/274#issuecomment-6806170735)
+completed without findings on that final head; the earlier result-read finding
+was addressed and its review thread is resolved.
+
+Current inventory: **138 CTest groups, 127 Python cases, 14 targeted
+source-context cases and 13 research patches**. The November 12 Windows audit
+passed a fresh Release build and 137/137 runnable CTest groups (Python wrapper
+checked separately); Python passed 126/127 with one WinError 1314 symlink
+privilege error, and the 14 source-context cases passed under Python -O.
+Source/notice audits passed. M0 remains partial; full boot, hardware, MIDI,
+audio and REAPER acceptance remain open. Next: establish the unsupported ADC
+control-mode semantics from source evidence before extending the bounded probe.
+The older preparation and test records below retain their original revisions.
+
 ## Repository audit and source-context follow-up — 2026-11-11
 
 Correction and merge status: [PR #270](https://github.com/RobCZart82/YamAN1x/pull/270).
@@ -17,7 +42,7 @@ and complete records. The provenance report now carries the earlier writer's
 CCR and ER0–ER7 snapshot, copied independently from later read/write snapshots.
 These fields support tracing the register value that produced the source byte.
 
-Current source inventory is **138 CTest groups and 126 Python cases**, with
+Historical #270 source inventory was **138 CTest groups and 126 Python cases**, with
 13 research patches. Release build and137/137 runnable CTest pass (60.63s).
 Python125/126 pass;one established WinError1314 symlink-privilege limit. All13
 source tests pass. Source/notice audits pass (688 files,201 upstream identities,

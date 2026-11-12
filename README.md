@@ -11,19 +11,25 @@ or a screenshot of YamAN1x.*
 First public research snapshot: **2026-10-26** — [v0.1.0-research](https://github.com/RobCZart82/YamAN1x/releases/tag/v0.1.0-research). This is a development foundation. It does not yet produce AN1x audio,
 complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
-## Current verified baseline and next diagnostic increment — 2026-11-11
+## Verified runtime baseline — 2026-11-12
 
-PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
-the checked head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` as main
-`f8efa6bb8c7fb349cd75ca3ad713038754687d68`. Its four required PR checks and
-four main checks passed; Codex completed the exact-head review without findings.
-The open [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274) adds an
-**opt-in constant AN3 input** to the bounded firmware probe and keeps ADDRD
-reads unmapped until that input is explicitly enabled. Codex found a fail-closed
-gap on the initial PR head; the bus mapping and synthetic word/high-byte/low-byte
-tests now address it. The corrective head's CI and review are pending. The
-fresh read-only AN1x 1.04 diagnostic now completes one 266-cycle conversion and
-then stops at a later unsupported ADC control write at `FFFFE8`. Runs at input
+PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
+2026-11-11 at 21:56:03 UTC (22:56:03 Europe/Budapest), from final head
+`329a7bf626e251c39a3273eef69dad24ad3e161e` to main
+`d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94`. The final-head platform CI,
+MSan and MAME research workflows passed (runs `43102583960`, `43102583923`,
+`43102583907`). The exact-main runs also passed:
+[Linux/macOS/Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390172),
+[MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390248) and
+[MAME research](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390414).
+[Codex review](https://github.com/RobCZart82/YamAN1x/pull/274#issuecomment-6806170735)
+completed without findings on that final head; the earlier result-read finding
+was addressed and its review thread is resolved.
+
+The merged probe accepts an **opt-in constant AN3 input** and keeps ADDRD
+word/high-byte/low-byte reads unmapped without it. During #274 development,
+the read-only AN1x 1.04 diagnostic completed one 266-cycle conversion and
+then stopped at a later unsupported ADC control write at `FFFFE8`. Runs at input
 0 and 1023, each split at 4,096 and 1,000,000 cycles, reached the same boundary.
 This is limited firmware progress only: full boot, physical ADC agreement,
 MIDI, audio and REAPER acceptance remain open. The original MAME reference is
