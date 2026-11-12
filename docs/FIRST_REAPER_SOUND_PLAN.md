@@ -1,3 +1,14 @@
+## Következő diagnosztikai korlát — jelölt — 2026-11-12
+
+A következő, még nem beolvasztott diagnosztikai jelölt az `FFFFE8`
+ADC-vezérlőírás pontos értékét is rögzíti. Négy friss AN1x 1.04 futás
+egyaránt `0x33`-at írt; a rögzített MAME ADC-forrás ezt szoftverindítású
+AN0–AN3 pásztázásként dekódolja. Ez nem bizonyítja az AN1x fizikai
+bemenetmodelljét. A vezérlési mód továbbra is szigorúan elutasított, így a
+hangig vezető út még nem teljes firmware-boot, MIDI, DSP/hanglánc,
+plugin-host és REAPER végponttól végpontig tartó elfogadása. A jelölt helyi
+tesztjei sikeresek; távoli PR-ellenőrzés még nincs.
+
 ## A #274 lezárása és az aktuális főág — 2026-11-12
 
 A [#274 PR](https://github.com/RobCZart82/YamAN1x/pull/274) beolvadt

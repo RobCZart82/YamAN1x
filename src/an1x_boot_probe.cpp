@@ -51,15 +51,16 @@ struct Sink {
 struct Host {
  yamanix::An1xSciBus<Sink> bus;
  bool fault=false;const char*kind="none";uint32_t address=0;unsigned width=0;
+ bool fault_has_value=false;uint16_t fault_value=0;
  Host(std::span<const uint8_t>rom,Sink&s):bus(rom,{},s){}
- template<class F>decltype(auto) access(const char*k,uint32_t a,unsigned w,F f){
-  try{return f();}catch(...){fault=true;kind=k;address=a&0xffffff;width=w;throw;}
+ template<class F>decltype(auto) access(const char*k,uint32_t a,unsigned w,F f,std::optional<uint16_t> write_value=std::nullopt){
+  try{return f();}catch(...){fault=true;kind=k;address=a&0xffffff;width=w;if(write_value){fault_has_value=true;fault_value=*write_value;}throw;}
  }
  uint16_t read_instruction_word(uint32_t a){return access("instruction_read",a,2,[&]{return bus.read_instruction_word(a);});}
  uint8_t read_byte(uint32_t a){return access("data_read",a,1,[&]{return bus.read_byte(a);});}
  uint16_t read_word(uint32_t a){return access("data_read",a,2,[&]{return bus.read_word(a);});}
- void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);});}
- void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);});}
+ void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);},v);}
+ void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);},v);}
  void bus_cycle(uint64_t t){bus.bus_cycle(t);}
  uint64_t update(uint64_t t){return bus.update(t);}
  int access_cycles(uint32_t a,unsigned w)const{return bus.access_cycles(a,w);}
@@ -148,7 +149,9 @@ int main(int argc,char**argv){
    <<",\"completed_slice_callbacks\":"<<calls<<",\"peripheral_cycle\":"<<host.bus.cycle()
    <<",\"pc\":"<<state.pc<<",\"instruction_state\":"<<state.state<<",\"instruction_substate\":"<<state.substate
    <<",\"cpu_failed\":"<<(cpu.failed()?"true":"false")<<",\"fault_access\":";
-  if(host.fault)std::cout<<"{\"kind\":"<<std::quoted(host.kind)<<",\"address\":"<<host.address<<",\"width\":"<<host.width<<'}';
+  if(host.fault){std::cout<<"{\"kind\":"<<std::quoted(host.kind)<<",\"address\":"<<host.address<<",\"width\":"<<host.width;
+   if(host.fault_has_value)std::cout<<",\"value\":"<<host.fault_value;
+   std::cout<<'}';}
   else std::cout<<"null";
   std::cout<<",\"tx_edges\":"<<sink.tx_count<<",\"clock_edges\":"<<sink.clock_count<<",\"gpio_writes\":"<<sink.gpio_writes
    <<",\"error\":"<<std::quoted(error)<<"}\n";
