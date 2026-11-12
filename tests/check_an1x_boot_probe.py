@@ -49,8 +49,12 @@ def main(binary):
             image([0x7a00, address >> 16, address & 65535, 0xfa5a, 0x688a])
             code, report = run([64, 8, 10000])
             require(code == 2 and report["status"] == "stopped" and report["cpu_failed"], "Fail closed on unmapped/ROM writes")
-            require(report["fault_access"] == {"kind": "data_write", "address": address, "width": 1}, "Exact failed access context")
+            require(report["fault_access"] == {"kind": "data_write", "address": address, "width": 1, "value": 0x5a}, "Exact failed byte-write address and value")
             require(report["completed_slice_cycles"] < 64, "Failed slice is not reported completed")
+        image([0x7a00, 0, 0, 0x7901, 0x1234, 0x6981])
+        code, report = run([64, 8, 10000])
+        require(code == 2 and report["fault_access"] == {"kind": "data_write", "address": 0, "width": 2, "value": 0x1234},
+                "Exact failed word-write address and value")
         image([0x7a00, 0xff, 0xffc7, 0x680a])
         code, report = run([64,8,10000])
         require(code == 2 and report["fault_access"] == {"kind": "data_read", "address": 0xffffc7, "width": 1}, "Unknown GPIO input fails closed")
@@ -70,13 +74,13 @@ def main(binary):
         code, report = run([64,8,10000], profile="always-ready")
         require(code == 1, "Unknown LCD profiles reject")
         # The input is opt-in and constant for this bounded probe; the default
-        # remains fail-closed. MOV.L loads ER0, then MOV.B writes immediate 0x23 via R3L.
-        image([0x7a00,0xff,0xffe8,0xf323,0x6883,0x40fe])
+        # remains fail-closed. MOV.L loads ER0, then MOV.B writes immediate 0xA5 via R3L.
+        image([0x7a00,0xff,0xffe8,0xf3a5,0x6883,0x40fe])
         code, report = run([2048,1,10000])
-        require(code == 2 and report["fault_access"] == {"kind":"data_write","address":0xffffe8,"width":1}
-                and report["error"] == "Unsupported ADC conversion or IRQ enable"
+        require(code == 2 and report["fault_access"] == {"kind":"data_write","address":0xffffe8,"width":1,"value":0xa5}
+                and report["error"] == "Unsupported ADC control mode"
                 and report["adc_an3_input_profile"] == "disabled" and report["adc_an3_samples"] == 0,
-                "AN3 remains strict without explicit input")
+                "AN3 remains strict without explicit input and reports the attempted write value")
         for address, opcode, width in ((0xffffe6, 0x6901, 2), (0xffffe6, 0x680a, 1), (0xffffe7, 0x680a, 1)):
             image([0x7a00, address >> 16, address & 0xffff, opcode, 0x40fe])
             code, report = run([64,8,10000])
@@ -137,7 +141,10 @@ def main(binary):
                                           (0x680000, 0x688a, "data_write", 1)):
             image([0x7a00, address >> 16, address & 65535, op, 0x40fe])
             code, report = run([128, 8, 10000], profile=panel)
-            require(code == 2 and report["fault_access"] == {"kind":kind,"address":address,"width":width},
+            expected = {"kind":kind,"address":address,"width":width}
+            if kind == "data_write":
+                expected["value"] = 0
+            require(code == 2 and report["fault_access"] == expected,
                     "Panel profile maps only the observed byte read")
         native = "lcd-meg-vop3-register-experiment-16mhz"
         # Two distinct chip coefficient writes,then the explicit upload command.

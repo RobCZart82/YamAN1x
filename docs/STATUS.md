@@ -49,6 +49,33 @@ boot, hardware, MIDI, audio or REAPER behavior. The ROM SHA-256 remains
 unchanged and outside the repository. No new MAME build or run was made; the
 locked reference remains `706dbb73281320c54d7c2f16262c1c3786f2be01`.
 
+## Sikertelen írások értéke — jelölt — 2026-11-12
+
+A main alap `e87b309fa76393d55711a3048d0e63fb28e6d8fb`. A jelölt
+`research/boot-probe-failed-write-context` ág a bounded firmware probe
+`fault_access` mezőjében a sikertelen bájt-/szóírás megkísérelt értékét is
+rögzíti; a hibás hozzáférés továbbra is fail-closed. A célzott tesztek pontosan
+ellenőrzik a címet, szélességet és értéket: köztük bájt `0x5A`, szó `0x1234`,
+és ADC-regiszter `0xA5`.
+
+Négy friss, csak olvasó firmware-futtatás AN1x 1.04 ROM-mal: idle-panel
+profil, `swap16`, 100,000,000 ciklus, 20,000,000 callback, AN3=0/1023 és
+4,096/1,000,000 ciklusos szeletek. Mind a négy egy mintát adott a
+`95,706,795` ciklusnál, majd megállt az `FFFFE8` byte-írásnál; az új mező
+mindegyiknél `0x33`, post-fetch PC `1B84`, perifériaciklus `95,707,121`, hiba
+`Unsupported ADC control mode`. Az egy mintán túli CPU-idő nem bizonyít
+mintabemenet-függő firmware-hatást: a releváns nem-szeletfüggő számlálók
+megegyeztek. A ROM hash `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
+nem változott és nem került a repóba.
+
+A lezárt MAME hivatkozás `706dbb73281320c54d7c2f16262c1c3786f2be01`; az ADC
+forrása az `H8_ADC_3337` `FFFFE8` vezérlőírás `0x33` értékét szoftveres
+AN0–AN3 pásztázó módként dekódolja. Ez kizárólag MAME-forrásértelmezés,
+nem Yamaha-hardvervalidáció; új MAME build/futtatás nem volt. A helyi Release
+build és teljes 138/138 CTest sikeres, a repository-audit és whitespace-check
+sikeres. A módosítás jelölt, PR/remote CI/review még nincs; sem ADC-pásztázás,
+sem boot, MIDI, hang vagy REAPER-elfogadás nem került hozzáadásra.
+
 ## PKS source-writer register cross-check — candidate — 2026-11-11
 
 This candidate adds an independent check of the saved source-writer R1L

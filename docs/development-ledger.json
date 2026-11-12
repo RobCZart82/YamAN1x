@@ -5523,7 +5523,65 @@
       }
     }
   ],
-  "pending_changes": [],
+  "pending_changes": [
+{
+    "branch": "research/boot-probe-failed-write-context",
+    "status": "candidate_not_in_pr",
+    "base_commit": "e87b309fa76393d55711a3048d0e63fb28e6d8fb",
+    "scope": "Report attempted values for failed byte and word writes in the bounded probe without changing fail-closed behavior.",
+    "local_validation": {
+        "release_build": "pass",
+        "targeted_test": "pass; exact failed byte/word address, width and value, including 0x5A, 0x1234, 0xA5 and ADC write value reporting",
+        "ctest": "138/138 pass (42.63 s)",
+        "python": "included by CTest wrapper; full source Python inventory remains 127 cases",
+        "repository_audit": "688 files, 201 upstream identities, no issues",
+        "diff_check": "pass",
+        "local_sanitizers": "not run",
+        "mame_build_or_run": "not run; diagnostics-only C++ and synthetic-test change"
+    },
+    "firmware_diagnostic": {
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+        "rom_modified": false,
+        "rom_in_repository": false,
+        "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit constant AN3",
+        "sample_values": [
+            0,
+            1023
+        ],
+        "slice_cycles": [
+            4096,
+            1000000
+        ],
+        "runs": "All four runs sampled once at cycle 95706795 and stopped on a byte write of 0x33 to FFFFE8, width 1, post-fetch PC 1B84, peripheral cycle 95707121; Unsupported ADC control mode.",
+        "continuation_comparison": "Non-slice metrics matched across all four runs; no firmware-visible difference between AN3 values was established.",
+        "vop3_writes": [
+            12208,
+            1167
+        ],
+        "vop3_reads": [
+            449,
+            1
+        ],
+        "vop3_sample_passes": [
+            0,
+            0
+        ],
+        "gpio_writes": 12945,
+        "meg_observed_controls": 5,
+        "meg_source_status_reads": 1,
+        "acceptance": "limited diagnostic only; no full boot, hardware, MIDI, audio or REAPER acceptance"
+    },
+    "mame_reference": {
+        "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+        "source_observation": "Pinned H8_ADC_3337 source decodes FFFFE8 value 0x33 as software-started AN0-AN3 scan; source interpretation only, no Yamaha hardware acceptance.",
+        "new_build_or_run": false
+    },
+    "remote_ci": "not run; candidate has not been pushed or opened as a PR",
+    "review": "not run; no PR exists",
+    "pr": null,
+    "merge_commit": null
+}
+  ],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",

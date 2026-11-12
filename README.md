@@ -36,6 +36,18 @@ MIDI, audio and REAPER acceptance remain open. The original MAME reference is
 pinned at `706dbb73281320c54d7c2f16262c1c3786f2be01`; no new MAME build/run was
 made for this probe-only increment. The ROM stayed unchanged and outside Git.
 
+## Failed-write diagnostics — candidate — 2026-11-12
+
+A pending probe-only candidate reports the attempted value when a byte or word
+write fails, without relaxing fail-closed behavior. Four fresh read-only AN1x
+1.04 runs (AN3 0/1023; 4,096/1,000,000-cycle slices) all report the
+`FFFFE8` byte-write value `0x33`, post-fetch PC `1B84`, and peripheral cycle
+`95,707,121`; all other non-slice metrics match. The pinned MAME H8 ADC source
+classifies these control bits as a software-started AN0–AN3 scan, but this is
+source interpretation, not hardware validation. No unsupported mode is
+emulated. Full boot, MIDI, audio and REAPER acceptance remain open. This is a
+candidate only; remote checks and exact-head review are pending.
+
 ## Build and test — no ROM required
 
 Requirements: CMake 3.20+, a C++20 compiler, Python 3.9+, Git and platform build
