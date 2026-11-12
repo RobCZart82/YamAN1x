@@ -16,7 +16,9 @@ was addressed and its review thread is resolved.
 Corrected all nine RobCZ82 repository links to RobCZart82. Updated the current
 roadmap inventory to 138 CTest groups, 127 Python cases and 14 targeted
 source-context cases; the research patch count remains 13. Reconciled the
-ledger baseline and moved #274's completed record into merged entries.
+ledger runtime baseline and moved #274's completed record into merged entries.
+The #275 preparation record is dated and does not declare an active candidate
+status that would become stale after this documentation change merges.
 Earlier preparation and validation notes below are historical records;
 their pending-CI/review wording describes the state before final verification.
 

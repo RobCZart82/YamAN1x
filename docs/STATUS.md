@@ -1,6 +1,6 @@
 # Development status
 
-## Current verified main — 2026-11-12
+## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
 2026-11-11 at 21:56:03 UTC (22:56:03 Europe/Budapest), from final head

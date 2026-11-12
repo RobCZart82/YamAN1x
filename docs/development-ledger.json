@@ -5609,13 +5609,10 @@
     },
     "review": "No GitHub reviews, threads or comments; no automated-review result or quota evidence. Ruleset required zero approvals and resolved threads; no bypass."
   },
-  "active_change": {
+  "documentation_audit_reconciliation": {
     "branch": "docs/reconcile-274-audit",
-    "status": "candidate",
     "base_commit": "d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94",
     "scope": "Close #274 merge evidence, repair repository links and reconcile current test inventory. Documentation only.",
-    "remote_ci": "not yet run for this documentation candidate",
-    "review": "not yet recorded for this documentation candidate",
     "local_validation": {
       "evidence_scope": "Read-only audit of base d9f9ffb on 2026-11-12; documentation correction checks recorded separately.",
       "release_build": "pass",
@@ -5627,6 +5624,10 @@
       "local_sanitizers": "not run",
       "firmware_hardware_midi_audio_reaper": "not run"
     },
-    "documentation_validation": "UTF-8, local Markdown file targets, ledger uniqueness/ancestry and current inventory pass; 267 merged entries. Source/notice audits and git diff --check pass."
+    "documentation_validation": "UTF-8, local Markdown file targets, ledger uniqueness/ancestry and current inventory pass; 267 merged entries. Source/notice audits and git diff --check pass.",
+    "pr": 275,
+    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/275",
+    "record_scope": "Dated local preparation record, not a current open/merged status. Final CI and merge evidence are available in PR #275.",
+    "prepared_date": "2026-11-12"
   }
 }
