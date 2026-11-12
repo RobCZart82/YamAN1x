@@ -36,17 +36,31 @@ MIDI, audio and REAPER acceptance remain open. The original MAME reference is
 pinned at `706dbb73281320c54d7c2f16262c1c3786f2be01`; no new MAME build/run was
 made for this probe-only increment. The ROM stayed unchanged and outside Git.
 
-## Failed-write diagnostics — candidate — 2026-11-12
+## Failed-write diagnostics — #276 merged — 2026-11-12
 
-A pending probe-only candidate reports the attempted value when a byte or word
-write fails, without relaxing fail-closed behavior. Four fresh read-only AN1x
-1.04 runs (AN3 0/1023; 4,096/1,000,000-cycle slices) all report the
-`FFFFE8` byte-write value `0x33`, post-fetch PC `1B84`, and peripheral cycle
-`95,707,121`; all other non-slice metrics match. The pinned MAME H8 ADC source
-classifies these control bits as a software-started AN0–AN3 scan, but this is
-source interpretation, not hardware validation. No unsupported mode is
-emulated. Full boot, MIDI, audio and REAPER acceptance remain open. This is a
-candidate only; remote checks and exact-head review are pending.
+PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) added attempted
+values to failed byte and word writes in the bounded probe, preserving its
+fail-closed behavior. Four fresh read-only AN1x 1.04 runs (AN3 0/1023;
+4,096/1,000,000-cycle slices) all report the `FFFFE8` byte-write value
+`0x33`, post-fetch PC `1B84`, and peripheral cycle `95,707,121`; other
+non-slice metrics match. The pinned MAME H8 ADC source classifies these
+control bits as a software-started AN0–AN3 scan, but this is source
+interpretation, not hardware validation. No unsupported mode is emulated.
+Full boot, MIDI, audio and REAPER acceptance remain open.
+
+PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) beolvadt
+2026-11-12 15:50:27 UTC-kor, a végső `27fc4b0a0677b340a279439db7d54466c5f23f8d`
+headről a `74f0dc545c79a89790ad6eef42370b06f73bd65a` main commitba.
+A PR-head mind az öt ellenőrzése sikeres: Linux `131281742752`, macOS
+`131281743186`, Windows `131281743094`, MSan `131281739988`, MAME research
+`131281740553`. A Codex review a pontos headen észrevétel nélkül zárult
+(issue-comment `6827690290`). GitHub review-objektum és review-szál nem volt;
+a ruleset nulla jóváhagyást ír elő és rendezetlen szál nem volt. Kvótahiba
+nincs jelezve, merge-bypass nem történt.
+Az új main mindhárom kötelező platformellenőrzése, továbbá az MSan és MAME
+research futása is sikeres: `131300475364`, `131300474485`, `131300475237`,
+`131300473882`, `131300476046` (workflow runok `43252136161`,
+`43252135897`, `43252136454`).
 
 ## Build and test — no ROM required
 

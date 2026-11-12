@@ -1,7 +1,6 @@
-## Sikertelen írások értéke — jelölt — 2026-11-12
+## Sikertelen írások értéke — #276 beolvadt — 2026-11-12
 
-A main alap `e87b309fa76393d55711a3048d0e63fb28e6d8fb`. A jelölt
-`research/boot-probe-failed-write-context` ág a bounded firmware probe
+A `research/boot-probe-failed-write-context` ág a bounded firmware probe
 `fault_access` mezőjében a sikertelen bájt-/szóírás megkísérelt értékét is
 rögzíti; a hibás hozzáférés továbbra is fail-closed. A célzott tesztek pontosan
 ellenőrzik a címet, szélességet és értéket: köztük bájt `0x5A`, szó `0x1234`,
@@ -22,8 +21,23 @@ forrása az `H8_ADC_3337` `FFFFE8` vezérlőírás `0x33` értékét szoftveres
 AN0–AN3 pásztázó módként dekódolja. Ez kizárólag MAME-forrásértelmezés,
 nem Yamaha-hardvervalidáció; új MAME build/futtatás nem volt. A helyi Release
 build és teljes 138/138 CTest sikeres, a repository-audit és whitespace-check
-sikeres. A módosítás jelölt, PR/remote CI/review még nincs; sem ADC-pásztázás,
-sem boot, MIDI, hang vagy REAPER-elfogadás nem került hozzáadásra.
+sikeres. A #276 beolvadt; sem ADC-pásztázás, sem boot, MIDI, hang vagy
+REAPER-elfogadás nem került hozzáadásra.
+
+PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) beolvadt
+2026-11-12 15:50:27 UTC-kor, a végső `27fc4b0a0677b340a279439db7d54466c5f23f8d`
+headről a `74f0dc545c79a89790ad6eef42370b06f73bd65a` main commitba.
+A PR-head mind az öt ellenőrzése sikeres: Linux `131281742752`, macOS
+`131281743186`, Windows `131281743094`, MSan `131281739988`, MAME research
+`131281740553`. A Codex review a pontos headen észrevétel nélkül zárult
+(issue-comment `6827690290`). GitHub review-objektum és review-szál nem volt;
+a ruleset nulla jóváhagyást ír elő és rendezetlen szál nem volt. Kvótahiba
+nincs jelezve, merge-bypass nem történt.
+Az új main mindhárom kötelező platformellenőrzése, továbbá az MSan és MAME
+research futása is sikeres: `131300475364`, `131300474485`, `131300475237`,
+`131300473882`, `131300476046` (workflow runok `43252136161`,
+`43252135897`, `43252136454`).
+
 
 ## Dokumentációs auditjavítás és #274 lezárás — 2026-11-12
 

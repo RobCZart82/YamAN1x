@@ -1,13 +1,26 @@
-## Következő diagnosztikai korlát — jelölt — 2026-11-12
+## FFFE8 határ — #276 beolvadt — 2026-11-12
 
-A következő, még nem beolvasztott diagnosztikai jelölt az `FFFFE8`
-ADC-vezérlőírás pontos értékét is rögzíti. Négy friss AN1x 1.04 futás
-egyaránt `0x33`-at írt; a rögzített MAME ADC-forrás ezt szoftverindítású
-AN0–AN3 pásztázásként dekódolja. Ez nem bizonyítja az AN1x fizikai
-bemenetmodelljét. A vezérlési mód továbbra is szigorúan elutasított, így a
-hangig vezető út még nem teljes firmware-boot, MIDI, DSP/hanglánc,
-plugin-host és REAPER végponttól végpontig tartó elfogadása. A jelölt helyi
-tesztjei sikeresek; távoli PR-ellenőrzés még nincs.
+A [#276 PR](https://github.com/RobCZart82/YamAN1x/pull/276) mostantól a
+sikertelen bájt-/szóírás próbált értékét is rögzíti, miközben a nem támogatott
+ADC-módot továbbra is elutasítja. A friss firmware-futások `0x33` értéket
+rögzítettek; a zárolt MAME-forrás ezt AN0–AN3 szoftverindítású pásztázásként
+értelmezi, de ez nem Yamaha-hardverbizonyíték. A továbblépéshez még nincs
+igazolt AN0–AN2 bemeneti profil és hardveregyezés. Teljes boot, MIDI,
+DSP/hanglánc, plugin-host és REAPER elfogadása nyitott.
+
+PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) beolvadt
+2026-11-12 15:50:27 UTC-kor, a végső `27fc4b0a0677b340a279439db7d54466c5f23f8d`
+headről a `74f0dc545c79a89790ad6eef42370b06f73bd65a` main commitba.
+A PR-head mind az öt ellenőrzése sikeres: Linux `131281742752`, macOS
+`131281743186`, Windows `131281743094`, MSan `131281739988`, MAME research
+`131281740553`. A Codex review a pontos headen észrevétel nélkül zárult
+(issue-comment `6827690290`). GitHub review-objektum és review-szál nem volt;
+a ruleset nulla jóváhagyást ír elő és rendezetlen szál nem volt. Kvótahiba
+nincs jelezve, merge-bypass nem történt.
+Az új main mindhárom kötelező platformellenőrzése, továbbá az MSan és MAME
+research futása is sikeres: `131300475364`, `131300474485`, `131300475237`,
+`131300473882`, `131300476046` (workflow runok `43252136161`,
+`43252135897`, `43252136454`).
 
 ## A #274 lezárása és az aktuális főág — 2026-11-12
 
