@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-12",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94",
+  "baseline_commit": "74f0dc545c79a89790ad6eef42370b06f73bd65a",
   "entries": [
     {
       "pr": 6,
@@ -5521,15 +5521,13 @@
           "research_macos": 130814162481
         }
       }
-    }
-  ],
-  "pending_changes": [
-{
-    "branch": "research/boot-probe-failed-write-context",
-    "status": "candidate_not_in_pr",
-    "base_commit": "e87b309fa76393d55711a3048d0e63fb28e6d8fb",
-    "scope": "Report attempted values for failed byte and word writes in the bounded probe without changing fail-closed behavior.",
-    "local_validation": {
+    },
+    {
+      "branch": "research/boot-probe-failed-write-context",
+      "status": "merged",
+      "base_commit": "e87b309fa76393d55711a3048d0e63fb28e6d8fb",
+      "scope": "Report attempted values for failed byte and word writes in the bounded probe without changing fail-closed behavior.",
+      "local_validation": {
         "release_build": "pass",
         "targeted_test": "pass; exact failed byte/word address, width and value, including 0x5A, 0x1234, 0xA5 and ADC write value reporting",
         "ctest": "138/138 pass (42.63 s)",
@@ -5538,50 +5536,72 @@
         "diff_check": "pass",
         "local_sanitizers": "not run",
         "mame_build_or_run": "not run; diagnostics-only C++ and synthetic-test change"
-    },
-    "firmware_diagnostic": {
+      },
+      "firmware_diagnostic": {
         "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
         "rom_modified": false,
         "rom_in_repository": false,
         "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit constant AN3",
         "sample_values": [
-            0,
-            1023
+          0,
+          1023
         ],
         "slice_cycles": [
-            4096,
-            1000000
+          4096,
+          1000000
         ],
         "runs": "All four runs sampled once at cycle 95706795 and stopped on a byte write of 0x33 to FFFFE8, width 1, post-fetch PC 1B84, peripheral cycle 95707121; Unsupported ADC control mode.",
         "continuation_comparison": "Non-slice metrics matched across all four runs; no firmware-visible difference between AN3 values was established.",
         "vop3_writes": [
-            12208,
-            1167
+          12208,
+          1167
         ],
         "vop3_reads": [
-            449,
-            1
+          449,
+          1
         ],
         "vop3_sample_passes": [
-            0,
-            0
+          0,
+          0
         ],
         "gpio_writes": 12945,
         "meg_observed_controls": 5,
         "meg_source_status_reads": 1,
         "acceptance": "limited diagnostic only; no full boot, hardware, MIDI, audio or REAPER acceptance"
-    },
-    "mame_reference": {
+      },
+      "mame_reference": {
         "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
         "source_observation": "Pinned H8_ADC_3337 source decodes FFFFE8 value 0x33 as software-started AN0-AN3 scan; source interpretation only, no Yamaha hardware acceptance.",
         "new_build_or_run": false
-    },
-    "remote_ci": "not run; candidate has not been pushed or opened as a PR",
-    "review": "not run; no PR exists",
-    "pr": null,
-    "merge_commit": null
-}
+      },
+      "remote_ci": "Final PR head 27fc4b0a0677b340a279439db7d54466c5f23f8d passed platform run 43246862634, MSan run 43246862414 and MAME research run 43246862183.",
+      "review": "Codex review completed without findings on exact head (issue comment 6827690290). GitHub reviews: 0; review threads: 0; no quota issue evidence. Ruleset 25910947 required zero approvals; no bypass used.",
+      "pr": 276,
+      "merge_commit": "74f0dc545c79a89790ad6eef42370b06f73bd65a",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/276",
+      "initial_pr_head_commit": "27fc4b0a0677b340a279439db7d54466c5f23f8d",
+      "title": "Report values for failed probe writes",
+      "kind": "research",
+      "head_commit": "27fc4b0a0677b340a279439db7d54466c5f23f8d",
+      "merged_at_utc": "2026-11-12T15:50:27Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "main_ci": {
+        "all_success": true,
+        "platform_run": 43252136161,
+        "msan_run": 43252135897,
+        "mame_research_run": 43252136454,
+        "checks": {
+          "ubuntu_24_04": 131300475364,
+          "macos_14": 131300474485,
+          "windows_2025": 131300475237,
+          "initial_decode_msan": 131300473882,
+          "research_macos": 131300476046
+        }
+      }
+    }
   ],
+  "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
