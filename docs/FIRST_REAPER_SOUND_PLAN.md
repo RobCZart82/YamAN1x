@@ -1,25 +1,29 @@
-## A #273 merge utáni főág és az AN3-próba — 2026-11-11
+## A #274 lezárása és az aktuális főág — 2026-11-12
 
-A friss főág `f8efa6bb8c7fb349cd75ca3ad713038754687d68`. A #273 PR ellenőrzött
-headje `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe`; a négy PR-head és mind a
-négy merge-main check sikerült. A Codex pontos headre szóló összefoglalója
-észrevétel nélkül zárult (`6804342900`). Nem volt GitHub review-objektum vagy
-review-szál; a PR egyetlen hozzászólása ez az automatikus összefoglaló volt.
-Kvótahibát nem jeleztek, normál squash merge történt megkerülés nélkül.
+A [#274 PR](https://github.com/RobCZart82/YamAN1x/pull/274) beolvadt
+2026-11-11 21:56:03 UTC-kor (22:56:03 Europe/Budapest). Végső head:
+`329a7bf626e251c39a3273eef69dad24ad3e161e`; ellenőrzött merge-main:
+`d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94`.
+A végső PR-head platform/MSan/MAME futásai sikeresek
+(`43102583960`, `43102583923`, `43102583907`), és az azonos main
+[platform](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390172),
+[MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390248),
+[MAME](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390414)
+futásai is zöldek. A végső head Codex-review-ja észrevétel nélkül zárult
+(komment `6806170735`); a korábbi eredményolvasási finding javítva,
+a review-szál rendezve.
 
-A következő jelölt a [#274 PR](https://github.com/RobCZ82/YamAN1x/pull/274): a
-firmware-próba AN3 ADC callbackjéhez kizárólag explicit,
-`--adc-an3=0..1023` kapcsolóval ad állandó mintát. Az első kódhead Codex
-review-ja talált egy fail-closed rést: az ADDRD eredményword és bájtlane-jei
-explicit minta nélkül is olvashatók voltak. A busz most a minta runtime
-engedélyezését is ellenőrzi; szintetikus programok az `FFFFE6` word, az `FFFFE6`
-high-byte és az `FFFFE7` low-byte hozzáférés pontos unmapped hibáját vizsgálják.
-Explicit bemenettel a konverzió utáni word-olvasás továbbra is engedélyezett.
-A korábbi exact-head CI és MAME-kutatási workflow sikerrel lezárult; a javított
-head CI-je, Codex-review-ja és a régi review-szál rendezése még hátravan. A 10
-bit széleit, a bemenet ellenőrzését, callback-ciklust és szétvágásfüggetlen
-időzítést is ellenőrizzük. A Release build, 138/138 CTest-csoport, 127/127
-Python-teszt és a 688 fájlt/201 upstream azonosságot vizsgáló audit sikeres.
+Az explicit `--adc-an3=0..1023` mintabemenet elkészült. Minta nélkül az
+ADDRD word/high/low olvasások továbbra is pontos unmapped hibát adnak.
+A leltár 138 CTest-csoport és 127 Python-eset. A november 12-i helyi audit:
+Release build és 137/137 natív CTest sikeres; a külön futtatott Python
+126/127 sikeres, egy WinError 1314 symlink-jogosultsági hiba. A 14 célzott
+source-context eset optimalizált Python alatt is sikeres. Ez külön mérés
+a #274 korábbi fejlesztési teszteredményeitől. Új firmware-próba nem történt.
+A következő kutatási határ a lent rögzített, nem támogatott ADC-vezérlési mód;
+előbb a forrás és a vezérlőbitek bizonyítékát kell tisztázni.
+
+Az alábbi firmware-megfigyelések a #274 fejlesztése során készültek.
 
 A változatlan, csak olvasott AN1x 1.04 ROM-mal végzett, idle-paneles swap16
 diagnosztika az AN3 0 és 1023 bemenetet is egy alkalommal, ciklus `95,706,795`

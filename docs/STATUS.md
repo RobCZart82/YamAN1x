@@ -1,35 +1,35 @@
 # Development status
 
-## Current verified main and AN3 input candidate — 2026-11-11
+## Current verified main — 2026-11-12
 
-PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
-exact PR head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` to main
-`f8efa6bb8c7fb349cd75ca3ad713038754687d68`. The PR's four required checks
-passed (Linux `130731723212`, macOS `130731723022`, Windows `130731723494`,
-MSan `130731723012`); all four main jobs also passed (Linux `130747788160`,
-macOS `130747788261`, Windows `130747787876`, MSan `130747788278`). Codex's
-review summary completed without findings on that exact head
-(`6804342900`). GitHub had no submitted review objects or review threads; the
-single issue comment was that exact Codex summary. No quota error was reported.
-The merge was a normal squash, with no bypass. The ruleset REST endpoint was not
-available to the current token (404); the recorded repository rule requires zero
-approvals and resolved threads, and the merged PR had no open review threads.
+PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
+2026-11-11 at 21:56:03 UTC (22:56:03 Europe/Budapest), from final head
+`329a7bf626e251c39a3273eef69dad24ad3e161e` to main
+`d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94`. The final-head platform CI,
+MSan and MAME research workflows passed (runs `43102583960`, `43102583923`,
+`43102583907`). The exact-main runs also passed:
+[Linux/macOS/Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390172),
+[MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390248) and
+[MAME research](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390414).
+[Codex review](https://github.com/RobCZart82/YamAN1x/pull/274#issuecomment-6806170735)
+completed without findings on that final head; the earlier result-read finding
+was addressed and its review thread is resolved.
 
-The next code candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274),
-branch `research/boot-probe-explicit-an3-input`, based on the verified main
-above. The initial code head received a Codex finding: compile-time callback
-presence had made ADDRD word and byte reads appear mapped even when the optional
-AN3 input was disabled. The bus now also checks the sink's runtime
-`adc_an3_enabled()` predicate, and synthetic probe tests require exact unmapped
-faults for the result word and both byte lanes without the option. An explicit
-input still permits the result word after conversion. The previous exact-head
-ROM-free CI, MAME research build and MSan workflows have all closed successfully;
-the corrective head's CI and review are pending, and the earlier review thread
-must be resolved after the fix is pushed. The probe reports the selected value,
-callback count and first sample cycle. Synthetic tests also cover both ends of
-the 10-bit range, malformed/duplicate options, and split-independent timing.
-Release build passed; all 138 CTest groups and all 127 Python tests passed; the
-repository audit checked 688 files and 201 upstream identities without issues.
+The AN3 option remains explicit (`--adc-an3=0..1023`). The merged bus checks
+`adc_an3_enabled()` before exposing ADDRD word/high/low result reads. Synthetic
+programs cover strict no-input failures, configured result reads, both input
+bounds, malformed/duplicate options and split-independent sample timing.
+The source inventory is **138 CTest groups and 127 Python cases**.
+
+The 2026-11-12 audit of this exact main passed a fresh Windows Release build
+and 137/137 runnable CTest groups (52.33 s), with the Python wrapper excluded
+and checked separately. Python passed 126/127 cases; the symlink case errored
+with Windows WinError 1314 (privilege unavailable). All 14 source-context tests
+also passed under Python -O. Source and notice audits passed (688 files,
+201 upstream identities; 231 covered files/five licence texts). Local
+sanitizers and new firmware/hardware/MIDI/audio/REAPER checks were not run.
+The following firmware observations were recorded during #274 development,
+not repeated in this documentation correction.
 
 The fresh read-only AN1x 1.04 run used the explicit idle-panel profile, swap16
 view, 100,000,000-cycle limit and 20,000,000-callback limit. Constant inputs 0

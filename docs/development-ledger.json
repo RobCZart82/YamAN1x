@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-11",
+  "recorded_date": "2026-11-12",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
+  "baseline_commit": "d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94",
   "entries": [
     {
       "pr": 6,
@@ -5404,7 +5404,7 @@
     {
       "pr": 273,
       "title": "Check captured PKS writer low-byte lane",
-      "url": "https://github.com/RobCZ82/YamAN1x/pull/273",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/273",
       "kind": "research",
       "branch": "docs/record-pr271-main",
       "base_commit": "d37a305779b1c2ea53e014ac2eaefd3c67c9b63b",
@@ -5444,65 +5444,85 @@
       },
       "hardware_validation": "not performed; source-writer value/lane agreement does not establish hardware behavior, complete boot, MIDI acceptance or audio.",
       "next_step": "Pass a synthetic AN3 value into the opt-in firmware probe, preserving strict no-input default."
+    },
+    {
+      "branch": "research/boot-probe-explicit-an3-input",
+      "status": "merged",
+      "base_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
+      "scope": "Add an explicit constant AN3 input option to the bounded firmware probe; keep conversion and ADDRD result reads fail-closed without the option, and preserve unsupported scan-mode rejection.",
+      "local_validation": {
+        "release_build": "pass; full incremental build after fail-closed result-read correction",
+        "boot_probe_targeted_ctest": "pass; strict default conversion, exact unmapped ADDRD word/high/low byte reads without input, enabled result read after conversion, 0/1023 input bounds, callback count/cycle, split invariance, duplicate/malformed args",
+        "ctest": "138/138 pass (63.47 s)",
+        "python": "127/127 pass",
+        "repository_audit": "688 files, 201 upstream identities, no issues",
+        "diff_check": "pass",
+        "local_sanitizers": "not run",
+        "mame_build_or_run": "not run; no MAME source change",
+        "evidence_scope": "Historical #274 development results; separate from the November 12 Windows audit."
+      },
+      "firmware_diagnostic": {
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+        "rom_modified": false,
+        "rom_in_repository": false,
+        "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit constant AN3",
+        "sample_values": [
+          0,
+          1023
+        ],
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "runs": "All four runs sampled once at cycle 95706795 and stopped on a byte write to FFFFE8, width 1, post-fetch PC 1B84, peripheral cycle 95707121; Unsupported ADC control mode.",
+        "continuation_comparison": "All non-slice metrics matched across all four runs; input values were reported and delivered to the callback, but no firmware-visible difference was established.",
+        "vop3_writes": [
+          12208,
+          1167
+        ],
+        "vop3_reads": [
+          449,
+          1
+        ],
+        "vop3_sample_passes": [
+          0,
+          0
+        ],
+        "gpio_writes": 12945,
+        "meg_observed_controls": 5,
+        "meg_source_status_reads": 1,
+        "acceptance": "limited diagnostic only; no full boot, hardware, MIDI, audio or REAPER acceptance"
+      },
+      "mame_reference": {
+        "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+        "new_build_or_run": false
+      },
+      "remote_ci": "Final head 329a7bf626e251c39a3273eef69dad24ad3e161e: platform 43102583960, MSan 43102583923 and MAME research 43102583907 all success.",
+      "review": "Initial fail-closed result-read finding (4542789621) addressed in final head 329a7bf626e251c39a3273eef69dad24ad3e161e; thread PRRT_kwDOVYYWIs62V_vy resolved. Exact-final-head Codex review completed without findings (summary 6806170735, receipt 6807382506).",
+      "pr": 274,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/274",
+      "initial_pr_head_commit": "2e2dcc08",
+      "title": "Add explicit AN3 input to bounded boot probe",
+      "kind": "research",
+      "url": "https://github.com/RobCZart82/YamAN1x/pull/274",
+      "head_commit": "329a7bf626e251c39a3273eef69dad24ad3e161e",
+      "merge_commit": "d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94",
+      "merged_at_utc": "2026-11-11T21:56:03Z",
+      "main_ci": {
+        "all_success": true,
+        "platform_run": 43107390172,
+        "msan_run": 43107390248,
+        "mame_research_run": 43107390414,
+        "checks": {
+          "ubuntu_24_04": 130814161779,
+          "macos_14": 130814161263,
+          "windows_2025": 130814161757,
+          "initial_decode_msan": 130814161471,
+          "research_macos": 130814162481
+        }
+      }
     }
   ],
-  "active_change": {
-    "branch": "research/boot-probe-explicit-an3-input",
-    "status": "candidate",
-    "base_commit": "f8efa6bb8c7fb349cd75ca3ad713038754687d68",
-    "scope": "Add an explicit constant AN3 input option to the bounded firmware probe; keep conversion and ADDRD result reads fail-closed without the option, and preserve unsupported scan-mode rejection.",
-    "local_validation": {
-      "release_build": "pass; full incremental build after fail-closed result-read correction",
-      "boot_probe_targeted_ctest": "pass; strict default conversion, exact unmapped ADDRD word/high/low byte reads without input, enabled result read after conversion, 0/1023 input bounds, callback count/cycle, split invariance, duplicate/malformed args",
-      "ctest": "138/138 pass (63.47 s)",
-      "python": "127/127 pass",
-      "repository_audit": "688 files, 201 upstream identities, no issues",
-      "diff_check": "pass",
-      "local_sanitizers": "not run",
-      "mame_build_or_run": "not run; no MAME source change"
-    },
-    "firmware_diagnostic": {
-      "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
-      "rom_modified": false,
-      "rom_in_repository": false,
-      "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit constant AN3",
-      "sample_values": [
-        0,
-        1023
-      ],
-      "slice_cycles": [
-        4096,
-        1000000
-      ],
-      "runs": "All four runs sampled once at cycle 95706795 and stopped on a byte write to FFFFE8, width 1, post-fetch PC 1B84, peripheral cycle 95707121; Unsupported ADC control mode.",
-      "continuation_comparison": "All non-slice metrics matched across all four runs; input values were reported and delivered to the callback, but no firmware-visible difference was established.",
-      "vop3_writes": [
-        12208,
-        1167
-      ],
-      "vop3_reads": [
-        449,
-        1
-      ],
-      "vop3_sample_passes": [
-        0,
-        0
-      ],
-      "gpio_writes": 12945,
-      "meg_observed_controls": 5,
-      "meg_source_status_reads": 1,
-      "acceptance": "limited diagnostic only; no full boot, hardware, MIDI, audio or REAPER acceptance"
-    },
-    "mame_reference": {
-      "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-      "new_build_or_run": false
-    },
-    "remote_ci": "previous exact head cb1c99da2f368dade43964a986e65e65ea26c9ed: ROM-free CI, MAME research build and MSan all completed successfully; corrective head pending after push",
-    "review": "Codex found one fail-closed result-read finding on initial head 2e2dcc08a24ac9aee9c59a9f0e9b995481d5a2d29 (comment 4542789621, thread PRRT_kwDOVYYWIs62V_vy); fixed locally with runtime input gate and word/high/low read tests. Corrective-head review pending; old thread must be answered/resolved after push. No quota error evidence.",
-    "pr": 274,
-    "pr_url": "https://github.com/RobCZ82/YamAN1x/pull/274",
-    "initial_pr_head_commit": "2e2dcc08"
-  },
   "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
@@ -5588,5 +5608,25 @@
       "initial_decode_msan": 130703924346
     },
     "review": "No GitHub reviews, threads or comments; no automated-review result or quota evidence. Ruleset required zero approvals and resolved threads; no bypass."
+  },
+  "active_change": {
+    "branch": "docs/reconcile-274-audit",
+    "status": "candidate",
+    "base_commit": "d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94",
+    "scope": "Close #274 merge evidence, repair repository links and reconcile current test inventory. Documentation only.",
+    "remote_ci": "not yet run for this documentation candidate",
+    "review": "not yet recorded for this documentation candidate",
+    "local_validation": {
+      "evidence_scope": "Read-only audit of base d9f9ffb on 2026-11-12; documentation correction checks recorded separately.",
+      "release_build": "pass",
+      "ctest": "137/137 runnable groups pass,52.33s;Python wrapper excluded and checked separately",
+      "python": "126/127 pass;one WinError1314 symlink privilege error",
+      "source_context_optimized": "14/14 pass",
+      "source_audit": "688 files,201 upstream identities,pass",
+      "source_notice": "231 files,5 texts,pass",
+      "local_sanitizers": "not run",
+      "firmware_hardware_midi_audio_reaper": "not run"
+    },
+    "documentation_validation": "UTF-8, local Markdown file targets, ledger uniqueness/ancestry and current inventory pass; 267 merged entries. Source/notice audits and git diff --check pass."
   }
 }

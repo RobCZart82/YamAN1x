@@ -1,3 +1,38 @@
+## Dokumentációs auditjavítás és #274 lezárás — 2026-11-12
+
+PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
+2026-11-11 at 21:56:03 UTC (22:56:03 Europe/Budapest), from final head
+`329a7bf626e251c39a3273eef69dad24ad3e161e` to main
+`d9f9ffb04e5dee587efebf33b6cf6bfc17b95f94`. The final-head platform CI,
+MSan and MAME research workflows passed (runs `43102583960`, `43102583923`,
+`43102583907`). The exact-main runs also passed:
+[Linux/macOS/Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390172),
+[MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390248) and
+[MAME research](https://github.com/RobCZart82/YamAN1x/actions/runs/43107390414).
+[Codex review](https://github.com/RobCZart82/YamAN1x/pull/274#issuecomment-6806170735)
+completed without findings on that final head; the earlier result-read finding
+was addressed and its review thread is resolved.
+
+Corrected all nine RobCZ82 repository links to RobCZart82. Updated the current
+roadmap inventory to 138 CTest groups, 127 Python cases and 14 targeted
+source-context cases; the research patch count remains 13. Reconciled the
+ledger baseline and moved #274's completed record into merged entries.
+Earlier preparation and validation notes below are historical records;
+their pending-CI/review wording describes the state before final verification.
+
+Read-only validation of main `d9f9ffb`: fresh Windows Release build and
+137/137 runnable CTest groups passed (52.33 s); Python wrapper excluded and
+run separately. Python: 126/127 passed, one WinError 1314 symlink privilege
+error. Targeted source-context tests under Python -O: 14/14 passed. Source
+and notice audits passed (688 files/201 upstream identities;
+231 covered files/five licence texts). These counts do not imply legal or
+binary-distribution clearance. No new firmware run, hardware/MIDI/audio/REAPER
+acceptance or local sanitizer run was performed. This correction changes docs
+only; its own PR checks remain separate from the verified #274 checks above.
+Documentation correction checks passed: UTF-8, local Markdown file targets,
+ledger uniqueness and merge ancestry (267 entries), current inventory, source
+and notice audits, and git diff --check. No runtime source or tests changed.
+
 ## PR #274 — Keep optional AN3 result reads fail-closed — 2026-11-11
 
 The first code head received a Codex review finding on commit
@@ -22,14 +57,14 @@ ROM access was performed for this source correction.
 
 ## PR #273 merge and explicit AN3 boot-probe input — 2026-11-11
 
-PR [#273](https://github.com/RobCZ82/YamAN1x/pull/273) merged by squash from
+PR [#273](https://github.com/RobCZart82/YamAN1x/pull/273) merged by squash from
 checked head `37d1fd8e6a75b7a22dffeecc4004aece45e76dfe` to
 `f8efa6bb8c7fb349cd75ca3ad713038754687d68`. Its Linux/macOS/Windows/MSan
 checks and the four exact-main checks passed. The Codex review summary on the
 PR head completed without findings (comment `6804342900`); there were no
 GitHub review objects or threads, no quota evidence, and no bypass.
 
-The following candidate is open as [PR #274](https://github.com/RobCZ82/YamAN1x/pull/274)
+The following candidate is open as [PR #274](https://github.com/RobCZart82/YamAN1x/pull/274)
 and adds explicit `--adc-an3=0..1023` support to the bounded firmware probe.
 Its final-head CI and review are pending. No option preserves the previous strict failure. A
 synthetic program tests 0 and 1023, rejects malformed/duplicate options,
