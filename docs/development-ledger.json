@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-13",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
+  "baseline_commit": "a778dd36d56795e4043e6d42f8e6031914499dbb",
   "entries": [
     {
       "pr": 6,
@@ -5631,9 +5631,96 @@
       },
       "review": "Codex exact-head review completed without findings (issue comment 6829550926). GitHub review objects: 0; inline review comments: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error reported; no bypass used.",
       "documentation_validation": "UTF-8, local Markdown targets, ledger merge ancestry/uniqueness, repository audit and diff check recorded by the follow-up PR."
+    },
+    {
+      "pr": 278,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/278",
+      "title": "Reconcile PR #277 merge record",
+      "branch": "docs/reconcile-277-merge-record",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
+      "head_commit": "78d035be01399bcd70367598dc8c849106f1aa4b",
+      "merge_commit": "a778dd36d56795e4043e6d42f8e6031914499dbb",
+      "merged_at_utc": "2026-11-13T15:54:46Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 131973848095,
+        "macos_14": 131973847344,
+        "windows_2025": 131973847736,
+        "initial_decode_msan": 131973846038
+      },
+      "main_checks": {
+        "platform_run": 43457354086,
+        "checks": {
+          "ubuntu_24_04": 131994885684,
+          "macos_14": 131994885955,
+          "windows_2025": 131994885208
+        },
+        "initial_decode_msan_run": 43457353783,
+        "initial_decode_msan": 131994884418,
+        "mame_research": "path-filtered; documentation-only paths were outside watched scope"
+      },
+      "review": "Codex exact-head review completed without findings (issue comment 6857190154). GitHub review objects: 0; inline review comments: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error reported; no bypass.",
+      "documentation_validation": "UTF-8, local Markdown targets, ledger uniqueness/ancestry, repository audit and diff check passed."
     }
   ],
-  "pending_changes": [],
+  "pending_changes": [
+    {
+      "branch": "feat/boot-probe-explicit-adc-scan-inputs",
+      "status": "candidate",
+      "base_commit": "a778dd36d56795e4043e6d42f8e6031914499dbb",
+      "scope": "Add explicit constant AN0-AN7 inputs to the bounded boot probe, reuse AN3 for the preceding single conversion, and record read-only continuation under a bounded synthetic scan profile.",
+      "local_validation": {
+        "release_build": "pass",
+        "targeted_ctest": "boot-probe CLI, bus scan and standalone scan checks pass",
+        "ctest": "138/138 pass (93.51 s)",
+        "repository_audit": "688 files, 201 upstream identities, pass",
+        "diff_check": "pass"
+      },
+      "firmware_diagnostic": {
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+        "rom_modified": false,
+        "rom_in_repository": false,
+        "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit eight-channel constants",
+        "inputs_compared": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1023,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "slice_cycles": [
+          4096,
+          1000000
+        ],
+        "cycle_limit": 100000000,
+        "callback_limit": 20000000,
+        "results": "All four read-only runs reached the cycle cap without fault. Each sampled AN3 at 95706795 and began the scan at 95707121. Per-vector channel callback counts/deadlines matched across slice sizes. AN3 0 vs 1023 produced final PC 247606 vs 247054 and GPIO writes 15528 vs 13956; VOP3 sample passes were [0,0] in both."
+      },
+      "mame_reference": {
+        "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+        "new_build_or_run": false
+      },
+      "acceptance": "limited synthetic-input firmware progress only; no physical ADC agreement, full boot, MIDI, audio or REAPER acceptance"
+    }
+  ],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
@@ -5741,27 +5828,27 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 277,
+    "pr": 278,
     "status": "merged",
-    "head_commit": "6fa64ebcb2bfbb5cb72920c251117319d2819ed4",
-    "merge_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
-    "merged_at_utc": "2026-11-12T20:21:06Z",
+    "head_commit": "78d035be01399bcd70367598dc8c849106f1aa4b",
+    "merge_commit": "a778dd36d56795e4043e6d42f8e6031914499dbb",
+    "merged_at_utc": "2026-11-13T15:54:46Z",
     "pr_head_checks": {
-      "ubuntu_24_04": 131327856000,
-      "macos_14": 131327855295,
-      "windows_2025": 131327854869,
-      "initial_decode_msan": 131327855734
+      "ubuntu_24_04": 131973848095,
+      "macos_14": 131973847344,
+      "windows_2025": 131973847736,
+      "initial_decode_msan": 131973846038
     },
     "main_checks": {
-      "platform_run": 43299437756,
-      "macos_14": 131466335973,
-      "windows_2025": 131466336340,
-      "ubuntu_24_04": 131466336472,
-      "initial_decode_msan_run": 43299436402,
-      "initial_decode_msan": 131466344850,
-      "mame_research": "path-filtered; no research/source/tool/workflow files changed"
+      "platform_run": 43457354086,
+      "ubuntu_24_04": 131994885684,
+      "macos_14": 131994885955,
+      "windows_2025": 131994885208,
+      "initial_decode_msan_run": 43457353783,
+      "initial_decode_msan": 131994884418,
+      "mame_research": "path-filtered"
     },
-    "review": "Codex completed without findings in issue comment 6829550926; zero GitHub reviews, inline comments or threads; ruleset 25910947 required zero approvals and resolved threads; no quota error reported; no bypass.",
+    "review": "Codex completed without findings in issue comment 6857190154; zero GitHub reviews, inline comments or threads; ruleset 25910947 requires zero approvals and resolved threads; no quota error; no bypass.",
     "open_prs_at_reconciliation": 0
   }
 }

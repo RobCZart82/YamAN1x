@@ -49,6 +49,30 @@ boot, hardware, MIDI, audio or REAPER behavior. The ROM SHA-256 remains
 unchanged and outside the repository. No new MAME build or run was made; the
 locked reference remains `706dbb73281320c54d7c2f16262c1c3786f2be01`.
 
+## Explicit ADC scan inputs — candidate — 2026-11-13
+
+The bounded boot probe now accepts `--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7`
+with eight explicit 10-bit constants. No-input behavior remains fail-closed;
+the same vector also supplies the preceding single-AN3 conversion. CLI tests
+cover exact channel values, range/arity/duplicate rejection, channel callback
+counts and deadlines, and CPU-slice independence. Release build and all 138
+CTest groups pass.
+
+Four fresh read-only AN1x 1.04 runs used the pinned idle-panel/VOP3 profile,
+`swap16`, 100,000,000-cycle and 20,000,000-callback caps, and the same two
+vectors (`0,0,0,0,0,0,0,0` and `0,0,0,1023,0,0,0,0`) with 4,096- and
+1,000,000-cycle slices. All reached the cycle cap without an access fault. The
+AN3 value was sampled at cycle `95,706,795`; the scan began at `95,707,121`.
+The two vectors produced the same per-vector callback counts and deadlines at
+both slice sizes, but different final PCs (`247606` and `247054`) and GPIO-write
+counts (`15528` and `13956`). Both still report zero VOP3 sample passes and
+`audio_accepted:false`. This is synthetic-input-dependent firmware progress,
+not physical ADC calibration, hardware agreement, complete boot, MIDI or sound
+acceptance. The ROM hash remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it was
+read only and remains outside Git. The locked MAME source is unchanged at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; no new MAME build or run was made.
+
 ## PR #277 merge verification — 2026-11-13
 
 PR [#277](https://github.com/RobCZart82/YamAN1x/pull/277) merged on
