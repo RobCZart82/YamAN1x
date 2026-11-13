@@ -1,5 +1,15 @@
 # Development roadmap
 
+## Explicit ADC scan inputs — candidate — 2026-11-13
+
+PR #278 and its exact-main checks are verified in the current source of truth.
+The next bounded firmware step supplies explicit constant AN0–AN7 values to the
+existing fail-closed probe. Four fresh profiles reach the 100-million-cycle cap
+without a fault; AN3=0 versus AN3=1023 changes the final CPU/GPIO trace at both
+4,096- and 1,000,000-cycle slices. VOP3 sample passes remain zero, so this is
+not audio acceptance. Hardware calibration, complete boot, MIDI, audio and
+REAPER remain open.
+
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on

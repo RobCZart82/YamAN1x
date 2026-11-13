@@ -101,6 +101,42 @@ def main(binary):
                     first_cycle = report["adc_an3_first_sample_cycle"]
                 require(report["adc_an3_first_sample_cycle"] == first_cycle,
                         "AN3 callback timing is independent of CPU slice partition")
+        scan_values = (0, 1, 257, 1023, 42, 512, 768, 1000)
+        scan_option = "--adc-scan=" + ",".join(map(str, scan_values))
+        image([0x7a00,0xff,0xffe8,0xf323,0x6883,0x40fe])
+        code, report = run([2048,8,10000], extra=(scan_option,))
+        require(code == 0 and report["adc_an3_input_profile"] == "explicit-constant-from-eight-channel-scan" and
+                report["adc_an3_value"] == scan_values[3] and report["adc_an3_samples"] == 1 and
+                report["adc_scan_sample_counts"] == [0,0,0,0,0,0,0,0],
+                "The explicit scan profile also supplies the preceding single-AN3 conversion")
+        image([0x7a00,0xff,0xffe8,0xf333,0x6883,0x40fe])
+        scan_reference = None
+        for slice_size in (1, 17, 256):
+            code, report = run([4096,slice_size,10000], extra=(scan_option,))
+            require(code == 0 and report["status"] == "cycle_limit" and
+                    report["fault_access"] is None and not report["cpu_failed"],
+                    "Explicit eight-channel scan continues in the bounded probe")
+            require(report["adc_scan_input_profile"] == "explicit-constant-eight-channel" and
+                    report["adc_scan_values"] == list(scan_values) and
+                    report["adc_scan_sample_counts"] == [4,4,4,4,0,0,0,0] and
+                    report["adc_scan_first_sample_cycles"] == [18,284,540,796,None,None,None,None],
+                    "Scan reports independent channel values, callback counts and first deadlines")
+            snapshot = (report["pc"], report["peripheral_cycle"], report["adc_scan_sample_counts"],
+                        report["adc_scan_first_sample_cycles"], report["fault_access"])
+            if scan_reference is None:
+                scan_reference = snapshot
+            require(snapshot == scan_reference,
+                    "Scan input delivery is independent of CPU slice partition")
+        for option in ("--adc-scan=1,2,3", "--adc-scan=1,2,3,4,5,6,7,1024",
+                       "--adc-scan=1,2,3,4,5,6,7,8,9", "--adc-scan=1,,3,4,5,6,7,8",
+                       "--adc-scan=1,2,3,4,5,6,7,8,9,10"):
+            code, report = run([64,8,10000], extra=(option,))
+            require(code == 1 and report["status"] == "input_error",
+                    "Reject malformed, incomplete, out-of-range or extra scan channels")
+        code, report = run([64,8,10000], extra=(scan_option, "--adc-scan=0,0,0,0,0,0,0,0"))
+        require(code == 1 and report["status"] == "input_error", "Reject duplicate ADC scan inputs")
+        code, report = run([64,8,10000], extra=(scan_option, "--adc-an3=1"))
+        require(code == 1 and report["status"] == "input_error", "Reject ambiguous single-channel and scan inputs")
         image([0x7a00,0xff,0xffe8,0xf323,0x6883,
                0x7a00,0xff,0xffe6,0x6901,0x40fe])
         code, report = run([2048,8,10000], extra=("--adc-an3=1023",))
