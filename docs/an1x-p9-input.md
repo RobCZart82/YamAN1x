@@ -1,3 +1,7 @@
+# An1X P9 Input
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # Scoped P9 input levels in the LCD research profile
 
 Evidence:established research/mame-lcd-controller.patch explicitly connects
@@ -21,13 +25,3 @@ and strict rejection of ports4/6/7/8. CLI synthetic P9 input passes only with
 explicit LCD profile. This does not prove active timer/pin mux behavior,hardware
 pull-ups,full firmware boot or audio. No new original runtime differential;
 existing pinned port differentials remain component evidence.
-
-Helyi változatlan1.04 ROM,swap16,lcd-16mhz,500000 kért ciklus és1000000
-callback-limit:szelet1/64/257 mind cycle_limit hiba nélkül,periféria500000,
-PC270856,state22640/substate2,22 GPIO,0 TX/clock él. Callbackszám rendre
-766218/119835/108101;ez ütemezési szeletfüggő,nem állapothűségi mérőszám.
-10000000 ciklusra nyújtott kísérletek a callback-korlátnál álltak meg különböző
-ciklusnál;ez nem következő eszközhiba és nem teljes boot. Az eredeti ROM SHA
-előtte/utána azonos:4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe.
-A memóriaoracle kezdetben esetenként új buszt épített;felesleges tömeges
-memóriamásolást megszüntetve ugyanaz65536 eset egy leállított buszon fut.

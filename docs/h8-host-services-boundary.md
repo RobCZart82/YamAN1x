@@ -1,3 +1,7 @@
+# H8 Host Services Boundary
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # H8 host-services boundary before CPU compilation
 
 Recorded: 2026-10-27. Base: merged PR #41. M0 remains partial.
@@ -70,5 +74,3 @@ determinism/source changes, invalid encoding, explicit unknown-service limits,
 archive rejection before generator execution and recorded report/lock coherence.
 Synthetic tests need no local MAME archive. Real regeneration uses the user's
 external locked ZIP read-only, never downloads or modifies a Yamaha ROM.
-
-Local validation / helyi ellenőrzés: macOS arm64 Release, 25/25 CTest groups and 68 Python cases PASS; source/notice audits PASS. Final PR-head platform CI pending.

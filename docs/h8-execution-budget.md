@@ -1,3 +1,7 @@
+# H8 Execution Budget
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # H8 execution-slice budget and peripheral boundary arithmetic
 
 Recorded: 2026-10-27. Base: merged #43,
@@ -75,5 +79,3 @@ and this budget/bus boundary, then verify reset vectors, flags, branches and
 interrupt entry against the MAME reference. CPU/MMIO ordering and hardware
 clock/tie validation remain open. Firmware MIDI, audio and REAPER acceptance
 are unchanged.
-
-Local validation / helyi ellenőrzés: macOS arm64 Release, 27/27 CTest groups and 74 Python cases PASS; new native ASan/UBSan and source/notice audits PASS. Final PR-head CI pending.

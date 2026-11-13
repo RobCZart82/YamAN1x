@@ -1,5 +1,14 @@
 # Development roadmap
 
+## Current verified main — PR #281 — 2026-11-13
+
+PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
+2026-11-13T20:55:09Z from exact head `d6a7b8b02d675b2d4c9b8d9ae87052686cb33974`
+to exact main `5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head and
+all five exact-main checks passed. The Codex review result was absent; GitHub
+review objects/threads were zero. Ruleset `25910947` required zero approvals
+and resolved threads; no quota error or bypass was observed.
+
 ## Current bounded firmware probe — 2026-11-13
 
 PR [#280](https://github.com/RobCZart82/YamAN1x/pull/280) merged at
@@ -173,7 +182,7 @@ The current summary above supersedes their pending/active wording.
 
 Detailed execution plan, with milestone acceptance criteria through the first
 audible firmware-driven VST3 voice in REAPER:
-[First REAPER sound plan (Hungarian)](FIRST_REAPER_SOUND_PLAN.md).
+[First REAPER sound plan](FIRST_REAPER_SOUND_PLAN.md).
 
 Changes/fixes are recorded in the [development ledger](DEVELOPMENT_LOG.md).
 The [dated repository audit](REPOSITORY_AUDIT_2026-10-28.md) preserves that snapshot;

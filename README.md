@@ -11,6 +11,22 @@ or a screenshot of YamAN1x.*
 First public research snapshot: **2026-10-26** — [v0.1.0-research](https://github.com/RobCZart82/YamAN1x/releases/tag/v0.1.0-research). This is a development foundation. It does not yet produce AN1x audio,
 complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
+For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
+
+## Current verified main — 2026-11-13
+
+PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
+2026-11-13T20:55:09Z from exact head
+`d6a7b8b02d675b2d4c9b8d9ae87052686cb33974` to main
+`5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head checks passed
+(jobs `132135485761`, `132135485923`, `132135485528`, `132135486090`,
+`132135485147`); all five exact-main checks passed (`132163526978`,
+`132163526507`, `132163526936`, `132163526210`, `132163526554`). The Codex
+review result was absent; GitHub review objects and threads were also absent.
+The active ruleset `25910947` required zero approvals and resolved threads.
+No quota error was reported; merge bypass was not used.
+
+
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
@@ -47,20 +63,6 @@ non-slice metrics match. The pinned MAME H8 ADC source classifies these
 control bits as a software-started AN0–AN3 scan, but this is source
 interpretation, not hardware validation. No unsupported mode is emulated.
 Full boot, MIDI, audio and REAPER acceptance remain open.
-
-PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) beolvadt
-2026-11-12 15:50:27 UTC-kor, a végső `27fc4b0a0677b340a279439db7d54466c5f23f8d`
-headről a `74f0dc545c79a89790ad6eef42370b06f73bd65a` main commitba.
-A PR-head mind az öt ellenőrzése sikeres: Linux `131281742752`, macOS
-`131281743186`, Windows `131281743094`, MSan `131281739988`, MAME research
-`131281740553`. A Codex review a pontos headen észrevétel nélkül zárult
-(issue-comment `6827690290`). GitHub review-objektum és review-szál nem volt;
-a ruleset nulla jóváhagyást ír elő és rendezetlen szál nem volt. Kvótahiba
-nincs jelezve, merge-bypass nem történt.
-Az új main mindhárom kötelező platformellenőrzése, továbbá az MSan és MAME
-research futása is sikeres: `131300475364`, `131300474485`, `131300475237`,
-`131300473882`, `131300476046` (workflow runok `43252136161`,
-`43252135897`, `43252136454`).
 
 ## PR #277 merge verification — 2026-11-13
 
@@ -198,31 +200,7 @@ MAME was path-filtered. GitHub had no reviews, threads or comments; no
 automated-review result or quota error was recorded. Ruleset `25910947`
 required zero approvals and resolved threads; no bypass was used. The original
 ROM remained unchanged and outside the repository.
-## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
-A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
-értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
-írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
-a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
-ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
-előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
-
-A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
-helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
-teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
-rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
-távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
-nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
-
-PR [#269](https://github.com/RobCZart82/YamAN1x/pull/269) az eredeti
-headről (`0afd0e86fd4845514c2e969d809d25880b9d7d64`) nyílt, a
-`947d67950345c7e03362d40f25174fcbe3b1f268` alapra. Ezen a pontos headen
-mindhárom kötelező platformellenőrzés sikeres (Linux `130053106191`, macOS
-`130053106085`, Windows `130053105515`); az MSan is sikeres
-(`130053107228`). GitHub review-objektum, review-szál és PR-komment egyaránt
-0; kvótahibára nincs bizonyíték. A szabályzat 0 jóváhagyást ír elő, a review-
-szálak rendezését követeli. A naplófrissítés új PR-headet készít, ezért az új
-pontos head ellenőrzései még függőben vannak. A PR még nincs beolvasztva.
 ## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
 PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as

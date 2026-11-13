@@ -1,3 +1,7 @@
+# H8H Bus Access
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # Standalone H8H bus-access helpers
 
 Recorded: 2026-10-27. Base: merged #42,
@@ -75,5 +79,3 @@ register/flag operations and branches against the reference. Then connect IRQ
 entry and SCI deadlines with explicit CPU/MMIO ordering. The current two-cycle
 source model and timeline tie convention remain unvalidated against AN1x hardware.
 Firmware MIDI acceptance, audio and REAPER remain open.
-
-Local validation / helyi ellenőrzés: macOS arm64 Release, 26/26 CTest groups and 72 Python cases PASS; new native ASan/UBSan PASS. Final PR-head platform CI remains separate evidence.
