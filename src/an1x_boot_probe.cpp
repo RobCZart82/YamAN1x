@@ -12,9 +12,9 @@
 #include <string>
 
 namespace {
-constexpr uint64_t max_probe_cycles=250000000;
+constexpr uint64_t max_probe_cycles=500000000;
 constexpr uint64_t max_probe_slice_cycles=1000000;
-constexpr uint64_t max_probe_callbacks=50000000;
+constexpr uint64_t max_probe_callbacks=100000000;
 struct Sink {
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;

@@ -22,27 +22,53 @@ boot, MIDI, audio or REAPER acceptance. ROM hash
 unchanged and outside Git; the MAME source remains pinned at
 `706dbb73281320c54d7c2f16262c1c3786f2be01` with no new build/run.
 
+## PR #280 merge verification — 2026-11-13
+
+PR [#280](https://github.com/RobCZart82/YamAN1x/pull/280) merged at
+2026-11-13T19:02:41Z from exact head
+`8eb0eaaac1b7390a43f323f09ba0adfee792e436` to main
+`284c0f1a273b6212272b80458eba7b6417e4dfee`. Linux, macOS, Windows, MSan
+and MAME research checks passed on the PR head (jobs `132081161291`,
+`132081161363`, `132081160837`, `132081161511`, `132081161303`) and exact main
+(jobs `132102887643`, `132102887232`, `132102887927`, `132102887298`,
+`132102887771`). Codex's exact-head review completed without findings (issue
+comment `6861430543`); GitHub review objects and threads were zero. Active
+ruleset `25910947` required zero approvals and resolved threads; no quota error
+or bypass was involved.
+
+The bounded probe accepts an explicit constant input for all eight ADC channels
+and has a 250,000,000-cycle / 50,000,000-callback finite ceiling. Four fresh
+read-only runs reached that ceiling with no bus fault, `audio_accepted:false`
+and VOP3 sample passes `[0,0]`. AN0–AN3 and AN4–AN7 scan start deadlines were
+stable across slice sizes. The six-vector 100-million-cycle sweep found that
+only AN3 changed the trace among the tested zero, maximum and one-hot values.
+This is synthetic firmware progress only, not hardware agreement, complete
+boot, MIDI, audio or REAPER acceptance. The ROM SHA remains unchanged and
+outside Git; no new MAME build/run was made.
+
 ## Longer finite firmware-probe budget — candidate — 2026-11-13
 
-The explicit boot probe's finite cycle ceiling is raised from 100,000,000 to
-250,000,000 and its callback ceiling from 20,000,000 to 50,000,000; slice size
-remains capped at 1,000,000. The probe remains finite and fail-stop. The prior
-250-million-cycle attempt with a 20-million callback ceiling stopped at the
-callback guard after 132,767,744 completed cycles, without a fabricated bus
-fault. At 50 million callbacks, four fresh read-only runs reached the cycle
-ceiling for AN3=0/1023 and 4,096/1,000,000-cycle slices.
-
-All four began the AN0–AN3 scan at cycle `95,707,121` and AN4–AN7 at
-`127,793,965`; sample deadlines were identical across the two slice sizes for
-each vector. At the cap, AN3=0 ended at PC `1920`, AN3=1023 at PC `59782`; both
-had null `fault_access`, VOP3 sample passes `[0,0]` and
-`audio_accepted:false`. Callback bookkeeping differed by slice partition, so it
-is not treated as an invariant. A separate six-vector 100-million-cycle sweep
-(zero, all 1023 and one-hot AN0–AN3) found AN0/AN1/AN2 one-hot matched the zero
-trace at that cap; AN3 one-hot matched the all-1023 trace. These bounded
-observations do not calibrate physical controls, establish hardware agreement,
-complete boot, MIDI, sound or REAPER acceptance. The original ROM remains
-read-only, hash-verified and outside Git; no new MAME build/run was made.
+This candidate raises only the explicit boot probe's finite ceilings to
+500,000,000 cycles and 100,000,000 callbacks; the slice ceiling remains
+1,000,000 and fail-stop classifications stay unchanged. Four fresh read-only
+AN1x 1.04 runs (AN3=0/1023 by 4,096/1,000,000-cycle slices) all reached the
+cycle cap without access faults. Peripheral cycles ended at 500,000,000 or
+500,000,002 due to in-flight slice accounting. The AN0–AN3 scan began at
+`95,707,121` (first deadlines `[95707121,95707387,95707643,95707899]`);
+AN4–AN7 began at `127,793,965` (first deadlines
+`[127793965,127794231,127794487,127794743]`), invariant across slice sizes
+for each input. Final PC was `103956` for AN3=0 and `103566` for AN3=1023.
+VOP3 sample passes were `[0,0]` and `audio_accepted` was false in every run.
+Callback totals were 78,563,259/78,320,547 for AN3=0 and
+78,561,448/78,318,718 for AN3=1023 (4,096/1,000,000 slices); those totals are
+slice-dependent and are not treated as invariant. AN3=0/1023 produced scan
+callback totals `[273875,272188,270379,268983,125949,125117,124207,123502]` /
+`[273890,272219,270413,268952,125950,125120,124167,123464]`, respectively.
+The probe remains bounded and fail-stop. This does not establish physical
+control agreement, complete boot, MIDI, audio or REAPER acceptance. ROM SHA
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` is
+unchanged and outside Git; pinned MAME source remains
+`706dbb73281320c54d7c2f16262c1c3786f2be01`, with no new build/run.
 
 ## PR #277 merge verification — 2026-11-13
 
@@ -570,10 +596,11 @@ A repository, az öt nyitott műszaki hibajegy és a fejlesztési terv alapján
 ellenőrzött külső állapotjelentés megállapításait az alábbi feladatokhoz
 kapcsoljuk. A jelentéshez nem készült új fordítás vagy hardveres összehasonlítás.
 
-1. **Firmware és perifériák (M0–M1).** A közvetlen következő lépés az AN4–AN7
-   pásztázás buszintegrációjának lezárása és az új helyi firmware-diagnosztika.
-   Az indulás, a PKS szerepe és a tényleges MIDI note-on/note-off feldolgozás
-   külön igazolandó. A szintetikus ADC-értékeket minden mérésben jelölni kell.
+1. **Firmware és perifériák (M0–M1).** Az AN4–AN7 pásztázás buszintegrációja
+   már a #242 része; a #279 opt-in nyolccsatornás mintaprofillal egészítette ki.
+   A következő bizonyítandó lépés a firmware további, támogatott MMIO/CPU-IRQ
+   útjának feltárása, majd az indulás és a PKS szerepének külön vizsgálata. A
+   tényleges MIDI note-on/note-off feldolgozás önálló elfogadási pont marad. A szintetikus ADC-értékeket minden mérésben jelölni kell.
 2. **DSP-előfeltételek (M2).** Az [EG célérték-megtartása](https://github.com/RobCZart82/yaman1x/issues/1)
    reprodukált modell/leírás-eltérés. A hardverre vonatkozó javításhoz elsődleges
    bizonyíték vagy referenciafelvétel kell. Az [órajel és tábla-ROM](https://github.com/RobCZart82/yaman1x/issues/2)

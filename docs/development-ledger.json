@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-13",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "40d7847ad23c05a1c11a52659dfbc4181dc0ebe2",
+  "baseline_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
   "entries": [
     {
       "pr": 6,
@@ -3871,7 +3871,7 @@
       "branch": "feat/h8-adc-slow-scan",
       "status": "merged",
       "base_commit": "c11f45a36299ce90d7f1ee9ad0983b6f9979bae9",
-      "scope": "Standalone bounded repeating slow AN0\u2013AN3 scan with explicit input",
+      "scope": "Standalone bounded repeating slow AN0–AN3 scan with explicit input",
       "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "original_adc_sha256": "68577b708cac2233a31c1dfa5a4e83162a0db295d6d92805002f29ad4334be19",
       "first_cycles": 266,
@@ -3898,7 +3898,7 @@
       "branch": "feat/an1x-adc-scan-mmio",
       "status": "merged",
       "base_commit": "ea172cf428ce4b35c699279aa657f0cac18e4359",
-      "scope": "Integrate the bounded slow AN0\u2013AN3 scan and result lanes",
+      "scope": "Integrate the bounded slow AN0–AN3 scan and result lanes",
       "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
       "bus_partitions": 1035,
       "boot_accepted": false,
@@ -4116,7 +4116,7 @@
       "audio_accepted": false,
       "documentation_update": {
         "date": "2026-11-07",
-        "scope": "User-requested verified external report integrated into M0\u2013M6 priorities",
+        "scope": "User-requested verified external report integrated into M0–M6 priorities",
         "source_issues": [
           1,
           2,
@@ -5699,20 +5699,55 @@
       },
       "review": "Codex exact-head code review completed without findings (issue comment 6859252684). GitHub review objects: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "documentation_validation": "Post-merge evidence and next bounded candidate recorded in pending PR #280; source/notice audit, UTF-8, local Markdown targets, ledger ancestry/uniqueness and diff checks to be validated on that PR."
+    },
+    {
+      "pr": 280,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/280",
+      "title": "Extend bounded boot probe diagnostics",
+      "branch": "feat/boot-probe-extended-bounded-budget",
+      "kind": "runtime",
+      "status": "merged",
+      "base_commit": "40d7847ad23c05a1c11a52659dfbc4181dc0ebe2",
+      "head_commit": "8eb0eaaac1b7390a43f323f09ba0adfee792e436",
+      "merge_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
+      "merged_at_utc": "2026-11-13T19:02:41Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132081161291,
+        "macos_14": 132081161363,
+        "windows_2025": 132081160837,
+        "initial_decode_msan": 132081161511,
+        "mame_research": 132081161303
+      },
+      "main_checks": {
+        "platform_run": 43488420204,
+        "checks": {
+          "ubuntu_24_04": 132102887643,
+          "macos_14": 132102887232,
+          "windows_2025": 132102887927
+        },
+        "initial_decode_msan_run": 43488420199,
+        "initial_decode_msan": 132102887298,
+        "mame_research_run": 43488420096,
+        "mame_research": 132102887771
+      },
+      "review": "Codex exact-head review completed without findings (issue comment 6861430543). GitHub review objects: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+      "documentation_validation": "Merged PR #280 evidence reconciled; the 500M-cycle candidate is the sole pending change. Audit and ancestry validation pending this PR."
     }
   ],
   "pending_changes": [
     {
-      "branch": "feat/boot-probe-extended-bounded-budget",
+      "branch": "feat/boot-probe-500m-firmware-budget",
       "status": "candidate",
-      "base_commit": "40d7847ad23c05a1c11a52659dfbc4181dc0ebe2",
-      "scope": "Raise finite boot-probe ceilings to 250,000,000 cycles and 50,000,000 callbacks; preserve the 1,000,000 slice cap and fail-stop result classifications. Record the 100-million six-vector sweep and the fresh four-run 250-million-cycle scan diagnostics.",
+      "base_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
+      "scope": "Raise finite boot-probe ceilings to 500,000,000 cycles and 100,000,000 callbacks; preserve the 1,000,000-cycle slice cap, fail-stop classifications and explicit inputs. Record four fresh bounded diagnostics.",
       "local_validation": {
         "release_build": "pass",
-        "targeted_ctest": "yamanix_an1x_boot_probe pass",
-        "ctest": "138/138 pass (56.49 s)",
+        "targeted_ctest": "yamanix_an1x_boot_probe pass (included in full CTest)",
+        "ctest": "138/138 pass (52.00 s)",
         "repository_audit": "688 files, 201 upstream identities, pass",
-        "documentation": "changed Markdown local targets pass; ledger JSON ancestry/uniqueness pass for 271 entries",
+        "documentation": "UTF-8, Markdown local targets, 272-entry ledger uniqueness and merge ancestry pass",
         "diff_check": "pass"
       },
       "firmware_diagnostic": {
@@ -5720,19 +5755,20 @@
         "rom_modified": false,
         "rom_in_repository": false,
         "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; eight explicit ADC constants",
-        "cycle_limit": 250000000,
-        "callback_limit": 50000000,
+        "cycle_limit": 500000000,
+        "callback_limit": 100000000,
         "slice_cycles": [
           4096,
           1000000
         ],
-        "results": "At 250m/50m, all four AN3=0/1023 and slice 4096/1m runs reached the cycle limit with no access fault. AN0\u2013AN3 scan started at 95707121; AN4\u2013AN7 at 127793965. First deadlines matched across slices per vector. Final PC was 1920 for AN3=0 and 59782 for AN3=1023; both reported VOP3 sample passes [0,0], audio_accepted false. Callback totals varied by slice partition. At 250m/20m the earlier attempt stopped at the callback limit after 132767744 completed cycles. The separate six-vector 100m sweep found AN0/AN1/AN2 one-hot traces matched all-zero, while AN3 one-hot matched all-1023."
+        "results": "All four fresh AN3=0/1023 by 4096/1000000-slice runs reached the cycle cap without access faults. Peripheral cycle ended at 500000000 or 500000002 due to in-flight slice accounting. AN0-AN3 first scan deadlines [95707121,95707387,95707643,95707899], AN4-AN7 [127793965,127794231,127794487,127794743], invariant across slice sizes per input. Final PC 103956 for AN3=0 and 103566 for AN3=1023. VOP3 sample passes [0,0], audio_accepted false. Callback totals (short/long slice) were 78563259/78320547 for AN3=0 and 78561448/78318718 for AN3=1023; callback/scan callback counts vary by slice partition and are not invariants."
       },
       "mame_reference": {
         "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
         "new_build_or_run": false
       },
-      "acceptance": "bounded synthetic-input firmware progress only; no physical ADC agreement, full boot, MIDI, audio or REAPER acceptance"
+      "acceptance": "bounded synthetic-input firmware progress only; no physical ADC agreement, full boot, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Post-merge evidence reconciled; all local docs/ledger checks, repository audit and git diff --check pass on this candidate; remote CI/review pending."
     }
   ],
   "audit_correction": {
@@ -5842,30 +5878,30 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 279,
+    "pr": 280,
     "status": "merged",
-    "head_commit": "bcdb21bada7c02912ebf8966fdadd99f08a25be5",
-    "merge_commit": "40d7847ad23c05a1c11a52659dfbc4181dc0ebe2",
-    "merged_at_utc": "2026-11-13T17:34:43Z",
+    "head_commit": "8eb0eaaac1b7390a43f323f09ba0adfee792e436",
+    "merge_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
+    "merged_at_utc": "2026-11-13T19:02:41Z",
     "pr_head_checks": {
-      "ubuntu_24_04": 132026604026,
-      "macos_14": 132026603408,
-      "windows_2025": 132026604067,
-      "initial_decode_msan": 132026603850,
-      "mame_research": 132026603857
+      "ubuntu_24_04": 132081161291,
+      "macos_14": 132081161363,
+      "windows_2025": 132081160837,
+      "initial_decode_msan": 132081161511,
+      "mame_research": 132081161303
     },
     "main_checks": {
-      "platform_run": 43474176452,
-      "ubuntu_24_04": 132053535173,
-      "macos_14": 132053535251,
-      "windows_2025": 132053534783,
-      "initial_decode_msan_run": 43474176395,
-      "initial_decode_msan": 132053535103,
-      "mame_research_run": 43474176507,
-      "mame_research": 132053534152
+      "platform_run": 43488420204,
+      "ubuntu_24_04": 132102887643,
+      "macos_14": 132102887232,
+      "windows_2025": 132102887927,
+      "initial_decode_msan_run": 43488420199,
+      "initial_decode_msan": 132102887298,
+      "mame_research_run": 43488420096,
+      "mame_research": 132102887771
     },
-    "review": "Codex exact-head code review completed without findings (issue comment 6859252684); zero GitHub reviews and zero review threads; active ruleset 25910947 required zero approvals and resolved threads; no quota error and no bypass.",
+    "review": "Codex exact-head review completed without findings (issue comment 6861430543). GitHub review objects: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "Included in candidate PR #280; not yet merged."
+    "documentation_reconciliation": "PR #280 merge evidence and 500M candidate recorded; UTF-8, Markdown local targets, ledger uniqueness/ancestry, inventory, source audit and diff check pass."
   }
 }
