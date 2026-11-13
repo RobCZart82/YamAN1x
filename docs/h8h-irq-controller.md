@@ -1,3 +1,7 @@
+# H8H Irq Controller
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # H8H IRQ register and pin adapter
 
 Implementation: [PR #27](https://github.com/RobCZart82/yaman1x/pull/27).
@@ -67,12 +71,15 @@ with the new adapter remains NOT RUN because it is not wired into that machine.
 
 ## New inbox note assessed
 
-The 2026-10-27 incoming `AN1x_DUMP-hiánypótlás.txt` suggests PKS HLE and a
-dummy missing ROM. It is a research suggestion, not protocol evidence.
-The current LCD bus and SysEx tools do not supply the SCI1 PKS handshake or
-inject virtual controls into firmware RAM. An empty file named as the missing
-ROM would not establish that protocol or validate boot. No assumed reply,
-dummy-ROM success path or firmware patch is introduced from that note.
-PKS HLE still requires evidence for response bytes, state and timing.
-
 Merged #136 follow-up:[AN1x mapped IRQ registers](an1x-irq-mmio.md). Earlier IRQ-MMIO omissions describe the original component/integration increment. SYSCR and full reset remain open.
+
+
+## Earlier PKS inbox note
+
+The 2026-10-27 incoming `AN1x_DUMP-hiánypótlás.txt` suggests PKS HLE and a
+dummy missing ROM. It is a research suggestion, not protocol evidence. The
+current LCD bus and SysEx tools do not supply the SCI1 PKS handshake or inject
+virtual controls into firmware RAM. An empty file named as the missing ROM
+would not establish that protocol or validate boot. No assumed reply,
+dummy-ROM success path or firmware patch is introduced from that note. PKS HLE
+still requires evidence for response bytes, state and timing.

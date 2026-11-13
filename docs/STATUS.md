@@ -1,5 +1,21 @@
 # Development status
 
+For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
+
+## Current verified main — 2026-11-13
+
+PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
+2026-11-13T20:55:09Z from exact head
+`d6a7b8b02d675b2d4c9b8d9ae87052686cb33974` to main
+`5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head checks passed
+(jobs `132135485761`, `132135485923`, `132135485528`, `132135486090`,
+`132135485147`); all five exact-main checks passed (`132163526978`,
+`132163526507`, `132163526936`, `132163526210`, `132163526554`). The Codex
+review result was absent; GitHub review objects and threads were also absent.
+The active ruleset `25910947` required zero approvals and resolved threads.
+No quota error was reported; merge bypass was not used.
+
+
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
@@ -138,47 +154,6 @@ review objects, inline comments and review threads. No quota error was reported
 and no merge bypass was used. This PR only reconciles the #276 merge evidence
 in the documentation and ledger; it adds no runtime behavior or acceptance.
 
-## Sikertelen írások értéke — #276 beolvadt — 2026-11-12
-
-A `research/boot-probe-failed-write-context` ág a bounded firmware probe
-`fault_access` mezőjében a sikertelen bájt-/szóírás megkísérelt értékét is
-rögzíti; a hibás hozzáférés továbbra is fail-closed. A célzott tesztek pontosan
-ellenőrzik a címet, szélességet és értéket: köztük bájt `0x5A`, szó `0x1234`,
-és ADC-regiszter `0xA5`.
-
-Négy friss, csak olvasó firmware-futtatás AN1x 1.04 ROM-mal: idle-panel
-profil, `swap16`, 100,000,000 ciklus, 20,000,000 callback, AN3=0/1023 és
-4,096/1,000,000 ciklusos szeletek. Mind a négy egy mintát adott a
-`95,706,795` ciklusnál, majd megállt az `FFFFE8` byte-írásnál; az új mező
-mindegyiknél `0x33`, post-fetch PC `1B84`, perifériaciklus `95,707,121`, hiba
-`Unsupported ADC control mode`. Az egy mintán túli CPU-idő nem bizonyít
-mintabemenet-függő firmware-hatást: a releváns nem-szeletfüggő számlálók
-megegyeztek. A ROM hash `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
-nem változott és nem került a repóba.
-
-A lezárt MAME hivatkozás `706dbb73281320c54d7c2f16262c1c3786f2be01`; az ADC
-forrása az `H8_ADC_3337` `FFFFE8` vezérlőírás `0x33` értékét szoftveres
-AN0–AN3 pásztázó módként dekódolja. Ez kizárólag MAME-forrásértelmezés,
-nem Yamaha-hardvervalidáció; új MAME build/futtatás nem volt. A helyi Release
-build és teljes 138/138 CTest sikeres, a repository-audit és whitespace-check
-sikeres. A PR változásai beolvadtak; sem ADC-pásztázás, sem boot, MIDI, hang vagy
-REAPER-elfogadás nem került hozzáadásra.
-
-PR [#276](https://github.com/RobCZart82/YamAN1x/pull/276) beolvadt
-2026-11-12 15:50:27 UTC-kor, a végső `27fc4b0a0677b340a279439db7d54466c5f23f8d`
-headről a `74f0dc545c79a89790ad6eef42370b06f73bd65a` main commitba.
-A PR-head mind az öt ellenőrzése sikeres: Linux `131281742752`, macOS
-`131281743186`, Windows `131281743094`, MSan `131281739988`, MAME research
-`131281740553`. A Codex review a pontos headen észrevétel nélkül zárult
-(issue-comment `6827690290`). GitHub review-objektum és review-szál nem volt;
-a ruleset nulla jóváhagyást ír elő és rendezetlen szál nem volt. Kvótahiba
-nincs jelezve, merge-bypass nem történt.
-Az új main mindhárom kötelező platformellenőrzése, továbbá az MSan és MAME
-research futása is sikeres: `131300475364`, `131300474485`, `131300475237`,
-`131300473882`, `131300476046` (workflow runok `43252136161`,
-`43252135897`, `43252136454`).
-
-
 ## PKS source-writer register cross-check — candidate — 2026-11-11
 
 This candidate adds an independent check of the saved source-writer R1L
@@ -203,31 +178,7 @@ All four PR-head and all four merge-commit checks passed. MAME was path-filtered
 No review, thread, comment, automated-review result or quota error was recorded;
 ruleset `25910947` required zero approvals and resolved threads, with no bypass.
 The ROM was unchanged and outside the repository.
-## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
 
-A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
-értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
-írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
-a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
-ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
-előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
-
-A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
-helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
-teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
-rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
-távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
-nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
-
-PR [#269](https://github.com/RobCZart82/YamAN1x/pull/269) az eredeti
-headről (`0afd0e86fd4845514c2e969d809d25880b9d7d64`) nyílt, a
-`947d67950345c7e03362d40f25174fcbe3b1f268` alapra. Ezen a pontos headen
-mindhárom kötelező platformellenőrzés sikeres (Linux `130053106191`, macOS
-`130053106085`, Windows `130053105515`); az MSan is sikeres
-(`130053107228`). GitHub review-objektum, review-szál és PR-komment egyaránt
-0; kvótahibára nincs bizonyíték. A szabályzat 0 jóváhagyást ír elő, a review-
-szálak rendezését követeli. A naplófrissítés új PR-headet készít, ezért az új
-pontos head ellenőrzései még függőben vannak. A PR még nincs beolvasztva.
 ## PKS source-byte CPU context — merged in #267 — 2026-11-10
 
 PR [#267](https://github.com/RobCZart82/YamAN1x/pull/267) merged by squash as
@@ -302,7 +253,6 @@ Two nine-second passive/default-input runs produced byte-identical context trace
 
 This is limited repeatability evidence for one nine-second passive profile. The callback PC remains the CPU-reported post-fetch PC, not an instruction-start PC. The run does not establish operand meaning, ADC arithmetic, PKS behavior, complete boot, MIDI acceptance, hardware agreement or sound. VOP3 samples remained zero. Next: use these bounded snapshots to follow the preceding value writes and their instruction context, retaining independent value/address/flag/timing and continuation checks.
 
-
 ## Main #264 — current, verified baseline
 
 PR [#264](https://github.com/RobCZart82/yaman1x/pull/264) merged by squash at `a2f52d020ebc6d70e7ade57d9b78a920a9e2af4c` on 2026-11-09T17:35:18Z from verified head `1092df38cb5278e3db50ef29ac6c99fa621c85ce`. PR-head checks passed (ROM-free CI `42652447163`, MSan `42652447223`, MAME research `42652447044`); merge-commit checks passed (ROM-free CI `42666087454`, MSan `42666087385`, MAME research `42666087403`). Codex review summary completed without findings on the exact head; no GitHub review objects or threads were present, and no quota issue was reported. The active ruleset required zero approvals and resolved review threads. Two macOS hosted-runner acquisition attempts failed with explicit hosted-capacity annotations; after each workflow completed, only the failed job was retried, and the third attempt passed. Squash merge used the verified head without bypass.
@@ -328,13 +278,11 @@ copied through R0L; the source buffer was written from R1L by the routine at
 last fetch `0039A4`. This is a passive/default-input observation, not an ADC
 or PKS interpretation. See [bounded source path observations](pks-payload-path.md).
 
-
 ## PKS caller source chain — merged in #259, 2026-11-08
 
 Twelve read-only probes connected earlier caller reads to writes and verified
 the writer register context. See [combined source-chain observations](pks-payload-path.md).
 The ADC calculation remains unproven. Boot, MIDI and audio remain unaccepted.
-
 
 ## Earlier PKS entry predecessor — merged in #258, 2026-11-08
 
@@ -344,7 +292,6 @@ same-input logs matched across slices. See [predecessor observations](pks-payloa
 No ADC-data source was established in this bounded window. Next: follow
 the value before that path. Boot, MIDI and audio remain unaccepted.
 
-
 ## PKS source operand identified — merged in #257, 2026-11-08
 
 Four read-only probes verified the R1L-to-R4L byte transfer and found the
@@ -352,7 +299,6 @@ same values already present at the earlier entry boundary. Baseline JSON
 remained identical and same-input logs matched across slices. See
 [source operand observations](pks-payload-path.md). Next: trace the callers
 that provide R1L. ADC arithmetic, boot, MIDI and audio remain unaccepted.
-
 
 ## PKS value-setting interval — merged in #256, 2026-11-08
 
@@ -362,7 +308,6 @@ same-input logs matched across slices. See [transition observations](pks-payload
 The source operand and ADC arithmetic remain open. Next: trace that operand
 back to ADC intermediates. Boot, MIDI and audio remain unaccepted.
 
-
 ## PKS source-write register context — merged in #255, 2026-11-08
 
 Eight read-only probes identified the destination and byte value in CPU
@@ -371,7 +316,6 @@ same-input logs matched across slices. See [register observations](pks-payload-p
 The ADC-to-payload arithmetic is still open. Next: trace the register value
 into this write context. Boot, MIDI and audio remain unaccepted.
 
-
 ## Earlier PKS staging source — merged in #254, 2026-11-08
 
 Eight read-only probes identified an earlier mutable source region feeding
@@ -379,7 +323,6 @@ the staging bytes. Baseline JSON remained identical and same-input logs
 matched across slices. See [source observations](pks-payload-path.md).
 The observed copy path still does not prove the ADC-to-payload calculation.
 Next: follow its input reads and callers. Boot, MIDI and audio remain open.
-
 
 ## PKS staging data path — merged in #253, 2026-11-08
 
@@ -390,7 +333,6 @@ bytes stayed unchanged and same-input logs matched across slices. See
 The ADC-to-staging calculation is still open; no protocol or audio
 acceptance is implied. Next: trace data inputs to the staging-write path.
 
-
 ## Distinct PKS enqueue paths — merged in #252, 2026-11-08
 
 Four read-only probes reproduced distinct predecessor fetches for the D0
@@ -399,7 +341,6 @@ identical and same-input logs matched across slices. See
 [bounded payload path observations](pks-payload-path.md) for addresses,
 method and limits. Next: connect producer input reads to ADC intermediates.
 Full boot, MIDI and audio remain unaccepted.
-
 
 ## PKS buffer writer — merged in #251, 2026-11-08
 
@@ -426,7 +367,6 @@ ROM hash stayed
 Original MAME reference remains
 706dbb73281320c54d7c2f16262c1c3786f2be01. No ROM contents are included.
 VOP3 samples remain zero; full boot, MIDI and audio stay unaccepted.
-
 
 ## ADC RAM intermediates and transmit reads — merged in #250, 2026-11-08
 
@@ -456,7 +396,6 @@ ROM hash stayed
 Original MAME source remains locked at
 706dbb73281320c54d7c2f16262c1c3786f2be01. No ROM contents are included.
 VOP3 sample counters remain zero; full boot, MIDI and audio stay unaccepted.
-
 
 ## ADC read-site trace — merged in #249, 2026-11-08
 
@@ -489,7 +428,6 @@ no ROM bytes or instruction contents are included. Original MAME source
 remains locked at 706dbb73281320c54d7c2f16262c1c3786f2be01.
 VOP3 sample counters remain zero; boot, MIDI and audio are unaccepted.
 
-
 ## Isolated scan-channel dependence — merged in #248, 2026-11-07
 
 Twenty read-only local 1.04 probes isolated the ADC scan inputs at the
@@ -516,7 +454,6 @@ Original MAME source remains locked at
 706dbb73281320c54d7c2f16262c1c3786f2be01. Next: trace firmware reads of
 AN2 and AN6 through payload construction before implementing responses.
 Full boot, hardware fidelity, MIDI, audio and REAPER remain unaccepted.
-
 
 ## Intermediate ADC inputs and PKS traffic — merged in #247, 2026-11-07
 
@@ -545,7 +482,6 @@ implementing any response. Full boot, hardware calibration, MIDI and audio
 remain unaccepted. Runtime source is unchanged; the reference remains
 original MAME 706dbb73281320c54d7c2f16262c1c3786f2be01.
 
-
 ## PKS transmit frames — merged in #246, 2026-11-07
 
 Four read-only local 1.04 probes repeated the 130-million-cycle profile
@@ -573,7 +509,6 @@ source lock; no new hardware comparison was performed. The earlier MAME
 zero-input TDR prefix agrees, but is not a wire-timing reference.
 Next: explain the ADC-dependent outgoing data from firmware execution
 before designing any PKS response. MIDI, audio and REAPER remain open.
-
 
 ## First PKS enable and transmit-register writes — merged in #245, 2026-11-07
 
@@ -975,7 +910,6 @@ for channel 3 external clock B before extending the bounded profile. The
 reference counter and deadline methods skip internal scheduling for external
 clock types. That behavior does not establish the physical input waveform.
 
-
 ## Active ITU interrupt delivery — candidate, 2026-11-06
 
 Enabled ITU events now enter the shared bus timeline and CPU deadline query.
@@ -995,7 +929,6 @@ fresh local firmware diagnostic and hardware acceptance.
 
 Baseline #221 (aec0396) is merged and all five main checks passed.
 
-
 ## Active ITU polling profile — candidate, 2026-11-06
 
 Byte accesses at FFFF60 expose TSTR with an E0 reset value and full written-byte
@@ -1014,7 +947,6 @@ and the local firmware diagnostic at FFFF60 remain subsequent steps.
 
 Baseline #220 (a6a8643) is merged and all five main checks passed.
 
-
 ## Stopped ITU counter MMIO — candidate, 2026-11-05
 
 The bus now maps all five stopped TCNT words and their big-endian byte lanes to
@@ -1031,7 +963,6 @@ stopped channels. Timer start and CPU interrupt delivery are subsequent steps.
 
 Baseline #219 (bf58ebc) is merged and all five main checks passed.
 
-
 ## Stopped ITU compare and interrupt registers — candidate, 2026-11-05
 
 The stopped ITU scheduler now owns the values behind the ten TGR words and five
@@ -1045,7 +976,6 @@ TIER/TSR byte values at all five channels, reset, address aliases, invalid word
 accesses, and split CPU execution. The pinned MAME source contract covers the
 original TGR and TIER/TSR methods. This is a bounded source-compatible profile.
 Baseline #218 (4e9c91f) is merged with all five main checks green.
-
 
 ## Stopped ITU TCR bus integration — candidate, 2026-11-05
 
@@ -1065,7 +995,6 @@ the firmware rerun at FFFF60 remain open.
 Baseline #217 (d06b064) is merged with all five main checks green.
 Candidate CI and automated review are pending.
 
-
 ## ITU TCR source-profile decoder — candidate,2026-11-05
 
 Pure decode_itu_control maps96 supported internal-clock/no-external-clear TCR
@@ -1080,7 +1009,6 @@ profiles. Bus/MMIO writes and CPU IRQ routing remain next acceptance gates.
 Candidate134 CTest/103 Python. Own remote CI/review pending.
 Merged baseline #216,189df0e,all five main checks PASS.
 
-
 ## Selectable per-channel ITU clear mode — candidate,2026-11-05
 
 The shared scheduler now accepts independent free-running,A-clear and B-clear
@@ -1094,7 +1022,6 @@ and131072 existing auto-clear value/flag cases. [Contract](h8-itu-clear-mode.md)
 The candidate defines133 CTest/103 Python cases. Own CI/review pending.
 Merged baseline:#215,2dfbc0eb73c2f20aa961684cff6e2b1c06bf2131,all five main
 checks successful. Next supported TCR/MMIO decoding and CPU IRQ routing.
-
 
 ## Shared five-channel ITU scheduler — candidate,2026-11-05
 
@@ -1111,7 +1038,6 @@ CPU IRQ delivery,mixed-mode MMIO and fresh firmware diagnostics remain next.
 Remote CI and automatic review pending. Merged baseline is7b792ca (#214),with
 all four applicable main checks successful. The candidate defines132 CTest
 and103 Python cases. The previous reset-fix evidence below remains historical.
-
 
 ## Current verified status — 2026-11-05
 
@@ -1169,7 +1095,6 @@ all five PR and main checks PASS. Automatic review completed without findings
 on3c2c51af1d89da2df5c98d5310383d826e212214;see development ledger evidence.
 Older candidate sections below are historical records,not current open PRs.
 
-
 ## Pure ITU next-event deadline — candidate,2026-11-04
 
 New next_itu_event computes the next enabled A/B/overflow event from supported
@@ -1185,7 +1110,6 @@ under ASan/UBSan,explicit current time and no CPU callback delivery. Original
 source only in private temporary harness. Next bounded dispatch and precise
 vector/time/reconfiguration tests before bus start. No ROM/boot/audio acceptance.
 Own remote CI/review pending.
-
 
 ## Internal-clock ITU auto-clear events — candidate,2026-11-04
 
@@ -1204,7 +1128,6 @@ counter rewrite for the immediate-clear test. No implementation workaround.
 Next bounded deadlines/IRQ dispatch and selected MMIO integration;no firmware
 boot or audio acceptance. Original MAME reference unchanged. Own CI/review pending.
 
-
 ## Free-running ITU counter events — candidate,2026-11-04
 
 New H8ItuFreeRunning composes the monotonic counter and H8H latch for the
@@ -1222,7 +1145,6 @@ Next:auto-clear event semantics/boundaries if needed,then bounded deadlines and
 IRQ dispatch before bus start. Firmware still stopsFFFF60;no boot/audio proof.
 Own CI/review pending.
 
-
 ## Isolated H8H ITU status latch — candidate,2026-11-04
 
 New H8ItuStatus explicitly latches compareA/compareB/overflow events independent
@@ -1238,7 +1160,6 @@ events are supplied explicitly;this does not prove counter compare detection,
 polling-driven event generation,deadline or IRQ delivery. Next:counter-to-status
 event detection with independent boundary/polling tests,then deadlines/dispatch
 before MMIO start. No ROM,firmware or audio acceptance. Own CI/review pending.
-
 
 ## Isolated internal-clock ITU counter — candidate,2026-11-04
 
@@ -1259,7 +1180,6 @@ into repository. Next:compare/overflow flags and disabled-IRQ polling tests,
 then bounded deadlines/dispatch before bus integration. No ROM/audio acceptance.
 Own CI/review pending.
 
-
 ## Active ITU source contract — candidate,2026-11-04
 
 Three locked original files/19 exact method identities checked through the
@@ -1269,7 +1189,6 @@ wrap boundaries,TGRFFFF u16 comparison and reset-after-children order require
 independent tests. No active timer behavior enabled. Next:isolated monotonic
 internal-clock counter,then flags/IRQ/deadlines,before MMIO/firmware acceptance.
 [Contract and gates](an1x-active-itu-contract.md). Own CI/review pending.
-
 
 ## Firmware level-read experiment — candidate,2026-11-04
 
@@ -1295,7 +1214,6 @@ reference and independent tests before enabling it. Do not treat the old
 stopped-ITU storage profile as an active timer implementation.
 Pinned original MAME/bridge unchanged. Own CI/review pending.
 
-
 ## Explicit experimental native level readback — candidate,2026-11-04
 
 A shared Vop3LevelReadPolicy keeps default reject and separately names
@@ -1314,7 +1232,6 @@ sample advancement,then distinct clock/upload/timing work. Original bridge and
 pinned MAME reference unchanged;no ROM accessed or boot/audio acceptance.
 Own remote CI/review pending.
 
-
 ## Reg22 readback contract — candidate,2026-11-04
 
 Earlier firmware-consumer evidence is reconciled with the current strict native
@@ -1327,7 +1244,6 @@ strict adapter22 remains rejected. Next:explicit opt-in read policy with native
 profile selection and independent index/value tests,then separate firmware
 experiment;sample advancement remains another gated step. No runtime change.
 [Contract and evidence](vop3-readback-contract.md). Own CI/review pending.
-
 
 ## Native VOP3 firmware-probe profile — candidate,2026-11-03
 
@@ -1356,7 +1272,6 @@ experimental EG-readback path,but this profile deliberately keeps it disabled.
 Pinned original MAME source lock unchanged;this is project integration,not new
 original-method code. No boot,MIDI or audio acceptance. Own CI/review pending.
 
-
 ## VOP3 CPU word-bus integration — candidate,2026-11-03
 
 Explicit optional sink hooks route only full-word data access in canonical
@@ -1379,7 +1294,6 @@ this step composes existing project adapters,not a new upstream-method port.
 Next:explicit bounded firmware-probe profile with separate assumption labels.
 Own remote CI/review pending.
 
-
 ## Native VOP3 register backend — candidate,2026-11-03
 
 A noncopyable/nonmovable RAII owner connects the existing ABI2 bridge to the
@@ -1400,7 +1314,6 @@ this integration reuses the existing project bridge,not a new original-MAME
 method implementation or physical YSS236 proof. Next: explicit CPU word-bus/sink
 routing and bounded firmware diagnostics. Local/remote validation recorded in
 DEVELOPMENT_LOG; own PR CI and automatic review pending.
-
 
 ## Current verified status — 2026-11-03
 
@@ -1449,7 +1362,6 @@ One PR at a time;candidate validation and CI/review are separate gates.
 
 The following entries preserve their original dates and candidate counts.
 The current summary above supersedes their pending/active wording.
-
 
 Recorded: 2026-10-31. Product: YamAN1x. Repository: `yaman1x`. First public research snapshot: 2026-10-26.
 

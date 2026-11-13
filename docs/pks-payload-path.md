@@ -1,3 +1,7 @@
+# Pks Payload Path
+
+This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 # Bounded PKS payload path observations
 
 ## Source-writer R1L cross-check — candidate — 2026-11-11
@@ -68,31 +72,6 @@ The active ruleset required zero approvals and resolved review threads; no
 bypass was used. The original ROM remains unchanged and outside the repository.
 This documentation update does not add hardware or audio acceptance.
 
-## PKS forrás-RAM íráselőzmény — jelölt — 2026-11-10
-
-A következő, még be nem olvadt auditorváltozás a rögzített PKS-forrásolvasások
-értékét a legutóbbi, ugyanarra az igazított RAM-szóra és bájtlane-re eső korábbi
-írással is összeveti. Az ER0 indexének ki kell választania a megfigyelt szót és
-a bájtlane-et; a byte-write és full-word write eseteket külön kezeli. Az
-ellenőrzés a meglévő FA92 olvasás → FA94 célírás cím/érték/R0L/ER4/idő kapcsolat
-előtt fut. Ez megfigyelt írás-olvasás eredetlánc, nem PKS/ADC-szemantika.
-
-A 12 célzott forráskontextus-teszt és a teljes Python-tesztkészlet (125/125)
-helyben sikerült. A 138 CTest-csoportot ez a Python-only változás nem módosítja;
-teljes CTest, MAME-fordítás és új firmware-futtatás ehhez a jelölthöz még nincs
-rögzítve. ROM-ot ez a lépés nem olvas, nem módosít és nem tesz a repóba. A
-távoli ellenőrzések és a pontos PR-head review a jelölt PR kapui; ez a rész még
-nincs beolvasztva, hardver/boot/MIDI/hang-elfogadást nem jelent.
-
-PR [#269](https://github.com/RobCZart82/YamAN1x/pull/269) az eredeti
-headről (`0afd0e86fd4845514c2e969d809d25880b9d7d64`) nyílt, a
-`947d67950345c7e03362d40f25174fcbe3b1f268` alapra. Ezen a pontos headen
-mindhárom kötelező platformellenőrzés sikeres (Linux `130053106191`, macOS
-`130053106085`, Windows `130053105515`); az MSan is sikeres
-(`130053107228`). GitHub review-objektum, review-szál és PR-komment egyaránt
-0; kvótahibára nincs bizonyíték. A szabályzat 0 jóváhagyást ír elő, a review-
-szálak rendezését követeli. A naplófrissítés új PR-headet készít, ezért az új
-pontos head ellenőrzései még függőben vannak. A PR még nincs beolvasztva.
 ## PKS control and ramp RAM reads — merged in #262, 2026-11-09
 
 A local MAME binary with read-only taps was built using the explicit macOS OSD target (`OSD=mac`); SDL3 was not required. Two identical nine-second passive/default-input runs at the locked source commit `706dbb73281320c54d7c2f16262c1c3786f2be01` produced byte-identical traces, each 65,370 lines. The unchanged AN1x 1.04 ROM SHA-256 was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the diagnostic binary SHA-256 was `bd762ab222095721ea0843e7a765b8c844bcf47cc13bc182fcaffcf7d050aa88`.

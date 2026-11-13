@@ -38,3 +38,12 @@ the project-wide distribution license remains unselected.
 
 The PR template assists this process. Ledger completeness still requires human
 review; no automatic guarantee of per-PR log updates is claimed.
+
+## Documentation languages
+
+Write the canonical repository documentation in English. Keep Hungarian prose in
+a separate Hungarian document, such as `README_HUN.md` or a file ending in
+`_HUN.md`; do not mix English and Hungarian prose in the same document. A
+Hungarian translation should link to its English source, and the English source
+should link to its Hungarian companion when one exists. Keep identifiers,
+commands, code, product names and quoted source text unchanged where needed.

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-13",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
+  "baseline_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
   "entries": [
     {
       "pr": 6,
@@ -5734,41 +5734,57 @@
       },
       "review": "Codex exact-head review completed without findings (issue comment 6861430543). GitHub review objects: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "documentation_validation": "Merged PR #280 evidence reconciled; the 500M-cycle candidate is the sole pending change. Audit and ancestry validation pending this PR."
+    },
+    {
+      "pr": 281,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/281",
+      "title": "Extend bounded firmware probe to 500M cycles",
+      "branch": "feat/boot-probe-500m-firmware-budget",
+      "kind": "runtime",
+      "status": "merged",
+      "base_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
+      "head_commit": "d6a7b8b02d675b2d4c9b8d9ae87052686cb33974",
+      "merge_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
+      "merged_at_utc": "2026-11-13T20:55:09Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132135485761,
+        "macos_14": 132135485923,
+        "windows_2025": 132135485528,
+        "initial_decode_msan": 132135486090,
+        "mame_research": 132135485147
+      },
+      "main_checks": {
+        "platform_run": 43505947395,
+        "ubuntu_24_04": 132163526978,
+        "macos_14": 132163526507,
+        "windows_2025": 132163526936,
+        "initial_decode_msan_run": 43505947241,
+        "initial_decode_msan": 132163526210,
+        "mame_research_run": 43505947256,
+        "mame_research": 132163526554
+      },
+      "review": "Codex review result absent. GitHub review objects, inline comments and threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
+      "documentation_validation": "Post-merge ledger reconciliation and language-separation change are the sole candidate in PR #282."
     }
   ],
   "pending_changes": [
     {
-      "branch": "feat/boot-probe-500m-firmware-budget",
+      "branch": "docs/separate-english-hungarian-docs",
       "status": "candidate",
-      "base_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
-      "scope": "Raise finite boot-probe ceilings to 500,000,000 cycles and 100,000,000 callbacks; preserve the 1,000,000-cycle slice cap, fail-stop classifications and explicit inputs. Record four fresh bounded diagnostics.",
+      "base_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
+      "scope": "Keep canonical Markdown documents English-only, add a standalone Hungarian README, preserve existing Hungarian historical passages in a separate _HUN archive, link companion documentation, and add the repository language policy.",
       "local_validation": {
-        "release_build": "pass",
-        "targeted_ctest": "yamanix_an1x_boot_probe pass (included in full CTest)",
-        "ctest": "138/138 pass (52.00 s)",
-        "repository_audit": "688 files, 201 upstream identities, pass",
-        "documentation": "UTF-8, Markdown local targets, 272-entry ledger uniqueness and merge ancestry pass",
+        "utf8": "pass",
+        "markdown_local_targets": "pass (161 Markdown files scanned)",
+        "language_scan": "pass (English-facing docs contain no Hungarian prose; Hungarian summaries and archive are separate)",
+        "ledger_uniqueness_and_ancestry": "pass (273 unique PR entries; baseline 5cc1eba is an ancestor of candidate)",
+        "repository_audit": "pass (693 files checked; 201 upstream files verified; no problems)",
         "diff_check": "pass"
       },
-      "firmware_diagnostic": {
-        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
-        "rom_modified": false,
-        "rom_in_repository": false,
-        "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; eight explicit ADC constants",
-        "cycle_limit": 500000000,
-        "callback_limit": 100000000,
-        "slice_cycles": [
-          4096,
-          1000000
-        ],
-        "results": "All four fresh AN3=0/1023 by 4096/1000000-slice runs reached the cycle cap without access faults. Peripheral cycle ended at 500000000 or 500000002 due to in-flight slice accounting. AN0-AN3 first scan deadlines [95707121,95707387,95707643,95707899], AN4-AN7 [127793965,127794231,127794487,127794743], invariant across slice sizes per input. Final PC 103956 for AN3=0 and 103566 for AN3=1023. VOP3 sample passes [0,0], audio_accepted false. Callback totals (short/long slice) were 78563259/78320547 for AN3=0 and 78561448/78318718 for AN3=1023; callback/scan callback counts vary by slice partition and are not invariants."
-      },
-      "mame_reference": {
-        "source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-        "new_build_or_run": false
-      },
-      "acceptance": "bounded synthetic-input firmware progress only; no physical ADC agreement, full boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Post-merge evidence reconciled; all local docs/ledger checks, repository audit and git diff --check pass on this candidate; remote CI/review pending."
+      "acceptance": "documentation organization only; no code, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Local UTF-8 and Markdown-link checks, language separation scan, ledger uniqueness/ancestry, repository audit, and git diff --check pass. Remote CI and exact-head review pending."
     }
   ],
   "audit_correction": {
@@ -5878,30 +5894,30 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 280,
+    "pr": 281,
     "status": "merged",
-    "head_commit": "8eb0eaaac1b7390a43f323f09ba0adfee792e436",
-    "merge_commit": "284c0f1a273b6212272b80458eba7b6417e4dfee",
-    "merged_at_utc": "2026-11-13T19:02:41Z",
+    "head_commit": "d6a7b8b02d675b2d4c9b8d9ae87052686cb33974",
+    "merge_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
+    "merged_at_utc": "2026-11-13T20:55:09Z",
     "pr_head_checks": {
-      "ubuntu_24_04": 132081161291,
-      "macos_14": 132081161363,
-      "windows_2025": 132081160837,
-      "initial_decode_msan": 132081161511,
-      "mame_research": 132081161303
+      "ubuntu_24_04": 132135485761,
+      "macos_14": 132135485923,
+      "windows_2025": 132135485528,
+      "initial_decode_msan": 132135486090,
+      "mame_research": 132135485147
     },
     "main_checks": {
-      "platform_run": 43488420204,
-      "ubuntu_24_04": 132102887643,
-      "macos_14": 132102887232,
-      "windows_2025": 132102887927,
-      "initial_decode_msan_run": 43488420199,
-      "initial_decode_msan": 132102887298,
-      "mame_research_run": 43488420096,
-      "mame_research": 132102887771
+      "platform_run": 43505947395,
+      "ubuntu_24_04": 132163526978,
+      "macos_14": 132163526507,
+      "windows_2025": 132163526936,
+      "initial_decode_msan_run": 43505947241,
+      "initial_decode_msan": 132163526210,
+      "mame_research_run": 43505947256,
+      "mame_research": 132163526554
     },
-    "review": "Codex exact-head review completed without findings (issue comment 6861430543). GitHub review objects: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+    "review": "Codex review result absent. GitHub review objects, inline comments and threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "PR #280 merge evidence and 500M candidate recorded; UTF-8, Markdown local targets, ledger uniqueness/ancestry, inventory, source audit and diff check pass."
+    "documentation_reconciliation": "The active documentation candidate records exact merge evidence and separates English and Hungarian documentation."
   }
 }
