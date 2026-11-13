@@ -2,6 +2,8 @@
 
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+This guide prepares a local, read-only Mac M1 firmware/SCI/MIDI experiment. First verify the toolchain, then build the ROM-free project and the pinned MAME research target, and finally run the paired experiment with a local firmware path and a new output directory. The experiment has not been run merely because these commands are available; it does not establish a complete H8 port, AN1x boot or sound. The original Hungarian handoff and its assumptions are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+
 ```sh
 git status --short
 uname -m

@@ -5886,7 +5886,7 @@ Az új `yamanix_dsp_replay` program két valódi VOP3 könyvtárpéldány `write
 - az öt programszó minden lépésen;
 - együtthatók, tag bájtok és slot-offsetpárok.
 
-Az ellenőrzött állapotkép 14 340 bájt; mindkét útvonalon SHA-256:
+Az ellenőrzött, 14 340 bájtos kétchipes feltöltési állapotkép SHA-256 értéke mindkét útvonalon: `62f2939a81db9b28b200033f59944e5a851eb20c891843d958f53389b739e598`.
 
 **Ez feltöltési állapotegyezés, nem teljes DSP-állapot vagy hangazonosság.** A visszajátszó nem futtat DSP-mintákat, nem lépteti az LFO-/EG-időzítést, nem modellezi a hosttal közös órázást vagy a külső táblaromot. A 4098 passzív olvasási értéket nem táplálja helyes hardverválaszként a magba. A VOP3 által még figyelmen kívül hagyott konfigurációs regiszterek jelentését az egyező állapotkép sem igazolja.
 
@@ -6094,7 +6094,7 @@ Kísérleti státuszprofil, csatlakoztatott DMS-panel bemeneti modellje, élő r
 
 Összesen **25 310 DSP-esemény**, veszteség nélkül. A 902 olvasásból négy a kísérleti feltöltési státuszhoz tartozik; a többi a 0x22-es regiszter olvasása. Mindkét DSP alapfeltöltése külön-külön egyezik a helyi VOP3 `voice.bin` képével: **2560 programszó, 512 együttható, 512 tag, 128 slot-offsetpár**. A második chip feltöltésének ellenőrzési pontja a 21 676. esemény után van.
 
-A két chip összesen 14 340 bájtos, futásvégi feltöltési állapotának SHA-256 értéke:
+A két chip összesen 14 340 bájtos, futásvégi feltöltési állapotának SHA-256 értéke: `62f2939a81db9b28b200033f59944e5a851eb20c891843d958f53389b739e598`.
 
 Három módon azonos: élő natív objektumokból mentve, a teljes trace-ből független Python-kóddal rekonstruálva, és a trace-t külön natív VOP3-példányokra visszajátszva. Ez a SELECT/program/együttható/tag/slot mezőket ellenőrzi; más belső állapotot vagy audioazonosságot nem.
 
@@ -6115,6 +6115,41 @@ A VOP3 egyes konfigurációs és host-RAM írásokat sem valósít meg; az írá
 - A letöltési leltár mind a **27 eredeti fájlja** változatlan SHA-256 alapján.
 
 Reprodukció: `research/README_HUN.md`. Mentett, ROM-adatot nem tartalmazó eredmények: `docs/live-register-milestone/`. A firmware, DSP-állapotképek, nyers trace-ek és fordított programok a helyi `work/` alatt maradtak. Következő motorfeladat a 0x22 státuszolvasás értelmezése, majd az igazolt táblarom-formátumra épített DSP-mintaütemezés.
+
+## Parancsok a Mac M1 átadási útmutatójához
+
+Az alábbi, nyelvfüggetlen parancsblokkok a fenti magyar útmutatóhoz tartoznak; a firmware útvonalát a helyi, változatlan fájlra kell beállítani.
+
+```sh
+git status --short
+uname -m
+export DEVELOPER_DIR=/Applications/Xcode_16.2.app/Contents/Developer
+xcodebuild -version
+clang++ --version
+python3 --version
+cmake --version
+make --version
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64
+cmake --build build --config Release --parallel 2
+ctest --test-dir build -C Release --output-on-failure
+python3 tools/repository_audit.py
+```
+
+```sh
+git clone --config core.autocrlf=false https://github.com/mamedev/mame.git work/mame
+git -C work/mame checkout 706dbb73281320c54d7c2f16262c1c3786f2be01
+python3 tools/prepare_mame_research.py --source work/mame
+make -C work/mame SUBTARGET=yamanix SOURCES=src/mame/yamaha/yman1x.cpp OSD=mac NO_USE_MIDI=1 NO_USE_PORTAUDIO=1 USE_QTDEBUG=0 USE_TAPTUN=0 USE_PCAP=0 REGENIE=1 OPTIMIZE=0 SYMBOLS=0 -j2
+lipo -archs work/mame/yamanix
+work/mame/yamanix -listfull an1x
+```
+
+```sh
+python3 tools/run_m1_serial_experiment.py \
+  --mame work/mame/yamanix \
+  --rom '/absolute/local/path/to/YAMAHA AN1x 1.04.BIN' \
+  --work private_runs/m1-mac-first
+```
 
 ## pks-payload-path
 
@@ -6304,9 +6339,9 @@ Az ellenőrzés az első DSP alapfeltöltése és a slotok beírása utáni, de 
 
 A korábban kétértelműnek tűnő slotmezők is tisztázódtak ennél a képnél: egy négyes lépéscsoportban legfeljebb egy különböző nemnulla offset van. A firmware által a slotba írt érték ezzel egyezik mind a 128 csoportban. Az új adapter konfliktus esetén hibát ad, nem választ önkényesen.
 
-A vizsgált `voice.bin` SHA-256 értéke:
+A vizsgált `voice.bin` SHA-256 értéke: `041ca9414c563158e5f84928c159e1e23b4c46fa43a807bd9713b6bf7f8fffc7`.
 
-Az első chip 7170 bájtos feltöltési állapotképének SHA-256 értéke:
+Az első chip 7170 bájtos feltöltési állapotképének SHA-256 értéke: `20b036c5c234412a1501d0ad643bca1e9d1727dc86e9fdf32037143817facd0c`.
 
 Ez a digest megegyezik a firmware-naplóból rekonstruált és a VOP3 C++ könyvtárra visszajátszott statikus feltöltéssel is. A két adatforrás közös firmware-eredetű lehet; ez nem független fizikai ROM-kiolvasás vagy hangmérés.
 
