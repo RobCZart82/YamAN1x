@@ -12,6 +12,9 @@
 #include <string>
 
 namespace {
+constexpr uint64_t max_probe_cycles=250000000;
+constexpr uint64_t max_probe_slice_cycles=1000000;
+constexpr uint64_t max_probe_callbacks=50000000;
 struct Sink {
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
@@ -122,7 +125,7 @@ std::vector<uint8_t>load(const char*path){
 int main(int argc,char**argv){
  try{
   if(argc<6||argc>8)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7]");
-  const auto cycles=number(argv[2],100000000),slice=number(argv[3],1000000),limit=number(argv[4],20000000);
+  const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   std::string_view profile="disabled";bool profile_seen=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   for(int i=6;i<argc;++i){

@@ -1,14 +1,24 @@
 # Development roadmap
 
-## Explicit ADC scan inputs — candidate — 2026-11-13
+## Current bounded firmware probe — 2026-11-13
 
-PR #278 and its exact-main checks are verified in the current source of truth.
-The next bounded firmware step supplies explicit constant AN0–AN7 values to the
-existing fail-closed probe. Four fresh profiles reach the 100-million-cycle cap
-without a fault; AN3=0 versus AN3=1023 changes the final CPU/GPIO trace at both
-4,096- and 1,000,000-cycle slices. VOP3 sample passes remain zero, so this is
-not audio acceptance. Hardware calibration, complete boot, MIDI, audio and
-REAPER remain open.
+PR [#279](https://github.com/RobCZart82/YamAN1x/pull/279) merged at
+2026-11-13T17:34:43Z to exact main `40d7847ad23c05a1c11a52659dfbc4181dc0ebe2`.
+Its five checks and all five exact-main checks passed. Codex's code review on
+the exact PR head completed without findings; there were no GitHub reviews or
+review threads. Ruleset `25910947` requires the three platform checks, zero
+approvals and resolved threads; no quota error or bypass.
+
+Next bounded candidate: probe up to 250,000,000 cycles and 50,000,000 callbacks,
+keeping the 1,000,000-cycle slice ceiling. A four-run read-only AN1x 1.04
+experiment reached the finite cycle limit with AN3 values 0/1023 and both
+4,096/1,000,000 slice sizes. The PC differed by AN3 value but was stable across
+slice sizes; all runs had no access fault and zero VOP3 sample passes. A
+six-vector 100-million-cycle sweep found only AN3 changed the observed trace
+among zero, all-maximum and one-hot AN0–AN3 vectors. This is limited synthetic
+firmware progress, not hardware or sound acceptance. Full boot, MIDI, audio and
+REAPER remain open. ROM SHA remains unchanged and outside Git; pinned MAME source
+is unchanged and was not rebuilt or rerun.
 
 ## Verified runtime baseline — 2026-11-12
 
