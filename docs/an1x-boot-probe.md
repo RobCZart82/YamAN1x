@@ -12,7 +12,7 @@ yamanix_an1x_boot_probe /absolute/path/to/local-ROM.bin 100000 64 100000 swap16
 ```
 
 Arguments are total requested cycles,slice cycles,global callback limit,and view.
-Strict positive integer caps:250000000/1000000/50000000. No implicit GPIO input,
+Strict positive integer caps:500000000/1000000/100000000. No implicit GPIO input,
 MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
 No RX input schedule is supplied by this initial CLI.
@@ -29,6 +29,22 @@ returned slices;work within a failed slice remains committed and can advance
 memory access kind/address/width are diagnostic metadata,not a resumable checkpoint.
 Decoder/callback stops have no fabricated memory fault. Reports omit ROM bytes,
 register dumps and user file paths. The failed CPU is discarded on process exit.
+
+## 500-million-cycle bounded observation — candidate, 2026-11-13
+
+The current local candidate raises the total-cycle and callback caps to
+500,000,000 and 100,000,000. Four fresh read-only runs covered AN3=0/1023 and
+4,096/1,000,000-cycle slices. All reached the cycle cap without access faults;
+peripheral-cycle accounting ended at 500,000,000 or 500,000,002 because a
+slice may be in flight. AN0–AN3 scan deadlines began at 95,707,121 and then
+spaced by 256 cycles; AN4–AN7 began at 127,793,965 and likewise advanced every
+256 cycles. These deadlines matched across slice sizes per input. Final PC was
+103956 for AN3=0 and 103566 for AN3=1023. Every run had VOP3 sample passes
+[0,0] and audio_accepted=false. Callback totals vary with slice partition and
+are not an invariant. This is finite synthetic execution only, not completed
+boot, hardware agreement, MIDI, audio or REAPER acceptance. ROM SHA-256
+4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe remained
+unchanged and outside Git; no new MAME build/run was made.
 
 ## Local read-only observation — 2026-11-02
 

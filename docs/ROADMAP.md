@@ -2,23 +2,22 @@
 
 ## Current bounded firmware probe — 2026-11-13
 
-PR [#279](https://github.com/RobCZart82/YamAN1x/pull/279) merged at
-2026-11-13T17:34:43Z to exact main `40d7847ad23c05a1c11a52659dfbc4181dc0ebe2`.
-Its five checks and all five exact-main checks passed. Codex's code review on
-the exact PR head completed without findings; there were no GitHub reviews or
-review threads. Ruleset `25910947` requires the three platform checks, zero
-approvals and resolved threads; no quota error or bypass.
+PR [#280](https://github.com/RobCZart82/YamAN1x/pull/280) merged at
+2026-11-13T19:02:41Z from exact head `8eb0eaaac1b7390a43f323f09ba0adfee792e436`
+to exact main `284c0f1a273b6212272b80458eba7b6417e4dfee`. All five PR-head and
+all five exact-main checks passed. Codex review completed without findings;
+GitHub reviews and threads were zero. Ruleset `25910947` requires the three
+platform checks, zero approvals and resolved threads; no quota error or bypass.
 
-Next bounded candidate: probe up to 250,000,000 cycles and 50,000,000 callbacks,
-keeping the 1,000,000-cycle slice ceiling. A four-run read-only AN1x 1.04
-experiment reached the finite cycle limit with AN3 values 0/1023 and both
-4,096/1,000,000 slice sizes. The PC differed by AN3 value but was stable across
-slice sizes; all runs had no access fault and zero VOP3 sample passes. A
-six-vector 100-million-cycle sweep found only AN3 changed the observed trace
-among zero, all-maximum and one-hot AN0–AN3 vectors. This is limited synthetic
-firmware progress, not hardware or sound acceptance. Full boot, MIDI, audio and
-REAPER remain open. ROM SHA remains unchanged and outside Git; pinned MAME source
-is unchanged and was not rebuilt or rerun.
+The next candidate raises the finite boot-probe caps to 500,000,000 cycles and
+100,000,000 callbacks, preserving 1,000,000-cycle slices and fail-stop
+behavior. Four fresh read-only runs reached the cycle cap without access faults;
+scan deadlines for AN0–AN7 remained invariant across slice sizes. Final PC
+varied with AN3 input. All runs reported VOP3 sample passes `[0,0]` and
+`audio_accepted:false`; callback totals varied by slice size. This is bounded
+synthetic firmware progress, not hardware, full-boot, MIDI, audio or REAPER
+acceptance. The original ROM remains unchanged outside Git; pinned MAME source
+was not rebuilt or rerun.
 
 ## Verified runtime baseline — 2026-11-12
 
