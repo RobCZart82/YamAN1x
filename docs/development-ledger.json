@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-12",
+  "recorded_date": "2026-11-13",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "74f0dc545c79a89790ad6eef42370b06f73bd65a",
+  "baseline_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
   "entries": [
     {
       "pr": 6,
@@ -5599,6 +5599,38 @@
           "research_macos": 131300476046
         }
       }
+    },
+    {
+      "pr": 277,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/277",
+      "title": "Reconcile failed-write probe merge record",
+      "branch": "docs/reconcile-277-merge-record",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "74f0dc545c79a89790ad6eef42370b06f73bd65a",
+      "head_commit": "6fa64ebcb2bfbb5cb72920c251117319d2819ed4",
+      "merge_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
+      "merged_at_utc": "2026-11-12T20:21:06Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 131327856000,
+        "macos_14": 131327855295,
+        "windows_2025": 131327854869,
+        "initial_decode_msan": 131327855734
+      },
+      "main_checks": {
+        "platform_run": 43299437756,
+        "checks": {
+          "macos_14": 131466335973,
+          "windows_2025": 131466336340,
+          "ubuntu_24_04": 131466336472,
+          "initial_decode_msan": 131466344850
+        },
+        "mame_research": "not run; documentation-only paths excluded by workflow filters"
+      },
+      "review": "Codex exact-head review completed without findings (issue comment 6829550926). GitHub review objects: 0; inline review comments: 0; review threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error reported; no bypass used.",
+      "documentation_validation": "UTF-8, local Markdown targets, ledger merge ancestry/uniqueness, repository audit and diff check recorded by the follow-up PR."
     }
   ],
   "pending_changes": [],
@@ -5707,5 +5739,29 @@
     "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/275",
     "record_scope": "Dated local preparation record, not a current open/merged status. Final CI and merge evidence are available in PR #275.",
     "prepared_date": "2026-11-12"
+  },
+  "documentation_post_merge_reconciliation": {
+    "pr": 277,
+    "status": "merged",
+    "head_commit": "6fa64ebcb2bfbb5cb72920c251117319d2819ed4",
+    "merge_commit": "fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a",
+    "merged_at_utc": "2026-11-12T20:21:06Z",
+    "pr_head_checks": {
+      "ubuntu_24_04": 131327856000,
+      "macos_14": 131327855295,
+      "windows_2025": 131327854869,
+      "initial_decode_msan": 131327855734
+    },
+    "main_checks": {
+      "platform_run": 43299437756,
+      "macos_14": 131466335973,
+      "windows_2025": 131466336340,
+      "ubuntu_24_04": 131466336472,
+      "initial_decode_msan_run": 43299436402,
+      "initial_decode_msan": 131466344850,
+      "mame_research": "path-filtered; no research/source/tool/workflow files changed"
+    },
+    "review": "Codex completed without findings in issue comment 6829550926; zero GitHub reviews, inline comments or threads; ruleset 25910947 required zero approvals and resolved threads; no quota error reported; no bypass.",
+    "open_prs_at_reconciliation": 0
   }
 }
