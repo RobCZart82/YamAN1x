@@ -12,7 +12,7 @@ yamanix_an1x_boot_probe /absolute/path/to/local-ROM.bin 100000 64 100000 swap16
 ```
 
 Arguments are total requested cycles,slice cycles,global callback limit,and view.
-Strict positive integer caps:100000000/1000000/20000000. No implicit GPIO input,
+Strict positive integer caps:250000000/1000000/50000000. No implicit GPIO input,
 MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
 No RX input schedule is supplied by this initial CLI.

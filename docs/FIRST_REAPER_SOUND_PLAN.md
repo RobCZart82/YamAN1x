@@ -1,26 +1,48 @@
-## Explicit ADC scan inputs — candidate — 2026-11-13
+## PR #279 merge verification — 2026-11-13
 
-The bounded boot probe now accepts `--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7`
-with eight explicit 10-bit constants. No-input behavior remains fail-closed;
-the same vector also supplies the preceding single-AN3 conversion. CLI tests
-cover exact channel values, range/arity/duplicate rejection, channel callback
-counts and deadlines, and CPU-slice independence. Release build and all 138
-CTest groups pass.
+PR [#279](https://github.com/RobCZart82/YamAN1x/pull/279) merged at
+2026-11-13T17:34:43Z from exact head
+`bcdb21bada7c02912ebf8966fdadd99f08a25be5` to main
+`40d7847ad23c05a1c11a52659dfbc4181dc0ebe2`. Linux, macOS, Windows, MSan and
+MAME research checks passed on the PR head (jobs `132026604026`, `132026603408`,
+`132026604067`, `132026603850`, `132026603857`) and on exact main
+`40d7847` (jobs `132053535173`, `132053535251`, `132053534783`,
+`132053535103`, `132053534152`). Codex's exact-head code review completed
+without findings (issue comment `6859252684`); GitHub reviews and review threads
+were zero. Active ruleset `25910947` requires zero approvals and resolved
+threads; no quota error or bypass was involved.
 
-Four fresh read-only AN1x 1.04 runs used the pinned idle-panel/VOP3 profile,
-`swap16`, 100,000,000-cycle and 20,000,000-callback caps, and the same two
-vectors (`0,0,0,0,0,0,0,0` and `0,0,0,1023,0,0,0,0`) with 4,096- and
-1,000,000-cycle slices. All reached the cycle cap without an access fault. The
-AN3 value was sampled at cycle `95,706,795`; the scan began at `95,707,121`.
-The two vectors produced the same per-vector callback counts and deadlines at
-both slice sizes, but different final PCs (`247606` and `247054`) and GPIO-write
-counts (`15528` and `13956`). Both still report zero VOP3 sample passes and
-`audio_accepted:false`. This is synthetic-input-dependent firmware progress,
-not physical ADC calibration, hardware agreement, complete boot, MIDI or sound
-acceptance. The ROM hash remains
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it was
-read only and remains outside Git. The locked MAME source is unchanged at
-`706dbb73281320c54d7c2f16262c1c3786f2be01`; no new MAME build or run was made.
+The bounded probe now accepts the explicit eight-channel constant scan profile
+and uses its AN3 entry for the preceding single conversion. Four read-only
+100-million-cycle runs showed equal scan callback deadlines/counts across slice
+sizes; AN3=0 versus 1023 changed the final CPU/GPIO trace, while VOP3 sample
+passes remained zero. This is synthetic firmware progress only, not hardware,
+boot, MIDI, audio or REAPER acceptance. ROM hash
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` is
+unchanged and outside Git; the MAME source remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01` with no new build/run.
+
+## Longer finite firmware-probe budget — candidate — 2026-11-13
+
+The explicit boot probe's finite cycle ceiling is raised from 100,000,000 to
+250,000,000 and its callback ceiling from 20,000,000 to 50,000,000; slice size
+remains capped at 1,000,000. The probe remains finite and fail-stop. The prior
+250-million-cycle attempt with a 20-million callback ceiling stopped at the
+callback guard after 132,767,744 completed cycles, without a fabricated bus
+fault. At 50 million callbacks, four fresh read-only runs reached the cycle
+ceiling for AN3=0/1023 and 4,096/1,000,000-cycle slices.
+
+All four began the AN0–AN3 scan at cycle `95,707,121` and AN4–AN7 at
+`127,793,965`; sample deadlines were identical across the two slice sizes for
+each vector. At the cap, AN3=0 ended at PC `1920`, AN3=1023 at PC `59782`; both
+had null `fault_access`, VOP3 sample passes `[0,0]` and
+`audio_accepted:false`. Callback bookkeeping differed by slice partition, so it
+is not treated as an invariant. A separate six-vector 100-million-cycle sweep
+(zero, all 1023 and one-hot AN0–AN3) found AN0/AN1/AN2 one-hot matched the zero
+trace at that cap; AN3 one-hot matched the all-1023 trace. These bounded
+observations do not calibrate physical controls, establish hardware agreement,
+complete boot, MIDI, sound or REAPER acceptance. The original ROM remains
+read-only, hash-verified and outside Git; no new MAME build/run was made.
 
 ## PR #277 merge verification — 2026-11-13
 

@@ -1,8 +1,8 @@
 # Bounded firmware diagnostics beyond LCD/P9
 
-The CLI retains100000000 requested cycle and1000000 slice caps. The explicit
-global callback cap increases from1000000 to20000000,allowing diagnosis beyond
-long firmware delay loops. It is not unlimited. Existing fail-stop semantics
+The CLI's finite limits are250000000 requested cycles,1000000 slice cycles and
+50000000 callbacks. The callback cap was raised to let the bounded scan profile
+reach the cycle limit without making the probe unbounded. Existing fail-stop semantics
 remain:callback exhaustion poisons CPU and discards the process state;never
 resume that owner. There is no retry/cancellation of hosted CI in this change.
 
