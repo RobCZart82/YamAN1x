@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-13",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
+  "baseline_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
   "entries": [
     {
       "pr": 6,
@@ -5767,24 +5767,57 @@
       },
       "review": "Codex review result absent. GitHub review objects, inline comments and threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
       "documentation_validation": "Post-merge ledger reconciliation and language-separation change are the sole candidate in PR #282."
+    },
+    {
+      "pr": 282,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/282",
+      "title": "Separate English and Hungarian documentation",
+      "branch": "docs/separate-english-hungarian-docs",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
+      "head_commit": "d87d70c00b732e7161a720ec7104f3bc06eb9c07",
+      "merge_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
+      "merged_at_utc": "2026-11-13T22:27:37Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132196541298,
+        "macos_14": 132196541229,
+        "windows_2025": 132196541079,
+        "initial_decode_msan": 132196395753,
+        "mame_research": 132196540771
+      },
+      "main_checks": {
+        "platform_run": 43519445937,
+        "ubuntu_24_04": 132209724108,
+        "macos_14": 132209724497,
+        "windows_2025": 132209724505,
+        "initial_decode_msan_run": 43519445959,
+        "initial_decode_msan": 132209723644,
+        "mame_research_run": 43519445904,
+        "mame_research": 132209723823
+      },
+      "review": "Codex review on earlier head a8216d5c69c3fc820ad907840dd52e63c93bddc0 reported P2 finding 4569089709. Final head d87d70c restored labeled digests and Mac handoff command blocks; the review thread is resolved. No second exact-head Codex review summary was observed. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
+      "documentation_validation": "Exact PR-head and main checks all passed. Local UTF-8, Markdown target, language-separation, repository audit, ledger uniqueness/ancestry and diff checks passed. Documentation-only; no runtime behavior or hardware/audio acceptance."
     }
   ],
   "pending_changes": [
     {
-      "branch": "docs/separate-english-hungarian-docs",
+      "branch": "docs/reconcile-language-docs-pr282",
       "status": "candidate",
-      "base_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
-      "scope": "Keep canonical Markdown documents English-only, add a standalone Hungarian README, preserve existing Hungarian historical passages in a separate _HUN archive, link companion documentation, and add the repository language policy.",
+      "base_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
+      "scope": "Reconcile PR #282 merge evidence in the English development ledger/log and English and Hungarian current-main summaries; preserve the language-separated documentation policy.",
       "local_validation": {
         "utf8": "pass",
         "markdown_local_targets": "pass (161 Markdown files scanned)",
-        "language_scan": "pass (English-facing docs contain no Hungarian prose; Hungarian summaries and archive are separate)",
-        "ledger_uniqueness_and_ancestry": "pass (273 unique PR entries; baseline 5cc1eba is an ancestor of candidate)",
+        "language_scan": "pass (English prose is separate; exact identifiers and source filenames are preserved as literals)",
+        "ledger_uniqueness_and_ancestry": "pass (274 unique PR entries; baseline e718062 is an ancestor of candidate)",
         "repository_audit": "pass (693 files checked; 201 upstream files verified; no problems)",
         "diff_check": "pass"
       },
-      "acceptance": "documentation organization only; no code, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local UTF-8 and Markdown-link checks, language separation scan, ledger uniqueness/ancestry, repository audit, and git diff --check pass. Remote CI and exact-head review pending."
+      "acceptance": "documentation reconciliation only; no code, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Local UTF-8 and Markdown-link checks, language-separation scan, ledger uniqueness/ancestry, repository audit, and git diff --check pass. Remote CI and exact-head review pending."
     }
   ],
   "audit_correction": {

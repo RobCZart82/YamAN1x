@@ -15,16 +15,20 @@ For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian 
 
 ## Current verified main — 2026-11-13
 
-PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
-2026-11-13T20:55:09Z from exact head
-`d6a7b8b02d675b2d4c9b8d9ae87052686cb33974` to main
-`5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head checks passed
-(jobs `132135485761`, `132135485923`, `132135485528`, `132135486090`,
-`132135485147`); all five exact-main checks passed (`132163526978`,
-`132163526507`, `132163526936`, `132163526210`, `132163526554`). The Codex
-review result was absent; GitHub review objects and threads were also absent.
-The active ruleset `25910947` required zero approvals and resolved threads.
-No quota error was reported; merge bypass was not used.
+PR [#282](https://github.com/RobCZart82/YamAN1x/pull/282) merged at
+2026-11-13T22:27:37Z from exact head
+`d87d70c00b732e7161a720ec7104f3bc06eb9c07` to main
+`e718062c9989bca1d0cf4447df9b4c83ed5324b5`. All five PR-head checks passed
+(jobs `132196541298`, `132196541229`, `132196541079`, `132196395753`,
+`132196540771`), and all five exact-main checks passed (`132209724108`,
+`132209724497`, `132209724505`, `132209723644`, `132209723823`). Codex review
+on the earlier PR head found one P2 documentation issue; the missing hashes
+and separated Mac command blocks were restored on the final head, and the
+review thread was resolved. No second exact-head Codex review summary was
+observed. The active ruleset `25910947` required zero approvals and resolved
+threads. No quota error was reported; merge bypass was not used. PR #282
+separates English canonical documents from Hungarian summaries and archived
+notes; it changes no runtime behavior or hardware/audio acceptance.
 
 
 ## Verified runtime baseline — 2026-11-12
