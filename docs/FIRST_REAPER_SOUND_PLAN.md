@@ -1,3 +1,20 @@
+## PR #277 merge verification — 2026-11-13
+
+PR [#277](https://github.com/RobCZart82/YamAN1x/pull/277) merged on
+2026-11-12T20:21:06Z from exact head
+`6fa64ebcb2bfbb5cb72920c251117319d2819ed4` to main
+`fce5f65ce5e43c36ceb7eb67a13f9f2040dbcb5a`. Its exact-head Linux, macOS,
+Windows and MSan checks passed (workflow runs `43259845185` and
+`43259845433`). MAME research was not run: this documentation-only change did
+not match that workflow's `research/**`, `src/**`, tool or workflow path filters.
+The exact-main Linux, macOS, Windows and MSan checks also passed (runs
+`43299437756` and `43299436402`). The active ruleset requires all three platform
+checks, zero approving reviews and resolved review threads. Codex's exact-head
+review completed without findings (comment `6829550926`); GitHub recorded zero
+review objects, inline comments and review threads. No quota error was reported
+and no merge bypass was used. This PR only reconciles the #276 merge evidence
+in the documentation and ledger; it adds no runtime behavior or acceptance.
+
 ## FFFE8 határ — #276 beolvadt — 2026-11-12
 
 A [#276 PR](https://github.com/RobCZart82/YamAN1x/pull/276) mostantól a
