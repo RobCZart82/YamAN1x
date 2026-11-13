@@ -4,16 +4,20 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current verified main — 2026-11-13
 
-PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
-2026-11-13T20:55:09Z from exact head
-`d6a7b8b02d675b2d4c9b8d9ae87052686cb33974` to main
-`5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head checks passed
-(jobs `132135485761`, `132135485923`, `132135485528`, `132135486090`,
-`132135485147`); all five exact-main checks passed (`132163526978`,
-`132163526507`, `132163526936`, `132163526210`, `132163526554`). The Codex
-review result was absent; GitHub review objects and threads were also absent.
-The active ruleset `25910947` required zero approvals and resolved threads.
-No quota error was reported; merge bypass was not used.
+PR [#282](https://github.com/RobCZart82/YamAN1x/pull/282) merged at
+2026-11-13T22:27:37Z from exact head
+`d87d70c00b732e7161a720ec7104f3bc06eb9c07` to main
+`e718062c9989bca1d0cf4447df9b4c83ed5324b5`. All five PR-head checks and all
+five exact-main checks passed; job IDs are recorded in the structured ledger.
+Codex review on the earlier PR head found one P2 documentation issue; the
+missing hashes and separated Mac command blocks were restored on the final
+head, and the review thread was resolved. No second exact-head Codex review
+summary was observed. The active ruleset `25910947` required zero approvals
+and resolved threads. No quota error was reported; merge bypass was not used.
+This documentation-only PR records English/Hungarian file separation and
+changes no runtime behavior or hardware/audio acceptance.
+
+The previous verified main was PR #281 at `5cc1eba0cadc9abab98457ac824604419ff0f84f`.
 
 
 ## Verified runtime baseline — 2026-11-12

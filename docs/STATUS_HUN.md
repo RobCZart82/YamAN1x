@@ -4,7 +4,11 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Ellenőrzött alap — 2026-11-13
 
-A #281 PR beolvadt az `5cc1eba0cadc9abab98457ac824604419ff0f84f` főági commitba. A PR pontos fején és a főágon is mind az öt platform-, MSan- és MAME-ellenőrzés sikeres volt. A Codex automatikus review-eredmény nem jelent meg; GitHub-review és nyitott szál nem volt. A szabályzat nulla jóváhagyást követelt, kvótahibát nem jeleztek, megkerülés nem történt.
+A #282 PR a `d87d70c00b732e7161a720ec7104f3bc06eb9c07` pontos fejéről beolvadt az `e718062c9989bca1d0cf4447df9b4c83ed5324b5` főági commitba. A PR-fej és a pontos főági commit mind az öt ellenőrzése sikeres volt: Linux, macOS, Windows, MSan és MAME-kutatási build.
+
+A Codex korábbi PR-fejen egy P2 dokumentációs hibát jelzett; a hash-értékek és Mac-parancsblokkok javítása után a review-szálat lezárták. Új, végleges-fejre vonatkozó Codex-review összefoglaló nem jelent meg. A `25910947` aktív szabályzat nulla jóváhagyást és lezárt review-szálakat követelt. Kvótahibát nem jeleztek, a beolvasztás megkerülés nélkül történt. A dokumentáció nyelvi szétválasztása nem változtatott futási vagy hangelfogadási működést.
+
+A korábbi ellenőrzött alap a #281 `5cc1eba0cadc9abab98457ac824604419ff0f84f` commitja volt.
 
 A forrásleltár 138 CTest-csoportot és 127 Python-esetet tartalmaz. A helyi firmware-próba 500 millió ciklusra és 100 millió callbackre korlátozott, csak olvas, és a nem támogatott MMIO-hozzáférésnél leáll. Négy legutóbbi futás elérte a cikluskorlátot hozzáférési hiba nélkül. A VOP3 hangminta-feldolgozás minden futásnál nulla maradt; `audio_accepted` hamis. Ez nem teljes boot és nem hangelfogadás.
 

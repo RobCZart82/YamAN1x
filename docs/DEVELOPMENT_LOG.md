@@ -2,6 +2,26 @@
 
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## PR #282 merge verification — 2026-11-13
+
+PR [#282](https://github.com/RobCZart82/YamAN1x/pull/282) merged at
+2026-11-13T22:27:37Z by squash from exact head
+`d87d70c00b732e7161a720ec7104f3bc06eb9c07` to main
+`e718062c9989bca1d0cf4447df9b4c83ed5324b5`. All five PR-head checks passed
+(jobs `132196541298`, `132196541229`, `132196541079`, `132196395753`,
+`132196540771`); all five exact-main checks passed (`132209724108`,
+`132209724497`, `132209724505`, `132209723644`, `132209723823`).
+
+Codex review on earlier head `a8216d5c69c3fc820ad907840dd52e63c93bddc0`
+reported P2 finding `4569089709` about missing digest values and command
+blocks separated from the Mac handoff. The final head restores the labeled
+hashes and keeps the language-neutral command blocks with the Hungarian
+explanation. The review thread was resolved. No second exact-head Codex review
+summary was observed. Ruleset `25910947` required zero approvals and resolved
+threads; no quota error was observed and no merge bypass was used. This PR
+only separates English and Hungarian documentation and adds no runtime or
+hardware/audio acceptance.
+
 ## PR #281 merge verification — 2026-11-13
 
 PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at

@@ -6,9 +6,13 @@ A repository dokumentációja nyelvenként külön fájlban van: az angol dokume
 
 ## Jelenlegi fejlesztési állapot — 2026-11-13
 
-A főág ellenőrzött commitja `5cc1eba0cadc9abab98457ac824604419ff0f84f` (#281). Az ellenőrzött firmware-próba legfeljebb 500 millió CPU-ciklust és 100 millió callbacket enged; a próba korlátos, csak olvasható, és a nem támogatott hozzáféréseknél leáll. Négy diagnosztikai futás elérte a cikluskorlátot hozzáférési hiba nélkül. Mindegyikben nulla maradt a VOP3 hangmintafeldolgozása, és `audio_accepted` hamis volt. Ez szintetikus firmware-előrelépés, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás.
+A főág ellenőrzött commitja `e718062c9989bca1d0cf4447df9b4c83ed5324b5` (#282). A PR és a pontos főági commit mind az öt ellenőrzése sikeres volt: Linux, macOS, Windows, MSan és MAME-kutatási build.
 
-A #281 pontos PR-fejének öt ellenőrzése sikeres volt. A Codex-automatikus review eredmény nem jelent meg; GitHub-review-objektum és nyitott review-szál sem volt. Az aktív szabályzat nulla jóváhagyást követelt. A merge `5cc1eba0cadc9abab98457ac824604419ff0f84f` commitban történt, megkerülés nélkül. A főág Linux, macOS, Windows, MSan és MAME ellenőrzései is sikeresek.
+A Codex korábbi PR-fejen egy P2 dokumentációs hibát talált: hiányzó hash-értékeket és a Mac-átadási útmutatótól elszakadt parancsblokkokat. Ezek a végleges `d87d70c` PR-fejen javítva lettek, a review-szálat lezárták. Új, végleges-fejre vonatkozó Codex-review összefoglaló nem jelent meg. Az aktív szabályzat nulla jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, megkerülés nem történt.
+
+A #282 kizárólag az angol és magyar dokumentumok külön fájlokba rendezését és a nyilvántartás egyeztetését tartalmazta; futási vagy hangelfogadási viselkedést nem módosított. Az előző ellenőrzött főági állapot a #281 `5cc1eba0cadc9abab98457ac824604419ff0f84f` commitja volt.
+
+Az ellenőrzött firmware-próba legfeljebb 500 millió CPU-ciklust és 100 millió callbacket enged; a próba korlátos, csak olvasható, és a nem támogatott hozzáféréseknél leáll. Négy diagnosztikai futás elérte a cikluskorlátot hozzáférési hiba nélkül. Mindegyikben nulla maradt a VOP3 hangmintafeldolgozása, és `audio_accepted` hamis volt. Ez szintetikus firmware-előrelépés, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás.
 
 Az AN1x 1.04 ROM SHA-256 azonosítója `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; a fájl nem változott és nincs a repóban. A zárolt MAME-forrás commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`; ehhez a legutóbbi lépéshez nem készült új MAME-fordítás vagy futtatás.
 
