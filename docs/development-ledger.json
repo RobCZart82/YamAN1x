@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
+  "baseline_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
   "entries": [
     {
       "pr": 6,
@@ -5938,24 +5938,87 @@
       },
       "acceptance": "constrained synthetic diagnostic only; no hardware agreement, full boot, MIDI, audio or REAPER acceptance",
       "documentation_validation": "Merged candidate reconciled from pending to verified baseline. Exact PR-head and exact-main Linux/macOS/Windows, initial-decode MSan and MAME research checks passed. Four local bounded read-only AN1x 1.04 diagnostics reached 600,000,000 cycles without access faults; full CTest 138/138 passed. UTF-8, 616 local Markdown targets, ledger uniqueness/ancestry, repository audit and git diff --check passed. ROM remained unchanged/outside Git; no new local MAME build/run. No hardware/full-boot/MIDI/audio/REAPER acceptance."
+    },
+    {
+      "pr": 287,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/287",
+      "title": "docs: reconcile PR 286 current main",
+      "branch": "docs/reconcile-pr286-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
+      "head_commit": "6ebf0262c056d2fecaf68216c419c3a0a2f3ee42",
+      "merge_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
+      "merged_at_utc": "2026-11-14T06:39:15Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43563617346,
+        "initial_decode_msan_run": 43563617365,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43567393627,
+        "initial_decode_msan_run": 43567393625,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings in issue comment 6872683772; GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+      "scope": "Documentation-only reconciliation of PR #286 merge evidence and current main baseline; no runtime behavior.",
+      "acceptance": "No full boot, hardware, MIDI, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [
     {
-      "branch": "docs/reconcile-pr286-current-main",
+      "branch": "research/pks-39a4-input-word",
       "status": "candidate",
-      "base_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
-      "scope": "Reconcile merged PR #286 in the English and Hungarian summaries, development log, roadmap and structured ledger; keep each document in one language and record the next bounded PKS source-path step.",
+      "base_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
+      "scope": "Extend the bounded read-only PKS operand observer to aligned word 2349EA and add an independent caller-input timing-window audit with synthetic tests; record two fresh pinned-MAME probes in separate English/Hungarian summaries. No protocol or causal interpretation.",
       "local_validation": {
-        "github_state": "PR #286 is merged. Exact-head and exact-main Linux/macOS/Windows, initial-decode MSan and MAME research checks passed. No PR was open when this documentation candidate was prepared.",
-        "repository_audit": "pass (693 files, 201 upstream identities, no problems)",
-        "touched_markdown": "8 files valid UTF-8; 146 local Markdown links resolve; no missing targets",
-        "language_separation": "pass; selected English docs contain no Hungarian accented prose; Hungarian summaries remain in separate _HUN.md files",
-        "ledger": "278 unique merged PR entries; every recorded merge commit is an ancestor of baseline 23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793; #286 is latest merged entry; candidate remains separate",
-        "diff_check": "pass"
+        "pks_operand_context_tests": "11/11 pass; includes patch hunk application and generated-header identity",
+        "pks_caller_input_tests": "4/4 pass",
+        "pks_source_context_tests": "14/14 pass",
+        "optimized_pks_caller_input_tests": "4/4 pass under python -O",
+        "cpp_observer_trace": "pass",
+        "mame_build": "pass; pinned source commit 706dbb73281320c54d7c2f16262c1c3786f2be01",
+        "fresh_read_only_probes": "2 x 9 seconds; identical ROM identity and matching 26 non-trace manifest fields",
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
+        "ci": "PR #288 initial head a25709f12f47366b2ed9a2ff6b67fa4939ce5735: Linux, macOS, Windows and MSan passed; MAME research failed on a 42-vs-43-line hunk. Head 3b751fc978deca1e336b88ce9161dc8ff90cb6e7: MAME research, Linux, macOS and MSan passed; Windows found the regression test wrote CRLF to its temporary patch. Fixed by writing LF explicitly; targeted local test passes. New head checks pending.",
+        "cmake_release_build": "pass",
+        "ctest": "pass (138/138 groups; 922.77s)",
+        "repository_audit": "pass (695 files, 201 upstream identities; no problems)",
+        "mame_caller_audit": "pass for both runs; 6 transfers/windows, identical 26 non-trace manifest fields",
+        "pinned_source_patch_preflight": "pass after hunk correction (13 patches; 10 prepared files; locked input hashes verified from pinned raw source)"
       },
-      "acceptance": "documentation and ledger reconciliation only; no runtime, firmware, hardware, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local documentation, repository audit, ledger uniqueness/ancestry, and git diff checks pass. No runtime code or tests were changed; remote exact-head CI and review remain pending."
+      "acceptance": "Bounded synthetic research only; timing proximity is not causality or hardware agreement. No complete boot, MIDI, DSP sample, audio or REAPER acceptance.",
+      "documentation_validation": "English and Hungarian summaries remain in separate files; touched Markdown UTF-8/local links, ledger uniqueness/ancestry, repository audit and git diff --check pass. Corrected PR head review and CI remain pending.",
+      "pr": 288,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/288",
+      "initial_pr_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
+      "remote_initial_checks": {
+        "ubuntu_24_04": "passed (run 43573434821, job 132382480155)",
+        "macos_14": "passed (run 43573434821, job 132382479995)",
+        "windows_2025": "passed (run 43573434821, job 132382480170)",
+        "initial_decode_msan": "passed (run 43573434830, job 132382479593)",
+        "mame_research": "failed (run 43573434820, latest job attempt 132384539049); patch hunk declared 42 lines but contains 43; fixed and verified on corrected head"
+      },
+      "automated_review": {
+        "initial_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
+        "status": "completed_with_one_P2_finding",
+        "review_submission": "COMMENTED by chatgpt-codex-connector at 2026-11-14T07:58:37Z",
+        "finding": "review comment 4572409502: patch hunk length 42 omitted final #endif; corrected locally to 43 and added a synthetic git-apply regression test",
+        "quota_error": false,
+        "corrected_head_review": "completed without findings on 3b751fc978deca1e336b88ce9161dc8ff90cb6e7 (summary comment 6874174781; receipt 6874466033); initial P2 thread 4572409502 resolved (thread PRRT_kwDOVYYWIs63bGMK). No quota error.",
+        "latest_head_review": "pending after Windows newline fix"
+      },
+      "remote_corrected_head_checks": {
+        "head": "3b751fc978deca1e336b88ce9161dc8ff90cb6e7",
+        "ubuntu_24_04": "passed (run 43575319843, job 132388177966)",
+        "macos_14": "passed (run 43575319843, job 132388178049)",
+        "windows_2025": "failed (run 43575319843, job 132388177736): build passed; 137/138 CTest passed; yamanix_rom_loader had one test failure because Windows text-mode newline translation converted the temporary patch to CRLF, triggering git apply trailing-whitespace errors",
+        "initial_decode_msan": "passed (run 43575319671, job 132388177371)",
+        "mame_research": "passed (run 43575319856, job 132388177731)"
+      },
+      "windows_newline_fix": "tests/test_pks_operand_context_audit.py now writes the temporary patch using newline=\"\\n\" so Windows text-mode translation cannot introduce CRLF; 11/11 focused tests pass locally on the corrected file"
     }
   ],
   "audit_correction": {

@@ -6,8 +6,8 @@
 
 namespace yamanix {
 
-// Bounded, read-only CPU snapshots around the three RAM word bases found in
-// the passive PKS operand investigation. This records observations only.
+// Bounded, read-only CPU snapshots around observed RAM word bases and one
+// statically identified caller input word. This records observations only.
 class PksOperandContextTrace {
 public:
     static constexpr uint64_t capacity = 4096;
@@ -21,7 +21,8 @@ public:
                  uint32_t pc, uint64_t time_ns, const Registers &er,
                  uint8_t ccr, Emit emit) {
         if ((op != 'R' && op != 'W') ||
-            (address != 0x237202 && address != 0x237204 && address != 0x2349e8))
+            (address != 0x237202 && address != 0x237204 &&
+             address != 0x2349e8 && address != 0x2349ea))
             return;
 
         const uint64_t seq = m_events++;

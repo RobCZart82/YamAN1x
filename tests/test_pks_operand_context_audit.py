@@ -50,15 +50,38 @@ class PksOperandContextAuditTests(unittest.TestCase):
         self.assertEqual(embedded, (root / "src/pks_operand_context_trace.h").read_text())
         self.assertIn("install_read_tap(0x2349e8, 0x237205", patch)
         self.assertIn("install_write_tap(0x2349e8, 0x237205", patch)
+        helper_patch = "--- /dev/null\n" + patch.split("--- /dev/null\n", 1)[1]
+        with tempfile.TemporaryDirectory() as temporary:
+            patch_path = Path(temporary) / "helper.patch"
+            with patch_path.open("w", encoding="utf-8", newline="\n") as stream:
+                stream.write(helper_patch)
+            result = subprocess.run(
+                ["git", "apply", "--unsafe-paths", "--whitespace=error", str(patch_path)],
+                cwd=temporary, capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            applied = Path(temporary, "src/mame/yamaha/yamanix_pks_operand_context_trace.h")
+            self.assertEqual(applied.read_text(encoding="utf-8"), embedded)
 
     def test_parses_ordered_register_snapshots_and_per_address_counts(self):
         result = parse_pks_operand_context([
-            *capture([event(0, 10), event(1, 10, address="2349e8", op="W")]),
+            *capture([event(0, 10), event(1, 10, address="2349ea", op="R"),
+                      event(2, 10, address="2349e8", op="W")]),
             "YAMANIX DSP_END events=0 dropped=0"])
         self.assertEqual(result["counts"]["237204"]["R"], 1)
+        self.assertEqual(result["counts"]["2349ea"]["R"], 1)
         self.assertEqual(result["counts"]["2349e8"]["W"], 1)
         self.assertEqual(result["events"][0]["er"], list(range(8)))
         self.assertFalse(result["hardware_validated"])
+
+    def test_static_caller_input_word_is_selected_without_neighbor_alias(self):
+        result = parse_pks_operand_context(capture([
+            event(0, 10, address="2349ea", op="R", data="12ab", mask="00ff")]))
+        self.assertEqual(result["events"][0]["address"], 0x2349EA)
+        self.assertEqual(result["events"][0]["data"], 0x12AB)
+        self.assertEqual(result["counts"]["2349ea"]["R"], 1)
+        broken = capture([event(0, 10, address="2349e9")])
+        with self.assertRaisesRegex(ValueError, "outside observer contract"):
+            parse_pks_operand_context(broken)
 
     def test_legacy_capture_has_no_observer_section(self):
         self.assertIsNone(parse_pks_operand_context(["YAMANIX PC tick=0 pc=000000"]))

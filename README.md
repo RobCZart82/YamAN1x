@@ -13,28 +13,43 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #286 — 2026-11-14
+## Current verified main — PR #287 — 2026-11-14
 
-PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged by squash at
-2026-11-14T04:59:45Z from exact head
-`e4275149ab59aa16ef248dd093a57619374b913c` to main
-`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. Linux, macOS, Windows, MSan and
-MAME research checks passed on the PR head (jobs `132327910312`,
-`132327910121`, `132327910358`, `132327911265`, `132327910017`) and exact main
-(jobs `132339274917`, `132339274797`, `132339274953`, `132339274742`,
-`132339274608`). Codex review completed without findings on the exact PR head
-(comment `6871541719`); GitHub review objects and inline review comments were
-zero. Active ruleset `25910947` required zero approvals and resolved threads.
-No quota error was reported and no merge bypass was used.
+PR [#287](https://github.com/RobCZart82/YamAN1x/pull/287) merged by squash at
+2026-11-14T06:39:15Z from exact head
+`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42` to main
+`dd988f6c9aa2fc147b9f0022f188202f722aa844`. Linux, macOS, Windows and MSan
+checks passed on the PR head (ROM-free CI run `43563617346`, MSan run
+`43563617365`) and exact main (ROM-free CI run `43567393627`, MSan run
+`43567393625`). MAME research was path-filtered for this documentation-only
+change. Codex review completed without findings on the exact PR head (comment
+`6872683772`); GitHub review submissions, inline review comments and threads
+were zero. Active ruleset `25910947` required zero approvals and resolved
+threads. No quota error was reported and no merge bypass was used.
 
-The bounded probe's finite ceilings are now 600,000,000 cycles and
-125,000,000 callbacks; the slice ceiling remains 1,000,000. Four fresh,
-read-only AN1x 1.04 diagnostics reached the cycle cap without access faults.
-This is constrained synthetic progress only: full boot, hardware agreement,
-MIDI, audio and REAPER acceptance remain open. The unchanged ROM remains
-outside Git. The MAME source is pinned at
-`706dbb73281320c54d7c2f16262c1c3786f2be01`; no new local MAME build/run was
-made for this probe increment.
+PR #287 reconciled the #286 merge record and the current main. The source-only
+build remains at 138 CTest groups and 127 Python cases. Full boot, hardware
+agreement, MIDI, audio and REAPER acceptance remain open. The ROM remains
+unchanged and outside Git. MAME remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+## PKS caller-input timing windows — local candidate — 2026-11-14
+
+A bounded read-only observer now records the statically identified aligned
+word `2349EA` in addition to the previously observed bases. Two fresh
+nine-second passive/default-input probes on the pinned MAME source each
+captured six `39AC` source-buffer writes. The `2349EA` read at post-fetch PC
+`002A08` returned `4000/FF00` (`40` in the selected high byte) and preceded
+the first three writes by 12,625, 20,125 and 27,625 ns; their byte values were
+`E0 00 20`. The `237204` aligned-word read at post-fetch PC `001FD8` returned
+`FF00/00FF` (selected low byte `00`) and preceded the next writes by 10,375,
+17,875 and 25,375 ns; their values were `E0 00 00`. CCR snapshots are retained
+as raw evidence without interpretation. Both run manifests matched on 26
+non-trace fields. These timing windows do not establish causality, data meaning,
+hardware agreement, complete boot, MIDI, DSP samples, audio or REAPER
+acceptance. The ROM was unchanged and outside Git. The next candidate step is
+to trace the upstream instruction/value path and independently recheck address,
+value, lane, flags, timing and continuation.
 
 ## Verified runtime baseline — 2026-11-12
 

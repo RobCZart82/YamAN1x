@@ -4,6 +4,43 @@ This English document no longer mixes Hungarian passages into its text. The orig
 
 # Bounded PKS payload path observations
 
+## Static caller-input timing windows — local candidate — 2026-11-14
+
+The bounded operand-context observer now includes aligned word base `2349EA`,
+which contains the second statically identified input byte location. Its
+read-only bus capture does not alter returned data. The MAME patch uses the
+same already bounded RAM tap; the observer filters and records the additional
+word alongside the existing three bases. Independent Python and C++ tests
+cover exact-address selection, byte lanes, values, CCR preservation, bounds and
+overflow behavior.
+
+Two fresh nine-second passive/default-input runs used the pinned MAME source
+`706dbb73281320c54d7c2f16262c1c3786f2be01`, the same instrumented executable
+(SHA-256 `1baf5b5a76475d6d826b9e42bd062ee1b5559daf834ae2ab8d20c1a3d6ba2e3f`),
+and unchanged AN1x 1.04 ROM identity SHA-256
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`. Both
+runs returned 0, recorded 58,269 trace lines and 109 PC samples, and matched on
+26 non-trace manifest fields. The source-context auditor independently matched
+six source-buffer-to-payload transfers in each run with no trace loss.
+
+For the first three `0039AC` writer events, the nearest preceding observed
+`2349EA` read at post-fetch PC `002A08` had word `4000`, mask `FF00`, selected
+byte `40`, and CCR `84`. It preceded the three writes by 12,625, 20,125 and
+27,625 ns; the observed writer bytes were `E0 00 20`. For the next three
+writer events, the `237204` read (the low-byte address `237205`) at post-fetch
+PC `001FD8` had word `FF00`, mask `00FF`, selected byte `00`, and CCR `80`. It
+preceded those writes by 10,375, 17,875 and 25,375 ns; the observed writer
+bytes were `E0 00 00`. Writer CCR snapshots were retained as data and not
+interpreted.
+
+A new independent audit requires the exact read/write addresses and lanes, the
+selected bus byte values, the bounded preceding-time windows, complete ordered
+three-byte writer groups, monotonic continuation, and lossless observer
+footers. Its report explicitly limits the result to temporal proximity; it
+makes no causal or semantic claim. The ROM was not modified or added to Git.
+No hardware, complete boot, MIDI, DSP-sample, audio or REAPER acceptance is
+implied.
+
 ## Source-writer R1L cross-check — candidate — 2026-11-11
 
 The existing independent source-context audit now checks the copied writer

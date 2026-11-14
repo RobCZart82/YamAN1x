@@ -1,31 +1,46 @@
 # Development roadmap
 
-## Current verified main — PR #286 — 2026-11-14
+## Current verified main — PR #287 — 2026-11-14
 
-PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged at
-2026-11-14T04:59:45Z from exact head
-`e4275149ab59aa16ef248dd093a57619374b913c` to main
-`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. Linux, macOS, Windows, MSan and
-MAME research checks passed on both exact revisions. Codex review completed
-without findings (comment `6871541719`); GitHub review objects and inline
-comments were zero. Ruleset `25910947` required zero approvals and resolved
-threads; no quota error or bypass occurred.
+PR [#287](https://github.com/RobCZart82/YamAN1x/pull/287) merged by squash at
+2026-11-14T06:39:15Z from exact head
+`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42` to main
+`dd988f6c9aa2fc147b9f0022f188202f722aa844`. Linux, macOS, Windows and MSan
+checks passed on the PR head (ROM-free CI run `43563617346`, MSan run
+`43563617365`) and exact main (ROM-free CI run `43567393627`, MSan run
+`43567393625`). MAME research was path-filtered for this documentation-only
+change. Codex review completed without findings on the exact PR head (comment
+`6872683772`); GitHub review submissions, inline review comments and threads
+were zero. Active ruleset `25910947` required zero approvals and resolved
+threads. No quota error was reported and no merge bypass was used.
 
-## Current bounded firmware probe — merged in PR #286 — 2026-11-14
+PR #287 reconciled the #286 merge record and the current main. The source-only
+build remains at 138 CTest groups and 127 Python cases. Full boot, hardware
+agreement, MIDI, audio and REAPER acceptance remain open. The ROM remains
+unchanged and outside Git. MAME remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+## Current bounded PKS trace candidate — 2026-11-14
 
-The finite ceilings are 600,000,000 cycles and 125,000,000 callbacks, with a
-1,000,000-cycle slice limit and fail-stop behavior. Four fresh read-only AN1x
-1.04 runs reached the cycle ceiling without access faults. Scan deadlines were
-invariant across slice sizes; callback totals varied with slice size. All runs
-reported VOP3 sample passes `[0,0]`, `audio_accepted:false` and
-`firmware_boot_accepted:false`. This is constrained synthetic progress, not
-hardware, full boot, MIDI, audio or REAPER acceptance. The unchanged ROM stays
-outside Git; MAME remains pinned at
-`706dbb73281320c54d7c2f16262c1c3786f2be01`, with no new local build/run.
+A read-only extension now observes the aligned word base `2349EA`, the second
+static caller-input location already identified in the trace notes. Two fresh
+nine-second passive/default-input runs on the pinned MAME source captured six
+`39AC` source-buffer byte writes. In each run, the `2349EA` high-byte read at
+post-fetch PC `002A08` preceded the first three writes by 12,625 ns; the selected
+byte was `40` from bus word `4000/FF00`. The `237205` low-byte read (aligned
+word base `237204`) at post-fetch PC `001FD8` preceded the next three writes
+by 10,375 ns; the selected byte was `00` from `FF00/00FF`. The respective
+writer-byte sequences were `E0 00 20` and `E0 00 00`, with monotonically
+advancing timestamps. Both run manifests matched on 26 non-trace fields.
 
-Next: trace the input to the `39A4` writer and its callers, with independent
-value, address, flag, timing and continuation checks. The trace remains
-observational and must make no PKS semantic claim.
+These are bounded temporal windows, not proof that either read caused or
+computed a writer value. CCR is recorded without interpretation. The ROM hash
+is unchanged and outside Git; no complete boot, hardware agreement, MIDI, DSP
+sample or audio acceptance is claimed. See [PKS payload path notes](pks-payload-path.md).
+
+Next: trace the instruction/value path feeding these observed caller windows,
+then rerun a bounded profile with the independent address, value, flags, timing
+and continuation audit. Keep all PKS semantics unclaimed until supported by
+separate evidence.
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
