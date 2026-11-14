@@ -13,7 +13,7 @@ EVENT = re.compile(
     r"er0=([0-9a-f]{8}) er1=([0-9a-f]{8}) er2=([0-9a-f]{8}) er3=([0-9a-f]{8}) "
     r"er4=([0-9a-f]{8}) er5=([0-9a-f]{8}) er6=([0-9a-f]{8}) er7=([0-9a-f]{8})$")
 END = re.compile(r"PKS_CONTEXT_END events=(\d+) dropped=(\d+) hardware_validated=0$")
-ADDRESSES = (0x2349E8, 0x237202, 0x237204)
+ADDRESSES = (0x2349E8, 0x2349EA, 0x237202, 0x237204)
 
 
 def parse_pks_operand_context(lines):
@@ -66,7 +66,7 @@ def parse_pks_operand_context(lines):
     for event in events:
         counts[f"{event['address']:06x}"][event["op"]] += 1
     return dict(events=events, counts=counts, complete=True, hardware_validated=False,
-                note="Bounded CPU register/CCR snapshots at three observed RAM word bases; no data meaning or hardware agreement established.")
+                note="Bounded CPU register/CCR snapshots at three observed RAM word bases and one static caller-input word; no data meaning or hardware agreement established.")
 
 
 MANIFEST_TYPES = {

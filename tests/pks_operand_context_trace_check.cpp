@@ -24,19 +24,23 @@ int main() {
                        0x50000004, 0x60000005, 0x70000006, 0x80000007};
     trace.observe('R', 0x237204, 0x1234, 0x00ff, 0x001fd8, 900, er, 0x80, emit);
     trace.observe('W', 0x2349e8, 0xabcd, 0xffff, 0x002008, 1200, er, 0x05, emit);
-    check(events.size() == 2, "Selected RAM context events were not emitted");
-    if (events.size() == 2) {
+    trace.observe('R', 0x2349ea, 0x12ab, 0x00ff, 0x00296e, 1300, er, 0x21, emit);
+    check(events.size() == 3, "Selected RAM context events were not emitted");
+    if (events.size() == 3) {
         check(events[0] == Event{0, 'R', 0x237204, 0x1234, 0x00ff,
                                   0x001fd8, 900, er, 0x80},
               "Read snapshot lost address, lane, PC, time, registers or CCR");
         check(events[1] == Event{1, 'W', 0x2349e8, 0xabcd, 0xffff,
                                   0x002008, 1200, er, 0x05},
               "Write snapshot or sequence order mismatch");
+        check(events[2] == Event{2, 'R', 0x2349ea, 0x12ab, 0x00ff,
+                                  0x00296e, 1300, er, 0x21},
+              "Caller input snapshot lost address, lane, PC, time, registers or CCR");
     }
     trace.observe('X', 0x237202, 0, 0xffff, 0, 0, er, 0, emit);
     trace.observe('R', 0x237206, 0, 0xffff, 0, 0, er, 0, emit);
     trace.observe('W', 0x2349e9, 0, 0xffff, 0, 0, er, 0, emit);
-    check(trace.events() == 2, "Invalid op or unselected address was recorded");
+    check(trace.events() == 3, "Invalid op or unselected address was recorded");
 
     uint64_t emitted = 0;
     Trace bounded;

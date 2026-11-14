@@ -2,6 +2,33 @@
 
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## PR #287 merge verification — 2026-11-14
+
+PR [#287](https://github.com/RobCZart82/YamAN1x/pull/287) merged by squash at
+`2026-11-14T06:39:15Z` from exact head
+`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42` to main
+`dd988f6c9aa2fc147b9f0022f188202f722aa844`. ROM-free CI and initial-decode
+MSan passed on the PR head (`43563617346`, `43563617365`) and exact main
+(`43567393627`, `43567393625`). MAME research was path-filtered for this
+documentation-only change. Codex exact-head review completed without findings
+(issue comment `6872683772`); GitHub review submissions, inline comments and
+threads were zero. Active ruleset `25910947` required zero approvals and
+resolved threads. No quota error was reported and no merge bypass was used.
+
+## PKS caller-input timing windows — local candidate — 2026-11-14
+
+Two fresh nine-second passive/default-input probes recorded six `39AC`
+source-buffer byte writes. The `2349EA` read (`4000/FF00`, selected byte `40`,
+post-fetch PC `002A08`) preceded the first three writes by 12,625/20,125/27,625
+ns; values were `E0 00 20`. The `237204` read (`FF00/00FF`, selected byte `00`,
+post-fetch PC `001FD8`) preceded the next writes by 10,375/17,875/25,375 ns;
+values were `E0 00 00`. CCR remains raw evidence only. The two manifests match
+on 26 non-trace fields. These timing windows do not prove causality or data
+meaning and do not establish hardware, boot, MIDI, DSP, audio or REAPER
+acceptance. ROM unchanged/outside Git; pinned MAME source
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. This remains a local candidate,
+not merged work.
+
 ## PR #286 merge verification — 2026-11-14
 
 PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged by squash at

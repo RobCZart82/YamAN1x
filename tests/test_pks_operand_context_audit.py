@@ -53,12 +53,24 @@ class PksOperandContextAuditTests(unittest.TestCase):
 
     def test_parses_ordered_register_snapshots_and_per_address_counts(self):
         result = parse_pks_operand_context([
-            *capture([event(0, 10), event(1, 10, address="2349e8", op="W")]),
+            *capture([event(0, 10), event(1, 10, address="2349ea", op="R"),
+                      event(2, 10, address="2349e8", op="W")]),
             "YAMANIX DSP_END events=0 dropped=0"])
         self.assertEqual(result["counts"]["237204"]["R"], 1)
+        self.assertEqual(result["counts"]["2349ea"]["R"], 1)
         self.assertEqual(result["counts"]["2349e8"]["W"], 1)
         self.assertEqual(result["events"][0]["er"], list(range(8)))
         self.assertFalse(result["hardware_validated"])
+
+    def test_static_caller_input_word_is_selected_without_neighbor_alias(self):
+        result = parse_pks_operand_context(capture([
+            event(0, 10, address="2349ea", op="R", data="12ab", mask="00ff")]))
+        self.assertEqual(result["events"][0]["address"], 0x2349EA)
+        self.assertEqual(result["events"][0]["data"], 0x12AB)
+        self.assertEqual(result["counts"]["2349ea"]["R"], 1)
+        broken = capture([event(0, 10, address="2349e9")])
+        with self.assertRaisesRegex(ValueError, "outside observer contract"):
+            parse_pks_operand_context(broken)
 
     def test_legacy_capture_has_no_observer_section(self):
         self.assertIsNone(parse_pks_operand_context(["YAMANIX PC tick=0 pc=000000"]))

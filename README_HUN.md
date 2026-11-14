@@ -2,30 +2,47 @@
 
 A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt. A cél egy későbbi VST3/AU hangszerbővítmény. A jelenlegi kód kutatási alap: még nem ad AN1x-hangot, nem igazol teljes, hardverhű bootot, és nincs benne kész bővítmény vagy grafikus kezelőfelület.
 
-A az adattár dokumentációja nyelvenként külön fájlban van: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
+Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Jelenlegi ellenőrzött főág — #286 — 2026-11-14
+## Ellenőrzött főági alap — #287 — 2026-11-14
 
-A [#286 PR](https://github.com/RobCZart82/YamAN1x/pull/286) 2026-11-14
-04:59:45 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`e4275149ab59aa16ef248dd093a57619374b913c`, az új főági commit
-`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. A Linux, macOS, Windows, MSan és
-MAME-kutatási ellenőrzések mind a PR-fejen, mind a pontos főági commiton
-sikeresek voltak (PR-fej jobok: `132327910312`, `132327910121`, `132327910358`,
-`132327911265`, `132327910017`; főági jobok: `132339274917`, `132339274797`,
-`132339274953`, `132339274742`, `132339274608`). A Codex pontos PR-fejre
-szóló áttekintése nem talált hibát (`6871541719`); GitHub-review objektum és
-soron belüli megjegyzés nem volt. A `25910947` szabályzat nulla jóváhagyást és
-lezárt review-szálakat követelt. Kvótahibát nem jeleztek, megkerülés nélkül
-történt a beolvasztás.
+A [#287 PR](https://github.com/RobCZart82/YamAN1x/pull/287) 2026-11-14
+06:39:15 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42`, az új főági commit
+`dd988f6c9aa2fc147b9f0022f188202f722aa844`. A Linux, macOS, Windows és MSan
+ellenőrzések sikeresek voltak a PR-fejen (ROM-mentes CI `43563617346`, MSan
+`43563617365`) és a pontos főági commiton (`43567393627`, `43567393625`). A
+MAME-kutatási munkafolyamat a dokumentációs változáson útvonalszűrés miatt nem
+futott. A Codex pontos PR-fejre szóló áttekintése nem talált hibát
+(`6872683772`); GitHub-review beküldés, soron belüli megjegyzés és nyitott
+review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt
+review-szálakat követelt. Kvótahibát nem jeleztek, megkerülés nélkül történt a
+beolvasztás.
 
-A korlátozott firmware-próba felső határa 600 millió ciklus és 125 millió
-visszahívás; egy szelet legfeljebb 1 millió ciklus. Négy friss, csak olvasó AN1x
-1.04 futás hozzáférési hiba nélkül érte el a ciklushatárt. Ez szintetikus
-részprofil, nem teljes indulási , hardver-, MIDI-, hang- vagy REAPER-elfogadás. A
-változatlan ROM a repositoryn kívül maradt; a MAME forrás rögzített commitja
-`706dbb73281320c54d7c2f16262c1c3786f2be01`; ehhez a lépéshez új helyi MAME
-összeállítás/futtatás nem készült.
+A #287 a #286 beolvadási adatait és az aktuális főági alapot egyeztette. A
+forráskódos összeállítás 138 CTest-csoportot és 127 Python-esetet tartalmaz. A
+teljes indulás, hardveregyezés, MIDI, hang és REAPER-elfogadás továbbra sincs
+igazolva. A ROM változatlan és a repositoryn kívül maradt. A MAME forrás rögzített
+commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+## PKS-bemeneti időablakok — helyi jelölt — 2026-11-14
+
+A csak olvasó megfigyelő a korábban látott címek mellett a statikusan
+azonosított, igazított `2349EA` szót is rögzíti. A rögzített MAME-forrással
+két friss, kilenc másodperces, passzív alapbeállítású próba készült; mindkettő
+hat `39AC` forrás-pufferírást fogott meg. A `002A08` utólagos programszámláló-
+értéknél olvasott `2349EA` adat `4000/FF00` volt (kijelölt felső bájt: `40`);
+az első három írást 12 625, 20 125 és 27 625 ns-mal előzte meg. Az írt bájtok
+`E0 00 20` voltak. A `001FD8` utólagos értéknél olvasott `237204` igazított szó
+adata `FF00/00FF` volt (kijelölt alsó bájt: `00`); a következő három írást
+10 375, 17 875 és 25 375 ns-mal előzte meg. Az írt bájtok `E0 00 00` voltak.
+A CCR-pillanatképek nyers adatként maradnak meg, értelmezés nélkül. A két futás
+26 nem trace-jellegű mezője egyezett. Az időbeli közelség nem bizonyít okozati
+kapcsolatot vagy adatjelentést; hardveregyezés, teljes indulás, MIDI, DSP-minta,
+hang és REAPER-elfogadás sincs igazolva. A ROM változatlan maradt, és a Git-en
+kívül van. A következő jelölt lépés a korábbi utasítás/adatérték út követése,
+független cím-, érték-, bájt-lane-, flag-, időzítési és folytathatósági
+ellenőrzéssel.
 
 ## Beolvadt korlátozott firmware-diagnosztika — #286 — 2026-11-14
 
@@ -38,7 +55,7 @@ elérte a ciklushatárt hozzáférési hiba nélkül. Az első AN3-konverzió ci
 esetén `62010`, AN3=1023 esetén `1896`; a visszahívások száma szeletfüggő.
 Mind a négy futásnál nulla VOP3-minta, `audio_accepted:false` és
 `firmware_boot_accepted:false`. Ez szintetikus korlátozott profil, nem
-hardver-, teljes indulási , MIDI-, hang- vagy REAPER-elfogadás. A ROM változatlan
+hardver-, teljes indulási, MIDI-, hang- vagy REAPER-elfogadás. A ROM változatlan
 és a repositoryn kívül maradt; a rögzített MAME forrás nem épült újra és nem
 futott.
 
