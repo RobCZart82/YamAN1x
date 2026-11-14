@@ -6,12 +6,20 @@ A repository dokumentációja nyelvenként külön fájlban van: az angol dokume
 
 ## Jelenlegi fejlesztési állapot — 2026-11-14
 
-A #283 PR pontos feje `3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`; a squash-beolvasztás főági commitja `2ff9f71c61ef8159a6bb815e76e3cd287b183635`, időpontja 2026-11-13 23:45:12 UTC. A Linux, macOS, Windows és MSan ellenőrzések sikeresek voltak mind a PR-fejen, mind a pontos főági commiton. A MAME-kutatási workflow útvonal-szűrés miatt nem futott, mert a csak dokumentációt módosító változás nem érintette a figyelt fájlokat.
+A #284 PR pontos feje `685a822901038c23168ce48e6f6de6ae0c0072d9`; a squash-
+beolvasztás főági commitja `bc5626b983b246d8f12ce78c162001471e274075`,
+időpontja 2026-11-14 01:29:44 UTC. A Linux, macOS, Windows és MSan
+ellenőrzések sikeresek voltak mind a PR-fejen, mind a pontos főági commiton.
+A MAME-kutatási ellenőrzés útvonal-szűrés miatt nem futott, mert a PR csak
+dokumentációt módosított.
 
-A Codex pontos PR-fejre szóló áttekintése nem talált hibát (megjegyzés: `6867237322`); GitHub-review objektum és review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, megkerülés nélkül történt a beolvasztás. A #283 a #282 dokumentációs eredményeit egyeztette; futási vagy hangelfogadási működést nem módosított. Az előző ellenőrzött főági állapot az `e718062c9989bca1d0cf4447df9b4c83ed5324b5` volt.
-
-A #281-ben beolvasztott, csak olvasható firmware-próba felső korlátja 500 millió ciklus és 100 millió callback. Négy futás érte el a cikluskorlátot hozzáférési hiba nélkül; a VOP3 feldolgozott hangmintáinak száma nulla, `audio_accepted` hamis. Ez korlátozott szintetikus diagnosztika, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás. A helyi ROM változatlan és nincs a repositoryban; a MAME referencia rögzített forráscommitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
-
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (megjegyzés:
+`6868780442`); GitHub-review objektumok és review-szálak száma nulla. A
+`25910947` szabályzat nulla jóváhagyást és lezárt review-szálakat követelt.
+Kvótahibát nem jeleztek, megkerülés nélkül történt a beolvasztás. A #284 a
+#283 beolvasztási adatait és a nyelvenként külön dokumentáció aktuális alapját
+egyeztette; futási, hardver- vagy hangelfogadást nem módosított. Előző
+ellenőrzött alap: #283, `2ff9f71c61ef8159a6bb815e76e3cd287b183635`.
 ## Mi van még hátra?
 
 1. A firmware és a H8 perifériák további, bizonyítékokkal alátámasztott integrációja, majd a boot előrehaladásának friss mérése.

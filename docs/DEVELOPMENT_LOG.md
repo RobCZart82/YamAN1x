@@ -2,6 +2,22 @@
 
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## PR #284 merge verification — 2026-11-14
+
+PR [#284](https://github.com/RobCZart82/YamAN1x/pull/284) merged by squash at
+`2026-11-14T01:29:44Z` from exact head
+`685a822901038c23168ce48e6f6de6ae0c0072d9` to main
+`bc5626b983b246d8f12ce78c162001471e274075`. PR-head Linux, macOS, Windows
+and MSan jobs `132268621677`, `132268622285`, `132268622070` and `132268621268`
+passed. Exact-main jobs `132281035972`, `132281035835`, `132281035535` and
+`132281036016` passed. MAME research was path-filtered on both revisions; the
+PR changed documentation only. Codex review completed without findings on the
+exact PR head (comment `6868780442`); GitHub review objects and threads were
+zero. Active ruleset `25910947` required zero approvals and resolved threads.
+No quota error was observed and no merge bypass was used. The PR reconciled
+#283's merge evidence and language-separated current-main summaries; it changed
+no runtime behavior or hardware/audio acceptance.
+
 ## PR #283 merge verification — 2026-11-13
 
 PR [#283](https://github.com/RobCZart82/YamAN1x/pull/283) merged by squash at `2026-11-13T23:45:12Z` from exact head

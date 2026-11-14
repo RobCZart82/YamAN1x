@@ -4,8 +4,14 @@ A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_S
 
 ## Ellenőrzött dokumentációs alap — 2026-11-14
 
-A #283 dokumentációs egyeztetés a `3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764` PR-fejről a `2ff9f71c61ef8159a6bb815e76e3cd287b183635` főági commitba olvadt be. A Linux, macOS, Windows és MSan ellenőrzések mindkét commiton sikeresek voltak; a MAME-kutatási ellenőrzés nem futott az útvonal-szűrés miatt. A Codex a pontos PR-fejet hiba nélkül áttekintette (`6867237322`); nem volt GitHub-review objektum vagy review-szál, a szabályzat nulla jóváhagyást és lezárt szálakat követelt. A módosítás csak a nyilvántartásokat egyeztette; a fejlesztési terv és a hangelfogadás nem változott.
-
+A #284 dokumentációs egyeztetés a `685a822901038c23168ce48e6f6de6ae0c0072d9`
+PR-fejről a `bc5626b983b246d8f12ce78c162001471e274075` főági commitba olvadt be
+2026-11-14 01:29:44 UTC-kor. A Linux, macOS, Windows és MSan ellenőrzések
+mindkét pontos commiton sikeresek voltak; a MAME-kutatási ellenőrzés nem futott
+az útvonal-szűrés miatt. A Codex a pontos PR-fejet hiba nélkül áttekintette
+(`6868780442`); GitHub-review objektum vagy szál nem volt, a szabályzat nulla
+jóváhagyást és lezárt szálakat követelt. A módosítás csak a nyilvántartásokat
+egyeztette; a fejlesztési terv és a hangelfogadás nem változott.
 ## Mérföldkövek
 
 1. **Firmware és perifériák:** kis, bizonyítékhoz kötött H8, busz, MMIO és IRQ lépések; minden elfogadott profil után új firmware-futtatás. A konstans bemenetű szintetikus diagnosztika nem hardverkalibráció.
