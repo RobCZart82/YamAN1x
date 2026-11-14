@@ -4,21 +4,34 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Ellenőrzött alap — 2026-11-14
 
-A #284 PR pontos feje `685a822901038c23168ce48e6f6de6ae0c0072d9`; a squash-
-beolvasztás főági commitja `bc5626b983b246d8f12ce78c162001471e274075`,
-időpontja 2026-11-14 01:29:44 UTC. A Linux, macOS, Windows és MSan
+A #285 PR pontos feje `34555e7dac8ed50170900b1fdd122d4507e1a6da`; a squash-
+beolvasztás főági commitja `266345d257d1098df137ffc253a197fa7a874822`,
+időpontja 2026-11-14 02:49:42 UTC. A Linux, macOS, Windows és MSan
 ellenőrzések mindkét pontos commiton sikeresek voltak (PR-fej jobok:
-`132268621677`, `132268622285`, `132268622070`, `132268621268`; főág:
-`132281035972`, `132281035835`, `132281035535`, `132281036016`). A MAME-kutatási
+`132294248573`, `132294248680`, `132294248311`, `132294248304`; főág:
+`132305010072`, `132305009831`, `132305010191`, `132305010038`). A MAME-kutatási
 ellenőrzés dokumentációs módosítás miatt útvonal-szűrés alapján nem futott.
 
-A Codex pontos PR-fejre szóló áttekintése nem talált hibát (`6868780442`);
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (`6869999662`);
 GitHub-review objektum és szál nem volt. A `25910947` szabályzat nulla
 jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, és
-megkerülés nélkül történt a beolvasztás. A #284 csak a #283 beolvasztási
-nyilvántartását és az angol/magyar dokumentumok aktuális alapját egyeztette.
-Az előző ellenőrzött alap a #283 `2ff9f71c61ef8159a6bb815e76e3cd287b183635`
-commitja volt.
+megkerülés nélkül történt a beolvasztás. A #285 csak a #284 beolvasztási
+nyilvántartását egyeztette. Az előző ellenőrzött alap a #284
+`bc5626b983b246d8f12ce78c162001471e274075` commitja volt.
+
+## Korlátozott firmware-diagnosztikai jelölt — 2026-11-14
+
+A következő jelölt a véges próbakeretet 600 millió H8-ciklusra és 125 millió
+callbackre emeli; a szeletmaximum 1 millió marad. Négy friss, csak olvasó AN1x
+1.04 futás (AN3 0/1023, 4096/1 millió ciklusos szeletek) elérte a ciklushatárt
+hozzáférési hiba nélkül. Az első AN3-konverzió ciklusa `95 706 795`, az AN0–AN3
+scan kezdete `95 707 121`, az AN4–AN7 scané `127 793 965`; az időpontok
+mind a négy futásban egyeztek. A végső PC AN3=0 esetén `62010`, AN3=1023
+esetén `1896`; a callback-darabszám szeletfüggő. Mindegyik futásnál nulla
+VOP3-minta, `audio_accepted:false` és `firmware_boot_accepted:false`. Ez
+szintetikus korlátozott profil, nem teljes hardver-, boot-, MIDI-, hang- vagy
+REAPER-elfogadás. A ROM változatlan és a repositoryn kívül maradt.
+
 ## Nyitott elfogadási pontok
 
 - További firmware/MMIO/CPU-IRQ integráció és külön friss diagnosztika.

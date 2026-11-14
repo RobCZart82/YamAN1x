@@ -15,20 +15,20 @@ For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian 
 
 ## Current verified main — 2026-11-14
 
-PR [#284](https://github.com/RobCZart82/YamAN1x/pull/284) merged at
-2026-11-14T01:29:44Z by squash from exact head
-`685a822901038c23168ce48e6f6de6ae0c0072d9` to main
-`bc5626b983b246d8f12ce78c162001471e274075`. Linux, macOS, Windows and MSan
-checks passed on the PR head (jobs `132268621677`, `132268622285`,
-`132268622070`, `132268621268`) and exact main (jobs `132281035972`,
-`132281035835`, `132281035535`, `132281036016`). MAME research was
-path-filtered on both revisions because this documentation-only change did not
+PR [#285](https://github.com/RobCZart82/YamAN1x/pull/285) merged at
+2026-11-14T02:49:42Z by squash from exact head
+`34555e7dac8ed50170900b1fdd122d4507e1a6da` to main
+`266345d257d1098df137ffc253a197fa7a874822`. Linux, macOS, Windows and MSan
+checks passed on the PR head (jobs `132294248573`, `132294248680`,
+`132294248311`, `132294248304`) and exact main (jobs `132305010072`,
+`132305009831`, `132305010191`, `132305010038`). MAME research was
+path-filtered on both revisions because the documentation-only PR did not
 touch its watched paths. Codex review on the exact PR head completed without
-findings (comment `6868780442`); GitHub review objects and threads were zero.
+findings (comment `6869999662`); GitHub review objects and threads were zero.
 Active ruleset `25910947` required zero approvals and resolved threads. No quota
-error was reported and no merge bypass was used. PR #284 reconciled the #283
-merge record and advanced the language-separated current-main summaries; it
-adds no runtime behavior or hardware/audio acceptance.
+error was reported and no merge bypass was used. PR #285 reconciled the #284
+merge record; it adds no runtime behavior or hardware/audio acceptance.
+
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on
@@ -131,28 +131,23 @@ This is synthetic firmware progress only, not hardware agreement, complete
 boot, MIDI, audio or REAPER acceptance. The ROM SHA remains unchanged and
 outside Git; no new MAME build/run was made.
 
-## Longer finite firmware-probe budget — candidate — 2026-11-13
+## 600-million-cycle finite firmware-probe budget — candidate — 2026-11-14
 
-This candidate raises only the explicit boot probe's finite ceilings to
-500,000,000 cycles and 100,000,000 callbacks; the slice ceiling remains
-1,000,000 and fail-stop classifications stay unchanged. Four fresh read-only
-AN1x 1.04 runs (AN3=0/1023 by 4,096/1,000,000-cycle slices) all reached the
-cycle cap without access faults. Peripheral cycles ended at 500,000,000 or
-500,000,002 due to in-flight slice accounting. The AN0–AN3 scan began at
-`95,707,121` (first deadlines `[95707121,95707387,95707643,95707899]`);
-AN4–AN7 began at `127,793,965` (first deadlines
-`[127793965,127794231,127794487,127794743]`), invariant across slice sizes
-for each input. Final PC was `103956` for AN3=0 and `103566` for AN3=1023.
-VOP3 sample passes were `[0,0]` and `audio_accepted` was false in every run.
-Callback totals were 78,563,259/78,320,547 for AN3=0 and
-78,561,448/78,318,718 for AN3=1023 (4,096/1,000,000 slices); those totals are
-slice-dependent and are not treated as invariant. AN3=0/1023 produced scan
-callback totals `[273875,272188,270379,268983,125949,125117,124207,123502]` /
-`[273890,272219,270413,268952,125950,125120,124167,123464]`, respectively.
-The probe remains bounded and fail-stop. This does not establish physical
-control agreement, complete boot, MIDI, audio or REAPER acceptance. ROM SHA
+This candidate raises the explicit boot probe's finite ceilings to 600,000,000
+cycles and 125,000,000 callbacks; the slice ceiling remains 1,000,000. Four
+fresh read-only AN1x 1.04 runs (AN3=0/1023 by 4,096/1,000,000-cycle slices)
+all reached the cycle limit with no access fault. The first AN3 conversion was
+at cycle `95,706,795`; AN0–AN3 scanning began at `95,707,121` with subsequent
+first deadlines `[95707387,95707643,95707899]`, and AN4–AN7 began at
+`127,793,965` with subsequent deadlines `[127794231,127794487,127794743]`.
+These deadlines matched across all four runs. Final PC was `62010` for AN3=0
+and `1896` for AN3=1023. Callback totals ranged from `94,217,090` to
+`94,511,131` and varied by slice size. Each run reported VOP3 sample passes
+`[0,0]`, `audio_accepted:false`, and `firmware_boot_accepted:false`. The probe
+remains bounded and fail-stop. This does not establish physical control
+agreement, complete boot, MIDI, audio or REAPER acceptance. ROM SHA-256
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` is
-unchanged and outside Git; pinned MAME source remains
+unchanged and outside Git; the pinned MAME source remains
 `706dbb73281320c54d7c2f16262c1c3786f2be01`, with no new build/run.
 
 ## Build and test — no ROM required

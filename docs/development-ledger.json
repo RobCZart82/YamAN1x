@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "bc5626b983b246d8f12ce78c162001471e274075",
+  "baseline_commit": "266345d257d1098df137ffc253a197fa7a874822",
   "entries": [
     {
       "pr": 6,
@@ -5862,24 +5862,57 @@
       },
       "review": "Codex exact-head review completed without findings in issue comment 6868780442; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "documentation_validation": "Documentation-only reconciliation; exact PR-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
+    },
+    {
+      "pr": 285,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/285",
+      "title": "docs: reconcile PR 284 current main",
+      "branch": "docs/reconcile-pr284-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "bc5626b983b246d8f12ce78c162001471e274075",
+      "head_commit": "34555e7dac8ed50170900b1fdd122d4507e1a6da",
+      "merge_commit": "266345d257d1098df137ffc253a197fa7a874822",
+      "merged_at_utc": "2026-11-14T02:49:42Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132294248573,
+        "macos_14": 132294248680,
+        "windows_2025": 132294248311,
+        "initial_decode_msan": 132294248304,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "platform_run": 43548413853,
+        "ubuntu_24_04": 132305010072,
+        "macos_14": 132305009831,
+        "windows_2025": 132305010191,
+        "initial_decode_msan_run": 43548413870,
+        "initial_decode_msan": 132305010038,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings in issue comment 6869999662; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+      "documentation_validation": "Documentation-only merge record; exact PR-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
     }
   ],
   "pending_changes": [
     {
-      "branch": "docs/reconcile-pr284-current-main",
+      "branch": "research/firmware-probe-600m-cap",
       "status": "candidate",
-      "base_commit": "bc5626b983b246d8f12ce78c162001471e274075",
-      "scope": "Reconcile PR #284 merge evidence and advance English/Hungarian current-main summaries and structured ledger; preserve language-separated documentation.",
+      "base_commit": "266345d257d1098df137ffc253a197fa7a874822",
+      "scope": "Raise only the finite H8 boot-probe cycle ceiling from 500,000,000 to 600,000,000 and callback ceiling from 100,000,000 to 125,000,000; keep the 1,000,000 slice bound and fail-stop behavior. Record four fresh read-only diagnostics and reconcile PR #285 merge evidence.",
       "local_validation": {
-        "utf8": "pass (all 161 tracked Markdown files)",
-        "markdown_local_targets": "pass (616 relative targets; zero missing)",
-        "language_separation": "pass (updated English and Hungarian summaries remain in separate files; historical Hungarian archive remains separately linked)",
-        "ledger_uniqueness_and_ancestry": "pass (276 unique merged PR entries; baseline bc5626b is candidate ancestor)",
-        "repository_audit": "pass (693 files checked; 201 upstream identities verified; no problems)",
+        "build": "pass (AppleClang 21.0.0.21000334, Release target yamanix_an1x_boot_probe)",
+        "bounded_probe_ctest": "pass (yamanix_an1x_boot_probe)",
+        "ctest": "pass (138/138 groups; 909.27s)",
+        "firmware": "pass (four AN1x 1.04 read-only runs reached 600,000,000-cycle cap; no access faults)",
+        "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
+        "mame_reference": "706dbb73281320c54d7c2f16262c1c3786f2be01; no new build/run",
         "diff_check": "pass"
       },
-      "acceptance": "documentation only; no runtime, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local UTF-8, Markdown target, English/Hungarian separation, ledger uniqueness/ancestry, repository audit and git diff --check pass. Remote exact-head CI/review pending."
+      "acceptance": "constrained synthetic diagnostic only; no hardware agreement, full boot, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Local Release build, 138/138 CTest groups, four bounded read-only firmware runs, UTF-8, 616 local Markdown targets, ledger uniqueness/ancestry, repository audit and git diff --check pass. English and Hungarian summaries remain separate. Remote exact-head CI/review pending."
     }
   ],
   "audit_correction": {
