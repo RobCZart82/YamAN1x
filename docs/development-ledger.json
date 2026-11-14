@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
+  "baseline_commit": "bc5626b983b246d8f12ce78c162001471e274075",
   "entries": [
     {
       "pr": 6,
@@ -5830,24 +5830,56 @@
       },
       "review": "Codex exact-head review completed without findings in issue comment 6867237322; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "documentation_validation": "Documentation-only merge record; exact-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
+    },
+    {
+      "pr": 284,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/284",
+      "title": "docs: record PR 283 merge and current baseline",
+      "branch": "docs/reconcile-pr283-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
+      "head_commit": "685a822901038c23168ce48e6f6de6ae0c0072d9",
+      "merge_commit": "bc5626b983b246d8f12ce78c162001471e274075",
+      "merged_at_utc": "2026-11-14T01:29:44Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132268621677,
+        "macos_14": 132268622285,
+        "windows_2025": 132268622070,
+        "initial_decode_msan": 132268621268,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "platform_run": 43540916657,
+        "ubuntu_24_04": 132281035972,
+        "macos_14": 132281035835,
+        "windows_2025": 132281035535,
+        "initial_decode_msan_run": 43540916697,
+        "initial_decode_msan": 132281036016,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings in issue comment 6868780442; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+      "documentation_validation": "Documentation-only reconciliation; exact PR-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
     }
   ],
   "pending_changes": [
     {
-      "branch": "docs/reconcile-pr283-current-main",
+      "branch": "docs/reconcile-pr284-current-main",
       "status": "candidate",
-      "base_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
-      "scope": "Reconcile PR #283 merge evidence and advance English/Hungarian current-main summaries and structured ledger; preserve language-separated documentation.",
+      "base_commit": "bc5626b983b246d8f12ce78c162001471e274075",
+      "scope": "Reconcile PR #284 merge evidence and advance English/Hungarian current-main summaries and structured ledger; preserve language-separated documentation.",
       "local_validation": {
         "utf8": "pass (all 161 tracked Markdown files)",
-        "markdown_local_targets": "pass (616 relative targets)",
-        "language_scan": "pass (one exact historical filename literal; no mixed-language prose)",
-        "ledger_uniqueness_and_ancestry": "pass (275 unique PR entries; baseline 2ff9f71 is candidate ancestor)",
+        "markdown_local_targets": "pass (616 relative targets; zero missing)",
+        "language_separation": "pass (updated English and Hungarian summaries remain in separate files; historical Hungarian archive remains separately linked)",
+        "ledger_uniqueness_and_ancestry": "pass (276 unique merged PR entries; baseline bc5626b is candidate ancestor)",
         "repository_audit": "pass (693 files checked; 201 upstream identities verified; no problems)",
         "diff_check": "pass"
       },
       "acceptance": "documentation only; no runtime, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local UTF-8, 616 tracked Markdown local targets, language separation, ledger uniqueness/ancestry, repository audit and git diff --check pass. Remote exact-head CI/review pending."
+      "documentation_validation": "Local UTF-8, Markdown target, English/Hungarian separation, ledger uniqueness/ancestry, repository audit and git diff --check pass. Remote exact-head CI/review pending."
     }
   ],
   "audit_correction": {

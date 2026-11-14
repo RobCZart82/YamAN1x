@@ -2,23 +2,22 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — 2026-11-13
+## Current verified main — 2026-11-14
 
-PR [#283](https://github.com/RobCZart82/YamAN1x/pull/283) merged at
-2026-11-13T23:45:12Z by squash from exact head
-`3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764` to main
-`2ff9f71c61ef8159a6bb815e76e3cd287b183635`. Linux, macOS, Windows and MSan
-checks passed on the PR head (`132228693693`, `132228693209`, `132228693598`,
-`132228692316`) and exact main (`132243187258`, `132243186841`, `132243187504`,
-`132243187197`). MAME research was path-filtered because this documentation-only
-change did not touch watched paths. Codex review on the exact PR head completed
-without findings (comment `6867237322`); GitHub review objects and threads were
-zero. Active ruleset `25910947` required zero approvals and resolved threads.
-No quota error was reported and no merge bypass was used. This reconciliation
+PR [#284](https://github.com/RobCZart82/YamAN1x/pull/284) merged at
+2026-11-14T01:29:44Z by squash from exact head
+`685a822901038c23168ce48e6f6de6ae0c0072d9` to main
+`bc5626b983b246d8f12ce78c162001471e274075`. Linux, macOS, Windows and MSan
+checks passed on the PR head (jobs `132268621677`, `132268622285`,
+`132268622070`, `132268621268`) and exact main (jobs `132281035972`,
+`132281035835`, `132281035535`, `132281036016`). MAME research was
+path-filtered on both revisions because this documentation-only change did not
+touch its watched paths. Codex review on the exact PR head completed without
+findings (comment `6868780442`); GitHub review objects and threads were zero.
+Active ruleset `25910947` required zero approvals and resolved threads. No quota
+error was reported and no merge bypass was used. PR #284 reconciled the #283
+merge record and advanced the language-separated current-main summaries; it
 adds no runtime behavior or hardware/audio acceptance.
-
-The previous verified main was PR #282 at `e718062c9989bca1d0cf4447df9b4c83ed5324b5`.
-
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on

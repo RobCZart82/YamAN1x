@@ -1,16 +1,15 @@
-## Current verified main — PR #283 — 2026-11-13
+## Current verified main — PR #284 — 2026-11-14
 
-PR [#283](https://github.com/RobCZart82/YamAN1x/pull/283) merged by squash at
-`2ff9f71c61ef8159a6bb815e76e3cd287b183635` from exact head
-`3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`. Linux, macOS, Windows and MSan
-checks passed on the PR head and exact main; MAME research was path-filtered
-because no watched files changed. Codex
-review on the exact PR head completed without findings (comment `6867237322`);
-GitHub review objects and threads were zero. Ruleset `25910947` required zero
-approvals and resolved threads. No quota error or merge bypass occurred. This
+PR [#284](https://github.com/RobCZart82/YamAN1x/pull/284) merged by squash at
+`bc5626b983b246d8f12ce78c162001471e274075` from exact head
+`685a822901038c23168ce48e6f6de6ae0c0072d9` at 2026-11-14T01:29:44Z. Linux,
+macOS, Windows and MSan checks passed on the PR head and exact main; MAME
+research was path-filtered because no watched files changed. Codex review on
+the exact PR head completed without findings (comment `6868780442`); GitHub
+review objects and threads were zero. Ruleset `25910947` required zero approvals
+and resolved threads. No quota error or merge bypass occurred. This
 documentation reconciliation does not change runtime behavior, the plan or
 hardware/audio acceptance.
-
 # First Reaper Sound Plan
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).

@@ -4,12 +4,21 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Ellenőrzött alap — 2026-11-14
 
-A #283 PR pontos feje `3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`; a squash-beolvasztás főági commitja `2ff9f71c61ef8159a6bb815e76e3cd287b183635`, időpontja 2026-11-13 23:45:12 UTC. A Linux, macOS, Windows és MSan ellenőrzések a PR-fejen és a pontos főági commiton is sikeresek voltak. A MAME-kutatási ellenőrzés nem futott, mert a dokumentációs módosítás nem érintette az útvonal-szűrésben szereplő fájlokat.
+A #284 PR pontos feje `685a822901038c23168ce48e6f6de6ae0c0072d9`; a squash-
+beolvasztás főági commitja `bc5626b983b246d8f12ce78c162001471e274075`,
+időpontja 2026-11-14 01:29:44 UTC. A Linux, macOS, Windows és MSan
+ellenőrzések mindkét pontos commiton sikeresek voltak (PR-fej jobok:
+`132268621677`, `132268622285`, `132268622070`, `132268621268`; főág:
+`132281035972`, `132281035835`, `132281035535`, `132281036016`). A MAME-kutatási
+ellenőrzés dokumentációs módosítás miatt útvonal-szűrés alapján nem futott.
 
-A Codex a pontos PR-fejen nem talált hibát (`6867237322`); GitHub-review objektumok és review-szálak száma nulla. A `25910947` aktív szabályzat nulla jóváhagyást és lezárt szálakat követelt. Kvótahibát nem jeleztek és megkerülés nem történt. A #283 a #282 dokumentációs nyilvántartását egészítette ki; futási, hardver- vagy hangelfogadást nem módosított. Előző ellenőrzött alap: #282, `e718062c9989bca1d0cf4447df9b4c83ed5324b5`.
-
-A #281-ben beolvasztott firmware-próba 500 millió ciklusra és 100 millió callbackre korlátozott. Négy friss futás elérte a cikluskorlátot hozzáférési hiba nélkül; a VOP3 feldolgozott hangmintái minden futásnál nullák, `audio_accepted` hamis. Ez korlátozott, konstans ADC-bemenetű szintetikus profil, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás. A helyi AN1x 1.04 ROM változatlan és a repositoryn kívül maradt; SHA-256: `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
-
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (`6868780442`);
+GitHub-review objektum és szál nem volt. A `25910947` szabályzat nulla
+jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, és
+megkerülés nélkül történt a beolvasztás. A #284 csak a #283 beolvasztási
+nyilvántartását és az angol/magyar dokumentumok aktuális alapját egyeztette.
+Az előző ellenőrzött alap a #283 `2ff9f71c61ef8159a6bb815e76e3cd287b183635`
+commitja volt.
 ## Nyitott elfogadási pontok
 
 - További firmware/MMIO/CPU-IRQ integráció és külön friss diagnosztika.
