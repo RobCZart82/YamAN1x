@@ -50,6 +50,16 @@ class PksOperandContextAuditTests(unittest.TestCase):
         self.assertEqual(embedded, (root / "src/pks_operand_context_trace.h").read_text())
         self.assertIn("install_read_tap(0x2349e8, 0x237205", patch)
         self.assertIn("install_write_tap(0x2349e8, 0x237205", patch)
+        helper_patch = "--- /dev/null\n" + patch.split("--- /dev/null\n", 1)[1]
+        with tempfile.TemporaryDirectory() as temporary:
+            patch_path = Path(temporary) / "helper.patch"
+            patch_path.write_text(helper_patch, encoding="utf-8")
+            result = subprocess.run(
+                ["git", "apply", "--unsafe-paths", "--whitespace=error", str(patch_path)],
+                cwd=temporary, capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            applied = Path(temporary, "src/mame/yamaha/yamanix_pks_operand_context_trace.h")
+            self.assertEqual(applied.read_text(encoding="utf-8"), embedded)
 
     def test_parses_ordered_register_snapshots_and_per_address_counts(self):
         result = parse_pks_operand_context([

@@ -97,7 +97,7 @@
      logerror("YAMANIX MIDI_RX transitions=%llu hardware_validated=0\n", (unsigned long long)m_midi_rx_edges);
 --- /dev/null
 +++ b/src/mame/yamaha/yamanix_pks_operand_context_trace.h
-@@ -0,0 +1,42 @@
+@@ -0,0 +1,43 @@
 +#ifndef YAMANIX_PKS_OPERAND_CONTEXT_TRACE_H
 +#define YAMANIX_PKS_OPERAND_CONTEXT_TRACE_H
 +

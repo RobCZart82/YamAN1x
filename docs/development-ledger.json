@@ -5974,7 +5974,7 @@
       "base_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
       "scope": "Extend the bounded read-only PKS operand observer to aligned word 2349EA and add an independent caller-input timing-window audit with synthetic tests; record two fresh pinned-MAME probes in separate English/Hungarian summaries. No protocol or causal interpretation.",
       "local_validation": {
-        "pks_operand_context_tests": "11/11 pass",
+        "pks_operand_context_tests": "11/11 pass; includes patch hunk application and generated-header identity",
         "pks_caller_input_tests": "4/4 pass",
         "pks_source_context_tests": "14/14 pass",
         "optimized_pks_caller_input_tests": "4/4 pass under python -O",
@@ -5982,14 +5982,33 @@
         "mame_build": "pass; pinned source commit 706dbb73281320c54d7c2f16262c1c3786f2be01",
         "fresh_read_only_probes": "2 x 9 seconds; identical ROM identity and matching 26 non-trace manifest fields",
         "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
-        "ci": "pending; no PR opened yet",
+        "ci": "PR #288 initial head a25709f12f47366b2ed9a2ff6b67fa4939ce5735: Linux, macOS, Windows, and MSan checks passed; MAME research failed on patch hunk length 42 vs 43. Corrected-head checks and review pending.",
         "cmake_release_build": "pass",
         "ctest": "pass (138/138 groups; 922.77s)",
         "repository_audit": "pass (695 files, 201 upstream identities; no problems)",
-        "mame_caller_audit": "pass for both runs; 6 transfers/windows, identical 26 non-trace manifest fields"
+        "mame_caller_audit": "pass for both runs; 6 transfers/windows, identical 26 non-trace manifest fields",
+        "pinned_source_patch_preflight": "pass after hunk correction (13 patches; 10 prepared files; locked input hashes verified from pinned raw source)"
       },
       "acceptance": "Bounded synthetic research only; timing proximity is not causality or hardware agreement. No complete boot, MIDI, DSP sample, audio or REAPER acceptance.",
-      "documentation_validation": "English and Hungarian summaries remain in separate files; touched Markdown UTF-8 and local links pass; ledger uniqueness and merge ancestry pass; repository audit and git diff --check pass. Exact PR/head review and CI remain pending."
+      "documentation_validation": "English and Hungarian summaries remain in separate files; touched Markdown UTF-8/local links, ledger uniqueness/ancestry, repository audit and git diff --check pass. Corrected PR head review and CI remain pending.",
+      "pr": 288,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/288",
+      "initial_pr_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
+      "remote_initial_checks": {
+        "ubuntu_24_04": "passed (run 43573434821, job 132382480155)",
+        "macos_14": "passed (run 43573434821, job 132382479995)",
+        "windows_2025": "passed (run 43573434821, job 132382480170)",
+        "initial_decode_msan": "passed (run 43573434830, job 132382479593)",
+        "mame_research": "failed (run 43573434820, latest job attempt 132384539049); patch hunk declared 42 lines but contains 43; locally corrected and regression-tested; original workflow is terminal"
+      },
+      "automated_review": {
+        "initial_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
+        "status": "completed_with_one_P2_finding",
+        "review_submission": "COMMENTED by chatgpt-codex-connector at 2026-11-14T07:58:37Z",
+        "finding": "review comment 4572409502: patch hunk length 42 omitted final #endif; corrected locally to 43 and added a synthetic git-apply regression test",
+        "quota_error": false,
+        "corrected_head_review": "pending; initial-head P2 finding corrected locally, review thread PRRT_kwDOVYYWIs63bGMK is unresolved until corrected head is pushed and reviewed"
+      }
     }
   ],
   "audit_correction": {
