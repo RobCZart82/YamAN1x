@@ -1,5 +1,36 @@
 # Development Log
 
+## Fresh bounded local firmware observation — 2026-11-14
+
+On main `32234b24a113de57f7d3704114caa9f527eaae8a`, the read-only AN1x 1.04
+probe requested 20,000,000 cycles, a 1,000,000-cycle slice and a 10,000,000
+callback ceiling using the explicit all-zero eight-channel scan and
+`lcd-meg-vop3-idle-panel-experiment-16mhz` profile. It stopped at the cycle
+limit after 3,184,647 callbacks, with no CPU failure or access fault. Final
+peripheral cycle was 20,000,000, PC 247044; MEG controls/status reads 5/1;
+VOP3 writes [11557,516], reads [448,0], sample passes [0,0]; GPIO writes 6329;
+ADC sample counts were all zero. `audio_accepted` and `firmware_boot_accepted`
+were false. ROM SHA-256 before/after was
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the ROM
+was unchanged and outside Git. The pinned MAME source was not rebuilt or run.
+This bounded synthetic-profile progress is not complete boot, hardware, MIDI,
+audio or REAPER acceptance.
+
+## PR #288 merge verification — 2026-11-14
+
+PR [#288](https://github.com/RobCZart82/YamAN1x/pull/288) merged by squash at
+`2026-11-14T09:39:10Z` from exact head
+`7e17723c5fd224811f983cffa6ef71859053b7e2` to main
+`32234b24a113de57f7d3704114caa9f527eaae8a`. PR-head Linux, macOS, Windows,
+MSan and MAME research checks passed (runs `43578348154`, `43578348184`,
+`43578348149`); exact-main checks passed (runs `43581562463`, `43581562524`,
+`43581562384`). Codex exact-head review completed without findings (comment
+`6874898918`); the earlier P2 patch-hunk finding was fixed and its thread
+resolved. Active ruleset `25910947` required zero approvals and resolved
+threads. No quota error was reported and no merge bypass was used. The bounded
+observer and timing audit do not establish causality, data meaning, hardware
+agreement, full boot, MIDI, DSP samples, audio or REAPER acceptance.
+
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
 ## PR #287 merge verification — 2026-11-14

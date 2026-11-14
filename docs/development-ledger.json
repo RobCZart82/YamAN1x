@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
+  "baseline_commit": "32234b24a113de57f7d3704114caa9f527eaae8a",
   "entries": [
     {
       "pr": 6,
@@ -5965,12 +5965,10 @@
       "review": "Codex exact-head review completed without findings in issue comment 6872683772; GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "scope": "Documentation-only reconciliation of PR #286 merge evidence and current main baseline; no runtime behavior.",
       "acceptance": "No full boot, hardware, MIDI, audio or REAPER acceptance."
-    }
-  ],
-  "pending_changes": [
+    },
     {
       "branch": "research/pks-39a4-input-word",
-      "status": "candidate",
+      "status": "merged",
       "base_commit": "dd988f6c9aa2fc147b9f0022f188202f722aa844",
       "scope": "Extend the bounded read-only PKS operand observer to aligned word 2349EA and add an independent caller-input timing-window audit with synthetic tests; record two fresh pinned-MAME probes in separate English/Hungarian summaries. No protocol or causal interpretation.",
       "local_validation": {
@@ -5982,15 +5980,15 @@
         "mame_build": "pass; pinned source commit 706dbb73281320c54d7c2f16262c1c3786f2be01",
         "fresh_read_only_probes": "2 x 9 seconds; identical ROM identity and matching 26 non-trace manifest fields",
         "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
-        "ci": "PR #288 initial head a25709f12f47366b2ed9a2ff6b67fa4939ce5735: Linux, macOS, Windows and MSan passed; MAME research failed on a 42-vs-43-line hunk. Head 3b751fc978deca1e336b88ce9161dc8ff90cb6e7: MAME research, Linux, macOS and MSan passed; Windows found the regression test wrote CRLF to its temporary patch. Fixed by writing LF explicitly; targeted local test passes. New head checks pending.",
+        "ci": "Final PR head 7e17723c5fd224811f983cffa6ef71859053b7e2: Linux, macOS, Windows, MSan and MAME research all passed (runs 43578348154, 43578348184, 43578348149). Exact merge main 32234b24a113de57f7d3704114caa9f527eaae8a: all five checks passed (runs 43581562463, 43581562524, 43581562384). Earlier MAME hunk and Windows newline failures were fixed before merge.",
         "cmake_release_build": "pass",
         "ctest": "pass (138/138 groups; 922.77s)",
         "repository_audit": "pass (695 files, 201 upstream identities; no problems)",
         "mame_caller_audit": "pass for both runs; 6 transfers/windows, identical 26 non-trace manifest fields",
         "pinned_source_patch_preflight": "pass after hunk correction (13 patches; 10 prepared files; locked input hashes verified from pinned raw source)"
       },
-      "acceptance": "Bounded synthetic research only; timing proximity is not causality or hardware agreement. No complete boot, MIDI, DSP sample, audio or REAPER acceptance.",
-      "documentation_validation": "English and Hungarian summaries remain in separate files; touched Markdown UTF-8/local links, ledger uniqueness/ancestry, repository audit and git diff --check pass. Corrected PR head review and CI remain pending.",
+      "acceptance": "Bounded MAME source research only; no causality, hardware agreement, full boot, MIDI, DSP samples, audio or REAPER acceptance.",
+      "documentation_validation": "Merged evidence reconciled in English and separate Hungarian summaries; UTF-8 and local Markdown links pass; ledger has 280 unique merged PRs, zero pending entries, and exact baseline 32234b24a113de57f7d3704114caa9f527eaae8a; repository audit passes (695 files, 201 upstream identities, one reviewed local edit); git diff --check passes.",
       "pr": 288,
       "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/288",
       "initial_pr_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
@@ -6008,7 +6006,7 @@
         "finding": "review comment 4572409502: patch hunk length 42 omitted final #endif; corrected locally to 43 and added a synthetic git-apply regression test",
         "quota_error": false,
         "corrected_head_review": "completed without findings on 3b751fc978deca1e336b88ce9161dc8ff90cb6e7 (summary comment 6874174781; receipt 6874466033); initial P2 thread 4572409502 resolved (thread PRRT_kwDOVYYWIs63bGMK). No quota error.",
-        "latest_head_review": "pending after Windows newline fix"
+        "latest_head_review": "Completed without findings on exact final head 7e17723c5fd224811f983cffa6ef71859053b7e2 (issue comment 6874898918); earlier P2 thread fixed and resolved. No quota error."
       },
       "remote_corrected_head_checks": {
         "head": "3b751fc978deca1e336b88ce9161dc8ff90cb6e7",
@@ -6018,9 +6016,77 @@
         "initial_decode_msan": "passed (run 43575319671, job 132388177371)",
         "mame_research": "passed (run 43575319856, job 132388177731)"
       },
-      "windows_newline_fix": "tests/test_pks_operand_context_audit.py now writes the temporary patch using newline=\"\\n\" so Windows text-mode translation cannot introduce CRLF; 11/11 focused tests pass locally on the corrected file"
+      "windows_newline_fix": "tests/test_pks_operand_context_audit.py now writes the temporary patch using newline=\"\\n\" so Windows text-mode translation cannot introduce CRLF; 11/11 focused tests pass locally on the corrected file",
+      "title": "research: trace PKS caller input timing windows",
+      "kind": "research",
+      "head_commit": "7e17723c5fd224811f983cffa6ef71859053b7e2",
+      "merge_commit": "32234b24a113de57f7d3704114caa9f527eaae8a",
+      "merged_at_utc": "2026-11-14T09:39:10Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": "passed (run 43578348154, job 132397496397)",
+        "macos_14": "passed (run 43578348154, job 132397496524)",
+        "windows_2025": "passed (run 43578348154, job 132397496574)",
+        "initial_decode_msan": "passed (run 43578348184, job 132397496610)",
+        "mame_research": "passed (run 43578348149, job 132397496522)"
+      },
+      "main_checks": {
+        "ubuntu_24_04": "passed (run 43581562463, job 132407201252)",
+        "macos_14": "passed (run 43581562463, job 132407201261)",
+        "windows_2025": "passed (run 43581562463, job 132407201010)",
+        "initial_decode_msan": "passed (run 43581562524, job 132407201260)",
+        "mame_research": "passed (run 43581562384, job 132407201018)"
+      },
+      "review": "Codex exact-head review completed without findings for 7e17723c5fd224811f983cffa6ef71859053b7e2 (issue comment 6874898918). The earlier P2 patch-hunk finding was fixed and its thread resolved. Ruleset 25910947 required zero approvals and resolved threads; no quota error; no bypass.",
+      "post_merge_observation": {
+        "kind": "fresh read-only local bounded firmware probe",
+        "main_commit": "32234b24a113de57f7d3704114caa9f527eaae8a",
+        "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz; swap16; explicit all-zero eight-channel ADC scan",
+        "cycles_requested_and_completed": 20000000,
+        "slice_cycles": 1000000,
+        "callback_limit": 10000000,
+        "callbacks": 3184647,
+        "pc": 247044,
+        "cpu_failed": false,
+        "fault_access": null,
+        "peripheral_cycle": 20000000,
+        "meg_controls_and_status_reads": [
+          5,
+          1
+        ],
+        "vop3_writes": [
+          11557,
+          516
+        ],
+        "vop3_reads": [
+          448,
+          0
+        ],
+        "vop3_sample_passes": [
+          0,
+          0
+        ],
+        "gpio_writes": 6329,
+        "adc_scan_sample_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "firmware_boot_accepted": false,
+        "audio_accepted": false,
+        "rom_sha256_before_and_after": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
+        "mame": "pinned source 706dbb73281320c54d7c2f16262c1c3786f2be01; no new build or run",
+        "acceptance": "bounded synthetic-profile progress only; no full boot, hardware, MIDI, audio or REAPER acceptance"
+      }
     }
   ],
+  "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
@@ -6128,30 +6194,12 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 286,
+    "pr": 288,
     "status": "merged",
-    "head_commit": "e4275149ab59aa16ef248dd093a57619374b913c",
-    "merge_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
-    "merged_at_utc": "2026-11-14T04:59:45Z",
-    "pr_head_checks": {
-      "ubuntu_24_04": 132327910312,
-      "macos_14": 132327910121,
-      "windows_2025": 132327910358,
-      "initial_decode_msan": 132327911265,
-      "mame_research": 132327910017
-    },
-    "main_checks": {
-      "platform_run": 43559326889,
-      "ubuntu_24_04": 132339274917,
-      "macos_14": 132339274797,
-      "windows_2025": 132339274953,
-      "initial_decode_msan_run": 43559326866,
-      "initial_decode_msan": 132339274742,
-      "mame_research_run": 43559326848,
-      "mame_research": 132339274608
-    },
-    "review": "Codex exact-head review completed without findings in issue comment 6871541719 for commit e4275149ab59aa16ef248dd093a57619374b913c; GitHub review objects and inline comments were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+    "head_commit": "7e17723c5fd224811f983cffa6ef71859053b7e2",
+    "merge_commit": "32234b24a113de57f7d3704114caa9f527eaae8a",
+    "merged_at_utc": "2026-11-14T09:39:10Z",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "The 600M-cycle bounded firmware-probe candidate is now recorded as merged; current main and English/Hungarian summaries are reconciled. The next planned engineering work follows the PKS writer inputs and caller path."
+    "documentation_reconciliation": "PR #288 is reconciled as merged and the exact-main baseline is current. A new 20M-cycle read-only local firmware observation is recorded separately as bounded progress only."
   }
 }
