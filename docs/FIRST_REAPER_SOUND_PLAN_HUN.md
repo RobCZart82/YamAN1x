@@ -2,25 +2,25 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #295 — 2026-11-14
+## Ellenőrzött főági alap — #296 — 2026-11-14
 
-A [#295 PR](https://github.com/RobCZart82/YamAN1x/pull/295)
-2026-11-14 21:15:03 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`a0cbae87325c82e7e9be24268ea08cc7bb876a51`, az új főági commit
-`8c381c28bbf8309805c0ccf505576479293142aa`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43638354484`), az
-initial-decode MSan is sikerült (`43638354354`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43641803770`), valamint az
-initial-decode MSan (`43641803654`) is sikeresek. Az Ubuntu-feladat
+A [#296 PR](https://github.com/RobCZart82/YamAN1x/pull/296)
+2026-11-14 22:15:04 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`09d7e18245359e553f714748219e992b0fadb133`, az új főági commit
+`b3614d215370b21ea6c1362c3f4d82bfa98e0720`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43643775433`), az
+initial-decode MSan is sikerült (`43643775493`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43647092117`), valamint az
+initial-decode MSan (`43647092060`) is sikeresek. Az Ubuntu-feladat
 kiterjesztett UBSan/ASan ellenőrzései is sikeresek. A MAME-kutatási
 munkafolyamat útvonal alapján nem futott, mert ez csak dokumentációs módosítás
 volt.
 
 A Codex pontos PR-fejre szóló áttekintése nem talált hibát (összefoglaló:
-`6883838638`, nyugta: `6883854401`). GitHub review-beküldés, beágyazott review-
+`6884575926`, nyugta: `6884591152`). GitHub review-beküldés, beágyazott review-
 megjegyzés és review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást
-és lezárt szálakat követelt; nem volt kvótahiba vagy megkerülés. A #295
-kizárólag a #294 beolvadási adatait és az aktuális főági alapot egyeztette; nem
+és lezárt szálakat követelt; nem volt kvótahiba vagy megkerülés. A #296
+kizárólag a #295 beolvadási adatait és az aktuális főági alapot egyeztette; nem
 változtatott a működésen és nem igazol hardver-, boot-, MIDI-, DSP-, hang- vagy
 REAPER-elfogadást.
 

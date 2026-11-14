@@ -1,5 +1,23 @@
 # Development Log
 
+## PR #296 merge verification — 2026-11-14
+
+PR [#296](https://github.com/RobCZart82/YamAN1x/pull/296) merged by squash at
+`2026-11-14T22:15:04Z` from exact head
+`09d7e18245359e553f714748219e992b0fadb133` to main
+`b3614d215370b21ea6c1362c3f4d82bfa98e0720`. PR-head Linux, macOS and Windows
+checks passed (ROM-free CI run `43643775433`) and initial-decode MSan passed
+(run `43643775493`). Exact-main Linux, macOS and Windows checks passed
+(ROM-free CI run `43647092117`); initial-decode MSan passed (`43647092060`).
+The Ubuntu job completed its extended UBSan/ASan checks successfully. MAME
+research was path-filtered for this documentation-only PR. Codex exact-head
+review completed without findings (summary comment `6884575926`, receipt
+`6884591152`). GitHub review submissions, inline review comments and threads
+were zero. Active ruleset `25910947` required zero approvals and resolved
+threads; no quota error or merge bypass was involved. This PR reconciles PR
+#295's merge evidence and current main baseline; it adds no runtime behavior or
+acceptance.
+
 ## PR #295 merge verification — 2026-11-14
 
 PR [#295](https://github.com/RobCZart82/YamAN1x/pull/295) merged by squash at
