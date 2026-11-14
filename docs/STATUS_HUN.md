@@ -2,24 +2,25 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #294 — 2026-11-14
+## Ellenőrzött főági alap — #295 — 2026-11-14
 
-A [#294 PR](https://github.com/RobCZart82/YamAN1x/pull/294)
-2026-11-14 19:54:57 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`4d4d21f254e339652c18f1f4bcd4f7d44edbaa46`, az új főági commit
-`1fc79543043a5b0fcce51a640e094879c2554849`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43631172552`), az
-initial-decode MSan is sikerült (`43631172629`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43634657685`), valamint az
-initial-decode MSan (`43634657687`) is sikeresek. Az Ubuntu-feladat kiterjesztett
-UBSan/ASan ellenőrzései is sikeresek. A MAME-kutatási munkafolyamat útvonal
-alapján nem futott, mert ez csak dokumentációs módosítás volt.
+A [#295 PR](https://github.com/RobCZart82/YamAN1x/pull/295)
+2026-11-14 21:15:03 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`a0cbae87325c82e7e9be24268ea08cc7bb876a51`, az új főági commit
+`8c381c28bbf8309805c0ccf505576479293142aa`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43638354484`), az
+initial-decode MSan is sikerült (`43638354354`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43641803770`), valamint az
+initial-decode MSan (`43641803654`) is sikeresek. Az Ubuntu-feladat
+kiterjesztett UBSan/ASan ellenőrzései is sikeresek. A MAME-kutatási
+munkafolyamat útvonal alapján nem futott, mert ez csak dokumentációs módosítás
+volt.
 
 A Codex pontos PR-fejre szóló áttekintése nem talált hibát (összefoglaló:
-`6882850078`, nyugta: `6882868957`). GitHub review-beküldés, beágyazott review-
+`6883838638`, nyugta: `6883854401`). GitHub review-beküldés, beágyazott review-
 megjegyzés és review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást
-és lezárt szálakat követelt; nem volt kvótahiba vagy megkerülés. A #294
-kizárólag a #293 beolvadási adatait és az aktuális főági alapot egyeztette; nem
+és lezárt szálakat követelt; nem volt kvótahiba vagy megkerülés. A #295
+kizárólag a #294 beolvadási adatait és az aktuális főági alapot egyeztette; nem
 változtatott a működésen és nem igazol hardver-, boot-, MIDI-, DSP-, hang- vagy
 REAPER-elfogadást.
 
