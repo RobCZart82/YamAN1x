@@ -1,5 +1,22 @@
 # Development Log
 
+## PR #289 merge verification — 2026-11-14
+
+PR [#289](https://github.com/RobCZart82/YamAN1x/pull/289) merged by squash at
+`2026-11-14T11:19:16Z` from exact head
+`569f237c6efb0d4d9c6f63cf70756de47b8bc343` to main
+`ff04d57710c8e3a6925c93601254460b799ca20b`. PR-head Linux, macOS and Windows
+checks passed (ROM-free CI run `43585389110`) and initial-decode MSan passed
+(run `43585389139`). The exact-main Linux, macOS and Windows checks passed
+(ROM-free CI run `43589458644`); initial-decode MSan passed (`43589458623`).
+The exact-main arithmetic UBSan and reset/peripheral/reentry ASan+UBSan steps
+also passed. MAME research was path-filtered for this documentation-only PR.
+Codex exact-head review completed without findings (review comment `6875921191`,
+summary `6875904421`). GitHub review submissions and threads were zero. Active
+ruleset `25910947` required zero approvals and resolved threads; no quota error
+or merge bypass was involved. This PR reconciles #288's merge evidence and the
+current main baseline; it adds no runtime behavior or acceptance.
+
 ## Fresh bounded local firmware observation — 2026-11-14
 
 On main `32234b24a113de57f7d3704114caa9f527eaae8a`, the read-only AN1x 1.04

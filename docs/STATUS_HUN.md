@@ -2,26 +2,26 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #288 — 2026-11-14
+## Ellenőrzött főági alap — #289 — 2026-11-14
 
-A [#288 PR](https://github.com/RobCZart82/YamAN1x/pull/288) 2026-11-14
-09:39:10 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`7e17723c5fd224811f983cffa6ef71859053b7e2`, az új főági commit
-`32234b24a113de57f7d3704114caa9f527eaae8a`. A Linux, macOS, Windows, MSan és
-MAME-kutatási ellenőrzések sikeresek voltak a PR-fejen (`43578348154`,
-`43578348184`, `43578348149`) és a pontos főági commiten (`43581562463`,
-`43581562524`, `43581562384`). A Codex pontos fejre szóló áttekintése nem
-jelzett hibát (`6874898918`); a korábbi P2-es patch-hiba javítva, az ahhoz
-kapcsolódó szál lezárva. A `25910947` szabályzat nulla jóváhagyást és lezárt
-review-szálakat követelt. Kvótahibát nem jeleztek, megkerülés nélkül történt a
-beolvasztás.
+A [#289 PR](https://github.com/RobCZart82/YamAN1x/pull/289)
+2026-11-14 11:19:16 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`569f237c6efb0d4d9c6f63cf70756de47b8bc343`, az új főági commit
+`ff04d57710c8e3a6925c93601254460b799ca20b`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43585389110`), az
+initial-decode MSan is sikerült (`43585389139`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43589458644`), valamint az
+initial-decode MSan (`43589458623`) is sikeresek. A főági UBSan/ASan
+ellenőrzések — köztük az aritmetika, reset, perifériák és újrabelépés — szintén
+sikerültek. A MAME-kutatási munkafolyamat útvonal alapján nem futott, mert ez
+csak dokumentációs módosítás volt.
 
-A #288 korlátozott, csak olvasó MAME-megfigyelést adott az igazított `2349EA`
-szóra, valamint független időablak-vizsgálatot a hat megfigyelt `39AC`
-forrás-pufferírás előtti olvasásokra. Ez nem bizonyít okozati kapcsolatot,
-adatjelentést, hardveregyezést, teljes indulást, MIDI-t, DSP-mintát, hangot
-vagy REAPER-elfogadást. A beolvasztott jelölt és a napló külön lett rendezve az
-alábbi friss helyi firmware-megfigyeléstől.
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (`6875921191`,
+összefoglaló: `6875904421`). GitHub review-beküldés és review-szál nem volt.
+A `25910947` szabályzat nulla jóváhagyást és lezárt szálakat követelt; nem volt
+kvótahiba vagy megkerülés. A #289 kizárólag a #288 beolvadási adatait és az
+aktuális főági alapot egyeztette; nem változtatott a működésen és nem igazol
+hardver-, boot-, MIDI-, DSP-, hang- vagy REAPER-elfogadást.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-14
 
