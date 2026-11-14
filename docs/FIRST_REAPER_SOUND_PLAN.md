@@ -2,25 +2,39 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #287 — 2026-11-14
+## Current verified main — PR #288 — 2026-11-14
 
-PR [#287](https://github.com/RobCZart82/YamAN1x/pull/287) merged by squash at
-2026-11-14T06:39:15Z from exact head
-`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42` to main
-`dd988f6c9aa2fc147b9f0022f188202f722aa844`. Linux, macOS, Windows and MSan
-checks passed on the PR head (ROM-free CI run `43563617346`, MSan run
-`43563617365`) and exact main (ROM-free CI run `43567393627`, MSan run
-`43567393625`). MAME research was path-filtered for this documentation-only
-change. Codex review completed without findings on the exact PR head (comment
-`6872683772`); GitHub review submissions, inline review comments and threads
-were zero. Active ruleset `25910947` required zero approvals and resolved
-threads. No quota error was reported and no merge bypass was used.
+PR [#288](https://github.com/RobCZart82/YamAN1x/pull/288) merged by squash at
+`2026-11-14T09:39:10Z` from exact head
+`7e17723c5fd224811f983cffa6ef71859053b7e2` to main
+`32234b24a113de57f7d3704114caa9f527eaae8a`. Linux, macOS, Windows, MSan and
+MAME research checks passed on the PR head (runs `43578348154`,
+`43578348184`, `43578348149`) and on exact main (runs `43581562463`,
+`43581562524`, `43581562384`). Codex's exact-head review completed without
+findings (comment `6874898918`). Its earlier P2 patch-hunk finding was fixed;
+the initial review thread is resolved. Ruleset `25910947` required zero
+approvals and resolved threads. No quota error was reported and no merge bypass
+was used.
 
-PR #287 reconciled the #286 merge record and the current main. The source-only
-build remains at 138 CTest groups and 127 Python cases. Full boot, hardware
-agreement, MIDI, audio and REAPER acceptance remain open. The ROM remains
-unchanged and outside Git. MAME remains pinned at
-`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+PR #288 adds bounded, read-only MAME observation of aligned word `2349EA` and
+independent timing-window audits for the observed reads before six `39AC`
+source-buffer writes. The observations do not establish causality, data meaning,
+hardware agreement, full boot, MIDI, DSP samples, audio or REAPER acceptance.
+The merged candidate and ledger are reconciled separately from this new local
+firmware observation below.
+
+## Fresh local bounded firmware observation — 2026-11-14
+
+A read-only AN1x 1.04 probe using the merged main build reached its requested
+20,000,000-cycle limit with no CPU failure or access fault. It recorded
+3,184,647 CPU callbacks, peripheral cycle `20,000,000`, PC `247044`, MEG
+controls/status reads `5/1`, VOP3 writes `[11557,516]`, reads `[448,0]`, sample
+passes `[0,0]`, GPIO writes `6329`, and zero ADC samples. Both
+`audio_accepted` and `firmware_boot_accepted` remained false. This is only
+bounded progress under the selected synthetic profile; it is not complete boot,
+hardware agreement, MIDI, audio or REAPER acceptance. The ROM SHA-256 before
+and after was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
+it remains unchanged and outside Git. No new MAME build or run was made.
 
 ## PKS caller-input timing windows — local candidate — 2026-11-14
 

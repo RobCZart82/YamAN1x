@@ -2,26 +2,40 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #287 — 2026-11-14
+## Ellenőrzött főági alap — #288 — 2026-11-14
 
-A [#287 PR](https://github.com/RobCZart82/YamAN1x/pull/287) 2026-11-14
-06:39:15 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`6ebf0262c056d2fecaf68216c419c3a0a2f3ee42`, az új főági commit
-`dd988f6c9aa2fc147b9f0022f188202f722aa844`. A Linux, macOS, Windows és MSan
-ellenőrzések sikeresek voltak a PR-fejen (ROM-mentes CI `43563617346`, MSan
-`43563617365`) és a pontos főági commiton (`43567393627`, `43567393625`). A
-MAME-kutatási munkafolyamat a dokumentációs változáson útvonalszűrés miatt nem
-futott. A Codex pontos PR-fejre szóló áttekintése nem talált hibát
-(`6872683772`); GitHub-review beküldés, soron belüli megjegyzés és nyitott
-review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt
+A [#288 PR](https://github.com/RobCZart82/YamAN1x/pull/288) 2026-11-14
+09:39:10 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`7e17723c5fd224811f983cffa6ef71859053b7e2`, az új főági commit
+`32234b24a113de57f7d3704114caa9f527eaae8a`. A Linux, macOS, Windows, MSan és
+MAME-kutatási ellenőrzések sikeresek voltak a PR-fejen (`43578348154`,
+`43578348184`, `43578348149`) és a pontos főági commiten (`43581562463`,
+`43581562524`, `43581562384`). A Codex pontos fejre szóló áttekintése nem
+jelzett hibát (`6874898918`); a korábbi P2-es patch-hiba javítva, az ahhoz
+kapcsolódó szál lezárva. A `25910947` szabályzat nulla jóváhagyást és lezárt
 review-szálakat követelt. Kvótahibát nem jeleztek, megkerülés nélkül történt a
 beolvasztás.
 
-A #287 a #286 beolvadási adatait és az aktuális főági alapot egyeztette. A
-forráskódos összeállítás 138 CTest-csoportot és 127 Python-esetet tartalmaz. A
-teljes indulás, hardveregyezés, MIDI, hang és REAPER-elfogadás továbbra sincs
-igazolva. A ROM változatlan és a repositoryn kívül maradt. A MAME forrás rögzített
-commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+A #288 korlátozott, csak olvasó MAME-megfigyelést adott az igazított `2349EA`
+szóra, valamint független időablak-vizsgálatot a hat megfigyelt `39AC`
+forrás-pufferírás előtti olvasásokra. Ez nem bizonyít okozati kapcsolatot,
+adatjelentést, hardveregyezést, teljes indulást, MIDI-t, DSP-mintát, hangot
+vagy REAPER-elfogadást. A beolvasztott jelölt és a napló külön lett rendezve az
+alábbi friss helyi firmware-megfigyeléstől.
+
+## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-14
+
+A csak olvasó AN1x 1.04 próba az összeolvasztott főági builddel elérte a kért
+20 000 000 ciklusos határt CPU-hiba vagy hozzáférési hiba nélkül. A futásban
+3 184 647 CPU-visszahívás, `20 000 000` perifériaciklus, `247044` PC,
+5/1 MEG-vezérlési/állapotolvasási művelet, `[11557,516]` VOP3-írás,
+`[448,0]` VOP3-olvasás, `[0,0]` VOP3-minta és 6329 GPIO-írás volt; ADC-minta
+nem keletkezett. Az `audio_accepted` és `firmware_boot_accepted` értéke hamis
+maradt. Ez csak korlátozott előrehaladás a kiválasztott szintetikus profilban;
+nem teljes indulás, hardveregyezés, MIDI-, hang- vagy REAPER-elfogadás. A ROM
+SHA-256 értéke előtte és utána is
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; változatlan
+és Git-en kívül maradt. Új MAME-build vagy futás nem készült.
 
 ## PKS-bemeneti időablakok — helyi jelölt — 2026-11-14
 
