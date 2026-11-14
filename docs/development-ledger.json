@@ -5982,7 +5982,7 @@
         "mame_build": "pass; pinned source commit 706dbb73281320c54d7c2f16262c1c3786f2be01",
         "fresh_read_only_probes": "2 x 9 seconds; identical ROM identity and matching 26 non-trace manifest fields",
         "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe; unchanged and outside Git",
-        "ci": "PR #288 initial head a25709f12f47366b2ed9a2ff6b67fa4939ce5735: Linux, macOS, Windows, and MSan checks passed; MAME research failed on patch hunk length 42 vs 43. Corrected-head checks and review pending.",
+        "ci": "PR #288 initial head a25709f12f47366b2ed9a2ff6b67fa4939ce5735: Linux, macOS, Windows and MSan passed; MAME research failed on a 42-vs-43-line hunk. Head 3b751fc978deca1e336b88ce9161dc8ff90cb6e7: MAME research, Linux, macOS and MSan passed; Windows found the regression test wrote CRLF to its temporary patch. Fixed by writing LF explicitly; targeted local test passes. New head checks pending.",
         "cmake_release_build": "pass",
         "ctest": "pass (138/138 groups; 922.77s)",
         "repository_audit": "pass (695 files, 201 upstream identities; no problems)",
@@ -5999,7 +5999,7 @@
         "macos_14": "passed (run 43573434821, job 132382479995)",
         "windows_2025": "passed (run 43573434821, job 132382480170)",
         "initial_decode_msan": "passed (run 43573434830, job 132382479593)",
-        "mame_research": "failed (run 43573434820, latest job attempt 132384539049); patch hunk declared 42 lines but contains 43; locally corrected and regression-tested; original workflow is terminal"
+        "mame_research": "failed (run 43573434820, latest job attempt 132384539049); patch hunk declared 42 lines but contains 43; fixed and verified on corrected head"
       },
       "automated_review": {
         "initial_head": "a25709f12f47366b2ed9a2ff6b67fa4939ce5735",
@@ -6007,8 +6007,18 @@
         "review_submission": "COMMENTED by chatgpt-codex-connector at 2026-11-14T07:58:37Z",
         "finding": "review comment 4572409502: patch hunk length 42 omitted final #endif; corrected locally to 43 and added a synthetic git-apply regression test",
         "quota_error": false,
-        "corrected_head_review": "pending; initial-head P2 finding corrected locally, review thread PRRT_kwDOVYYWIs63bGMK is unresolved until corrected head is pushed and reviewed"
-      }
+        "corrected_head_review": "completed without findings on 3b751fc978deca1e336b88ce9161dc8ff90cb6e7 (summary comment 6874174781; receipt 6874466033); initial P2 thread 4572409502 resolved (thread PRRT_kwDOVYYWIs63bGMK). No quota error.",
+        "latest_head_review": "pending after Windows newline fix"
+      },
+      "remote_corrected_head_checks": {
+        "head": "3b751fc978deca1e336b88ce9161dc8ff90cb6e7",
+        "ubuntu_24_04": "passed (run 43575319843, job 132388177966)",
+        "macos_14": "passed (run 43575319843, job 132388178049)",
+        "windows_2025": "failed (run 43575319843, job 132388177736): build passed; 137/138 CTest passed; yamanix_rom_loader had one test failure because Windows text-mode newline translation converted the temporary patch to CRLF, triggering git apply trailing-whitespace errors",
+        "initial_decode_msan": "passed (run 43575319671, job 132388177371)",
+        "mame_research": "passed (run 43575319856, job 132388177731)"
+      },
+      "windows_newline_fix": "tests/test_pks_operand_context_audit.py now writes the temporary patch using newline=\"\\n\" so Windows text-mode translation cannot introduce CRLF; 11/11 focused tests pass locally on the corrected file"
     }
   ],
   "audit_correction": {

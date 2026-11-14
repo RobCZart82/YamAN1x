@@ -53,7 +53,8 @@ class PksOperandContextAuditTests(unittest.TestCase):
         helper_patch = "--- /dev/null\n" + patch.split("--- /dev/null\n", 1)[1]
         with tempfile.TemporaryDirectory() as temporary:
             patch_path = Path(temporary) / "helper.patch"
-            patch_path.write_text(helper_patch, encoding="utf-8")
+            with patch_path.open("w", encoding="utf-8", newline="\n") as stream:
+                stream.write(helper_patch)
             result = subprocess.run(
                 ["git", "apply", "--unsafe-paths", "--whitespace=error", str(patch_path)],
                 cwd=temporary, capture_output=True, text=True, timeout=10)
