@@ -2,24 +2,24 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #290 — 2026-11-14
+## Ellenőrzött főági alap — #291 — 2026-11-14
 
-A [#290 PR](https://github.com/RobCZart82/YamAN1x/pull/290)
-2026-11-14 12:33:00 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`f9d2d50ee1cb098e1058234157a31dc405aaf975`, az új főági commit
-`540dbc7729e7102349150cd0cc7f1142ebec792d`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43591748905`), az
-initial-decode MSan is sikerült (`43591748978`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43595379141`), valamint az
-initial-decode MSan (`43595379179`) is sikeresek. Mindhárom főági platform-job
+A [#291 PR](https://github.com/RobCZart82/YamAN1x/pull/291)
+2026-11-14 13:41:50 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`58d3ed1851ff56cdb98aa0996cc73e5efeeba57d`, az új főági commit
+`c89ff8829903ce98ec401ecf99ee677298a41b45`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43598744476`), az
+initial-decode MSan is sikerült (`43598744479`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43601058839`), valamint az
+initial-decode MSan (`43601058793`) is sikeresek. Mindhárom főági platform-job
 sikeres, beleértve az Ubuntu hosszabb UBSan/ASan vizsgálatait. A MAME-kutatási
 munkafolyamat útvonal alapján nem futott, mert ez csak dokumentációs módosítás
 volt.
 
 A Codex pontos PR-fejre szóló áttekintése nem talált hibát (összefoglaló:
-`6876815402`, nyugta: `6876830710`). GitHub review-beküldés és review-szál
+`6877817999`, nyugta: `6877830886`). GitHub review-beküldés és review-szál
 nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt szálakat
-követelt; nem volt kvótahiba vagy megkerülés. A #290 kizárólag a #289
+követelt; nem volt kvótahiba vagy megkerülés. A #291 kizárólag a #290
 beolvadási adatait és az aktuális főági alapot egyeztette; nem változtatott a
 működésen és nem igazol hardver-, boot-, MIDI-, DSP-, hang- vagy
 REAPER-elfogadást.
