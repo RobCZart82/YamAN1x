@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-13",
+  "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
+  "baseline_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
   "entries": [
     {
       "pr": 6,
@@ -5800,24 +5800,54 @@
       },
       "review": "Codex review on earlier head a8216d5c69c3fc820ad907840dd52e63c93bddc0 reported P2 finding 4569089709. Final head d87d70c restored labeled digests and Mac handoff command blocks; the review thread is resolved. No second exact-head Codex review summary was observed. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
       "documentation_validation": "Exact PR-head and main checks all passed. Local UTF-8, Markdown target, language-separation, repository audit, ledger uniqueness/ancestry and diff checks passed. Documentation-only; no runtime behavior or hardware/audio acceptance."
+    },
+    {
+      "pr": 283,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/283",
+      "title": "Reconcile PR 282 documentation records",
+      "branch": "docs/reconcile-language-docs-pr282",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
+      "head_commit": "3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764",
+      "merge_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
+      "merged_at_utc": "2026-11-13T23:45:12Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132228693693,
+        "macos_14": 132228693209,
+        "windows_2025": 132228693598,
+        "initial_decode_msan": 132228692316,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "ubuntu_24_04": 132243187258,
+        "macos_14": 132243186841,
+        "windows_2025": 132243187504,
+        "initial_decode_msan": 132243187197,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings in issue comment 6867237322; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
+      "documentation_validation": "Documentation-only merge record; exact-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
     }
   ],
   "pending_changes": [
     {
-      "branch": "docs/reconcile-language-docs-pr282",
+      "branch": "docs/reconcile-pr283-current-main",
       "status": "candidate",
-      "base_commit": "e718062c9989bca1d0cf4447df9b4c83ed5324b5",
-      "scope": "Reconcile PR #282 merge evidence in the English development ledger/log and English and Hungarian current-main summaries; preserve the language-separated documentation policy.",
+      "base_commit": "2ff9f71c61ef8159a6bb815e76e3cd287b183635",
+      "scope": "Reconcile PR #283 merge evidence and advance English/Hungarian current-main summaries and structured ledger; preserve language-separated documentation.",
       "local_validation": {
-        "utf8": "pass",
-        "markdown_local_targets": "pass (161 Markdown files scanned)",
-        "language_scan": "pass (English prose is separate; exact identifiers and source filenames are preserved as literals)",
-        "ledger_uniqueness_and_ancestry": "pass (274 unique PR entries; baseline e718062 is an ancestor of candidate)",
-        "repository_audit": "pass (693 files checked; 201 upstream files verified; no problems)",
+        "utf8": "pass (all 161 tracked Markdown files)",
+        "markdown_local_targets": "pass (616 relative targets)",
+        "language_scan": "pass (one exact historical filename literal; no mixed-language prose)",
+        "ledger_uniqueness_and_ancestry": "pass (275 unique PR entries; baseline 2ff9f71 is candidate ancestor)",
+        "repository_audit": "pass (693 files checked; 201 upstream identities verified; no problems)",
         "diff_check": "pass"
       },
-      "acceptance": "documentation reconciliation only; no code, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local UTF-8 and Markdown-link checks, language-separation scan, ledger uniqueness/ancestry, repository audit, and git diff --check pass. Remote CI and exact-head review pending."
+      "acceptance": "documentation only; no runtime, ROM, hardware, boot, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Local UTF-8, 616 tracked Markdown local targets, language separation, ledger uniqueness/ancestry, repository audit and git diff --check pass. Remote exact-head CI/review pending."
     }
   ],
   "audit_correction": {

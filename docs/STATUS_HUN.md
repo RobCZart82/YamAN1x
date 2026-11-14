@@ -2,15 +2,13 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött alap — 2026-11-13
+## Ellenőrzött alap — 2026-11-14
 
-A #282 PR a `d87d70c00b732e7161a720ec7104f3bc06eb9c07` pontos fejéről beolvadt az `e718062c9989bca1d0cf4447df9b4c83ed5324b5` főági commitba. A PR-fej és a pontos főági commit mind az öt ellenőrzése sikeres volt: Linux, macOS, Windows, MSan és MAME-kutatási build.
+A #283 PR pontos feje `3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`; a squash-beolvasztás főági commitja `2ff9f71c61ef8159a6bb815e76e3cd287b183635`, időpontja 2026-11-13 23:45:12 UTC. A Linux, macOS, Windows és MSan ellenőrzések a PR-fejen és a pontos főági commiton is sikeresek voltak. A MAME-kutatási ellenőrzés nem futott, mert a dokumentációs módosítás nem érintette az útvonal-szűrésben szereplő fájlokat.
 
-A Codex korábbi PR-fejen egy P2 dokumentációs hibát jelzett; a hash-értékek és Mac-parancsblokkok javítása után a review-szálat lezárták. Új, végleges-fejre vonatkozó Codex-review összefoglaló nem jelent meg. A `25910947` aktív szabályzat nulla jóváhagyást és lezárt review-szálakat követelt. Kvótahibát nem jeleztek, a beolvasztás megkerülés nélkül történt. A dokumentáció nyelvi szétválasztása nem változtatott futási vagy hangelfogadási működést.
+A Codex a pontos PR-fejen nem talált hibát (`6867237322`); GitHub-review objektumok és review-szálak száma nulla. A `25910947` aktív szabályzat nulla jóváhagyást és lezárt szálakat követelt. Kvótahibát nem jeleztek és megkerülés nem történt. A #283 a #282 dokumentációs nyilvántartását egészítette ki; futási, hardver- vagy hangelfogadást nem módosított. Előző ellenőrzött alap: #282, `e718062c9989bca1d0cf4447df9b4c83ed5324b5`.
 
-A korábbi ellenőrzött alap a #281 `5cc1eba0cadc9abab98457ac824604419ff0f84f` commitja volt.
-
-A forrásleltár 138 CTest-csoportot és 127 Python-esetet tartalmaz. A helyi firmware-próba 500 millió ciklusra és 100 millió callbackre korlátozott, csak olvas, és a nem támogatott MMIO-hozzáférésnél leáll. Négy legutóbbi futás elérte a cikluskorlátot hozzáférési hiba nélkül. A VOP3 hangminta-feldolgozás minden futásnál nulla maradt; `audio_accepted` hamis. Ez nem teljes boot és nem hangelfogadás.
+A #281-ben beolvasztott firmware-próba 500 millió ciklusra és 100 millió callbackre korlátozott. Négy friss futás elérte a cikluskorlátot hozzáférési hiba nélkül; a VOP3 feldolgozott hangmintái minden futásnál nullák, `audio_accepted` hamis. Ez korlátozott, konstans ADC-bemenetű szintetikus profil, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás. A helyi AN1x 1.04 ROM változatlan és a repositoryn kívül maradt; SHA-256: `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
 
 ## Nyitott elfogadási pontok
 
