@@ -13,21 +13,28 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — 2026-11-14
+## Current verified main — PR #286 — 2026-11-14
 
-PR [#285](https://github.com/RobCZart82/YamAN1x/pull/285) merged at
-2026-11-14T02:49:42Z by squash from exact head
-`34555e7dac8ed50170900b1fdd122d4507e1a6da` to main
-`266345d257d1098df137ffc253a197fa7a874822`. Linux, macOS, Windows and MSan
-checks passed on the PR head (jobs `132294248573`, `132294248680`,
-`132294248311`, `132294248304`) and exact main (jobs `132305010072`,
-`132305009831`, `132305010191`, `132305010038`). MAME research was
-path-filtered on both revisions because the documentation-only PR did not
-touch its watched paths. Codex review on the exact PR head completed without
-findings (comment `6869999662`); GitHub review objects and threads were zero.
-Active ruleset `25910947` required zero approvals and resolved threads. No quota
-error was reported and no merge bypass was used. PR #285 reconciled the #284
-merge record; it adds no runtime behavior or hardware/audio acceptance.
+PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged by squash at
+2026-11-14T04:59:45Z from exact head
+`e4275149ab59aa16ef248dd093a57619374b913c` to main
+`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. Linux, macOS, Windows, MSan and
+MAME research checks passed on the PR head (jobs `132327910312`,
+`132327910121`, `132327910358`, `132327911265`, `132327910017`) and exact main
+(jobs `132339274917`, `132339274797`, `132339274953`, `132339274742`,
+`132339274608`). Codex review completed without findings on the exact PR head
+(comment `6871541719`); GitHub review objects and inline review comments were
+zero. Active ruleset `25910947` required zero approvals and resolved threads.
+No quota error was reported and no merge bypass was used.
+
+The bounded probe's finite ceilings are now 600,000,000 cycles and
+125,000,000 callbacks; the slice ceiling remains 1,000,000. Four fresh,
+read-only AN1x 1.04 diagnostics reached the cycle cap without access faults.
+This is constrained synthetic progress only: full boot, hardware agreement,
+MIDI, audio and REAPER acceptance remain open. The unchanged ROM remains
+outside Git. The MAME source is pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; no new local MAME build/run was
+made for this probe increment.
 
 ## Verified runtime baseline — 2026-11-12
 
@@ -131,9 +138,9 @@ This is synthetic firmware progress only, not hardware agreement, complete
 boot, MIDI, audio or REAPER acceptance. The ROM SHA remains unchanged and
 outside Git; no new MAME build/run was made.
 
-## 600-million-cycle finite firmware-probe budget — candidate — 2026-11-14
+## Bounded firmware probe — merged in PR #286 — 2026-11-14
 
-This candidate raises the explicit boot probe's finite ceilings to 600,000,000
+PR #286 raises the explicit boot probe's finite ceilings to 600,000,000
 cycles and 125,000,000 callbacks; the slice ceiling remains 1,000,000. Four
 fresh read-only AN1x 1.04 runs (AN3=0/1023 by 4,096/1,000,000-cycle slices)
 all reached the cycle limit with no access fault. The first AN3 conversion was

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-14",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "266345d257d1098df137ffc253a197fa7a874822",
+  "baseline_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
   "entries": [
     {
       "pr": 6,
@@ -5894,13 +5894,38 @@
       },
       "review": "Codex exact-head review completed without findings in issue comment 6869999662; GitHub review objects and threads were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "documentation_validation": "Documentation-only merge record; exact PR-head and exact-main Linux/macOS/Windows/MSan checks passed. MAME research path-filtered."
-    }
-  ],
-  "pending_changes": [
+    },
     {
+      "pr": 286,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/286",
+      "title": "probe: extend bounded firmware observation to 600M cycles",
       "branch": "research/firmware-probe-600m-cap",
-      "status": "candidate",
+      "kind": "firmware-probe",
+      "status": "merged",
       "base_commit": "266345d257d1098df137ffc253a197fa7a874822",
+      "head_commit": "e4275149ab59aa16ef248dd093a57619374b913c",
+      "merge_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
+      "merged_at_utc": "2026-11-14T04:59:45Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "ubuntu_24_04": 132327910312,
+        "macos_14": 132327910121,
+        "windows_2025": 132327910358,
+        "initial_decode_msan": 132327911265,
+        "mame_research": 132327910017
+      },
+      "main_checks": {
+        "platform_run": 43559326889,
+        "ubuntu_24_04": 132339274917,
+        "macos_14": 132339274797,
+        "windows_2025": 132339274953,
+        "initial_decode_msan_run": 43559326866,
+        "initial_decode_msan": 132339274742,
+        "mame_research_run": 43559326848,
+        "mame_research": 132339274608
+      },
+      "review": "Codex exact-head review completed without findings in issue comment 6871541719 for commit e4275149ab59aa16ef248dd093a57619374b913c; GitHub review objects and inline comments were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
       "scope": "Raise only the finite H8 boot-probe cycle ceiling from 500,000,000 to 600,000,000 and callback ceiling from 100,000,000 to 125,000,000; keep the 1,000,000 slice bound and fail-stop behavior. Record four fresh read-only diagnostics and reconcile PR #285 merge evidence.",
       "local_validation": {
         "build": "pass (AppleClang 21.0.0.21000334, Release target yamanix_an1x_boot_probe)",
@@ -5912,7 +5937,25 @@
         "diff_check": "pass"
       },
       "acceptance": "constrained synthetic diagnostic only; no hardware agreement, full boot, MIDI, audio or REAPER acceptance",
-      "documentation_validation": "Local Release build, 138/138 CTest groups, four bounded read-only firmware runs, UTF-8, 616 local Markdown targets, ledger uniqueness/ancestry, repository audit and git diff --check pass. English and Hungarian summaries remain separate. Remote exact-head CI/review pending."
+      "documentation_validation": "Merged candidate reconciled from pending to verified baseline. Exact PR-head and exact-main Linux/macOS/Windows, initial-decode MSan and MAME research checks passed. Four local bounded read-only AN1x 1.04 diagnostics reached 600,000,000 cycles without access faults; full CTest 138/138 passed. UTF-8, 616 local Markdown targets, ledger uniqueness/ancestry, repository audit and git diff --check passed. ROM remained unchanged/outside Git; no new local MAME build/run. No hardware/full-boot/MIDI/audio/REAPER acceptance."
+    }
+  ],
+  "pending_changes": [
+    {
+      "branch": "docs/reconcile-pr286-current-main",
+      "status": "candidate",
+      "base_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
+      "scope": "Reconcile merged PR #286 in the English and Hungarian summaries, development log, roadmap and structured ledger; keep each document in one language and record the next bounded PKS source-path step.",
+      "local_validation": {
+        "github_state": "PR #286 is merged. Exact-head and exact-main Linux/macOS/Windows, initial-decode MSan and MAME research checks passed. No PR was open when this documentation candidate was prepared.",
+        "repository_audit": "pass (693 files, 201 upstream identities, no problems)",
+        "touched_markdown": "8 files valid UTF-8; 146 local Markdown links resolve; no missing targets",
+        "language_separation": "pass; selected English docs contain no Hungarian accented prose; Hungarian summaries remain in separate _HUN.md files",
+        "ledger": "278 unique merged PR entries; every recorded merge commit is an ancestor of baseline 23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793; #286 is latest merged entry; candidate remains separate",
+        "diff_check": "pass"
+      },
+      "acceptance": "documentation and ledger reconciliation only; no runtime, firmware, hardware, MIDI, audio or REAPER acceptance",
+      "documentation_validation": "Local documentation, repository audit, ledger uniqueness/ancestry, and git diff checks pass. No runtime code or tests were changed; remote exact-head CI and review remain pending."
     }
   ],
   "audit_correction": {
@@ -6022,30 +6065,30 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 281,
+    "pr": 286,
     "status": "merged",
-    "head_commit": "d6a7b8b02d675b2d4c9b8d9ae87052686cb33974",
-    "merge_commit": "5cc1eba0cadc9abab98457ac824604419ff0f84f",
-    "merged_at_utc": "2026-11-13T20:55:09Z",
+    "head_commit": "e4275149ab59aa16ef248dd093a57619374b913c",
+    "merge_commit": "23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793",
+    "merged_at_utc": "2026-11-14T04:59:45Z",
     "pr_head_checks": {
-      "ubuntu_24_04": 132135485761,
-      "macos_14": 132135485923,
-      "windows_2025": 132135485528,
-      "initial_decode_msan": 132135486090,
-      "mame_research": 132135485147
+      "ubuntu_24_04": 132327910312,
+      "macos_14": 132327910121,
+      "windows_2025": 132327910358,
+      "initial_decode_msan": 132327911265,
+      "mame_research": 132327910017
     },
     "main_checks": {
-      "platform_run": 43505947395,
-      "ubuntu_24_04": 132163526978,
-      "macos_14": 132163526507,
-      "windows_2025": 132163526936,
-      "initial_decode_msan_run": 43505947241,
-      "initial_decode_msan": 132163526210,
-      "mame_research_run": 43505947256,
-      "mame_research": 132163526554
+      "platform_run": 43559326889,
+      "ubuntu_24_04": 132339274917,
+      "macos_14": 132339274797,
+      "windows_2025": 132339274953,
+      "initial_decode_msan_run": 43559326866,
+      "initial_decode_msan": 132339274742,
+      "mame_research_run": 43559326848,
+      "mame_research": 132339274608
     },
-    "review": "Codex review result absent. GitHub review objects, inline comments and threads: 0. Active ruleset 25910947 required zero approvals and resolved threads. No quota error was observed; no bypass was used.",
+    "review": "Codex exact-head review completed without findings in issue comment 6871541719 for commit e4275149ab59aa16ef248dd093a57619374b913c; GitHub review objects and inline comments were zero. Active ruleset 25910947 required zero approvals and resolved threads. No quota error; no bypass.",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "The active documentation candidate records exact merge evidence and separates English and Hungarian documentation."
+    "documentation_reconciliation": "The 600M-cycle bounded firmware-probe candidate is now recorded as merged; current main and English/Hungarian summaries are reconciled. The next planned engineering work follows the PKS writer inputs and caller path."
   }
 }
