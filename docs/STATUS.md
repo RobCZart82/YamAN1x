@@ -2,23 +2,23 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #290 — 2026-11-14
+## Current verified main — PR #291 — 2026-11-14
 
-PR [#290](https://github.com/RobCZart82/YamAN1x/pull/290) merged by squash at
-`2026-11-14T12:33:00Z` from exact head
-`f9d2d50ee1cb098e1058234157a31dc405aaf975` to main
-`540dbc7729e7102349150cd0cc7f1142ebec792d`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43591748905`; initial-decode MSan passed in
-`43591748978`. On the exact main commit, Linux, macOS and Windows passed in
-ROM-free CI run `43595379141`; initial-decode MSan passed in `43595379179`.
+PR [#291](https://github.com/RobCZart82/YamAN1x/pull/291) merged by squash at
+`2026-11-14T13:41:50Z` from exact head
+`58d3ed1851ff56cdb98aa0996cc73e5efeeba57d` to main
+`c89ff8829903ce98ec401ecf99ee677298a41b45`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43598744476`; initial-decode MSan passed in
+`43598744479`. On the exact main commit, Linux, macOS and Windows passed in
+ROM-free CI run `43601058839`; initial-decode MSan passed in `43601058793`.
 All three main platform jobs, including the extended Ubuntu UBSan/ASan checks,
 passed. MAME research was path-filtered for this documentation-only change.
 
 Codex's exact-head review completed without findings (summary comment
-`6876815402`; receipt `6876830710`). GitHub review submissions and review
+`6877817999`; receipt `6877830886`). GitHub review submissions and review
 threads were zero. Ruleset `25910947` required zero approvals and resolved
-threads; no quota error was reported and no merge bypass was used. PR #290 only
-reconciles PR #289's merge evidence and the current main baseline; it adds no
+threads; no quota error was reported and no merge bypass was used. PR #291 only
+reconciles PR #290's merge evidence and the current main baseline; it adds no
 runtime behavior or hardware, boot, MIDI, DSP, audio or REAPER acceptance.
 
 ## Fresh local bounded firmware observation — 2026-11-14
