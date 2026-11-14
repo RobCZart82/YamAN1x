@@ -1,33 +1,31 @@
 # Development roadmap
 
-## Current verified main — PR #281 — 2026-11-13
+## Current verified main — PR #286 — 2026-11-14
 
-PR [#281](https://github.com/RobCZart82/YamAN1x/pull/281) merged at
-2026-11-13T20:55:09Z from exact head `d6a7b8b02d675b2d4c9b8d9ae87052686cb33974`
-to exact main `5cc1eba0cadc9abab98457ac824604419ff0f84f`. All five PR-head and
-all five exact-main checks passed. The Codex review result was absent; GitHub
-review objects/threads were zero. Ruleset `25910947` required zero approvals
-and resolved threads; no quota error or bypass was observed.
+PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged at
+2026-11-14T04:59:45Z from exact head
+`e4275149ab59aa16ef248dd093a57619374b913c` to main
+`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. Linux, macOS, Windows, MSan and
+MAME research checks passed on both exact revisions. Codex review completed
+without findings (comment `6871541719`); GitHub review objects and inline
+comments were zero. Ruleset `25910947` required zero approvals and resolved
+threads; no quota error or bypass occurred.
 
-## Current bounded firmware probe — 2026-11-13
+## Current bounded firmware probe — merged in PR #286 — 2026-11-14
 
-PR [#280](https://github.com/RobCZart82/YamAN1x/pull/280) merged at
-2026-11-13T19:02:41Z from exact head `8eb0eaaac1b7390a43f323f09ba0adfee792e436`
-to exact main `284c0f1a273b6212272b80458eba7b6417e4dfee`. All five PR-head and
-all five exact-main checks passed. Codex review completed without findings;
-GitHub reviews and threads were zero. Ruleset `25910947` requires the three
-platform checks, zero approvals and resolved threads; no quota error or bypass.
+The finite ceilings are 600,000,000 cycles and 125,000,000 callbacks, with a
+1,000,000-cycle slice limit and fail-stop behavior. Four fresh read-only AN1x
+1.04 runs reached the cycle ceiling without access faults. Scan deadlines were
+invariant across slice sizes; callback totals varied with slice size. All runs
+reported VOP3 sample passes `[0,0]`, `audio_accepted:false` and
+`firmware_boot_accepted:false`. This is constrained synthetic progress, not
+hardware, full boot, MIDI, audio or REAPER acceptance. The unchanged ROM stays
+outside Git; MAME remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`, with no new local build/run.
 
-The next candidate raises the finite boot-probe caps to 500,000,000 cycles and
-100,000,000 callbacks, preserving 1,000,000-cycle slices and fail-stop
-behavior. Four fresh read-only runs reached the cycle cap without access faults;
-scan deadlines for AN0–AN7 remained invariant across slice sizes. Final PC
-varied with AN3 input. All runs reported VOP3 sample passes `[0,0]` and
-`audio_accepted:false`; callback totals varied by slice size. This is bounded
-synthetic firmware progress, not hardware, full-boot, MIDI, audio or REAPER
-acceptance. The original ROM remains unchanged outside Git; pinned MAME source
-was not rebuilt or rerun.
-
+Next: trace the input to the `39A4` writer and its callers, with independent
+value, address, flag, timing and continuation checks. The trace remains
+observational and must make no PKS semantic claim.
 ## Verified runtime baseline — 2026-11-12
 
 PR [#274](https://github.com/RobCZart82/YamAN1x/pull/274) merged on

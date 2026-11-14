@@ -2,6 +2,21 @@
 
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## PR #286 merge verification — 2026-11-14
+
+PR [#286](https://github.com/RobCZart82/YamAN1x/pull/286) merged by squash at
+`2026-11-14T04:59:45Z` from exact head
+`e4275149ab59aa16ef248dd093a57619374b913c` to main
+`23a9ebd14cdd94f5caa0d2c7c2d8e50b264cf793`. PR-head Linux, macOS, Windows,
+MSan and MAME research jobs `132327910312`, `132327910121`, `132327910358`,
+`132327911265` and `132327910017` passed. Exact-main jobs `132339274917`,
+`132339274797`, `132339274953`, `132339274742` and `132339274608` passed.
+Codex review completed without findings on the exact PR head (comment
+`6871541719`); GitHub review objects and inline review comments were zero.
+Active ruleset `25910947` required zero approvals and resolved threads. No
+quota error was observed and no merge bypass was used. The change raises only
+the bounded firmware-probe ceilings and adds no hardware/audio acceptance.
+
 ## PR #285 merge verification — 2026-11-14
 
 PR [#285](https://github.com/RobCZart82/YamAN1x/pull/285) merged by squash at
@@ -103,30 +118,24 @@ This is synthetic firmware progress only, not hardware agreement, complete
 boot, MIDI, audio or REAPER acceptance. The ROM SHA remains unchanged and
 outside Git; no new MAME build/run was made.
 
-## Longer finite firmware-probe budget — candidate — 2026-11-13
+## Bounded firmware probe — merged in PR #286 — 2026-11-14
 
-This candidate raises only the explicit boot probe's finite ceilings to
-500,000,000 cycles and 100,000,000 callbacks; the slice ceiling remains
-1,000,000 and fail-stop classifications stay unchanged. Four fresh read-only
-AN1x 1.04 runs (AN3=0/1023 by 4,096/1,000,000-cycle slices) all reached the
-cycle cap without access faults. Peripheral cycles ended at 500,000,000 or
-500,000,002 due to in-flight slice accounting. The AN0–AN3 scan began at
-`95,707,121` (first deadlines `[95707121,95707387,95707643,95707899]`);
-AN4–AN7 began at `127,793,965` (first deadlines
-`[127793965,127794231,127794487,127794743]`), invariant across slice sizes
-for each input. Final PC was `103956` for AN3=0 and `103566` for AN3=1023.
-VOP3 sample passes were `[0,0]` and `audio_accepted` was false in every run.
-Callback totals were 78,563,259/78,320,547 for AN3=0 and
-78,561,448/78,318,718 for AN3=1023 (4,096/1,000,000 slices); those totals are
-slice-dependent and are not treated as invariant. AN3=0/1023 produced scan
-callback totals `[273875,272188,270379,268983,125949,125117,124207,123502]` /
-`[273890,272219,270413,268952,125950,125120,124167,123464]`, respectively.
-The probe remains bounded and fail-stop. This does not establish physical
-control agreement, complete boot, MIDI, audio or REAPER acceptance. ROM SHA
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` is
-unchanged and outside Git; pinned MAME source remains
-`706dbb73281320c54d7c2f16262c1c3786f2be01`, with no new build/run.
-
+PR #286 raises only the explicit boot probe's finite ceilings to 600,000,000
+cycles and 125,000,000 callbacks; the slice ceiling remains 1,000,000 and
+fail-stop classifications stay unchanged. Four fresh read-only AN1x 1.04 runs
+(AN3=0/1023 by 4,096/1,000,000-cycle slices) all reached the cycle cap without
+access faults. First conversion was at cycle `95,706,795`; AN0–AN3 scanning
+began at `95,707,121`, with subsequent deadlines `[95707387,95707643,95707899]`;
+AN4–AN7 scanning began at `127,793,965`, with subsequent deadlines
+`[127794231,127794487,127794743]`. These deadlines matched across all four
+runs. Final PC was `62010` for AN3=0 and `1896` for AN3=1023. Callback totals
+ranged from `94,217,090` to `94,511,131` and varied by slice size. Every run
+reported VOP3 sample passes `[0,0]`, `audio_accepted:false` and
+`firmware_boot_accepted:false`. This remains a constrained synthetic probe, not
+physical control agreement, complete boot, MIDI, audio or REAPER acceptance.
+The ROM SHA-256 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
+is unchanged and outside Git. MAME remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; no new local build/run was made.
 ## PR #279 merge verification — 2026-11-13
 
 PR [#279](https://github.com/RobCZart82/YamAN1x/pull/279) merged at
