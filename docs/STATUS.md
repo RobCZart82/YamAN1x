@@ -4,21 +4,20 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current verified main — 2026-11-13
 
-PR [#282](https://github.com/RobCZart82/YamAN1x/pull/282) merged at
-2026-11-13T22:27:37Z from exact head
-`d87d70c00b732e7161a720ec7104f3bc06eb9c07` to main
-`e718062c9989bca1d0cf4447df9b4c83ed5324b5`. All five PR-head checks and all
-five exact-main checks passed; job IDs are recorded in the structured ledger.
-Codex review on the earlier PR head found one P2 documentation issue; the
-missing hashes and separated Mac command blocks were restored on the final
-head, and the review thread was resolved. No second exact-head Codex review
-summary was observed. The active ruleset `25910947` required zero approvals
-and resolved threads. No quota error was reported; merge bypass was not used.
-This documentation-only PR records English/Hungarian file separation and
-changes no runtime behavior or hardware/audio acceptance.
+PR [#283](https://github.com/RobCZart82/YamAN1x/pull/283) merged at
+2026-11-13T23:45:12Z by squash from exact head
+`3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764` to main
+`2ff9f71c61ef8159a6bb815e76e3cd287b183635`. Linux, macOS, Windows and MSan
+checks passed on the PR head (`132228693693`, `132228693209`, `132228693598`,
+`132228692316`) and exact main (`132243187258`, `132243186841`, `132243187504`,
+`132243187197`). MAME research was path-filtered because this documentation-only
+change did not touch watched paths. Codex review on the exact PR head completed
+without findings (comment `6867237322`); GitHub review objects and threads were
+zero. Active ruleset `25910947` required zero approvals and resolved threads.
+No quota error was reported and no merge bypass was used. This reconciliation
+adds no runtime behavior or hardware/audio acceptance.
 
-The previous verified main was PR #281 at `5cc1eba0cadc9abab98457ac824604419ff0f84f`.
-
+The previous verified main was PR #282 at `e718062c9989bca1d0cf4447df9b4c83ed5324b5`.
 
 ## Verified runtime baseline — 2026-11-12
 

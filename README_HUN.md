@@ -4,17 +4,13 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 A repository dokumentációja nyelvenként külön fájlban van: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Jelenlegi fejlesztési állapot — 2026-11-13
+## Jelenlegi fejlesztési állapot — 2026-11-14
 
-A főág ellenőrzött commitja `e718062c9989bca1d0cf4447df9b4c83ed5324b5` (#282). A PR és a pontos főági commit mind az öt ellenőrzése sikeres volt: Linux, macOS, Windows, MSan és MAME-kutatási build.
+A #283 PR pontos feje `3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`; a squash-beolvasztás főági commitja `2ff9f71c61ef8159a6bb815e76e3cd287b183635`, időpontja 2026-11-13 23:45:12 UTC. A Linux, macOS, Windows és MSan ellenőrzések sikeresek voltak mind a PR-fejen, mind a pontos főági commiton. A MAME-kutatási workflow útvonal-szűrés miatt nem futott, mert a csak dokumentációt módosító változás nem érintette a figyelt fájlokat.
 
-A Codex korábbi PR-fejen egy P2 dokumentációs hibát talált: hiányzó hash-értékeket és a Mac-átadási útmutatótól elszakadt parancsblokkokat. Ezek a végleges `d87d70c` PR-fejen javítva lettek, a review-szálat lezárták. Új, végleges-fejre vonatkozó Codex-review összefoglaló nem jelent meg. Az aktív szabályzat nulla jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, megkerülés nem történt.
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (megjegyzés: `6867237322`); GitHub-review objektum és review-szál nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt review-szálakat követelt; kvótahibát nem jeleztek, megkerülés nélkül történt a beolvasztás. A #283 a #282 dokumentációs eredményeit egyeztette; futási vagy hangelfogadási működést nem módosított. Az előző ellenőrzött főági állapot az `e718062c9989bca1d0cf4447df9b4c83ed5324b5` volt.
 
-A #282 kizárólag az angol és magyar dokumentumok külön fájlokba rendezését és a nyilvántartás egyeztetését tartalmazta; futási vagy hangelfogadási viselkedést nem módosított. Az előző ellenőrzött főági állapot a #281 `5cc1eba0cadc9abab98457ac824604419ff0f84f` commitja volt.
-
-Az ellenőrzött firmware-próba legfeljebb 500 millió CPU-ciklust és 100 millió callbacket enged; a próba korlátos, csak olvasható, és a nem támogatott hozzáféréseknél leáll. Négy diagnosztikai futás elérte a cikluskorlátot hozzáférési hiba nélkül. Mindegyikben nulla maradt a VOP3 hangmintafeldolgozása, és `audio_accepted` hamis volt. Ez szintetikus firmware-előrelépés, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás.
-
-Az AN1x 1.04 ROM SHA-256 azonosítója `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; a fájl nem változott és nincs a repóban. A zárolt MAME-forrás commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`; ehhez a legutóbbi lépéshez nem készült új MAME-fordítás vagy futtatás.
+A #281-ben beolvasztott, csak olvasható firmware-próba felső korlátja 500 millió ciklus és 100 millió callback. Négy futás érte el a cikluskorlátot hozzáférési hiba nélkül; a VOP3 feldolgozott hangmintáinak száma nulla, `audio_accepted` hamis. Ez korlátozott szintetikus diagnosztika, nem teljes boot, hardveregyezés, MIDI vagy hangelfogadás. A helyi ROM változatlan és nincs a repositoryban; a MAME referencia rögzített forráscommitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
 
 ## Mi van még hátra?
 

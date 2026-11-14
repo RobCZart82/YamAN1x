@@ -1,15 +1,15 @@
-## Current verified main — PR #282 — 2026-11-13
+## Current verified main — PR #283 — 2026-11-13
 
-PR [#282](https://github.com/RobCZart82/YamAN1x/pull/282) merged from exact head
-`d87d70c00b732e7161a720ec7104f3bc06eb9c07` to main
-`e718062c9989bca1d0cf4447df9b4c83ed5324b5`. All five PR-head and all five
-exact-main checks passed (job IDs are in `docs/development-ledger.json`).
-Codex's review on the earlier head found a P2 documentation issue; it was
-fixed on the final head and the thread resolved. No second exact-head review
-summary was observed. Ruleset `25910947` required zero approvals and resolved
-threads; no quota error or merge bypass occurred. This change separates the
-English canonical documents from Hungarian summaries and archived notes. It
-does not change the first-sound plan or runtime acceptance.
+PR [#283](https://github.com/RobCZart82/YamAN1x/pull/283) merged by squash at
+`2ff9f71c61ef8159a6bb815e76e3cd287b183635` from exact head
+`3e0e96da1370cafc96cc5ba1c59d3bfd3fdab764`. Linux, macOS, Windows and MSan
+checks passed on the PR head and exact main; MAME research was path-filtered
+because no watched files changed. Codex
+review on the exact PR head completed without findings (comment `6867237322`);
+GitHub review objects and threads were zero. Ruleset `25910947` required zero
+approvals and resolved threads. No quota error or merge bypass occurred. This
+documentation reconciliation does not change runtime behavior, the plan or
+hardware/audio acceptance.
 
 # First Reaper Sound Plan
 
