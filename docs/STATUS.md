@@ -2,26 +2,25 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #288 — 2026-11-14
+## Current verified main — PR #289 — 2026-11-14
 
-PR [#288](https://github.com/RobCZart82/YamAN1x/pull/288) merged by squash at
-`2026-11-14T09:39:10Z` from exact head
-`7e17723c5fd224811f983cffa6ef71859053b7e2` to main
-`32234b24a113de57f7d3704114caa9f527eaae8a`. Linux, macOS, Windows, MSan and
-MAME research checks passed on the PR head (runs `43578348154`,
-`43578348184`, `43578348149`) and on exact main (runs `43581562463`,
-`43581562524`, `43581562384`). Codex's exact-head review completed without
-findings (comment `6874898918`). Its earlier P2 patch-hunk finding was fixed;
-the initial review thread is resolved. Ruleset `25910947` required zero
-approvals and resolved threads. No quota error was reported and no merge bypass
-was used.
+PR [#289](https://github.com/RobCZart82/YamAN1x/pull/289) merged by squash at
+`2026-11-14T11:19:16Z` from exact head
+`569f237c6efb0d4d9c6f63cf70756de47b8bc343` to main
+`ff04d57710c8e3a6925c93601254460b799ca20b`. The PR-head Linux, macOS and
+Windows checks passed in ROM-free CI run `43585389110`; initial-decode MSan
+passed in run `43585389139`. On the exact main commit, Linux, macOS and Windows
+passed in ROM-free CI run `43589458644` and initial-decode MSan passed in
+`43589458623`. The main sanitizer checks, including arithmetic and reset,
+peripheral and reentry guards under UBSan/ASan, all passed. MAME research was
+path-filtered for this documentation-only change.
 
-PR #288 adds bounded, read-only MAME observation of aligned word `2349EA` and
-independent timing-window audits for the observed reads before six `39AC`
-source-buffer writes. The observations do not establish causality, data meaning,
-hardware agreement, full boot, MIDI, DSP samples, audio or REAPER acceptance.
-The merged candidate and ledger are reconciled separately from this new local
-firmware observation below.
+Codex's exact-head review completed without findings (review comment
+`6875921191`; summary `6875904421`). GitHub review submissions and review
+threads were zero. Ruleset `25910947` required zero approvals and resolved
+threads; no quota error was reported and no merge bypass was used. PR #289 only
+reconciles the #288 merge evidence and current main baseline; it adds no runtime
+behavior or hardware, boot, MIDI, DSP, audio or REAPER acceptance.
 
 ## Fresh local bounded firmware observation — 2026-11-14
 
