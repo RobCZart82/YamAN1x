@@ -216,9 +216,9 @@ def main(binary):
         code, report = run([64, 8, 1])
         require(code == 2 and "limit" in report["error"] and report["stop_reason"] == "callback_limit"
                 and report["callback_limit_requested"] == 1, "Global callback bound is explicitly classified")
-        code, report = run([64,8,100000000])
-        require(code == 0 and report["stop_reason"] == "cycle_limit" and report["callback_limit_requested"] == 100000000, "Larger finite callback guard is explicit")
-        for args in ([0,8,100], [-1,8,100], [500000001,8,100], [64,0,100], [64,1000001,100], [64,8,100000001], [64,8,0], ["NaN",8,100], ["18446744073709551616",8,100]):
+        code, report = run([64,8,125000000])
+        require(code == 0 and report["stop_reason"] == "cycle_limit" and report["callback_limit_requested"] == 125000000, "Larger finite callback guard is explicit")
+        for args in ([0,8,100], [-1,8,100], [600000001,8,100], [64,0,100], [64,1000001,100], [64,8,125000001], [64,8,0], ["NaN",8,100], ["18446744073709551616",8,100]):
             code, report = run(args)
             require(code == 1 and report["status"] == "input_error", "Strict finite CLI limits")
         for size in (1, 1048577):
