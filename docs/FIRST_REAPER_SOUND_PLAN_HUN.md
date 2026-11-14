@@ -2,26 +2,27 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #289 — 2026-11-14
+## Ellenőrzött főági alap — #290 — 2026-11-14
 
-A [#289 PR](https://github.com/RobCZart82/YamAN1x/pull/289)
-2026-11-14 11:19:16 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`569f237c6efb0d4d9c6f63cf70756de47b8bc343`, az új főági commit
-`ff04d57710c8e3a6925c93601254460b799ca20b`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43585389110`), az
-initial-decode MSan is sikerült (`43585389139`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43589458644`), valamint az
-initial-decode MSan (`43589458623`) is sikeresek. A főági UBSan/ASan
-ellenőrzések — köztük az aritmetika, reset, perifériák és újrabelépés — szintén
-sikerültek. A MAME-kutatási munkafolyamat útvonal alapján nem futott, mert ez
-csak dokumentációs módosítás volt.
+A [#290 PR](https://github.com/RobCZart82/YamAN1x/pull/290)
+2026-11-14 12:33:00 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`f9d2d50ee1cb098e1058234157a31dc405aaf975`, az új főági commit
+`540dbc7729e7102349150cd0cc7f1142ebec792d`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43591748905`), az
+initial-decode MSan is sikerült (`43591748978`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43595379141`), valamint az
+initial-decode MSan (`43595379179`) is sikeresek. Mindhárom főági platform-job
+sikeres, beleértve az Ubuntu hosszabb UBSan/ASan vizsgálatait. A MAME-kutatási
+munkafolyamat útvonal alapján nem futott, mert ez csak dokumentációs módosítás
+volt.
 
-A Codex pontos PR-fejre szóló áttekintése nem talált hibát (`6875921191`,
-összefoglaló: `6875904421`). GitHub review-beküldés és review-szál nem volt.
-A `25910947` szabályzat nulla jóváhagyást és lezárt szálakat követelt; nem volt
-kvótahiba vagy megkerülés. A #289 kizárólag a #288 beolvadási adatait és az
-aktuális főági alapot egyeztette; nem változtatott a működésen és nem igazol
-hardver-, boot-, MIDI-, DSP-, hang- vagy REAPER-elfogadást.
+A Codex pontos PR-fejre szóló áttekintése nem talált hibát (összefoglaló:
+`6876815402`, nyugta: `6876830710`). GitHub review-beküldés és review-szál
+nem volt. A `25910947` szabályzat nulla jóváhagyást és lezárt szálakat
+követelt; nem volt kvótahiba vagy megkerülés. A #290 kizárólag a #289
+beolvadási adatait és az aktuális főági alapot egyeztette; nem változtatott a
+működésen és nem igazol hardver-, boot-, MIDI-, DSP-, hang- vagy
+REAPER-elfogadást.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-14
 
