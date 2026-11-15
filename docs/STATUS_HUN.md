@@ -2,29 +2,31 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #303 — 2026-11-15
+## Ellenőrzött főági alap — #304 — 2026-11-15
 
-A [#303 PR](https://github.com/RobCZart82/YamAN1x/pull/303)
-2026-11-15 16:40:12 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0`, az új főági commit
-`00ba1d437e1b2e46813027534b2400a1d50d18c6`. A PR-fejen a ROM-mentes
-ellenőrzés sikerült (run `43731388706`), az initial-decode MSan is
-(`43731388714`). A pontos főági commiton a Linux, macOS és Windows
-ellenőrzései sikerültek (run `43736772211`), az initial-decode MSan pedig
-(`43736772200`); az Ubuntu kiterjesztett UBSan/ASan lépései is sikeresek.
-A MAME-kutatás dokumentációs módosítás miatt útvonal szerint nem futott.
+A [#304 PR](https://github.com/RobCZart82/YamAN1x/pull/304)
+2026-11-15 18:34:07 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`6e9380a6c01f2c645da7705942552fa96330f2a4`, az új főági commit
+`217e8e1af87276ff52d6e7008d70303d3f624440`. A pontos PR-fejen a Linux,
+macOS és Windows ellenőrzései sikerültek (ROM-mentes CI, `43743313289`);
+az initial-decode MSan is sikerült (`43743313286`). A pontos főági
+commiton a három platformellenőrzés sikerült (`43747490185`), ahogy az
+initial-decode MSan is (`43747490162`). Az Ubuntu kiterjesztett UBSan/ASan
+lépései szintén sikeresek.
 
 A pontos PR-fejre vonatkozó Codex-áttekintés nem talált hibát
-(összefoglaló megjegyzés: `6897529514`; kézi ellenőrzés nyugtája:
-`6897544092`). GitHub review-beküldés, beágyazott megjegyzés és review-szál
-nem volt. A `25910947` aktív szabályzat három platformellenőrzést, nulla
-jóváhagyást és lezárt review-szálakat követel; kvótahiba vagy megkerülés nem
-történt. A #303 a #302 beolvadási adatait egyeztette; futásidejű működést vagy
-elfogadást nem változtatott.
+(összefoglaló megjegyzés: `6898697415`; kézi ellenőrzés nyugtája:
+`6898711208`). GitHub review-beküldés, beágyazott megjegyzés és
+review-szál nem volt. A `25910947` aktív szabályzat három
+platformellenőrzést, nulla jóváhagyást és lezárt review-szálakat követel;
+kvótahiba vagy megkerülés nem történt. A #304 korlátozott, csak olvasó
+ellenőrzést ad a meglévő nyomkövetési rekordokhoz; nem igazol
+adatjelentést, oksági kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t,
+hangot vagy REAPER-elfogadást.
 
-## PKS-bemeneti szó korábbi írásainak ellenőrzése — helyi jelölt — 2026-11-15
+## PKS-bemeneti szó korábbi írásainak ellenőrzése — beolvadt a #304 PR-ban — 2026-11-15
 
-A jelölt elemzés minden megfigyelt hívói olvasást összevet a rögzített
+A beolvadt elemzés minden megfigyelt hívói olvasást összevet a rögzített
 operandusesemények között talált legutóbbi korábbi írással, amely ugyanarra az
 igazított szóra és a kiválasztott bájtsávra vonatkozik. Az értékbájtot és az
 események sorrendjét is ellenőrzi. Teljes szavas vagy azonos bájtsávú írás
@@ -39,12 +41,22 @@ A lépés a meglévő, csak olvasó nyomkövetési adatokat használja fel; új
 megfigyelőt vagy MAME-módosítást nem ad hozzá. A célzott utasítás-elemző
 tesztjei normál és Python `-O` módban is 11/11 arányban sikerülnek; a teljes
 Python-teszt 143/143, az adattár-audit pedig sikeres (701 fájl, 201 upstream
-azonosság). Ehhez a jelölthöz nem készült új MAME-fordítás vagy futás. A
+azonosság). Ehhez a lépéshez nem készült új MAME-fordítás vagy futás. A
 rögzített forrás továbbra is
 `706dbb73281320c54d7c2f16262c1c3786f2be01`; a ROM változatlan, az adattáron
 kívül marad. Ez a korlátozott ellenőrzés nem igazol adatjelentést, oksági
 kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
+
+## Következő korlátozott vizsgálati irány — jelölt
+
+Érdemes lehet új, csak olvasó felvételt készíteni hosszabb előtörténettel a két
+PKS-hívói olvasás körül, hogy láthatóvá válhat-e olyan adat-előállító írás,
+amely a jelenlegi korlátozott operandusesemény-ablakon kívül esik. A cím,
+bájtsáv, érték, nyers flag, időzítés és folytathatóság ellenőrzése maradjon
+független; ebből ne következtessünk adatjelentésre vagy okságra. Ez csak
+jelölt irány, még nem megvalósítás vagy elfogadási állítás.
+
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
 A beolvadt fejlesztés új, csak olvasó utasításmegfigyelőt adott a két ismétlődő PKS
