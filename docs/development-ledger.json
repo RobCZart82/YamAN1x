@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
+  "baseline_commit": "217e8e1af87276ff52d6e7008d70303d3f624440",
   "entries": [
     {
       "pr": 6,
@@ -6497,24 +6497,37 @@
       },
       "review": "Codex exact-head review completed without findings on aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0 (summary comment 6897529514; manual receipt 6897544092). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error or bypass.",
       "scope": "Documentation-only reconciliation of PR #302 merge evidence and current main baseline; no runtime behavior or acceptance."
-    }
-  ],
-  "pending_changes": [
+    },
     {
-      "title": "Cross-check captured prior writes for PKS caller input words",
-      "branch": "research/pks-input-producer-crosscheck",
-      "base_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
-      "kind": "bounded observation-only audit",
-      "status": "open",
-      "scope": "Compare each captured caller-input read with the latest prior captured write to the same aligned word and selected byte lane; report absent in-window writes without implying absence outside the bounded trace. No new MAME instrumentation.",
-      "local_validation": "Focused Python audit 11/11 normally and under -O; full Python 143/143; repository audit 701 files/201 upstream identities PASS; git diff --check PASS. No new MAME build/run.",
-      "review": "pending exact-head review",
-      "merge_status": "not merged",
+      "pr": 304,
       "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/304",
-      "next_step": "Check PR #304 exact head for required CI, review findings or evidence of no review, conflicts and dependencies. Merge only when all required gates pass on the exact head.",
-      "pr_number": 304
+      "title": "research: cross-check captured PKS input-word writes",
+      "branch": "research/pks-input-prior-write-crosscheck",
+      "kind": "bounded observation-only audit",
+      "status": "merged",
+      "base_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
+      "head_commit": "6e9380a6c01f2c645da7705942552fa96330f2a4",
+      "merge_commit": "217e8e1af87276ff52d6e7008d70303d3f624440",
+      "merged_at_utc": "2026-11-15T18:34:07Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43743313289,
+        "initial_decode_msan_run": 43743313286,
+        "platform_jobs": "all passed"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43747490185,
+        "initial_decode_msan_run": 43747490162,
+        "ubuntu_extended_sanitizers": "pass"
+      },
+      "review": "Codex exact-head review completed without findings on 6e9380a6c01f2c645da7705942552fa96330f2a4 (summary comment 6898697415; manual review receipt 6898711208). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error or bypass.",
+      "scope": "Compare each captured caller-input read with the latest earlier captured operand-context write to the same aligned word and selected byte lane; check byte value and event order. Missing matches are bounded-capture observations only. No new observer or MAME instrumentation.",
+      "acceptance": "No data-semantic, causal, hardware-equivalent, full-boot, MIDI, DSP, audio or REAPER acceptance.",
+      "next_step": "Consider a fresh read-only PKS capture with wider pre-roll to check whether a producer falls outside the existing bounded event window; preserve independent address/value/byte-lane/raw-flag/timing/continuation checks."
     }
   ],
+  "pending_changes": [],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
