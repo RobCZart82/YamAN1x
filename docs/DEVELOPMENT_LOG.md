@@ -1,3 +1,39 @@
+## PR #297 merge verification and fresh firmware observation — 2026-11-15
+
+PR [#297](https://github.com/RobCZart82/YamAN1x/pull/297) merged by squash
+at `2026-11-15T04:25:09Z`, from exact head
+`f21bf5b22c757760d938149339e8401b4cbca836` to main
+`a35e2756edfd4a8736081f2e51de2765d0c51d76`. PR-head Linux/macOS/Windows
+checks passed (ROM-free CI `43650629970`); initial-decode MSan passed
+(`43650629987`). Exact-main platform checks passed (`43676682682`) and
+initial-decode MSan passed (`43676682701`), including Ubuntu's extended
+UBSan/ASan steps. MAME research was path-filtered. Codex manual exact-head
+review completed without findings (summary `6885513928`, receipt `6885524302`);
+GitHub review objects, inline comments and threads were zero. Active ruleset
+`25910947` requires the three platform checks, zero approvals and resolved
+threads. No quota error or bypass was involved. Docs only; no runtime behavior
+or acceptance changed.
+
+A fresh read-only no-input probe requested 600,000,000 cycles, 1,000,000-cycle
+slices and a 125,000,000-callback cap. It stopped at cycle `95,706,795`,
+post-fetch PC `0x1B64`, on a rejected byte write `0x23` to `0xFFFFE8`
+(`Unsupported ADC conversion or IRQ enable`). It reported CPU failure and no
+TX/clock edges. Four fresh constant eight-channel scan profiles (all-zero or
+all-1023, each at 4,096/1,000,000-cycle slices) reached 600,000,000 cycles
+without CPU/access failure. AN0–AN3 first deadlines were
+`[95707121,95707387,95707643,95707899]`. AN4–AN7 deadlines were
+`[127793965,127794231,127794487,127794743]` at zero and
+`[127794154,127794420,127794676,127794932]` at 1023, invariant across slice
+sizes within each profile. VOP3 sample passes were `[0,0]`; callback totals
+varied by slice size. Every run left `audio_accepted` and
+`firmware_boot_accepted` false. ROM hash before/after was unchanged at
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`, and the
+image remained outside Git. Probe executable hash was
+`b75b711ed425d08efa9cc837fbe9315efbeb98dbee3f928b1b09edac2f9de2ca`. MAME
+source remains pinned at `706dbb73281320c54d7c2f16262c1c3786f2be01`; no new
+MAME build/run. This is bounded synthetic-profile evidence only, not hardware,
+full-boot, MIDI, DSP, audio or REAPER acceptance.
+
 # Development Log
 
 ## PR #296 merge verification — 2026-11-14
