@@ -45,6 +45,33 @@ A `mame-lcd-controller.patch` új saját fejlécet is telepít a driver mellé; 
 
 A jelenlegi mérés friss processzusú hidegindításra készült. Save-state, visszatöltés és több egymást követő szoftveres reset működését még nem validáltuk.
 
+## PKS hívói utasítások hosszabb előtörténete — helyi jelölt
+
+A jelenlegi helyi jelölt 65 536 előző és 2 048 következő H8-utasítás-pillanatképet
+rögzít négy, statikusan azonosított PKS-hívói olvasás körül. A rögzített
+MAME-forrás commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`; az újonnan
+fordított program kivonata
+`8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2`. Két
+friss, kilenc másodperces, passzív futás egyenként 270 336 eseményt, négy teljes
+ablakot, nulla elveszett sort és 328 749 nyomvonalsort eredményezett. Azonos
+műszerezett bináris mellett a nyom SHA-256 mindkét futásban
+`482566f32ac2509db8dc0e06cef63fd77d71dcb8e4710730cfd16ba0ff5b9645`, a
+kanonikus eseménykivonat
+`56087248c4027da217d9dc84f7db9f83f7fc5451a35a453e67022c7c79e82c70` volt; a
+26 nem nyomvonalas jegyzékmező is megegyezett.
+
+A hosszabb ablakban mindkét megfigyelt bemeneti olvasás előtti, megfelelő
+kiválasztott bájtsávú írás szerepelt. A CPU-utasítás pillanatképe PC és időpont
+alapján egyezett a külön operandusmegfigyelő CCR- és ER0–ER7-rekordjával; a
+nyers CCR értelmezés nélkül marad. Ez korlátozott MAME-megfigyelés, nem adat-
+szemantika, okozatiság, hardveregyezés, teljes indulás, MIDI, DSP, hang vagy
+REAPER-elfogadás. A ROM változatlan maradt és Git-en kívül van.
+
+Helyi ellenőrzés: a 14 patch-es előkészítés és a teljes macOS MAME-build
+sikeres; a Release-build, CTest 139/139, Python 146/146, célzott optimalizált
+audit 14/14, adattár-audit 701/201 és forrás/értesítés-lefedettség 232/5
+sikerült. A módosítások nem jelentenek jogi vagy terjesztési engedélyt.
+
 ## PKS forrásbájtos környezetmegfigyelő — helyi jelölt
 
 A tizenharmadik patch csak a CPU környezetét figyeli három forrás-RAM-szócímen,
