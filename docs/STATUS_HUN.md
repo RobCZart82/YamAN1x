@@ -2,27 +2,49 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #302 — 2026-11-15
+## Ellenőrzött főági alap — #303 — 2026-11-15
 
-A [#302 PR](https://github.com/RobCZart82/YamAN1x/pull/302)
-2026-11-15 15:00:22 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`7842867360082fa653f5c02801725576f314504d`, az új főági commit
-`268d2588b07fdf3979daae4286f3a4dc37249dbc`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43723057881`), az
-initial-decode MSan pedig (`43723057883`). A pontos főági commiton a
-platformellenőrzések (`43727420594`) és az initial-decode MSan
-(`43727420517`) is sikerültek; az Ubuntu kiterjesztett UBSan/ASan lépései
-szintén sikeresek. A MAME-kutatás útvonal alapján nem futott, mert ez
-dokumentációs PR volt.
+A [#303 PR](https://github.com/RobCZart82/YamAN1x/pull/303)
+2026-11-15 16:40:12 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0`, az új főági commit
+`00ba1d437e1b2e46813027534b2400a1d50d18c6`. A PR-fejen a ROM-mentes
+ellenőrzés sikerült (run `43731388706`), az initial-decode MSan is
+(`43731388714`). A pontos főági commiton a Linux, macOS és Windows
+ellenőrzései sikerültek (run `43736772211`), az initial-decode MSan pedig
+(`43736772200`); az Ubuntu kiterjesztett UBSan/ASan lépései is sikeresek.
+A MAME-kutatás dokumentációs módosítás miatt útvonal szerint nem futott.
 
 A pontos PR-fejre vonatkozó Codex-áttekintés nem talált hibát
-(összefoglaló megjegyzés: `6896265712`; kézi ellenőrzés nyugtája:
-`6896279575`). GitHub review-beküldés, beágyazott review-megjegyzés és
-review-szál nem volt. A `25910947` aktív szabályzat három platformellenőrzést,
-nulla jóváhagyást és lezárt review-szálakat követel; kvótahiba vagy megkerülés
-nem történt. A #302 a #301 beolvadási és főági ellenőrzési adatait egyeztette;
-futásidejű működést vagy elfogadást nem változtatott.
+(összefoglaló megjegyzés: `6897529514`; kézi ellenőrzés nyugtája:
+`6897544092`). GitHub review-beküldés, beágyazott megjegyzés és review-szál
+nem volt. A `25910947` aktív szabályzat három platformellenőrzést, nulla
+jóváhagyást és lezárt review-szálakat követel; kvótahiba vagy megkerülés nem
+történt. A #303 a #302 beolvadási adatait egyeztette; futásidejű működést vagy
+elfogadást nem változtatott.
 
+## PKS-bemeneti szó korábbi írásainak ellenőrzése — helyi jelölt — 2026-11-15
+
+A jelölt elemzés minden megfigyelt hívói olvasást összevet a rögzített
+operandusesemények között talált legutóbbi korábbi írással, amely ugyanarra az
+igazított szóra és a kiválasztott bájtsávra vonatkozik. Az értékbájtot és az
+események sorrendjét is ellenőrzi. Teljes szavas vagy azonos bájtsávú írás
+lehet megfelelő; az ellentétes bájtsáv írása nem. Ha a korlátozott felvételben
+nincs megfelelő korábbi írás, az eredmény ezt mondja: `no preceding write
+observed`. Ez nem állítja, hogy a felvételi ablakon kívül sem történt írás.
+A szintetikus ellenőrzések lefedik a felső és alsó bájtot, a teljes szavas
+írást, az eltérő értéket, a hibás címet, az ellentétes bájtsávot és a későbbi
+írást.
+
+A lépés a meglévő, csak olvasó nyomkövetési adatokat használja fel; új
+megfigyelőt vagy MAME-módosítást nem ad hozzá. A célzott utasítás-elemző
+tesztjei normál és Python `-O` módban is 11/11 arányban sikerülnek; a teljes
+Python-teszt 143/143, az adattár-audit pedig sikeres (701 fájl, 201 upstream
+azonosság). Ehhez a jelölthöz nem készült új MAME-fordítás vagy futás. A
+rögzített forrás továbbra is
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; a ROM változatlan, az adattáron
+kívül marad. Ez a korlátozott ellenőrzés nem igazol adatjelentést, oksági
+kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-
+elfogadást.
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
 A beolvadt fejlesztés új, csak olvasó utasításmegfigyelőt adott a két ismétlődő PKS
