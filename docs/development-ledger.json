@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
+  "baseline_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
   "entries": [
     {
       "pr": 6,
@@ -6412,23 +6412,52 @@
       "review": "Codex PR-open exact-head review completed without findings (summary comment 6891642147). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform status checks, zero approvals and resolved threads; no quota error and no bypass.",
       "scope": "Documentation-only reconciliation of PR #299 merge evidence and current main baseline; no runtime behavior.",
       "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 301,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/301",
+      "title": "research: trace bounded PKS caller instruction context",
+      "branch": "research/adc-irq-firmware-boundary",
+      "kind": "bounded MAME research instrumentation",
+      "status": "merged",
+      "base_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
+      "head_commit": "c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0",
+      "merge_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
+      "merged_at_utc": "2026-11-15T13:00:18Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43713392460,
+        "initial_decode_msan_run": 43713392310,
+        "mame_research_run": 43713392395
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43716702337,
+        "initial_decode_msan_run": 43716702419,
+        "mame_research_run": 43716702349,
+        "ubuntu_extended_sanitizers": "pass"
+      },
+      "review": "Codex final exact-head review completed without findings on c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0 (summary comment 6893288095; manual review receipt 6894257644). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "local_validation": "Release build PASS; full 139/139 CTest PASS; Python 138/138 PASS; focused optimized Python 6/6 PASS; focused CTest 2/2 PASS; repository audit 701 files/201 upstream identities PASS; source/notice coverage 232 files/5 texts PASS; pinned raw-source preflight verified 6 inputs, applied 14 patches and matched all 13 prepared files with 7 helper headers. One first full CTest run exposed a missing source/notice inventory row; corrected within existing MAME patch coverage, no project license chosen, full rerun passed.",
+      "scope": "Read-only bounded instruction/register/CCR/time windows around two observed caller reads; independently cross-check address/value/lane, static and dynamic path ordering, writer register snapshots, timing and continuation. No causal, semantic, hardware, boot, MIDI, DSP, audio or REAPER acceptance.",
+      "acceptance": "No hardware, firmware-semantic, complete-boot, MIDI, DSP, audio or REAPER acceptance.",
+      "next_step": "Trace the instruction and value path preceding observed PKS source writes, with independent address/value/byte-lane/raw-flag/timing/continuation checks; retain observation-only limits."
     }
   ],
   "pending_changes": [
     {
-      "title": "Trace bounded PKS caller-input instruction contexts",
-      "branch": "research/adc-irq-firmware-boundary",
-      "base_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
-      "kind": "bounded MAME research instrumentation",
+      "title": "Reconcile PR #301 merge and refresh main baseline",
+      "branch": "docs/reconcile-pr301-merge",
+      "base_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
+      "kind": "documentation",
       "status": "open",
-      "scope": "Read-only bounded instruction/register/CCR/time windows around two observed caller reads; independently cross-check address/value/lane, static and dynamic path ordering, writer register snapshots, timing and continuation. No causal, semantic, hardware, boot, MIDI, DSP, audio or REAPER acceptance.",
-      "local_validation": "Release build PASS; full 139/139 CTest PASS; Python 138/138 PASS; focused optimized Python 6/6 PASS; focused CTest 2/2 PASS; repository audit 701 files/201 upstream identities PASS; source/notice coverage 232 files/5 texts PASS; pinned raw-source preflight verified 6 inputs, applied 14 patches and matched all 13 prepared files with 7 helper headers. One first full CTest run exposed a missing source/notice inventory row; corrected within existing MAME patch coverage, no project license chosen, full rerun passed.",
-      "pr_number": 301,
-      "review": "Codex exact-head review completed without findings on f5c923e087330339b525eb9f0e2b4ce793682e9a (summary comment 6893288095, manual-request receipt 6894010721). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 requires three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Reconcile #301's merged state and exact-main checks across English and Hungarian summaries, development log and structured ledger; record the next bounded PKS upstream instruction/value-path direction. No runtime changes.",
+      "local_validation": "UTF-8 and JSON parse checked in-memory; exact PR/main workflow job results verified through GitHub. Hosted documentation checks pending.",
+      "pr_number": 302,
+      "review": "pending",
       "merge_status": "not merged",
-      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/301",
-      "candidate_head": "f5c923e087330339b525eb9f0e2b4ce793682e9a",
-      "hosted_checks": "Exact candidate-head ROM-free CI Linux/macOS/Windows passed in run 43710125929; initial-decode MSan passed in 43710126038; MAME research build passed in 43710125967."
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/302",
+      "next_step": "After this PR merges and exact-main required checks pass, trace the instruction/value path preceding observed PKS source writes with independent address/value/byte-lane/raw-flag/timing/continuation checks."
     }
   ],
   "audit_correction": {
