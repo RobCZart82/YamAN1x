@@ -59,11 +59,14 @@ diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
      memory_passthrough_handler m_read_trace, m_write_trace, m_dms_flag_trace;
      memory_passthrough_handler m_pks_context_read_trace, m_pks_context_write_trace;
      memory_passthrough_handler m_pks_source_read_trace[2], m_pks_source_write_trace[2];
-@@ -131,9 +133,13 @@
+@@ -131,9 +133,16 @@
      logerror("YAMANIX DSP_BEGIN version=1 clock_hz=1000000000 limit=200000\n");
      logerror("YAMANIX PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
      logerror("YAMANIX PKS_SOURCE_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
-+    logerror("YAMANIX PKS_INSTRUCTION_CONTEXT_BEGIN version=1 capacity=8192 window=2048 hardware_validated=0\n");
++    logerror("YAMANIX PKS_INSTRUCTION_CONTEXT_BEGIN version=2 capacity=%u post=%u preroll=%u hardware_validated=0\n",
++        unsigned(m_pks_instruction_context_trace.capacity()),
++        unsigned(m_pks_instruction_context_trace.window_length()),
++        unsigned(m_pks_instruction_context_trace.pre_roll_length()));
 +    m_maincpu->set_yamanix_instruction_observer([this](u32 pc, u16 opcode, u8 ccr, const u16 *registers, u64 time_ns) {
 +        m_pks_instruction_context_trace.observe(pc, opcode, ccr, registers, time_ns);
 +    });
@@ -74,7 +77,7 @@ diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
      for (const auto &span : spans) for (offs_t pc = span.first; pc < span.second;) {
          std::ostringstream line;
          const offs_t length = m_maincpu->get_disassembler().disassemble(line, pc, buffer, buffer) & util::disasm_interface::LENGTHMASK;
-@@ -248,6 +254,8 @@
+@@ -248,6 +257,8 @@
      for (unsigned i = 0; i < er.size(); ++i)
          er[i] = u32(m_maincpu->state_int(h8_device::H8_R0 + i));
  
@@ -83,7 +86,7 @@ diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
      m_pks_operand_context_trace.observe(op, address, data, mask, m_maincpu->pc(),
          machine().time().as_ticks(1000000000), er,
          u8(m_maincpu->state_int(h8_device::H8_CCR)),
-@@ -339,6 +347,32 @@
+@@ -339,6 +350,32 @@
  
  void an1x_state::dsp_trace_end()
  {
@@ -95,11 +98,11 @@ diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
 +        m_pks_instruction_context_trace.finished() ? 1 : 0);
 +    for (std::size_t wi = 0; wi < m_pks_instruction_context_trace.window_count(); ++wi) {
 +        const auto &window = m_pks_instruction_context_trace.window(wi);
-+        logerror("YAMANIX PKS_INSTRUCTION_WINDOW id=%u trigger_seq=%llu address=%06x pc=%06x data=%04x mask=%04x ccr=%02x time_ns=%llu first=%u count=%u complete=%u\n",
++        logerror("YAMANIX PKS_INSTRUCTION_WINDOW id=%u trigger_seq=%llu address=%06x pc=%06x data=%04x mask=%04x ccr=%02x time_ns=%llu first=%u preroll=%u count=%u complete=%u\n",
 +            unsigned(wi), (unsigned long long)window.trigger_sequence, window.input_address,
 +            window.postfetch_pc, window.input_data, window.input_mask, window.input_ccr,
 +            (unsigned long long)window.trigger_time_ns, unsigned(window.first_event),
-+            unsigned(window.event_count), window.complete ? 1 : 0);
++            unsigned(window.pre_roll_count), unsigned(window.event_count), window.complete ? 1 : 0);
 +        for (std::size_t ei = window.first_event; ei < window.first_event + window.event_count; ++ei) {
 +            const auto &event = m_pks_instruction_context_trace.event(ei);
 +            const auto &r = event.registers;
@@ -120,7 +123,7 @@ diff --git a/src/mame/yamaha/yamanix_pks_instruction_context_trace.h b/src/mame/
 new file mode 100644
 --- /dev/null
 +++ b/src/mame/yamaha/yamanix_pks_instruction_context_trace.h
-@@ -0,0 +1,120 @@
+@@ -0,0 +1,153 @@
 +// Project-owned bounded instruction-context snapshots for pinned MAME research.
 +#pragma once
 +
@@ -130,11 +133,15 @@ new file mode 100644
 +
 +namespace yamanix {
 +
-+template<std::size_t Capacity, std::size_t WindowLength>
++template<std::size_t Capacity, std::size_t WindowLength, std::size_t PreRollLength = 0>
 +class PksInstructionContextTrace {
 +    static_assert(Capacity > 0 && WindowLength > 0);
 +    static_assert(Capacity >= WindowLength);
 +public:
++    static constexpr std::size_t capacity() { return Capacity; }
++    static constexpr std::size_t window_length() { return WindowLength; }
++    static constexpr std::size_t pre_roll_length() { return PreRollLength; }
++
 +    struct Event {
 +        std::uint64_t sequence = 0;
 +        std::uint64_t time_ns = 0;
@@ -153,6 +160,7 @@ new file mode 100644
 +        std::uint16_t input_mask = 0;
 +        std::uint8_t input_ccr = 0;
 +        std::size_t first_event = 0;
++        std::size_t pre_roll_count = 0;
 +        std::size_t event_count = 0;
 +        bool complete = false;
 +    };
@@ -170,7 +178,8 @@ new file mode 100644
 +        else
 +            return false;
 +        if (site_triggers_[site] >= 2 || window_count_ >= windows_.size() ||
-+            event_count_ + WindowLength > events_.size())
++            pre_roll_count_ != PreRollLength ||
++            event_count_ + PreRollLength + WindowLength > events_.size())
 +            return false;
 +
 +        Window &window = windows_[window_count_];
@@ -182,6 +191,14 @@ new file mode 100644
 +        window.input_mask = mask;
 +        window.input_ccr = ccr;
 +        window.first_event = event_count_;
++        window.pre_roll_count = pre_roll_count_;
++        if constexpr (PreRollLength > 0) {
++            for (std::size_t i = 0; i < pre_roll_count_; ++i) {
++                const std::size_t index = (pre_roll_next_ + PreRollLength - pre_roll_count_ + i) % PreRollLength;
++                append(pre_roll_[index]);
++            }
++        }
++        window.event_count = window.pre_roll_count;
 +        ++site_triggers_[site];
 +        active_window_ = static_cast<int>(window_count_++);
 +        remaining_ = WindowLength;
@@ -190,30 +207,31 @@ new file mode 100644
 +
 +    void observe(std::uint32_t pc, std::uint16_t opcode, std::uint8_t ccr,
 +                 const std::uint16_t *registers, std::uint64_t time_ns) {
-+        if (active_window_ < 0)
-+            return;
-+        if (event_count_ >= events_.size()) {
-+            ++dropped_;
-+            windows_[active_window_].complete = false;
-+            active_window_ = -1;
-+            remaining_ = 0;
-+            return;
-+        }
-+        Event &event = events_[event_count_];
-+        event.sequence = event_count_;
++        Event event;
 +        event.time_ns = time_ns;
 +        event.pc = pc;
 +        event.opcode = opcode;
 +        event.ccr = ccr;
 +        for (std::size_t i = 0; i < event.registers.size(); ++i)
 +            event.registers[i] = registers[i];
-+        ++event_count_;
-+        Window &window = windows_[active_window_];
-+        ++window.event_count;
-+        if (--remaining_ == 0) {
-+            window.complete = true;
-+            active_window_ = -1;
++
++        if (active_window_ >= 0) {
++            if (event_count_ >= events_.size()) {
++                ++dropped_;
++                windows_[active_window_].complete = false;
++                active_window_ = -1;
++                remaining_ = 0;
++            } else {
++                append(event);
++                Window &window = windows_[active_window_];
++                ++window.event_count;
++                if (--remaining_ == 0) {
++                    window.complete = true;
++                    active_window_ = -1;
++                }
++            }
 +        }
++        remember(event);
 +    }
 +
 +    void finish() { finished_ = true; }
@@ -226,11 +244,29 @@ new file mode 100644
 +    const Window &window(std::size_t index) const { return windows_[index]; }
 +
 +private:
++    void append(const Event &source) {
++        Event &event = events_[event_count_++];
++        event = source;
++        event.sequence = event_count_ - 1;
++    }
++
++    void remember(const Event &event) {
++        if constexpr (PreRollLength > 0) {
++            pre_roll_[pre_roll_next_] = event;
++            pre_roll_next_ = (pre_roll_next_ + 1) % PreRollLength;
++            if (pre_roll_count_ < PreRollLength)
++                ++pre_roll_count_;
++        }
++    }
++
 +    std::array<Event, Capacity> events_{};
 +    std::array<Window, 4> windows_{};
 +    std::array<unsigned, 2> site_triggers_{};
++    std::array<Event, PreRollLength> pre_roll_{};
 +    std::size_t event_count_ = 0;
 +    std::size_t window_count_ = 0;
++    std::size_t pre_roll_count_ = 0;
++    std::size_t pre_roll_next_ = 0;
 +    std::uint64_t trigger_count_ = 0;
 +    std::uint64_t dropped_ = 0;
 +    int active_window_ = -1;
@@ -238,6 +274,6 @@ new file mode 100644
 +    bool finished_ = false;
 +};
 +
-+using PksInstructionContextTraceDefault = PksInstructionContextTrace<8192, 2048>;
++using PksInstructionContextTraceDefault = PksInstructionContextTrace<270336, 2048, 65536>;
 +
 +} // namespace yamanix

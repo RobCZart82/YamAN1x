@@ -2,7 +2,26 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #304 — 2026-11-15
+## Current verified main — PR #305 — 2026-11-15
+
+PR [#305](https://github.com/RobCZart82/YamAN1x/pull/305) merged by squash
+at `2026-11-15T19:54:48Z`, from exact head
+`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1` to main
+`585e1a798fd8755227b9d1a9f6f8d85413b398c8`. Exact PR-head Linux, macOS and
+Windows checks passed in ROM-free CI run `43751739615`; initial-decode MSan
+passed in `43751740638`. Exact-main Linux, macOS and Windows checks passed in
+run `43755056441`; initial-decode MSan passed in `43755056449`. Main Ubuntu
+extended UBSan/ASan checks passed.
+
+Codex's exact-head review completed without findings on
+`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1` (summary comment `6899872257`;
+manual review receipt `6899888143`). GitHub review submissions, inline
+comments and review threads were zero. Active ruleset `25910947` requires
+three platform status checks, zero approvals and resolved review threads; no
+quota error was reported and no merge bypass was used. PR #305 reconciled
+PR #304's merge and main-check record; it changed documentation only.
+
+## Latest code baseline — PR #304 — 2026-11-15
 
 PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) merged by squash
 at `2026-11-15T18:34:07Z`, from exact head
@@ -89,13 +108,39 @@ for this increment. The pinned source remains
 `706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
 outside Git. This bounded cross-check does not establish data meaning,
 causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
-## Next bounded work — candidate direction after PR #304
+## Wider PKS caller-read pre-roll — local candidate — 2026-11-15
 
-Consider a fresh read-only capture with a wider pre-roll around the two PKS
-caller reads, so a producer outside the existing bounded operand-event window
-can be observed if present. Keep address, byte-lane, value, raw-flag, timing
-and continuation checks independent; do not infer data semantics or causality.
-This remains a candidate direction, not an implementation or acceptance claim.
+A fresh read-only capture on the pinned MAME source now retains 65,536 H8
+instruction snapshots before and 2,048 after each of the four observed caller
+reads. Two nine-second runs used the same instrumented executable
+(`8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2`) and
+external AN1x 1.04 image. Each produced 270,336 instruction snapshots, four
+complete windows, no drops and 328,749 trace lines. The raw trace SHA-256 was
+`482566f32ac2509db8dc0e06cef63fd77d71dcb8e4710730cfd16ba0ff5b9645` in both
+runs; the independent canonical instruction-event digest was
+`56087248c4027da217d9dc84f7db9f83f7fc5451a35a453e67022c7c79e82c70`. The
+26 non-trace manifest fields also matched. The exact source remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+The wider window includes the previously observed selected-lane writes before
+both caller reads. At `2349EA`, byte `40` (`4000/FF00`, raw CCR `84`) follows a
+matching captured write 36,875 ns earlier. At `237204`, byte `00`
+(`FF00/00FF`, raw CCR `80`) follows a matching write 7,340,375 ns earlier.
+For both, the CPU snapshot at the write PC/time agrees with the independent
+operand-context CCR and ER0–ER7 record; the raw flags remain uninterpreted.
+These are bounded MAME observations, not proof of data meaning, causal
+semantics, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+The ROM SHA-256 remained
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the image
+remains unchanged and outside Git.
+
+
+Local validation: the pinned-source preparation applied 14 patches, verified
+13 prepared files and all helper headers; the full macOS MAME target built.
+The full Release build and CTest run passed 139/139; Python passed 146/146,
+the focused optimized audit 14/14, repository audit 701/201, source/notice
+coverage 232/5, and `git diff --check` passed. No ROM file was modified or
+added to Git.
 
 ## Fresh local bounded firmware observation — 2026-11-15
 

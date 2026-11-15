@@ -2,7 +2,21 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #304 — 2026-11-15
+## Ellenőrzött főági alap — #305 — 2026-11-15
+
+A [#305 PR](https://github.com/RobCZart82/YamAN1x/pull/305) squash módszerrel
+olvadt be 2026-11-15 19:54:48 UTC-kor. A PR-fej
+`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1`, a főági commit
+`585e1a798fd8755227b9d1a9f6f8d85413b398c8`. A PR-fej platform-CI-je és MSan
+ellenőrzése, valamint a pontos főág platform-CI-je, MSan-ja és Ubuntu
+UBSan/ASan lépései sikerültek. Codex pontos fejre vonatkozó áttekintése nem
+talált hibát; GitHub review-beküldés, beágyazott megjegyzés és review-szál nem
+volt. A szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
+review-szálakat követelt; kvótahiba vagy megkerülés nem történt. A #305 csak
+dokumentációs egyeztetés volt.
+
+
+## Legutóbbi kódalap — #304 — 2026-11-15
 
 A [#304 PR](https://github.com/RobCZart82/YamAN1x/pull/304)
 2026-11-15 18:34:07 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
@@ -108,14 +122,39 @@ műszerezés továbbra is korlátozott kutatási bizonyíték: nem igazol okozat
 szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy
 REAPER-elfogadást.
 
-## Következő korlátozott munka — helyi jelöltirány
+## PKS hívói olvasások hosszabb előtörténete — helyi jelölt — 2026-11-15
 
-A következő jelölt a megfigyelt PKS-forrásírásokat megelőző utasítás- és
-értékút követése, független cím-, érték-, bájt-sáv-, nyers flag-, időzítési és
-folytathatósági ellenőrzéssel. Az eredményt megfigyelésként kell kezelni,
-okozati jelentést, hardveregyezést vagy hangelfogadást nem szabad állítani.
-Csak a fenti ellenőrzött főági alapból induljon, miután ez a dokumentációs
-egyeztetés beolvadt és a szükséges főági ellenőrzések sikerültek.
+A rögzített MAME-forráson készült friss, csak olvasó felvétel mind a négy
+megfigyelt hívói olvasás előtt 65 536, utána 2 048 H8-utasítás-pillanatképet
+őriz meg. Két kilenc másodperces futás ugyanazzal a műszerezett programmal
+(`8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2`) és a
+külső AN1x 1.04 képpel készült. Mindkét felvételben 270 336 utasításrekord,
+négy teljes ablak, nulla elveszett rekord és 328 749 nyomvonal-sor volt. A
+nyers nyom SHA-256 mindkét futásban
+`482566f32ac2509db8dc0e06cef63fd77d71dcb8e4710730cfd16ba0ff5b9645`, a
+kanonikus utasításesemények kivonata pedig
+`56087248c4027da217d9dc84f7db9f83f7fc5451a35a453e67022c7c79e82c70` lett. A
+jegyzék 26, nyomvonaltól független mezője is egyezett. A MAME-forrás rögzített
+commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+A hosszabb ablak tartalmazta mindkét olvasást megelőző, kiválasztott
+bájtsávra írt korábbi értéket. A `2349EA` címnél a `40` bájtot
+(`4000/FF00`, nyers CCR `84`) 36 875 ns-sal korábban megfelelő írás
+előzte meg. A `237204` címnél a `00` bájtot (`FF00/00FF`, nyers CCR `80`)
+7 340 375 ns-sal korábbi megfelelő írás előzte meg. Mindkét írásnál a CPU
+PC/időpont szerinti pillanatképe egyezett a független operandus-környezeti
+CCR- és ER0–ER7-rekorddal; a nyers flag értelmezése nem történt meg. Ez
+korlátozott MAME-megfigyelés: nem igazol adatjelentést, okozatiságot,
+hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást. A ROM
+SHA-256 végig `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
+maradt; a változatlan kép Git-en kívül van.
+
+Helyi ellenőrzés: a rögzített forrás előkészítése 14 patch-et alkalmazott,
+13 előkészített fájlt és minden segédfejlécet igazolt; a teljes MAME-cél
+macOS-en lefordult. A teljes Release-build és CTest 139/139, a Python
+146/146, a célzott optimalizált elemzés 14/14, az adattár-audit 701/201 és a
+forrás/értesítés-lefedettség 232/5 eredménnyel sikerült. A `git diff --check`
+is tiszta. ROM nem módosult és nem került Git-be.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
 

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "217e8e1af87276ff52d6e7008d70303d3f624440",
+  "baseline_commit": "585e1a798fd8755227b9d1a9f6f8d85413b398c8",
   "entries": [
     {
       "pr": 6,
@@ -6525,6 +6525,33 @@
       "scope": "Compare each captured caller-input read with the latest earlier captured operand-context write to the same aligned word and selected byte lane; check byte value and event order. Missing matches are bounded-capture observations only. No new observer or MAME instrumentation.",
       "acceptance": "No data-semantic, causal, hardware-equivalent, full-boot, MIDI, DSP, audio or REAPER acceptance.",
       "next_step": "Consider a fresh read-only PKS capture with wider pre-roll to check whether a producer falls outside the existing bounded event window; preserve independent address/value/byte-lane/raw-flag/timing/continuation checks."
+    },
+    {
+      "pr": 305,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/305",
+      "title": "docs: reconcile PR 304 merge and verified main",
+      "branch": "docs/reconcile-pr304-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "217e8e1af87276ff52d6e7008d70303d3f624440",
+      "head_commit": "07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1",
+      "merge_commit": "585e1a798fd8755227b9d1a9f6f8d85413b398c8",
+      "merged_at_utc": "2026-11-15T19:54:48Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43751739615,
+        "initial_decode_msan_run": 43751740638,
+        "platform_jobs": "all passed"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43755056441,
+        "initial_decode_msan_run": 43755056449,
+        "ubuntu_extended_sanitizers": "pass"
+      },
+      "review": "Codex exact-head review completed without findings (summary comment 6899872257; manual review receipt 6899888143). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #304 merge and verified-main evidence; no runtime behavior.",
+      "acceptance": "No hardware, full-boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [],
@@ -6642,5 +6669,51 @@
     "merged_at_utc": "2026-11-15T07:42:15Z",
     "open_prs_at_reconciliation": 0,
     "documentation_reconciliation": "PR #299 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
+  },
+  "current_candidate": {
+    "title": "research: widen PKS caller instruction pre-roll",
+    "branch": "research/itu-active-mmio-integration",
+    "kind": "bounded observation-only MAME instrumentation and audit",
+    "status": "candidate",
+    "base_commit": "585e1a798fd8755227b9d1a9f6f8d85413b398c8",
+    "pull_request": null,
+    "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_executable_sha256": "8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "capture_profile": {
+      "windows": 4,
+      "preroll_instructions": 65536,
+      "post_instructions": 2048,
+      "capacity": 270336
+    },
+    "repeat_runs": 2,
+    "each_run": {
+      "duration_seconds": 9,
+      "events": 270336,
+      "complete_windows": 4,
+      "dropped": 0,
+      "trace_lines": 328749,
+      "raw_trace_sha256": "482566f32ac2509db8dc0e06cef63fd77d71dcb8e4710730cfd16ba0ff5b9645"
+    },
+    "canonical_instruction_event_sha256": "56087248c4027da217d9dc84f7db9f83f7fc5451a35a453e67022c7c79e82c70",
+    "repeatability": "All instruction events identical; 26 non-trace run-manifest fields match.",
+    "preceding_write_crosscheck": "Both caller input reads have a matching earlier selected-lane write in the bounded operand capture. At each write PC/time, CPU and operand-context CCR and ER0–ER7 snapshots agree; raw CCR is uninterpreted.",
+    "local_validation": {
+      "mame_preparation": "14 patches applied; 13 prepared files; helper headers verified",
+      "mame_build": "pass",
+      "cxx_trace_check": "pass",
+      "focused_python": "14/14 pass",
+      "focused_python_optimized": "14/14 pass",
+      "preparation_python": "5/5 pass",
+      "full_suite": "pass",
+      "release_build": "pass",
+      "ctest": "139/139 pass",
+      "python": "146/146 pass",
+      "repository_audit": "701 files; 201 upstream identities; pass",
+      "source_notice": "232 files; 5 texts; pass; legal clearance not claimed",
+      "git_diff_check": "pass"
+    },
+    "scope": "Fixed-capacity circular pre-roll, trigger snapshots and bounded post-read snapshots; parser checks exact profile, ordered complete windows, per-window monotonic time, read/value/lane, raw CCR and register snapshots, preceding write timing and continuation.",
+    "acceptance": "No data semantics, causal claim, hardware agreement, complete boot, MIDI, DSP, audio or REAPER acceptance."
   }
 }

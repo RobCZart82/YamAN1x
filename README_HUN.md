@@ -4,7 +4,26 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Ellenőrzött főági alap — #304 — 2026-11-15
+## Ellenőrzött főági alap — #305 — 2026-11-15
+
+A [#305 PR](https://github.com/RobCZart82/YamAN1x/pull/305) squash módszerrel
+olvadt be 2026-11-15 19:54:48 UTC-kor. A pontos PR-fej
+`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1`, az új főági commit
+`585e1a798fd8755227b9d1a9f6f8d85413b398c8`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `43751739615` ROM-mentes CI-futásban, az initial-decode MSan a
+`43751740638` futásban sikerült. A pontos főágon a három platformellenőrzés a
+`43755056441`, az MSan a `43755056449` futásban, az Ubuntu kiterjesztett
+UBSan/ASan ellenőrzései szintén sikerültek.
+
+A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló `6899872257`,
+kézi nyugta `6899888143`). GitHub review-beküldés, beágyazott megjegyzés és
+review-szál nem volt. A `25910947` szabályzat három platformellenőrzést, nulla
+jóváhagyást és lezárt szálakat követelt; kvótahiba vagy megkerülés nem történt.
+A PR a #304 beolvadását és a főági ellenőrzések eredményét egyeztető,
+csak dokumentációs változtatás volt.
+
+
+## Legutóbbi kódalap — #304 — 2026-11-15
 
 A [#304 PR](https://github.com/RobCZart82/YamAN1x/pull/304)
 2026-11-15 18:34:07 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
@@ -50,13 +69,39 @@ kívül marad. Ez a korlátozott ellenőrzés nem igazol adatjelentést, oksági
 kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
 
-## Következő korlátozott vizsgálati irány — jelölt
+## PKS hívói olvasások hosszabb előtörténete — helyi jelölt — 2026-11-15
 
-Egy hosszabb előtörténetű, csak olvasó PKS-felvétel segíthet ellenőrizni, hogy
-az adatot előállító írás a jelenlegi korlátozott eseményablakon kívül történt-e.
-A cím-, bájtsáv-, érték-, nyersflag-, időzítési és folytathatósági ellenőrzés
-külön marad; ez nem állít adatjelentést vagy okságot. Ez egyelőre csak jelölt
-irány, nem megvalósítás vagy elfogadás.
+A rögzített MAME-forráson készült friss, csak olvasó felvétel mind a négy
+megfigyelt hívói olvasás előtt 65 536, utána 2 048 H8-utasítás-pillanatképet
+őriz meg. Két kilenc másodperces futás ugyanazzal a műszerezett programmal
+(`8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2`) és a
+külső AN1x 1.04 képpel készült. Mindkét felvételben 270 336 utasításrekord,
+négy teljes ablak, nulla elveszett rekord és 328 749 nyomvonal-sor volt. A
+nyers nyom SHA-256 mindkét futásban
+`482566f32ac2509db8dc0e06cef63fd77d71dcb8e4710730cfd16ba0ff5b9645`, a
+kanonikus utasításesemények kivonata pedig
+`56087248c4027da217d9dc84f7db9f83f7fc5451a35a453e67022c7c79e82c70` lett. A
+jegyzék 26, nyomvonaltól független mezője is egyezett. A MAME-forrás rögzített
+commitja `706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+A hosszabb ablak tartalmazta mindkét olvasást megelőző, kiválasztott
+bájtsávra írt korábbi értéket. A `2349EA` címnél a `40` bájtot
+(`4000/FF00`, nyers CCR `84`) 36 875 ns-sal korábban megfelelő írás
+előzte meg. A `237204` címnél a `00` bájtot (`FF00/00FF`, nyers CCR `80`)
+7 340 375 ns-sal korábbi megfelelő írás előzte meg. Mindkét írásnál a CPU
+PC/időpont szerinti pillanatképe egyezett a független operandus-környezeti
+CCR- és ER0–ER7-rekorddal; a nyers flag értelmezése nem történt meg. Ez
+korlátozott MAME-megfigyelés: nem igazol adatjelentést, okozatiságot,
+hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást. A ROM
+SHA-256 végig `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
+maradt; a változatlan kép Git-en kívül van.
+
+Helyi ellenőrzés: a rögzített forrás előkészítése 14 patch-et alkalmazott,
+13 előkészített fájlt és minden segédfejlécet igazolt; a teljes MAME-cél
+macOS-en lefordult. A teljes Release-build és CTest 139/139, a Python
+146/146, a célzott optimalizált elemzés 14/14, az adattár-audit 701/201 és a
+forrás/értesítés-lefedettség 232/5 eredménnyel sikerült. A `git diff --check`
+is tiszta. ROM nem módosult és nem került Git-be.
 
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
