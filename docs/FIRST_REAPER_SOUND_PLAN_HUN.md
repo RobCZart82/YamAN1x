@@ -2,30 +2,31 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #300 — 2026-11-15
+## Ellenőrzött főági alap — #301 — 2026-11-15
 
-A [#300 PR](https://github.com/RobCZart82/YamAN1x/pull/300)
-2026-11-15 09:02:10 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7`, az új főági commit
-`fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43694265960`), az
-initial-decode MSan is sikerült (`43694266017`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43697268409`), valamint az
-initial-decode MSan (`43697268400`) sikeresek. Az Ubuntu-feladat kiterjesztett
-UBSan/ASan lépései is sikeresek. A MAME-kutatási munkafolyamat útvonal alapján
-nem futott, mert ez dokumentációs PR volt.
+A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301)
+2026-11-15 13:00:18 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0`, az új főági commit
+`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (run `43713392460`), az
+initial-decode MSan is sikerült (`43713392310`), a MAME-kutatási futás pedig
+sikeres lett (`43713392395`). A pontos főági commiton a platformellenőrzések
+(`43716702337`), az initial-decode MSan (`43716702419`) és a MAME-kutatási
+futás (`43716702349`) is sikeres. Az Ubuntu-feladat kiterjesztett
+UBSan/ASan lépései szintén sikerültek.
 
-A PR megnyitásakor indult Codex-áttekintés a pontos PR-fejen nem talált hibát
-(összefoglaló megjegyzés: `6891642147`). GitHub review-beküldés, beágyazott
-review-megjegyzés és review-szál nem volt. A `25910947` aktív szabályzat három
-platform-ellenőrzést, nulla jóváhagyást és lezárt review-szálakat követel;
-kvótahiba vagy megkerülés nem történt. A #300 a #299 beolvadási adatait és az
-aktuális főági alapot egyeztette, futásidejű működést vagy elfogadást nem
-változtatott.
+A végső, pontos PR-fejre vonatkozó Codex-áttekintés nem talált hibát
+(összefoglaló megjegyzés: `6893288095`; kézi ellenőrzés nyugtája:
+`6894257644`). GitHub review-beküldés, beágyazott review-megjegyzés és
+review-szál nem volt. A `25910947` aktív szabályzat három platformellenőrzést,
+nulla jóváhagyást és lezárt review-szálakat követel; kvótahiba vagy megkerülés
+nem történt. A #301 korlátozott, csak olvasó kutatóműszerezést ad; nem igazol
+firmware-szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy
+REAPER-elfogadást.
 
-## PKS-bemeneti utasításablakok — helyi jelölt — 2026-11-15
+## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
-A következő jelölt új, csak olvasó utasításmegfigyelőt ad a két ismétlődő PKS
+A beolvadt fejlesztés új, csak olvasó utasításmegfigyelőt adott a két ismétlődő PKS
 bemeneti olvasás köré. Négy, egyenként 2048 utasításnyi ablakban rögzíti a
 programszámlálót, opkódot, időbélyeget, nyers CCR-t és az R0–R7/ER0–ER7
 regisztereket. Két passzív, kilenc másodperces futás a rögzített MAME-forrással
@@ -58,18 +59,30 @@ segédfejlécet ellenőrzött, és mind a tizenhárom előkészített fájlt egy
 találta a helyi MAME-fával. Egy korábbi teljes CTest-futás jelezte, hogy az új
 kutatási patch hiányzik az értesítés-nyilvántartásból; a sort a meglévő, már
 ellenőrzött MAME-patch kategóriába vettük fel, projektlicenc kiválasztása
-nélkül, majd a teljes újrafutás sikeres lett. A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301) nyitva van a pontos
-`f5c923e087330339b525eb9f0e2b4ce793682e9a` fejen; még nem olvadt be. A három
-kötelező platformellenőrzés (run `43710125929`), az initial-decode MSan
-(run `43710126038`) és a MAME-kutatási ellenőrzés (run `43710125967`)
-ellenőrzés sikeres. A Codex pontos fejre vonatkozó áttekintése nem talált
-hibát (összefoglaló megjegyzés: `6894010721`). GitHub review-beküldés,
-beágyazott review-megjegyzés és review-szál nem volt. A `25910947` aktív
-szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
-review-szálakat követel; kvótahibát nem jelentettek, megkerülés nem történt.
-Ez továbbra is korlátozott jelöltbizonyíték: az utasításmegfigyelő nem igazol
-okozatiságot, szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot
-vagy REAPER-elfogadást.
+nélkül, majd a teljes újrafutás sikeres lett. A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301) squash
+módszerrel olvadt be a pontos
+`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` PR-fejről a
+`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2` főági commitba. A PR-fej platform-,
+MSan- és MAME-ellenőrzései rendre a `43713392460`, `43713392310` és
+`43713392395` futásokban, a pontos főági ellenőrzések a `43716702337`,
+`43716702419` és `43716702349` futásokban sikerültek; az Ubuntu kiterjesztett
+UBSan/ASan lépései is sikeresek. A végső, pontos PR-fejre vonatkozó Codex-
+áttekintés nem talált hibát (összefoglaló: `6893288095`, kézi nyugta:
+`6894257644`). GitHub review-beküldés, beágyazott megjegyzés és review-szál
+nem volt. A `25910947` szabályzat három platformellenőrzést, nulla jóváhagyást
+és lezárt szálakat követelt; kvótahiba vagy megkerülés nem történt. A
+műszerezés továbbra is korlátozott kutatási bizonyíték: nem igazol okozatiságot,
+szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy
+REAPER-elfogadást.
+
+## Következő korlátozott munka — helyi jelöltirány
+
+A következő jelölt a megfigyelt PKS-forrásírásokat megelőző utasítás- és
+értékút követése, független cím-, érték-, bájt-sáv-, nyers flag-, időzítési és
+folytathatósági ellenőrzéssel. Az eredményt megfigyelésként kell kezelni,
+okozati jelentést, hardveregyezést vagy hangelfogadást nem szabad állítani.
+Csak a fenti ellenőrzött főági alapból induljon, miután ez a dokumentációs
+egyeztetés beolvadt és a szükséges főági ellenőrzések sikerültek.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
 

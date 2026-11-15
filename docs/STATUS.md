@@ -2,29 +2,30 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #300 — 2026-11-15
+## Current verified main — PR #301 — 2026-11-15
 
-PR [#300](https://github.com/RobCZart82/YamAN1x/pull/300) merged by squash
-at `2026-11-15T09:02:10Z`, from exact head
-`8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7` to main
-`fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43694265960`; initial-decode MSan passed in
-`43694266017`. Exact-main Linux, macOS and Windows passed in run
-`43697268409`; initial-decode MSan passed in `43697268400`. The main Ubuntu
-job's extended UBSan/ASan steps also passed. MAME research was path-filtered
-for this documentation-only PR.
+PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) merged by squash
+at `2026-11-15T13:00:18Z`, from exact head
+`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` to main
+`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. Exact PR-head Linux, macOS and
+Windows checks passed in ROM-free CI run `43713392460`; initial-decode MSan
+passed in `43713392310`, and the MAME research run passed in `43713392395`.
+Exact-main Linux, macOS and Windows passed in run `43716702337`; initial-decode
+MSan passed in `43716702419`; MAME research passed in `43716702349`. The
+main Ubuntu job's extended UBSan/ASan steps also passed.
 
-Codex's PR-open exact-head review completed without findings (summary comment
-`6891642147`). GitHub review submissions, inline review comments and review
-threads were zero. Active ruleset `25910947` requires three platform status
-checks, zero approvals and resolved review threads; no quota error was
-reported and no merge bypass was used. PR #300 reconciles PR #299's merge
-evidence and current main baseline; it changes no runtime behavior or
-acceptance.
+Codex's final exact-head review completed without findings on
+`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` (summary comment `6893288095`;
+manual review receipt `6894257644`). GitHub review submissions, inline review
+comments and review threads were zero. Active ruleset `25910947` requires
+three platform status checks, zero approvals and resolved review threads; no
+quota error was reported and no merge bypass was used. PR #301 adds bounded,
+read-only research instrumentation; it does not establish firmware semantics,
+hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
 
-## PKS caller-input instruction windows — local candidate — 2026-11-15
+## PKS caller-input instruction windows — merged in PR #301 — 2026-11-15
 
-This candidate adds a bounded, read-only instruction observer around the two
+The merged increment adds a bounded, read-only instruction observer around the two
 repeated PKS caller-input reads. It captures four 2,048-instruction windows
 with PC, opcode, timestamp, raw CCR and R0–R7/ER0–ER7. Two passive nine-second
 runs against the pinned MAME source and identical instrumented executable
@@ -55,17 +56,28 @@ seven generated headers and matched all thirteen prepared files to the local
 MAME tree. One earlier full CTest attempt exposed a missing source/notice
 inventory row for this new research patch; the patch was registered under the
 existing reviewed MAME-patch category, no project license was selected, and the
-complete rerun passed. PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) is open at exact head
-`f5c923e087330339b525eb9f0e2b4ce793682e9a`; it is not merged. The three
-required platform checks passed in ROM-free CI run `43710125929`, along
-with initial-decode MSan run `43710126038` and MAME research run
-`43710125967`. Codex exact-head review completed without findings
-(summary comment `6894010721`). GitHub review submissions, inline review
-comments and review threads were zero. Active ruleset `25910947` requires
-three platform checks, zero approvals and resolved review threads; no
-quota error was reported and no bypass was used. This remains bounded
-candidate evidence only: the observer does not establish causality,
-semantics, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+complete rerun passed. PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) merged by squash
+from exact head `c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` to main
+`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. Its final PR-head platform,
+MSan and MAME checks passed in runs `43713392460`, `43713392310` and
+`43713392395`. Exact-main checks passed in runs `43716702337`,
+`43716702419` and `43716702349`; the Ubuntu extended UBSan/ASan steps
+passed. Codex's final exact-head review found no issues (summary
+`6893288095`, manual receipt `6894257644`). GitHub review submissions,
+inline comments and review threads were zero. Ruleset `25910947` required
+three platform checks, zero approvals and resolved threads; no quota error or
+bypass was involved. The instrumentation remains bounded research evidence:
+it does not establish causality, semantics, hardware agreement, boot, MIDI,
+DSP, audio or REAPER acceptance.
+
+## Next bounded work — local candidate direction
+
+The next candidate is to trace the instruction and value path preceding the
+observed PKS source writes, with independent address, value, byte-lane, raw
+flag, timing and continuation checks. Keep the result observational; do not
+claim causal meaning, hardware agreement or audio acceptance. Start it only
+from the verified main above after this documentation reconciliation is merged
+and its required main checks pass.
 
 ## Fresh local bounded firmware observation — 2026-11-15
 

@@ -1,3 +1,19 @@
+## PR #301 merge verification — 2026-11-15
+
+PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) merged by squash at
+`2026-11-15T13:00:18Z`, from exact head
+`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` to main
+`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. Final PR-head ROM-free CI,
+initial-decode MSan and MAME research passed (`43713392460`, `43713392310`,
+`43713392395`). Exact-main platform CI, initial-decode MSan and MAME research
+passed (`43716702337`, `43716702419`, `43716702349`); Ubuntu's extended
+UBSan/ASan steps passed. Codex's final exact-head review found no issues
+(summary `6893288095`, manual receipt `6894257644`). GitHub review submissions,
+inline comments and threads were zero. Active ruleset `25910947` required three
+platform checks, zero approvals and resolved threads; there was no quota error
+or bypass. This merge adds bounded research instrumentation, not hardware,
+boot, MIDI, DSP, audio or REAPER acceptance.
+
 ## PR #300 merge verification — 2026-11-15
 
 PR [#300](https://github.com/RobCZart82/YamAN1x/pull/300) merged by squash at
@@ -14,9 +30,9 @@ requires three platform checks, zero approvals and resolved threads. No quota
 error or bypass was involved. Documentation only; no runtime behavior or
 acceptance changed.
 
-## Bounded PKS caller-input instruction-context candidate — 2026-11-15
+## Bounded PKS caller-input instruction-context — merged in PR #301 — 2026-11-15
 
-This candidate adds a bounded, read-only instruction observer around the two
+The merged increment adds a bounded, read-only instruction observer around the two
 repeated PKS caller-input reads. It captures four 2,048-instruction windows
 with PC, opcode, timestamp, raw CCR and R0–R7/ER0–ER7. Two passive nine-second
 runs against the pinned MAME source and identical instrumented executable
@@ -47,9 +63,9 @@ seven generated headers and matched all thirteen prepared files to the local
 MAME tree. One earlier full CTest attempt exposed a missing source/notice
 inventory row for this new research patch; the patch was registered under the
 existing reviewed MAME-patch category, no project license was selected, and the
-complete rerun passed. This is local candidate evidence only. The observer does
+complete rerun passed. PR #301 merged this bounded research increment. The observer does
 not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
-or REAPER acceptance. A PR has not yet been submitted.
+or REAPER acceptance. The next candidate is to trace the instruction/value path preceding the observed source writes, with independent address, value, byte-lane, raw-flag, timing and continuation checks; no semantic or hardware acceptance is claimed.
 
 The current main baseline for this candidate is `fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR submission, hosted checks and review have not started; this candidate remains separate from merged state.
 
