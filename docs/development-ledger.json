@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
+  "baseline_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
   "entries": [
     {
       "pr": 6,
@@ -6358,16 +6358,43 @@
       "review": "Codex PR-open exact-head review completed without findings (summary comment 6889845658). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
       "scope": "Documentation-only reconciliation of PR #297 merge evidence and current main baseline; records bounded local firmware observations, no runtime behavior.",
       "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 299,
+      "pr_url": "https://github.com/RobCZart82/YAMAN1x/pull/299",
+      "title": "docs: reconcile PR 298 current main",
+      "branch": "docs/reconcile-pr298-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
+      "head_commit": "26d7d6b053e449f3ac1b13869ddd1d725734050a",
+      "merge_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
+      "merged_at_utc": "2026-11-15T07:42:15Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43688214713,
+        "initial_decode_msan_run": 43688214718,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43691124498,
+        "initial_decode_msan_run": 43691124490,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex PR-open exact-head review completed without findings (summary comment 6890810839). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #298 merge evidence and current main baseline; no runtime behavior.",
+      "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [
     {
-      "title": "docs: reconcile PR 298 current main",
-      "branch": "docs/reconcile-pr298-current-main",
-      "base_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
+      "title": "docs: reconcile PR 299 current main",
+      "branch": "docs/reconcile-pr299-current-main",
+      "base_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
       "kind": "documentation",
       "status": "candidate",
-      "scope": "Reconcile PR #298 merge checks and current main baseline. No runtime changes or acceptance claims."
+      "scope": "Reconcile PR #299 merge checks and current main baseline. No runtime changes or acceptance claims."
     }
   ],
   "audit_correction": {
@@ -6477,12 +6504,12 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 298,
+    "pr": 299,
     "status": "merged",
-    "head_commit": "473e58b8fb6facffda6280fc18f5b7998226d623",
-    "merge_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
-    "merged_at_utc": "2026-11-15T06:22:12Z",
+    "head_commit": "26d7d6b053e449f3ac1b13869ddd1d725734050a",
+    "merge_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
+    "merged_at_utc": "2026-11-15T07:42:15Z",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "PR #298 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
+    "documentation_reconciliation": "PR #299 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
   }
 }
