@@ -2,24 +2,24 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #297 — 2026-11-15
+## Current verified main — PR #298 — 2026-11-15
 
-PR [#297](https://github.com/RobCZart82/YamAN1x/pull/297) merged by squash
-at `2026-11-15T04:25:09Z`, from exact head
-`f21bf5b22c757760d938149339e8401b4cbca836` to main
-`a35e2756edfd4a8736081f2e51de2765d0c51d76`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43650629970`; initial-decode MSan passed in
-`43650629987`. Exact-main Linux, macOS and Windows passed in run
-`43676682682`; initial-decode MSan passed in `43676682701`. The main Ubuntu
+PR [#298](https://github.com/RobCZart82/YamAN1x/pull/298) merged by squash
+at `2026-11-15T06:22:12Z`, from exact head
+`473e58b8fb6facffda6280fc18f5b7998226d623` to main
+`6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43681871059`; initial-decode MSan passed in
+`43681871044`. Exact-main Linux, macOS and Windows passed in run
+`43685124410`; initial-decode MSan passed in `43685124686`. The main Ubuntu
 job's extended UBSan/ASan steps also passed. MAME research was path-filtered
 for this documentation-only PR.
 
-Codex's manual exact-head review completed without findings (summary comment
-`6885513928`; receipt `6885524302`). GitHub review submissions, inline review
-comments and review threads were zero. Active ruleset `25910947` requires three
-platform status checks, zero approvals and resolved review threads; no quota
-error was reported and no merge bypass was used. PR #297 reconciles PR #296's
-merge evidence and main baseline; it changes no runtime behavior or acceptance.
+Codex's PR-open exact-head review completed without findings (summary comment
+`6889845658`). GitHub review submissions, inline review comments and review
+threads were zero. Active ruleset `25910947` requires three platform status
+checks, zero approvals and resolved review threads; no quota error was
+reported and no merge bypass was used. PR #298 reconciles PR #297 and records
+bounded firmware observations; it changes no runtime behavior or acceptance.
 
 ## Fresh local bounded firmware observation — 2026-11-15
 

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+  "baseline_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
   "entries": [
     {
       "pr": 6,
@@ -6331,16 +6331,43 @@
       "review": "Codex manual exact-head review completed without findings (summary comment 6885513928; receipt 6885524302). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
       "scope": "Documentation-only reconciliation of PR #296 merge evidence and current main baseline; records fresh bounded local firmware observations, no runtime behavior.",
       "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 298,
+      "pr_url": "https://github.com/RobCZart82/YAMAN1x/pull/298",
+      "title": "docs: reconcile PR 297 and firmware observation",
+      "branch": "docs/reconcile-pr297-firmware-observation",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+      "head_commit": "473e58b8fb6facffda6280fc18f5b7998226d623",
+      "merge_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
+      "merged_at_utc": "2026-11-15T06:22:12Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43681871059,
+        "initial_decode_msan_run": 43681871044,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43685124410,
+        "initial_decode_msan_run": 43685124686,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex PR-open exact-head review completed without findings (summary comment 6889845658). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #297 merge evidence and current main baseline; records bounded local firmware observations, no runtime behavior.",
+      "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [
     {
-      "title": "docs: reconcile PR 297 and record fresh bounded firmware observation",
-      "branch": "docs/reconcile-pr297-firmware-observation",
-      "base_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+      "title": "docs: reconcile PR 298 current main",
+      "branch": "docs/reconcile-pr298-current-main",
+      "base_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
       "kind": "documentation",
       "status": "candidate",
-      "scope": "Reconcile merged PR #297 and record five fresh read-only local probes. No runtime changes or acceptance claims."
+      "scope": "Reconcile PR #298 merge checks and current main baseline. No runtime changes or acceptance claims."
     }
   ],
   "audit_correction": {
@@ -6450,12 +6477,12 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 297,
+    "pr": 298,
     "status": "merged",
-    "head_commit": "f21bf5b22c757760d938149339e8401b4cbca836",
-    "merge_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
-    "merged_at_utc": "2026-11-15T04:25:09Z",
+    "head_commit": "473e58b8fb6facffda6280fc18f5b7998226d623",
+    "merge_commit": "6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38",
+    "merged_at_utc": "2026-11-15T06:22:12Z",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "PR #297 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
+    "documentation_reconciliation": "PR #298 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
   }
 }
