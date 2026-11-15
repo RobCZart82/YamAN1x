@@ -2,26 +2,27 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #303 — 2026-11-15
+## Current verified main — PR #304 — 2026-11-15
 
-PR [#303](https://github.com/RobCZart82/YamAN1x/pull/303) merged by squash
-at `2026-11-15T16:40:12Z`, from exact head
-`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0` to main
-`00ba1d437e1b2e46813027534b2400a1d50d18c6`. Exact PR-head ROM-free CI
-passed in run `43731388706`; initial-decode MSan passed in run
-`43731388714`. Exact-main Linux, macOS and Windows passed in run
-`43736772211`; initial-decode MSan passed in run `43736772200`. The main
-Ubuntu job's extended UBSan/ASan steps passed. MAME research was path-filtered
-for this documentation-only PR.
+PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) merged by squash
+at `2026-11-15T18:34:07Z`, from exact head
+`6e9380a6c01f2c645da7705942552fa96330f2a4` to main
+`217e8e1af87276ff52d6e7008d70303d3f624440`. Exact PR-head Linux, macOS
+and Windows checks passed in ROM-free CI run `43743313289`; initial-decode
+MSan passed in `43743313286`. Exact-main Linux, macOS and Windows checks
+passed in run `43747490185`; initial-decode MSan passed in
+`43747490162`. The main Ubuntu extended UBSan/ASan steps passed.
 
 Codex's exact-head review completed without findings on
-`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0` (summary comment `6897529514`;
-manual review receipt `6897544092`). GitHub review submissions, inline review
-comments and review threads were zero. Active ruleset `25910947` requires
-three platform status checks, zero approvals and resolved review threads; no
-quota error was reported and no merge bypass was used. PR #303 reconciles
-PR #302's merge evidence and exact-main checks; it changes no runtime behavior
-or acceptance.
+`6e9380a6c01f2c645da7705942552fa96330f2a4` (summary comment `6898697415`;
+manual review receipt `6898711208`). GitHub review submissions, inline
+review comments and review threads were zero. Active ruleset `25910947`
+requires three platform status checks, zero approvals and resolved review
+threads; no quota error was reported and no merge bypass was used. PR #304
+adds a bounded read-only cross-check over existing trace records; it does not
+establish data meaning, causality, hardware agreement, boot, MIDI, DSP, audio
+or REAPER acceptance.
+
 ## PKS caller-input instruction windows — merged in PR #301 — 2026-11-15
 
 The merged increment adds a bounded, read-only instruction observer around the two
@@ -69,11 +70,9 @@ bypass was involved. The instrumentation remains bounded research evidence:
 it does not establish causality, semantics, hardware agreement, boot, MIDI,
 DSP, audio or REAPER acceptance.
 
-## Next bounded work — local candidate direction
+## PKS input-word prior-write cross-check — merged in PR #304 — 2026-11-15
 
-## PKS input-word prior-write cross-check — local candidate — 2026-11-15
-
-The candidate audit checks each observed caller read against the latest earlier
+The merged audit checks each observed caller read against the latest earlier
 captured operand-context write to the same aligned word that covers the selected
 byte lane. It compares the byte value and event ordering. A full-word write or
 a write to the selected byte lane can qualify; an opposite-lane write cannot.
@@ -86,10 +85,18 @@ This increment reuses existing read-only trace records and adds no observer or
 MAME patch. Focused instruction-audit tests pass 11/11 normally and under
 Python `-O`; the complete Python suite passes 143/143 and repository audit
 passes (701 files, 201 upstream identities). No new MAME build or run was made
-for this candidate. The pinned source remains
+for this increment. The pinned source remains
 `706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
 outside Git. This bounded cross-check does not establish data meaning,
 causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+## Next bounded work — candidate direction after PR #304
+
+Consider a fresh read-only capture with a wider pre-roll around the two PKS
+caller reads, so a producer outside the existing bounded operand-event window
+can be observed if present. Keep address, byte-lane, value, raw-flag, timing
+and continuation checks independent; do not infer data semantics or causality.
+This remains a candidate direction, not an implementation or acceptance claim.
+
 ## Fresh local bounded firmware observation — 2026-11-15
 
 The project-owned read-only boot probe was run against the unchanged main source
