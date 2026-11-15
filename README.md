@@ -13,26 +13,26 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #301 — 2026-11-15
+## Current verified main — PR #302 — 2026-11-15
 
-PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) merged by squash
-at `2026-11-15T13:00:18Z`, from exact head
-`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` to main
-`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. Exact PR-head Linux, macOS and
-Windows checks passed in ROM-free CI run `43713392460`; initial-decode MSan
-passed in `43713392310`, and the MAME research run passed in `43713392395`.
-Exact-main Linux, macOS and Windows passed in run `43716702337`; initial-decode
-MSan passed in `43716702419`; MAME research passed in `43716702349`. The
-main Ubuntu job's extended UBSan/ASan steps also passed.
+PR [#302](https://github.com/RobCZart82/YamAN1x/pull/302) merged by squash
+at `2026-11-15T15:00:22Z`, from exact head
+`7842867360082fa653f5c02801725576f314504d` to main
+`268d2588b07fdf3979daae4286f3a4dc37249dbc`. Exact PR-head Linux, macOS and
+Windows checks passed in ROM-free CI run `43723057881`; initial-decode MSan
+passed in `43723057883`. Exact-main Linux, macOS and Windows passed in run
+`43727420594`; initial-decode MSan passed in `43727420517`. The main Ubuntu
+job's extended UBSan/ASan steps also passed. MAME research was path-filtered
+for this documentation-only PR.
 
-Codex's final exact-head review completed without findings on
-`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0` (summary comment `6893288095`;
-manual review receipt `6894257644`). GitHub review submissions, inline review
+Codex's exact-head review completed without findings on
+`7842867360082fa653f5c02801725576f314504d` (summary comment `6896265712`;
+manual review receipt `6896279575`). GitHub review submissions, inline review
 comments and review threads were zero. Active ruleset `25910947` requires
 three platform status checks, zero approvals and resolved review threads; no
-quota error was reported and no merge bypass was used. PR #301 adds bounded,
-read-only research instrumentation; it does not establish firmware semantics,
-hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+quota error was reported and no merge bypass was used. PR #302 reconciles
+PR #301's merge evidence and main checks; it changes no runtime behavior or
+acceptance.
 
 ## PKS caller-input instruction windows — merged in PR #301 — 2026-11-15
 
