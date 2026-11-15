@@ -2,26 +2,26 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #297 — 2026-11-15
+## Ellenőrzött főági alap — #298 — 2026-11-15
 
-A [#297 PR](https://github.com/RobCZart82/YamAN1x/pull/297)
-2026-11-15 04:25:09 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`f21bf5b22c757760d938149339e8401b4cbca836`, az új főági commit
-`a35e2756edfd4a8736081f2e51de2765d0c51d76`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43650629970`), az
-initial-decode MSan is sikerült (`43650629987`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43676682682`), valamint az
-initial-decode MSan (`43676682701`) sikeresek. Az Ubuntu-feladat kiterjesztett
+A [#298 PR](https://github.com/RobCZart82/YamAN1x/pull/298)
+2026-11-15 06:22:12 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`473e58b8fb6facffda6280fc18f5b7998226d623`, az új főági commit
+`6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43681871059`), az
+initial-decode MSan is sikerült (`43681871044`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43685124410`), valamint az
+initial-decode MSan (`43685124686`) sikeresek. Az Ubuntu-feladat kiterjesztett
 UBSan/ASan lépései is sikeresek. A MAME-kutatási munkafolyamat útvonal alapján
 nem futott, mert ez dokumentációs PR volt.
 
-A Codex kézi, pontos PR-fejre szóló áttekintése nem talált hibát (összefoglaló:
-`6885513928`, nyugta: `6885524302`). GitHub review-beküldés, beágyazott
+A PR megnyitásakor indult Codex-áttekintés a pontos PR-fejen nem talált hibát
+(összefoglaló megjegyzés: `6889845658`). GitHub review-beküldés, beágyazott
 review-megjegyzés és review-szál nem volt. A `25910947` aktív szabályzat három
 platform-ellenőrzést, nulla jóváhagyást és lezárt review-szálakat követel;
-kvótahiba vagy megkerülés nem történt. A #297 a #296 beolvadási adatait és az
-aktuális főági alapot egyeztette, futásidejű működést vagy elfogadást nem
-változtatott.
+kvótahiba vagy megkerülés nem történt. A #298 a #297 beolvadási adatait és a
+korlátozott firmware-megfigyeléseket rögzítette, futásidejű működést vagy
+elfogadást nem változtatott.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
 

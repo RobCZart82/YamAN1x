@@ -1,3 +1,20 @@
+## PR #298 merge verification — 2026-11-15
+
+PR [#298](https://github.com/RobCZart82/YamAN1x/pull/298) merged by squash
+at `2026-11-15T06:22:12Z`, from exact head
+`473e58b8fb6facffda6280fc18f5b7998226d623` to main
+`6ef26c4e1c5a43fdd4e41f8f6f03221a53fa8e38`. PR-head Linux/macOS/Windows
+checks passed (ROM-free CI `43681871059`); initial-decode MSan passed
+(`43681871044`). Exact-main platform checks passed (`43685124410`) and
+initial-decode MSan passed (`43685124686`), including Ubuntu's extended
+UBSan/ASan steps. MAME research was path-filtered. Codex PR-open exact-head
+review completed without findings (summary comment `6889845658`); GitHub
+review submissions, inline comments and threads were zero. Active ruleset
+`25910947` requires three platform checks, zero approvals and resolved threads.
+No quota error or bypass was involved. This PR reconciled #297's merge evidence
+and recorded fresh bounded read-only local diagnostics; no runtime behavior or
+acceptance changed.
+
 ## PR #297 merge verification and fresh firmware observation — 2026-11-15
 
 PR [#297](https://github.com/RobCZart82/YamAN1x/pull/297) merged by squash
