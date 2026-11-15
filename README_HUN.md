@@ -4,27 +4,26 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Ellenőrzött főági alap — #301 — 2026-11-15
+## Ellenőrzött főági alap — #302 — 2026-11-15
 
-A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301)
-2026-11-15 13:00:18 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
-`c3f715ecaf8be26d0dd798e6de9bb1906c3d52d0`, az új főági commit
-`7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (run `43713392460`), az
-initial-decode MSan is sikerült (`43713392310`), a MAME-kutatási futás pedig
-sikeres lett (`43713392395`). A pontos főági commiton a platformellenőrzések
-(`43716702337`), az initial-decode MSan (`43716702419`) és a MAME-kutatási
-futás (`43716702349`) is sikeres. Az Ubuntu-feladat kiterjesztett
-UBSan/ASan lépései szintén sikerültek.
+A [#302 PR](https://github.com/RobCZart82/YamAN1x/pull/302)
+2026-11-15 15:00:22 UTC-kor squash módszerrel olvadt be. A pontos PR-fej
+`7842867360082fa653f5c02801725576f314504d`, az új főági commit
+`268d2588b07fdf3979daae4286f3a4dc37249dbc`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43723057881`), az
+initial-decode MSan pedig (`43723057883`). A pontos főági commiton a
+platformellenőrzések (`43727420594`) és az initial-decode MSan
+(`43727420517`) is sikerültek; az Ubuntu kiterjesztett UBSan/ASan lépései
+szintén sikeresek. A MAME-kutatás útvonal alapján nem futott, mert ez
+dokumentációs PR volt.
 
-A végső, pontos PR-fejre vonatkozó Codex-áttekintés nem talált hibát
-(összefoglaló megjegyzés: `6893288095`; kézi ellenőrzés nyugtája:
-`6894257644`). GitHub review-beküldés, beágyazott review-megjegyzés és
+A pontos PR-fejre vonatkozó Codex-áttekintés nem talált hibát
+(összefoglaló megjegyzés: `6896265712`; kézi ellenőrzés nyugtája:
+`6896279575`). GitHub review-beküldés, beágyazott review-megjegyzés és
 review-szál nem volt. A `25910947` aktív szabályzat három platformellenőrzést,
 nulla jóváhagyást és lezárt review-szálakat követel; kvótahiba vagy megkerülés
-nem történt. A #301 korlátozott, csak olvasó kutatóműszerezést ad; nem igazol
-firmware-szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy
-REAPER-elfogadást.
+nem történt. A #302 a #301 beolvadási és főági ellenőrzési adatait egyeztette;
+futásidejű működést vagy elfogadást nem változtatott.
 
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 

@@ -1,3 +1,18 @@
+## PR #302 merge verification — 2026-11-15
+
+PR [#302](https://github.com/RobCZart82/YamAN1x/pull/302) merged by squash at
+`2026-11-15T15:00:22Z`, from exact head
+`7842867360082fa653f5c02801725576f314504d` to main
+`268d2588b07fdf3979daae4286f3a4dc37249dbc`. Final PR-head ROM-free CI and
+initial-decode MSan passed (`43723057881`, `43723057883`). Exact-main
+platform CI and initial-decode MSan passed (`43727420594`, `43727420517`);
+Ubuntu's extended UBSan/ASan steps passed. MAME research was path-filtered.
+Codex's exact-head review found no issues (summary `6896265712`, manual
+receipt `6896279575`). GitHub review submissions, inline comments and
+threads were zero. Active ruleset `25910947` required three platform checks,
+zero approvals and resolved threads; there was no quota error or bypass.
+Documentation only; no runtime behavior or acceptance changed.
+
 ## PR #301 merge verification — 2026-11-15
 
 PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) merged by squash at

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
+  "baseline_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
   "entries": [
     {
       "pr": 6,
@@ -6442,22 +6442,51 @@
       "scope": "Read-only bounded instruction/register/CCR/time windows around two observed caller reads; independently cross-check address/value/lane, static and dynamic path ordering, writer register snapshots, timing and continuation. No causal, semantic, hardware, boot, MIDI, DSP, audio or REAPER acceptance.",
       "acceptance": "No hardware, firmware-semantic, complete-boot, MIDI, DSP, audio or REAPER acceptance.",
       "next_step": "Trace the instruction and value path preceding observed PKS source writes, with independent address/value/byte-lane/raw-flag/timing/continuation checks; retain observation-only limits."
+    },
+    {
+      "pr": 302,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/302",
+      "title": "docs: reconcile PR 301 merge and main checks",
+      "branch": "docs/reconcile-pr301-merge",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
+      "head_commit": "7842867360082fa653f5c02801725576f314504d",
+      "merge_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
+      "merged_at_utc": "2026-11-15T15:00:22Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43723057881,
+        "initial_decode_msan_run": 43723057883,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43727420594,
+        "initial_decode_msan_run": 43727420517,
+        "ubuntu_extended_sanitizers": "pass",
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings on 7842867360082fa653f5c02801725576f314504d (summary comment 6896265712; manual review receipt 6896279575). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "local_validation": "UTF-8 documentation content and ledger JSON checked in the candidate transformation; exact PR and main workflow jobs verified live. No runtime tests changed.",
+      "scope": "Reconcile PR #301 merge evidence and main baseline across English/Hungarian docs, development log and structured ledger; no runtime behavior.",
+      "acceptance": "No hardware, boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [
     {
-      "title": "Reconcile PR #301 merge and refresh main baseline",
-      "branch": "docs/reconcile-pr301-merge",
-      "base_commit": "7ce948d8c4fb7ee12cbfba5769047fd1e1a09aa2",
+      "title": "Reconcile PR #302 merge and refresh main baseline",
+      "branch": "docs/reconcile-pr302-merge",
+      "base_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
       "kind": "documentation",
       "status": "open",
-      "scope": "Reconcile #301's merged state and exact-main checks across English and Hungarian summaries, development log and structured ledger; record the next bounded PKS upstream instruction/value-path direction. No runtime changes.",
-      "local_validation": "UTF-8 and JSON parse checked in-memory; exact PR/main workflow job results verified through GitHub. Hosted documentation checks pending.",
-      "pr_number": 302,
+      "scope": "Record PR #302 squash merge, exact-head review and main check results in separate English and Hungarian summaries, log and ledger. No runtime changes.",
+      "local_validation": "Documentation transformation checked UTF-8 text and parsed ledger JSON; exact PR/main workflow results verified through GitHub.",
+      "pr_number": 303,
       "review": "pending",
       "merge_status": "not merged",
-      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/302",
-      "next_step": "After this PR merges and exact-main required checks pass, trace the instruction/value path preceding observed PKS source writes with independent address/value/byte-lane/raw-flag/timing/continuation checks."
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/303",
+      "next_step": "After this reconciliation merges and required exact-main checks pass, trace the instruction/value path preceding the observed PKS source writes with independent address/value/byte-lane/raw-flag/timing/continuation checks."
     }
   ],
   "audit_correction": {
