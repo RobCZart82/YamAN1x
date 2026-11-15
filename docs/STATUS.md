@@ -2,23 +2,23 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #295 — 2026-11-14
+## Current verified main — PR #296 — 2026-11-14
 
-PR [#295](https://github.com/RobCZart82/YamAN1x/pull/295) merged by squash at
-`2026-11-14T21:15:03Z` from exact head
-`a0cbae87325c82e7e9be24268ea08cc7bb876a51` to main
-`8c381c28bbf8309805c0ccf505576479293142aa`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43638354484`; initial-decode MSan passed in
-`43638354354`. On exact main, Linux, macOS and Windows passed in ROM-free CI
-run `43641803770`, and initial-decode MSan passed in `43641803654`. The main
+PR [#296](https://github.com/RobCZart82/YamAN1x/pull/296) merged by squash at
+`2026-11-14T22:15:04Z` from exact head
+`09d7e18245359e553f714748219e992b0fadb133` to main
+`b3614d215370b21ea6c1362c3f4d82bfa98e0720`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43643775433`; initial-decode MSan passed in
+`43643775493`. On exact main, Linux, macOS and Windows passed in ROM-free CI
+run `43647092117`, and initial-decode MSan passed in `43647092060`. The main
 Ubuntu job completed its extended UBSan/ASan checks successfully. MAME research
 was path-filtered for this documentation-only change.
 
 Codex's exact-head review completed without findings (summary comment
-`6883838638`; receipt `6883854401`). GitHub review submissions, inline review
+`6884575926`; receipt `6884591152`). GitHub review submissions, inline review
 comments and review threads were zero. Ruleset `25910947` required zero
 approvals and resolved review threads; no quota error was reported and no
-merge bypass was used. PR #295 reconciles PR #294's merge evidence and current
+merge bypass was used. PR #296 reconciles PR #295's merge evidence and current
 main baseline. It adds no runtime behavior or hardware, boot, MIDI, DSP, audio
 or REAPER acceptance.
 
