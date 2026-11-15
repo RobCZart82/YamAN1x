@@ -1,0 +1,243 @@
+diff --git a/src/devices/cpu/h8/h8.cpp b/src/devices/cpu/h8/h8.cpp
+--- a/src/devices/cpu/h8/h8.cpp
++++ b/src/devices/cpu/h8/h8.cpp
+@@ -359,6 +359,8 @@
+ 				m_PPC = m_NPC;
+ 				if(debugger_enabled())
+ 					debugger_instruction_hook(m_NPC);
++				if(m_yamanix_instruction_observer)
++					m_yamanix_instruction_observer(m_NPC, m_PIR, m_CCR, m_R, machine().time().as_ticks(1000000000));
+ 			}
+ 			do_exec_full();
+ 		}
+diff --git a/src/devices/cpu/h8/h8.h b/src/devices/cpu/h8/h8.h
+--- a/src/devices/cpu/h8/h8.h
++++ b/src/devices/cpu/h8/h8.h
+@@ -22,6 +22,8 @@
+ 
+ #include "h8_cpu_base.h"
+ #include "h8_sci.h"
++
++#include <functional>
+ 
+ class h8_device : public h8_cpu_base, public device_nvram_interface {
+ public:
+@@ -57,6 +59,9 @@
+ 		STATE_DTC_WRITEBACK      = 0x10006
+ 	};
+ 
++	using yamanix_instruction_observer = std::function<void(u32, u16, u8, const u16 *, u64)>;
++	void set_yamanix_instruction_observer(yamanix_instruction_observer observer) { m_yamanix_instruction_observer = observer; }
++
+ 	template<int Port> auto read_adc() { return m_read_adc[Port].bind(); }
+ 	template<int Sci> auto write_sci_tx() { return m_sci_tx[Sci].bind(); }
+ 	template<int Sci> auto write_sci_clk() { return m_sci_clk[Sci].bind(); }
+@@ -205,6 +210,7 @@
+ 	u64 m_standby_time;
+ 	u16 m_nvram_defval;
+ 	bool m_nvram_battery;
++	yamanix_instruction_observer m_yamanix_instruction_observer;
+ 
+ 	virtual void do_exec_full();
+ 	virtual void do_exec_partial();
+diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -13,6 +13,7 @@
+ #include "emu.h"
+ #include "yamanix_pks_operand_context_trace.h"
+ #include "yamanix_pks_source_context_trace.h"
++#include "yamanix_pks_instruction_context_trace.h"
+ #include "yamanix_sci_access_trace.h"
+ #include "bus/midi/midi.h"
+ #include "cpu/h8/h83002.h"
+@@ -68,6 +69,7 @@
+     yamanix::SciAccessTrace m_sci_access_trace;
+     yamanix::PksOperandContextTrace m_pks_operand_context_trace;
+     yamanix::PksSourceContextTrace m_pks_source_context_trace;
++    yamanix::PksInstructionContextTraceDefault m_pks_instruction_context_trace;
+     memory_passthrough_handler m_read_trace, m_write_trace, m_dms_flag_trace;
+     memory_passthrough_handler m_pks_context_read_trace, m_pks_context_write_trace;
+     memory_passthrough_handler m_pks_source_read_trace[2], m_pks_source_write_trace[2];
+@@ -131,9 +133,13 @@
+     logerror("YAMANIX DSP_BEGIN version=1 clock_hz=1000000000 limit=200000\n");
+     logerror("YAMANIX PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
+     logerror("YAMANIX PKS_SOURCE_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
++    logerror("YAMANIX PKS_INSTRUCTION_CONTEXT_BEGIN version=1 capacity=8192 window=2048 hardware_validated=0\n");
++    m_maincpu->set_yamanix_instruction_observer([this](u32 pc, u16 opcode, u8 ccr, const u16 *registers, u64 time_ns) {
++        m_pks_instruction_context_trace.observe(pc, opcode, ccr, registers, time_ns);
++    });
+     machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::dsp_trace_end, this));
+     an1x_dasm_buffer buffer(space);
+-    const std::pair<offs_t, offs_t> spans[] = {{0x3f650, 0x3f68a}, {0x565dc, 0x565fc}, {0x56792, 0x567d8}, {0x565dc, 0x56d20}, {0x6c532, 0x6c654}, {0x545e8, 0x546e6}, {0x51400, 0x517c0}, {0x50cc0, 0x51100}};
++    const std::pair<offs_t, offs_t> spans[] = {{0x1fc0, 0x2030}, {0x29f0, 0x2a90}, {0x39a0, 0x39c0}, {0x3a90, 0x3b40}, {0x3f650, 0x3f68a}, {0x565dc, 0x565fc}, {0x56792, 0x567d8}, {0x565dc, 0x56d20}, {0x6c532, 0x6c654}, {0x545e8, 0x546e6}, {0x51400, 0x517c0}, {0x50cc0, 0x51100}};
+     for (const auto &span : spans) for (offs_t pc = span.first; pc < span.second;) {
+         std::ostringstream line;
+         const offs_t length = m_maincpu->get_disassembler().disassemble(line, pc, buffer, buffer) & util::disasm_interface::LENGTHMASK;
+@@ -248,6 +254,8 @@
+     for (unsigned i = 0; i < er.size(); ++i)
+         er[i] = u32(m_maincpu->state_int(h8_device::H8_R0 + i));
+ 
++    m_pks_instruction_context_trace.trigger(op, address, data, mask, m_maincpu->pc(),
++        u8(m_maincpu->state_int(h8_device::H8_CCR)), machine().time().as_ticks(1000000000));
+     m_pks_operand_context_trace.observe(op, address, data, mask, m_maincpu->pc(),
+         machine().time().as_ticks(1000000000), er,
+         u8(m_maincpu->state_int(h8_device::H8_CCR)),
+@@ -339,6 +347,32 @@
+ 
+ void an1x_state::dsp_trace_end()
+ {
++    m_pks_instruction_context_trace.finish();
++    logerror("YAMANIX PKS_INSTRUCTION_CONTEXT_WINDOWS count=%u events=%u dropped=%llu finished=%u hardware_validated=0\n",
++        unsigned(m_pks_instruction_context_trace.window_count()),
++        unsigned(m_pks_instruction_context_trace.event_count()),
++        (unsigned long long)m_pks_instruction_context_trace.dropped(),
++        m_pks_instruction_context_trace.finished() ? 1 : 0);
++    for (std::size_t wi = 0; wi < m_pks_instruction_context_trace.window_count(); ++wi) {
++        const auto &window = m_pks_instruction_context_trace.window(wi);
++        logerror("YAMANIX PKS_INSTRUCTION_WINDOW id=%u trigger_seq=%llu address=%06x pc=%06x data=%04x mask=%04x ccr=%02x time_ns=%llu first=%u count=%u complete=%u\n",
++            unsigned(wi), (unsigned long long)window.trigger_sequence, window.input_address,
++            window.postfetch_pc, window.input_data, window.input_mask, window.input_ccr,
++            (unsigned long long)window.trigger_time_ns, unsigned(window.first_event),
++            unsigned(window.event_count), window.complete ? 1 : 0);
++        for (std::size_t ei = window.first_event; ei < window.first_event + window.event_count; ++ei) {
++            const auto &event = m_pks_instruction_context_trace.event(ei);
++            const auto &r = event.registers;
++            logerror("YAMANIX PKS_INSTRUCTION seq=%llu window=%u pc=%06x opcode=%04x time_ns=%llu ccr=%02x r0=%04x r1=%04x r2=%04x r3=%04x r4=%04x r5=%04x r6=%04x r7=%04x er0=%08x er1=%08x er2=%08x er3=%08x er4=%08x er5=%08x er6=%08x er7=%08x\n",
++                (unsigned long long)event.sequence, unsigned(wi), event.pc, event.opcode,
++                (unsigned long long)event.time_ns, event.ccr, r[0], r[1], r[2], r[3],
++                r[4], r[5], r[6], r[7],
++                unsigned(r[0]) | (unsigned(r[8]) << 16), unsigned(r[1]) | (unsigned(r[9]) << 16),
++                unsigned(r[2]) | (unsigned(r[10]) << 16), unsigned(r[3]) | (unsigned(r[11]) << 16),
++                unsigned(r[4]) | (unsigned(r[12]) << 16), unsigned(r[5]) | (unsigned(r[13]) << 16),
++                unsigned(r[6]) | (unsigned(r[14]) << 16), unsigned(r[7]) | (unsigned(r[15]) << 16));
++        }
++    }
+     logerror("YAMANIX PKS_SOURCE_CONTEXT_END events=%llu dropped=%llu hardware_validated=0\n",
+         (unsigned long long)m_pks_source_context_trace.events(),
+         (unsigned long long)m_pks_source_context_trace.dropped());
+diff --git a/src/mame/yamaha/yamanix_pks_instruction_context_trace.h b/src/mame/yamaha/yamanix_pks_instruction_context_trace.h
+new file mode 100644
+--- /dev/null
++++ b/src/mame/yamaha/yamanix_pks_instruction_context_trace.h
+@@ -0,0 +1,120 @@
++// Project-owned bounded instruction-context snapshots for pinned MAME research.
++#pragma once
++
++#include <array>
++#include <cstddef>
++#include <cstdint>
++
++namespace yamanix {
++
++template<std::size_t Capacity, std::size_t WindowLength>
++class PksInstructionContextTrace {
++    static_assert(Capacity > 0 && WindowLength > 0);
++    static_assert(Capacity >= WindowLength);
++public:
++    struct Event {
++        std::uint64_t sequence = 0;
++        std::uint64_t time_ns = 0;
++        std::uint32_t pc = 0;
++        std::uint16_t opcode = 0;
++        std::array<std::uint16_t, 16> registers{};
++        std::uint8_t ccr = 0;
++    };
++
++    struct Window {
++        std::uint64_t trigger_sequence = 0;
++        std::uint64_t trigger_time_ns = 0;
++        std::uint32_t input_address = 0;
++        std::uint32_t postfetch_pc = 0;
++        std::uint16_t input_data = 0;
++        std::uint16_t input_mask = 0;
++        std::uint8_t input_ccr = 0;
++        std::size_t first_event = 0;
++        std::size_t event_count = 0;
++        bool complete = false;
++    };
++
++    bool trigger(char op, std::uint32_t address, std::uint16_t data,
++                 std::uint16_t mask, std::uint32_t postfetch_pc,
++                 std::uint8_t ccr, std::uint64_t time_ns) {
++        if (op != 'R' || active_window_ >= 0)
++            return false;
++        std::size_t site = 0;
++        if (address == 0x2349ea && mask == 0xff00 && postfetch_pc == 0x002a08)
++            site = 0;
++        else if (address == 0x237204 && mask == 0x00ff && postfetch_pc == 0x001fd8)
++            site = 1;
++        else
++            return false;
++        if (site_triggers_[site] >= 2 || window_count_ >= windows_.size() ||
++            event_count_ + WindowLength > events_.size())
++            return false;
++
++        Window &window = windows_[window_count_];
++        window.trigger_sequence = trigger_count_++;
++        window.trigger_time_ns = time_ns;
++        window.input_address = address;
++        window.postfetch_pc = postfetch_pc;
++        window.input_data = data;
++        window.input_mask = mask;
++        window.input_ccr = ccr;
++        window.first_event = event_count_;
++        ++site_triggers_[site];
++        active_window_ = static_cast<int>(window_count_++);
++        remaining_ = WindowLength;
++        return true;
++    }
++
++    void observe(std::uint32_t pc, std::uint16_t opcode, std::uint8_t ccr,
++                 const std::uint16_t *registers, std::uint64_t time_ns) {
++        if (active_window_ < 0)
++            return;
++        if (event_count_ >= events_.size()) {
++            ++dropped_;
++            windows_[active_window_].complete = false;
++            active_window_ = -1;
++            remaining_ = 0;
++            return;
++        }
++        Event &event = events_[event_count_];
++        event.sequence = event_count_;
++        event.time_ns = time_ns;
++        event.pc = pc;
++        event.opcode = opcode;
++        event.ccr = ccr;
++        for (std::size_t i = 0; i < event.registers.size(); ++i)
++            event.registers[i] = registers[i];
++        ++event_count_;
++        Window &window = windows_[active_window_];
++        ++window.event_count;
++        if (--remaining_ == 0) {
++            window.complete = true;
++            active_window_ = -1;
++        }
++    }
++
++    void finish() { finished_ = true; }
++    std::size_t event_count() const { return event_count_; }
++    std::size_t window_count() const { return window_count_; }
++    std::uint64_t trigger_count() const { return trigger_count_; }
++    std::uint64_t dropped() const { return dropped_; }
++    bool finished() const { return finished_; }
++    const Event &event(std::size_t index) const { return events_[index]; }
++    const Window &window(std::size_t index) const { return windows_[index]; }
++
++private:
++    std::array<Event, Capacity> events_{};
++    std::array<Window, 4> windows_{};
++    std::array<unsigned, 2> site_triggers_{};
++    std::size_t event_count_ = 0;
++    std::size_t window_count_ = 0;
++    std::uint64_t trigger_count_ = 0;
++    std::uint64_t dropped_ = 0;
++    int active_window_ = -1;
++    std::size_t remaining_ = 0;
++    bool finished_ = false;
++};
++
++using PksInstructionContextTraceDefault = PksInstructionContextTrace<8192, 2048>;
++
++} // namespace yamanix

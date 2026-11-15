@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
+  "baseline_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
   "entries": [
     {
       "pr": 6,
@@ -6385,16 +6385,50 @@
       "review": "Codex PR-open exact-head review completed without findings (summary comment 6890810839). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
       "scope": "Documentation-only reconciliation of PR #298 merge evidence and current main baseline; no runtime behavior.",
       "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 300,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/300",
+      "title": "docs: reconcile PR 299 current main",
+      "branch": "docs/reconcile-pr299-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
+      "head_commit": "8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7",
+      "merge_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
+      "merged_at_utc": "2026-11-15T09:02:10Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43694265960,
+        "initial_decode_msan_run": 43694266017,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43697268409,
+        "initial_decode_msan_run": 43697268400,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex PR-open exact-head review completed without findings (summary comment 6891642147). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform status checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #299 merge evidence and current main baseline; no runtime behavior.",
+      "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [
     {
-      "title": "docs: reconcile PR 299 current main",
-      "branch": "docs/reconcile-pr299-current-main",
-      "base_commit": "615b25766e2cf3b2ddc399c5a134a09c71666bb5",
-      "kind": "documentation",
-      "status": "candidate",
-      "scope": "Reconcile PR #299 merge checks and current main baseline. No runtime changes or acceptance claims."
+      "title": "Trace bounded PKS caller-input instruction contexts",
+      "branch": "research/adc-irq-firmware-boundary",
+      "base_commit": "fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e",
+      "kind": "bounded MAME research instrumentation",
+      "status": "open",
+      "scope": "Read-only bounded instruction/register/CCR/time windows around two observed caller reads; independently cross-check address/value/lane, static and dynamic path ordering, writer register snapshots, timing and continuation. No causal, semantic, hardware, boot, MIDI, DSP, audio or REAPER acceptance.",
+      "local_validation": "Release build PASS; full 139/139 CTest PASS; Python 138/138 PASS; focused optimized Python 6/6 PASS; focused CTest 2/2 PASS; repository audit 701 files/201 upstream identities PASS; source/notice coverage 232 files/5 texts PASS; pinned raw-source preflight verified 6 inputs, applied 14 patches and matched all 13 prepared files with 7 helper headers. One first full CTest run exposed a missing source/notice inventory row; corrected within existing MAME patch coverage, no project license chosen, full rerun passed.",
+      "pr_number": 301,
+      "review": "Codex exact-head review completed without findings on f5c923e087330339b525eb9f0e2b4ce793682e9a (summary comment 6893288095, manual-request receipt 6894010721). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 requires three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "merge_status": "not merged",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/301",
+      "candidate_head": "f5c923e087330339b525eb9f0e2b4ce793682e9a",
+      "hosted_checks": "Exact candidate-head ROM-free CI Linux/macOS/Windows passed in run 43710125929; initial-decode MSan passed in 43710126038; MAME research build passed in 43710125967."
     }
   ],
   "audit_correction": {

@@ -1,3 +1,58 @@
+## PR #300 merge verification — 2026-11-15
+
+PR [#300](https://github.com/RobCZart82/YamAN1x/pull/300) merged by squash at
+`2026-11-15T09:02:10Z`, from exact head
+`8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7` to main
+`fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR-head Linux, macOS and Windows
+checks passed (ROM-free CI `43694265960`); initial-decode MSan passed
+(`43694266017`). Exact-main platform checks passed (`43697268409`) and
+initial-decode MSan passed (`43697268400`), including Ubuntu's extended
+UBSan/ASan steps. MAME research was path-filtered. Codex PR-open exact-head
+review completed without findings (summary `6891642147`); GitHub review
+submissions, inline comments and threads were zero. Active ruleset `25910947`
+requires three platform checks, zero approvals and resolved threads. No quota
+error or bypass was involved. Documentation only; no runtime behavior or
+acceptance changed.
+
+## Bounded PKS caller-input instruction-context candidate — 2026-11-15
+
+This candidate adds a bounded, read-only instruction observer around the two
+repeated PKS caller-input reads. It captures four 2,048-instruction windows
+with PC, opcode, timestamp, raw CCR and R0–R7/ER0–ER7. Two passive nine-second
+runs against the pinned MAME source and identical instrumented executable
+produced identical 8,192 instruction events (SHA-256
+`2938a16d4bad57c0eeffe404d26b4d01e62ef8c9aef853af9cc92aca9e3b84e5`), complete
+footers, no dropped records and matching 26 non-trace manifest fields. The
+MAME executable SHA-256 was
+`c7f3125bebfffd3e7f26ad8a33dab3a9abadc83f94e367850c1cda4cec8dd8ae`.
+
+The independent auditor checks the selected input address, value and byte lane
+against the separate bus observer, the first CPU snapshot, static/dynamic PC
+ordering, raw CCR and register snapshots at the common source writer, R1L byte
+selection, timestamp order, continuation and lossless bounds. The `2349EA`
+read selected `40` with raw CCR `84`, followed by `E0 00 20` source writes at
+12,625, 20,125 and 27,625 ns. The `237204` read selected `00` with raw CCR `80`,
+followed by `E0 00 00` at 10,375, 17,875 and 25,375 ns. CCR is retained without
+interpretation. The ROM identity SHA-256 remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` and the
+image remains outside Git. The original MAME reference stays pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+Validation: full Release build passed; the latest full CTest run passed 139/139;
+Python passed 138/138, the focused optimized Python audit 6/6, focused CTest
+passed 2/2, repository audit passed (701 files, 201 upstream identities), and
+source/notice coverage passed (232 files, five license texts). A fresh raw-file
+preflight verified all six pinned inputs, applied all fourteen patches, checked
+seven generated headers and matched all thirteen prepared files to the local
+MAME tree. One earlier full CTest attempt exposed a missing source/notice
+inventory row for this new research patch; the patch was registered under the
+existing reviewed MAME-patch category, no project license was selected, and the
+complete rerun passed. This is local candidate evidence only. The observer does
+not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
+or REAPER acceptance. A PR has not yet been submitted.
+
+The current main baseline for this candidate is `fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR submission, hosted checks and review have not started; this candidate remains separate from merged state.
+
 ## PR #299 merge verification — 2026-11-15
 
 PR [#299](https://github.com/RobCZart82/YamAN1x/pull/299) merged by squash
@@ -2294,3 +2349,17 @@ successful. No automatic review result recorded. Prior runner-capacity blocker
 has recovered;historical retry records retained. Fresh main pulled. Four main
 checks passed;Ubuntu still running. Next bounded deadlines/IRQ dispatch waits
 for that result. Previous recurring automation remains deleted,not recreated.
+
+## #301 exact-head verification — 2026-11-15
+
+PR #301 is open at exact candidate head `f5c923e087330339b525eb9f0e2b4ce793682e9a`,
+base `fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`; it is not merged. The three
+required platform checks passed in ROM-free CI run `43710125929`, initial-decode
+MSan passed in `43706480061`, and the pinned-source MAME research build passed
+in `43706479984`. Codex's PR-open exact-head review completed without findings
+(summary comment `6893288095` (initial PR-open review), with manual-request receipt `6894010721` confirming no findings on the updated exact head). GitHub review submissions, inline review comments
+and review threads were zero. Active ruleset `25910947` requires three platform
+checks, zero approvals and resolved review threads; no quota error was reported
+and no merge bypass was used. Mergeability is reported as `MERGEABLE`. Candidate
+records are updated separately from merged entries; no further development starts
+before this PR is merged and exact-main required checks pass.

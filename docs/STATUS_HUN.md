@@ -2,26 +2,74 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #299 — 2026-11-15
+## Ellenőrzött főági alap — #300 — 2026-11-15
 
-A [#299 PR](https://github.com/RobCZart82/YamAN1x/pull/299)
-2026-11-15 07:42:15 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
-`26d7d6b053e449f3ac1b13869ddd1d725734050a`, az új főági commit
-`615b25766e2cf3b2ddc399c5a134a09c71666bb5`. A PR-fejen a Linux, macOS és
-Windows ROM-mentes ellenőrzések sikeresek voltak (`43688214713`), az
-initial-decode MSan is sikerült (`43688214718`). A pontos főági commiton a
-Linux, macOS és Windows ellenőrzések (`43691124498`), valamint az
-initial-decode MSan (`43691124490`) sikeresek. Az Ubuntu-feladat kiterjesztett
+A [#300 PR](https://github.com/RobCZart82/YamAN1x/pull/300)
+2026-11-15 09:02:10 UTC-kor, squash módszerrel olvadt be. A pontos PR-fej
+`8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7`, az új főági commit
+`fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. A PR-fejen a Linux, macOS és
+Windows ROM-mentes ellenőrzések sikeresek voltak (`43694265960`), az
+initial-decode MSan is sikerült (`43694266017`). A pontos főági commiton a
+Linux, macOS és Windows ellenőrzések (`43697268409`), valamint az
+initial-decode MSan (`43697268400`) sikeresek. Az Ubuntu-feladat kiterjesztett
 UBSan/ASan lépései is sikeresek. A MAME-kutatási munkafolyamat útvonal alapján
 nem futott, mert ez dokumentációs PR volt.
 
 A PR megnyitásakor indult Codex-áttekintés a pontos PR-fejen nem talált hibát
-(összefoglaló megjegyzés: `6890810839`). GitHub review-beküldés, beágyazott
+(összefoglaló megjegyzés: `6891642147`). GitHub review-beküldés, beágyazott
 review-megjegyzés és review-szál nem volt. A `25910947` aktív szabályzat három
 platform-ellenőrzést, nulla jóváhagyást és lezárt review-szálakat követel;
-kvótahiba vagy megkerülés nem történt. A #299 a #298 beolvadási adatait és az
+kvótahiba vagy megkerülés nem történt. A #300 a #299 beolvadási adatait és az
 aktuális főági alapot egyeztette, futásidejű működést vagy elfogadást nem
 változtatott.
+
+## PKS-bemeneti utasításablakok — helyi jelölt — 2026-11-15
+
+A következő jelölt új, csak olvasó utasításmegfigyelőt ad a két ismétlődő PKS
+bemeneti olvasás köré. Négy, egyenként 2048 utasításnyi ablakban rögzíti a
+programszámlálót, opkódot, időbélyeget, nyers CCR-t és az R0–R7/ER0–ER7
+regisztereket. Két passzív, kilenc másodperces futás a rögzített MAME-forrással
+és azonos műszerezett programmal azonos 8192 utasítássort adott
+(`2938a16d4bad57c0eeffe404d26b4d01e62ef8c9aef853af9cc92aca9e3b84e5`),
+teljes lábléccel, elveszett rekord nélkül és a jegyzék 26 egyéb mezőjében is
+egyezően. A MAME-program kivonata:
+`c7f3125bebfffd3e7f26ad8a33dab3a9abadc83f94e367850c1cda4cec8dd8ae`.
+
+A független ellenőrzés a kiválasztott címet, értéket és bájtsávot a külön
+buszmegfigyeléssel, az első CPU-pillanatképpel, a statikus és dinamikus
+címsorrenddel, a közös forrásíró pont nyers CCR- és regiszterpillanatképeivel,
+az R1L bájtjával, az időrenddel, folytatással és adatvesztés nélküli korlátokkal
+veti össze. A `2349EA` olvasás `40` bájtot és nyers `84` CCR-t választott ki;
+ezt `E0 00 20` forrásírás követte 12 625, 20 125 és 27 625 ns múlva. A `237204`
+olvasás `00` bájtot és nyers `80` CCR-t választott ki; ezután `E0 00 00`
+következett 10 375, 17 875 és 25 375 ns múlva. A CCR értelmezés nélkül
+megőrzött adat. A ROM SHA-256 értéke továbbra is
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`, a kép
+Git-en kívül maradt. Az eredeti MAME-forrás rögzített commitja továbbra is
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+Ellenőrzés: a teljes Release-build sikeres; a teljes CTest-futás 139/139
+esettel sikeres; a Python 138/138, a célzott optimalizált Python-ellenőrzés
+6/6, a célzott CTest 2/2 eredménnyel zárult. A repository audit 701 fájlt és
+201 upstream-azonosságot ellenőrzött; a forrás- és értesítés-lefedettség 232
+fájlra és öt licencszövegre sikerült. Friss forrás-előellenőrzés mind a hat
+rögzített bemeneti fájlt igazolta, mind a tizennégy patchet alkalmazta, hét
+segédfejlécet ellenőrzött, és mind a tizenhárom előkészített fájlt egyezőnek
+találta a helyi MAME-fával. Egy korábbi teljes CTest-futás jelezte, hogy az új
+kutatási patch hiányzik az értesítés-nyilvántartásból; a sort a meglévő, már
+ellenőrzött MAME-patch kategóriába vettük fel, projektlicenc kiválasztása
+nélkül, majd a teljes újrafutás sikeres lett. A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301) nyitva van a pontos
+`f5c923e087330339b525eb9f0e2b4ce793682e9a` fejen; még nem olvadt be. A három
+kötelező platformellenőrzés (run `43710125929`), az initial-decode MSan
+(run `43710126038`) és a MAME-kutatási ellenőrzés (run `43710125967`)
+ellenőrzés sikeres. A Codex pontos fejre vonatkozó áttekintése nem talált
+hibát (összefoglaló megjegyzés: `6894010721`). GitHub review-beküldés,
+beágyazott review-megjegyzés és review-szál nem volt. A `25910947` aktív
+szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
+review-szálakat követel; kvótahibát nem jelentettek, megkerülés nem történt.
+Ez továbbra is korlátozott jelöltbizonyíték: az utasításmegfigyelő nem igazol
+okozatiságot, szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot
+vagy REAPER-elfogadást.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
 

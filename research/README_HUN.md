@@ -27,6 +27,7 @@ patch -p1 < /absolute/path/to/mame-sci-state-observation.patch
 patch -p1 < /absolute/path/to/mame-sci-access-observation.patch
 patch -p1 < /absolute/path/to/mame-pks-operand-context.patch
 patch -p1 < /absolute/path/to/mame-pks-source-context.patch
+patch -p1 < /absolute/path/to/mame-pks-instruction-context.patch
 make SUBTARGET=yamanix SOURCES=src/mame/yamaha/yman1x.cpp OSD=mac NO_USE_MIDI=1 NO_USE_PORTAUDIO=1 USE_QTDEBUG=0 USE_TAPTUN=0 USE_PCAP=0 REGENIE=1 -j4
 ```
 
@@ -44,27 +45,29 @@ A `mame-lcd-controller.patch` új saját fejlécet is telepít a driver mellé; 
 
 A jelenlegi mérés friss processzusú hidegindításra készült. Save-state, visszatöltés és több egymást követő szoftveres reset működését még nem validáltuk.
 
-## PKS source-byte context observer (candidate)
+## PKS forrásbájtos környezetmegfigyelő — helyi jelölt
 
-The thirteenth patch observes only CPU context for three source RAM word bases
-and the payload/control word bases, with a 4,096-event bound and explicit loss
-reporting. It is passive: no bus values or firmware/device behavior are changed.
-The helper is generated from `src/pks_source_context_trace.h`, and the parser
-checks address/lane/value pairing, ordering, timestamps and register snapshots.
-The limited local evidence is in [PKS payload-path observations](../docs/pks-payload-path.md).
-It does not prove PKS semantics, hardware agreement, complete boot, MIDI or audio.
+A tizenharmadik patch csak a CPU környezetét figyeli három forrás-RAM-szócímen,
+valamint a payload- és vezérlőszó-címeken; a korlát 4096 esemény, az adatvesztés
+jelzett. Passzív: nem változtatja meg a busz értékeit, a firmware-t vagy az
+eszközök viselkedését. A segédfejléc a projekt `src/pks_source_context_trace.h`
+fájljából készül, az elemző pedig ellenőrzi a cím/bájtsáv/érték párosítást, a
+sorrendet, az időbélyegeket és a regiszter-pillanatképeket. A korlátozott helyi
+evidencia a [PKS payload-útvonal dokumentumban](../docs/pks-payload-path_HUN.md)
+található. Nem igazolja a PKS szemantikáját, a hardveregyezést, a teljes indulást,
+a MIDI-t vagy a hangot.
 
-## PKS operand CPU context observer
+## PKS operandus CPU-környezet megfigyelője
 
-The twelfth patch adds a read-only, 4,096-event-bounded snapshot of PC, emulated time, CCR and ER0–ER7 on three previously observed aligned RAM word bases. It counts overflow and emits an explicit completion footer; the auditor rejects malformed or incomplete output. The observer does not alter values and does not assert data meaning or hardware agreement. The new helper is generated from `src/pks_operand_context_trace.h`, checked by patch preflight. See [bounded CPU-context candidate](../docs/pks-payload-path.md).
+A tizenkettedik patch csak olvasó, legfeljebb 4096 eseményes pillanatképet rögzít a PC-ről, az emulált időről, a nyers CCR-ről és az ER0–ER7 regiszterekről három korábban megfigyelt, igazított RAM-szócímen. Számolja a túlcsordulást, és egyértelmű befejező láblécet ír; az ellenőrző elutasítja a hibás vagy befejezetlen kimenetet. A megfigyelő nem módosít értéket, és nem állít adatjelentést vagy hardveregyezést. A segédfejléc forrása a projekt `src/pks_operand_context_trace.h` fájlja; az előkészítés ellenőrzi az egyezést. Lásd a [korlátozott CPU-környezet jelöltet](../docs/pks-payload-path_HUN.md).
 
 ## Teljes DSP-regiszternapló
 
 A tizenegyedik patch időbélyeges, PC-vel ellátott SCI-regiszterírásokat és
 RDR-olvasásokat figyel meg. A napló korlátos; veszteséges vagy befejezetlen
 felvételt az auditor elutasít. Ez nem PKS-emuláció és nem igazolt MIDI-vétel.
-A teljes, tizenkét patches MAME-target fordítása és regisztrációs próbája már
-sikeres a külön macOS CI-ben; a friss SCI-hozzáféréses firmware-elfogadás még
+A teljes, tizennégy patchből álló MAME-cél fordítása és regisztrációs próbája már
+sikeres a külön macOS-folyamatban; a friss SCI-hozzáféréses firmware-elfogadás még
 nyitott. Részletek és következő kísérlet:
 [M1 SCI-hozzáférések](../docs/m1-sci-access-milestone.md).
 
@@ -168,3 +171,17 @@ manifestje `sci_observation` alatt is megőrzi az eredményt. A párosított hel
 futások SCI1-en bekapcsolt vevőt és adót, de nulla RDR-olvasást mutatnak;
 SCI0 a mintavételi pontokon kikapcsolt. A protokoll és a boot okozati függése
 még nyitott kérdés: [SCI-megfigyelések](../docs/sci-state-milestone.md).
+
+## Tizennegyedik patch: bemeneti utasításkörnyezet
+
+A `mame-pks-instruction-context.patch` négy, egyenként 2048 H8-utasításnyi
+ablakban rögzíti a PC-t, opkódot, időbélyeget, nyers CCR-t és R0–R7/ER0–ER7
+értékeket két korábban megfigyelt bemeneti olvasás körül. A rögzítés csak olvasó,
+a puffer és a lábléc jelzi az elveszett vagy befejezetlen adatot. A független
+ellenőrző összeveti a statikus utasításlistát, a dinamikus programszámláló-
+sorrendet, az olvasási bájtot és sávot, a regiszterpillanatképeket, a busz-
+megfigyeléseket és a folytatást. A CCR nyers adat marad, jelentését nem
+értelmezzük. Ez nem okozati, szemantikai vagy hardveregyezési bizonyíték, és
+nem jelent indulási, MIDI-, DSP-, hang- vagy REAPER-elfogadást. A segédfejléc
+forrása a projekt saját `src/pks_instruction_context_trace.h` fájlja. Az angol
+kanonikus részletek külön dokumentumban vannak: [PKS payload path](../docs/pks-payload-path.md).
