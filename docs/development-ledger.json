@@ -6674,9 +6674,9 @@
     "title": "research: widen PKS caller instruction pre-roll",
     "branch": "research/itu-active-mmio-integration",
     "kind": "bounded observation-only MAME instrumentation and audit",
-    "status": "candidate",
+    "status": "open",
     "base_commit": "585e1a798fd8755227b9d1a9f6f8d85413b398c8",
-    "pull_request": null,
+    "pull_request": 306,
     "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "mame_executable_sha256": "8e87662234394eb9e8ebb69b870412e8e9be4e4e169a7512a34132ae305becc2",
     "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
@@ -6714,6 +6714,8 @@
       "git_diff_check": "pass"
     },
     "scope": "Fixed-capacity circular pre-roll, trigger snapshots and bounded post-read snapshots; parser checks exact profile, ordered complete windows, per-window monotonic time, read/value/lane, raw CCR and register snapshots, preceding write timing and continuation.",
-    "acceptance": "No data semantics, causal claim, hardware agreement, complete boot, MIDI, DSP, audio or REAPER acceptance."
+    "acceptance": "No data semantics, causal claim, hardware agreement, complete boot, MIDI, DSP, audio or REAPER acceptance.",
+    "opened_head_commit": "886e4c040da35774e0ae69f7c49c79589200b83c",
+    "opened_at_utc": "2026-11-15T21:19:59Z"
   }
 }
