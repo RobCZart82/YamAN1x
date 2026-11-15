@@ -1,3 +1,18 @@
+## PR #303 merge verification — 2026-11-15
+
+PR [#303](https://github.com/RobCZart82/YamAN1x/pull/303) merged by squash at
+`2026-11-15T16:40:12Z`, from exact head
+`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0` to main
+`00ba1d437e1b2e46813027534b2400a1d50d18c6`. PR-head ROM-free CI and
+initial-decode MSan passed (`43731388706`, `43731388714`). Exact-main Linux,
+macOS and Windows checks passed (`43736772211`), and initial-decode MSan passed
+(`43736772200`); Ubuntu's extended UBSan/ASan steps passed. MAME research was
+path-filtered. Codex exact-head review completed without findings (summary
+`6897529514`; manual receipt `6897544092`). GitHub review submissions, inline
+comments and threads were zero. Active ruleset `25910947` required three
+platform checks, zero approvals and resolved threads; no quota error or bypass.
+Documentation only; no runtime behavior or acceptance changed.
+
 ## PR #302 merge verification — 2026-11-15
 
 PR [#302](https://github.com/RobCZart82/YamAN1x/pull/302) merged by squash at
@@ -82,7 +97,27 @@ complete rerun passed. PR #301 merged this bounded research increment. The obser
 not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
 or REAPER acceptance. The next candidate is to trace the instruction/value path preceding the observed source writes, with independent address, value, byte-lane, raw-flag, timing and continuation checks; no semantic or hardware acceptance is claimed.
 
-The current main baseline for this candidate is `fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR submission, hosted checks and review have not started; this candidate remains separate from merged state.
+## PKS input-word prior-write cross-check — local candidate — 2026-11-15
+
+The candidate audit checks each observed caller read against the latest earlier
+captured operand-context write to the same aligned word that covers the selected
+byte lane. It compares the byte value and event ordering. A full-word write or
+a write to the selected byte lane can qualify; an opposite-lane write cannot.
+When the bounded capture contains no qualifying prior write, the result says
+`no preceding write observed`; it does not claim that no write exists outside
+the capture. Synthetic checks cover high and low byte selection, full-word
+writes, mismatched values, wrong addresses, opposite lanes and later writes.
+
+This increment reuses existing read-only trace records and adds no observer or
+MAME patch. Focused instruction-audit tests pass 11/11 normally and under
+Python `-O`; the complete Python suite passes 143/143 and repository audit
+passes (701 files, 201 upstream identities). No new MAME build or run was made
+for this candidate. The pinned source remains
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
+outside Git. This bounded cross-check does not establish data meaning,
+causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+
+The current main for this candidate is `00ba1d437e1b2e46813027534b2400a1d50d18c6`. PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) is open from branch `research/pks-input-prior-write-crosscheck`. Hosted checks and exact-head review are pending; no merge or acceptance is claimed. This candidate remains separate from merged state.
 
 ## PR #299 merge verification — 2026-11-15
 

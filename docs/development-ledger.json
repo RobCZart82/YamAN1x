@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
+  "baseline_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
   "entries": [
     {
       "pr": 6,
@@ -6471,22 +6471,48 @@
       "local_validation": "UTF-8 documentation content and ledger JSON checked in the candidate transformation; exact PR and main workflow jobs verified live. No runtime tests changed.",
       "scope": "Reconcile PR #301 merge evidence and main baseline across English/Hungarian docs, development log and structured ledger; no runtime behavior.",
       "acceptance": "No hardware, boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 303,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/303",
+      "title": "docs: reconcile PR 302 merge and main checks",
+      "branch": "docs/reconcile-pr302-merge",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
+      "head_commit": "aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0",
+      "merge_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
+      "merged_at_utc": "2026-11-15T16:40:12Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43731388706,
+        "initial_decode_msan_run": 43731388714
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43736772211,
+        "initial_decode_msan_run": 43736772200,
+        "ubuntu_extended_sanitizers": "pass",
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings on aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0 (summary comment 6897529514; manual receipt 6897544092). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error or bypass.",
+      "scope": "Documentation-only reconciliation of PR #302 merge evidence and current main baseline; no runtime behavior or acceptance."
     }
   ],
   "pending_changes": [
     {
-      "title": "Reconcile PR #302 merge and refresh main baseline",
-      "branch": "docs/reconcile-pr302-merge",
-      "base_commit": "268d2588b07fdf3979daae4286f3a4dc37249dbc",
-      "kind": "documentation",
+      "title": "Cross-check captured prior writes for PKS caller input words",
+      "branch": "research/pks-input-producer-crosscheck",
+      "base_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
+      "kind": "bounded observation-only audit",
       "status": "open",
-      "scope": "Record PR #302 squash merge, exact-head review and main check results in separate English and Hungarian summaries, log and ledger. No runtime changes.",
-      "local_validation": "Documentation transformation checked UTF-8 text and parsed ledger JSON; exact PR/main workflow results verified through GitHub.",
-      "pr_number": 303,
-      "review": "pending",
+      "scope": "Compare each captured caller-input read with the latest prior captured write to the same aligned word and selected byte lane; report absent in-window writes without implying absence outside the bounded trace. No new MAME instrumentation.",
+      "local_validation": "Focused Python audit 11/11 normally and under -O; full Python 143/143; repository audit 701 files/201 upstream identities PASS; git diff --check PASS. No new MAME build/run.",
+      "review": "pending exact-head review",
       "merge_status": "not merged",
-      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/303",
-      "next_step": "After this reconciliation merges and required exact-main checks pass, trace the instruction/value path preceding the observed PKS source writes with independent address/value/byte-lane/raw-flag/timing/continuation checks."
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/304",
+      "next_step": "Check PR #304 exact head for required CI, review findings or evidence of no review, conflicts and dependencies. Merge only when all required gates pass on the exact head.",
+      "pr_number": 304
     }
   ],
   "audit_correction": {

@@ -2,27 +2,26 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #302 — 2026-11-15
+## Current verified main — PR #303 — 2026-11-15
 
-PR [#302](https://github.com/RobCZart82/YamAN1x/pull/302) merged by squash
-at `2026-11-15T15:00:22Z`, from exact head
-`7842867360082fa653f5c02801725576f314504d` to main
-`268d2588b07fdf3979daae4286f3a4dc37249dbc`. Exact PR-head Linux, macOS and
-Windows checks passed in ROM-free CI run `43723057881`; initial-decode MSan
-passed in `43723057883`. Exact-main Linux, macOS and Windows passed in run
-`43727420594`; initial-decode MSan passed in `43727420517`. The main Ubuntu
-job's extended UBSan/ASan steps also passed. MAME research was path-filtered
+PR [#303](https://github.com/RobCZart82/YamAN1x/pull/303) merged by squash
+at `2026-11-15T16:40:12Z`, from exact head
+`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0` to main
+`00ba1d437e1b2e46813027534b2400a1d50d18c6`. Exact PR-head ROM-free CI
+passed in run `43731388706`; initial-decode MSan passed in run
+`43731388714`. Exact-main Linux, macOS and Windows passed in run
+`43736772211`; initial-decode MSan passed in run `43736772200`. The main
+Ubuntu job's extended UBSan/ASan steps passed. MAME research was path-filtered
 for this documentation-only PR.
 
 Codex's exact-head review completed without findings on
-`7842867360082fa653f5c02801725576f314504d` (summary comment `6896265712`;
-manual review receipt `6896279575`). GitHub review submissions, inline review
+`aff5b966a98d1e9e94e260d85f9e60dcdd01b7b0` (summary comment `6897529514`;
+manual review receipt `6897544092`). GitHub review submissions, inline review
 comments and review threads were zero. Active ruleset `25910947` requires
 three platform status checks, zero approvals and resolved review threads; no
-quota error was reported and no merge bypass was used. PR #302 reconciles
-PR #301's merge evidence and main checks; it changes no runtime behavior or
-acceptance.
-
+quota error was reported and no merge bypass was used. PR #303 reconciles
+PR #302's merge evidence and exact-main checks; it changes no runtime behavior
+or acceptance.
 ## PKS caller-input instruction windows — merged in PR #301 — 2026-11-15
 
 The merged increment adds a bounded, read-only instruction observer around the two
@@ -72,13 +71,25 @@ DSP, audio or REAPER acceptance.
 
 ## Next bounded work — local candidate direction
 
-The next candidate is to trace the instruction and value path preceding the
-observed PKS source writes, with independent address, value, byte-lane, raw
-flag, timing and continuation checks. Keep the result observational; do not
-claim causal meaning, hardware agreement or audio acceptance. Start it only
-from the verified main above after this documentation reconciliation is merged
-and its required main checks pass.
+## PKS input-word prior-write cross-check — local candidate — 2026-11-15
 
+The candidate audit checks each observed caller read against the latest earlier
+captured operand-context write to the same aligned word that covers the selected
+byte lane. It compares the byte value and event ordering. A full-word write or
+a write to the selected byte lane can qualify; an opposite-lane write cannot.
+When the bounded capture contains no qualifying prior write, the result says
+`no preceding write observed`; it does not claim that no write exists outside
+the capture. Synthetic checks cover high and low byte selection, full-word
+writes, mismatched values, wrong addresses, opposite lanes and later writes.
+
+This increment reuses existing read-only trace records and adds no observer or
+MAME patch. Focused instruction-audit tests pass 11/11 normally and under
+Python `-O`; the complete Python suite passes 143/143 and repository audit
+passes (701 files, 201 upstream identities). No new MAME build or run was made
+for this candidate. The pinned source remains
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
+outside Git. This bounded cross-check does not establish data meaning,
+causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
 ## Fresh local bounded firmware observation — 2026-11-15
 
 The project-owned read-only boot probe was run against the unchanged main source

@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 from pks_instruction_context_audit import (SITES, STATIC_INSTRUCTIONS,
                                            audit_instruction_path,
+                                           audit_preceding_input_writes,
                                            parse_instruction_context,
                                            parse_static_disassembly)
 
@@ -138,14 +139,16 @@ class PksInstructionContextAuditTests(unittest.TestCase):
                 data = byte << 8 if masks[win][i] == 0xFF00 else byte
                 source["events"].append(dict(op="W", pc=0x0039AC, address=addresses[win][i],
                     data=data, mask=masks[win][i], time_ns=cpu["time_ns"], ccr=cpu["ccr"], er=cpu["er"][:]))
-        operand = dict(events=[dict(op="R", address=w["address"], pc=w["pc"], mask=w["mask"],
+        operand = dict(events=[dict(seq=i, op="R", address=w["address"], pc=w["pc"], mask=w["mask"],
                                    data=w["data"], ccr=w["ccr"], time_ns=w["time_ns"])
-                               for w in windows])
+                               for i, w in enumerate(windows)])
         instruction = dict(windows=windows, events=events)
         static = [f"YAMANIX DASM pc={address:06x} {value}"
                   for address, value in STATIC_INSTRUCTIONS.items()]
         result = audit_instruction_path(instruction, source, operand, static)
         self.assertEqual([item["writer_count"] for item in result["windows"]], [3, 3])
+        self.assertEqual([item["preceding_input_write"]["status"] for item in result["windows"]],
+                         ["no preceding write observed"] * 2)
         self.assertFalse(result["windows"][0]["raw_ccr_interpreted"])
         bad_input = copy.deepcopy(instruction)
         bad_input["events"][0]["r"][1] ^= 1
@@ -159,6 +162,60 @@ class PksInstructionContextAuditTests(unittest.TestCase):
         bad["events"][0]["ccr"] ^= 1
         with self.assertRaisesRegex(ValueError, "snapshots disagree"):
             audit_instruction_path(instruction, bad, operand, static)
+
+    def test_last_preceding_word_write_checks_selected_high_lane(self):
+        read = dict(seq=3, op="R", address=0x2349EA, data=0x4000,
+                    mask=0xFF00, time_ns=30)
+        writes = [
+            dict(seq=0, op="W", address=0x2349EA, data=0x1000,
+                 mask=0xFFFF, time_ns=10),
+            dict(seq=1, op="W", address=0x2349EA, data=0x4000,
+                 mask=0xFF00, time_ns=20),
+            dict(seq=2, op="W", address=0x2349EA, data=0x00AA,
+                 mask=0x00FF, time_ns=25),
+        ]
+        result = audit_preceding_input_writes(read, writes)
+        self.assertEqual(result["status"], "last preceding write agrees")
+        self.assertEqual(result["write_seq"], 1)
+        self.assertEqual(result["selected_byte"], 0x40)
+
+    def test_last_preceding_byte_write_checks_selected_low_lane(self):
+        read = dict(seq=2, op="R", address=0x237204, data=0xFF00,
+                    mask=0x00FF, time_ns=20)
+        writes = [dict(seq=1, op="W", address=0x237204, data=0x0000,
+                       mask=0x00FF, time_ns=10)]
+        result = audit_preceding_input_writes(read, writes)
+        self.assertTrue(result["checked"])
+        self.assertEqual(result["selected_byte"], 0)
+
+    def test_last_preceding_mismatched_write_rejects(self):
+        read = dict(seq=2, op="R", address=0x2349EA, data=0x4000,
+                    mask=0xFF00, time_ns=20)
+        writes = [dict(seq=1, op="W", address=0x2349EA, data=0x4100,
+                       mask=0xFF00, time_ns=10)]
+        with self.assertRaisesRegex(ValueError, "differs from caller-read byte"):
+            audit_preceding_input_writes(read, writes)
+
+    def test_wrong_word_and_opposite_lane_do_not_replace_selected_byte(self):
+        read = dict(seq=3, op="R", address=0x2349EA, data=0x4000,
+                    mask=0xFF00, time_ns=30)
+        writes = [
+            dict(seq=0, op="W", address=0x2349E8, data=0x9900,
+                 mask=0xFF00, time_ns=10),
+            dict(seq=1, op="W", address=0x2349EA, data=0x0055,
+                 mask=0x00FF, time_ns=20),
+        ]
+        result = audit_preceding_input_writes(read, writes)
+        self.assertFalse(result["checked"])
+        self.assertEqual(result["status"], "no preceding write observed")
+
+    def test_write_after_read_is_not_a_preceding_producer(self):
+        read = dict(seq=1, op="R", address=0x2349EA, data=0x4000,
+                    mask=0xFF00, time_ns=20)
+        later = dict(seq=2, op="W", address=0x2349EA, data=0x4000,
+                     mask=0xFF00, time_ns=30)
+        result = audit_preceding_input_writes(read, [later])
+        self.assertEqual(result["status"], "no preceding write observed")
 
 
 if __name__ == "__main__":

@@ -56,6 +56,38 @@ def _one_byte(data, mask):
     raise ValueError("instruction-window input is not a single-byte lane")
 
 
+def audit_preceding_input_writes(read, operand_events):
+    """Cross-check the last observed prior write covering a caller-read byte.
+
+    A missing write is reported as missing from this bounded capture; it is not
+    treated as proof that the word had no earlier producer.
+    """
+    selected = _one_byte(read["data"], read["mask"])
+    candidates = [event for event in operand_events
+                  if event["op"] == "W" and event["address"] == read["address"]
+                  and event["seq"] < read["seq"]
+                  and event["time_ns"] <= read["time_ns"]
+                  and event["mask"] in (0xFFFF, read["mask"])]
+    if not candidates:
+        return dict(status="no preceding write observed", checked=False,
+                    address=read["address"], mask=read["mask"],
+                    selected_byte=selected, hardware_validated=False)
+    prior = max(candidates, key=lambda event: event["seq"])
+    if prior["time_ns"] > read["time_ns"]:
+        raise ValueError("preceding input-word write has a later timestamp")
+    if prior["mask"] in (0xFFFF, read["mask"]):
+        prior_byte = _one_byte(prior["data"], read["mask"])
+    else:  # Defensive: candidates are required to overlap the selected lane.
+        raise ValueError("preceding input-word write does not cover the selected byte lane")
+    if prior_byte != selected:
+        raise ValueError("last observed prior input-word write differs from caller-read byte")
+    return dict(status="last preceding write agrees", checked=True,
+                address=read["address"], mask=read["mask"],
+                selected_byte=selected, write_seq=prior["seq"],
+                write_mask=prior["mask"], write_time_ns=prior["time_ns"],
+                read_time_ns=read["time_ns"], hardware_validated=False)
+
+
 def parse_instruction_context(lines):
     """Parse one complete, lossless fixed-capacity instruction-context section."""
     begun = ended = False
@@ -183,6 +215,7 @@ def audit_instruction_path(instruction, source, operand, lines):
                           event["time_ns"] == header["time_ns"]]
         if not matching_reads:
             raise ValueError("instruction window has no matching independently observed input read")
+        preceding_write = audit_preceding_input_writes(matching_reads[0], operand_events)
         selected = _one_byte(header["data"], header["mask"])
         events = by_window[win]
         first = events[0]
@@ -215,6 +248,7 @@ def audit_instruction_path(instruction, source, operand, lines):
                 raise ValueError("writer R1L differs from the independently observed byte lane")
         checked_windows.append(dict(window=win, input_address=header["address"],
                                    selected_input_byte=selected,
+                                   preceding_input_write=preceding_write,
                                    input_ccr=header["ccr"], writer_count=len(writer_contexts),
                                    writer_ccrs=[event["ccr"] for event in writer_contexts],
                                    raw_ccr_interpreted=False))
