@@ -13,38 +13,54 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #296 — 2026-11-14
+## Current verified main — PR #297 — 2026-11-15
 
-PR [#296](https://github.com/RobCZart82/YamAN1x/pull/296) merged by squash at
-`2026-11-14T22:15:04Z` from exact head
-`09d7e18245359e553f714748219e992b0fadb133` to main
-`b3614d215370b21ea6c1362c3f4d82bfa98e0720`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43643775433`; initial-decode MSan passed in
-`43643775493`. On exact main, Linux, macOS and Windows passed in ROM-free CI
-run `43647092117`, and initial-decode MSan passed in `43647092060`. The main
-Ubuntu job completed its extended UBSan/ASan checks successfully. MAME research
-was path-filtered for this documentation-only change.
+PR [#297](https://github.com/RobCZart82/YamAN1x/pull/297) merged by squash
+at `2026-11-15T04:25:09Z`, from exact head
+`f21bf5b22c757760d938149339e8401b4cbca836` to main
+`a35e2756edfd4a8736081f2e51de2765d0c51d76`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43650629970`; initial-decode MSan passed in
+`43650629987`. Exact-main Linux, macOS and Windows passed in run
+`43676682682`; initial-decode MSan passed in `43676682701`. The main Ubuntu
+job's extended UBSan/ASan steps also passed. MAME research was path-filtered
+for this documentation-only PR.
 
-Codex's exact-head review completed without findings (summary comment
-`6884575926`; receipt `6884591152`). GitHub review submissions, inline review
-comments and review threads were zero. Ruleset `25910947` required zero
-approvals and resolved review threads; no quota error was reported and no
-merge bypass was used. PR #296 reconciles PR #295's merge evidence and current
-main baseline. It adds no runtime behavior or hardware, boot, MIDI, DSP, audio
-or REAPER acceptance.
+Codex's manual exact-head review completed without findings (summary comment
+`6885513928`; receipt `6885524302`). GitHub review submissions, inline review
+comments and review threads were zero. Active ruleset `25910947` requires three
+platform status checks, zero approvals and resolved review threads; no quota
+error was reported and no merge bypass was used. PR #297 reconciles PR #296's
+merge evidence and main baseline; it changes no runtime behavior or acceptance.
 
-## Fresh local bounded firmware observation — 2026-11-14
+## Fresh local bounded firmware observation — 2026-11-15
 
-A read-only AN1x 1.04 probe using the merged main build reached its requested
-20,000,000-cycle limit with no CPU failure or access fault. It recorded
-3,184,647 CPU callbacks, peripheral cycle `20,000,000`, PC `247044`, MEG
-controls/status reads `5/1`, VOP3 writes `[11557,516]`, reads `[448,0]`, sample
-passes `[0,0]`, GPIO writes `6329`, and zero ADC samples. Both
-`audio_accepted` and `firmware_boot_accepted` remained false. This is only
-bounded progress under the selected synthetic profile; it is not complete boot,
-hardware agreement, MIDI, audio or REAPER acceptance. The ROM SHA-256 before
-and after was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`;
-it remains unchanged and outside Git. No new MAME build or run was made.
+The project-owned read-only boot probe was run against the unchanged main source
+and an unchanged external AN1x 1.04 image. A no-input run requested 600,000,000
+cycles, a 1,000,000-cycle slice and a 125,000,000-callback ceiling, but stopped
+at peripheral cycle `95,706,795`, post-fetch PC `0x1B64`, on an unsupported
+one-byte write of `0x23` to `0xFFFFE8` (`Unsupported ADC conversion or IRQ
+enable`). It reported `cpu_failed:true`, no TX or clock edges, and
+`audio_accepted:false` / `firmware_boot_accepted:false`.
+
+Four fresh runs with an explicit constant eight-channel scan input (all zero or
+all 1023) and 4,096- or 1,000,000-cycle slices each reached the requested
+600,000,000-cycle horizon without CPU failure or access fault. AN0–AN3 first
+scan deadlines were `[95707121,95707387,95707643,95707899]` for both input
+profiles and both slice sizes. AN4–AN7 deadlines were
+`[127793965,127794231,127794487,127794743]` at input zero and
+`[127794154,127794420,127794676,127794932]` at input 1023; each profile was
+repeatable across slice sizes. VOP3 sample passes remained `[0,0]` in all four
+runs. Callback totals varied with slice size, as expected for this accounting.
+No run set `audio_accepted` or `firmware_boot_accepted` true.
+
+The ROM SHA-256 before and after remained
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the image
+stayed unchanged and outside Git. The diagnostic executable SHA-256 was
+`b75b711ed425d08efa9cc837fbe9315efbeb98dbee3f928b1b09edac2f9de2ca`. The
+pinned MAME source remains `706dbb73281320c54d7c2f16262c1c3786f2be01`; no new
+MAME build or run was made. These are bounded results under synthetic input
+profiles only, not hardware agreement, complete boot, MIDI, DSP, audio or
+REAPER acceptance.
 
 ## PKS caller-input timing windows — local candidate — 2026-11-14
 

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-14",
+  "recorded_date": "2026-11-15",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "b3614d215370b21ea6c1362c3f4d82bfa98e0720",
+  "baseline_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
   "entries": [
     {
       "pr": 6,
@@ -6304,9 +6304,45 @@
       "review": "Codex exact-head review completed without findings (summary comment 6884575926; receipt 6884591152). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required zero approvals and resolved threads; no quota error and no bypass.",
       "scope": "Documentation-only reconciliation of PR #295 merge evidence and current main baseline; no runtime behavior.",
       "acceptance": "No firmware, hardware, boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 297,
+      "pr_url": "https://github.com/RobCZart82/YAMAN1x/pull/297",
+      "title": "docs: reconcile PR 296 current main",
+      "branch": "docs/reconcile-pr296-current-main",
+      "kind": "documentation",
+      "status": "merged",
+      "base_commit": "b3614d215370b21ea6c1362c3f4d82bfa98e0720",
+      "head_commit": "f21bf5b22c757760d938149339e8401b4cbca836",
+      "merge_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+      "merged_at_utc": "2026-11-15T04:25:09Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43650629970,
+        "initial_decode_msan_run": 43650629987,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43676682682,
+        "initial_decode_msan_run": 43676682701,
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex manual exact-head review completed without findings (summary comment 6885513928; receipt 6885524302). GitHub review submissions, inline review comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #296 merge evidence and current main baseline; records fresh bounded local firmware observations, no runtime behavior.",
+      "acceptance": "No hardware, complete boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
-  "pending_changes": [],
+  "pending_changes": [
+    {
+      "title": "docs: reconcile PR 297 and record fresh bounded firmware observation",
+      "branch": "docs/reconcile-pr297-firmware-observation",
+      "base_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+      "kind": "documentation",
+      "status": "candidate",
+      "scope": "Reconcile merged PR #297 and record five fresh read-only local probes. No runtime changes or acceptance claims."
+    }
+  ],
   "audit_correction": {
     "branch": "fix/audit-adc-pks-validation",
     "scope": "ADC time guard,PKS manifest validation,documentation reconciliation",
@@ -6414,12 +6450,12 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 296,
+    "pr": 297,
     "status": "merged",
-    "head_commit": "09d7e18245359e553f714748219e992b0fadb133",
-    "merge_commit": "b3614d215370b21ea6c1362c3f4d82bfa98e0720",
-    "merged_at_utc": "2026-11-14T22:15:04Z",
+    "head_commit": "f21bf5b22c757760d938149339e8401b4cbca836",
+    "merge_commit": "a35e2756edfd4a8736081f2e51de2765d0c51d76",
+    "merged_at_utc": "2026-11-15T04:25:09Z",
     "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "PR #296 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan checks. Documentation only; no runtime behavior or acceptance changed."
+    "documentation_reconciliation": "PR #297 reconciled as merged after exact-main ROM-free CI and initial-decode MSan passed, including the extended Ubuntu UBSan/ASan steps. Documentation only; no runtime behavior or acceptance changed."
   }
 }
