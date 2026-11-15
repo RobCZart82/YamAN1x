@@ -117,7 +117,7 @@ for this candidate. The pinned source remains
 outside Git. This bounded cross-check does not establish data meaning,
 causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
 
-The current main for this candidate is `00ba1d437e1b2e46813027534b2400a1d50d18c6`. PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) is open from branch `research/pks-input-prior-write-crosscheck`. Its current exact head is `4a741f5219ed9cfcd9a99e5cb96b951340de470c`; hosted checks and exact-head review are pending. This candidate remains separate from merged state.
+The current main for this candidate is `00ba1d437e1b2e46813027534b2400a1d50d18c6`. PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) is open from branch `research/pks-input-prior-write-crosscheck`. Hosted checks and exact-head review are pending; no merge or acceptance is claimed. This candidate remains separate from merged state.
 
 ## PR #299 merge verification — 2026-11-15
 
