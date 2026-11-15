@@ -55,9 +55,16 @@ seven generated headers and matched all thirteen prepared files to the local
 MAME tree. One earlier full CTest attempt exposed a missing source/notice
 inventory row for this new research patch; the patch was registered under the
 existing reviewed MAME-patch category, no project license was selected, and the
-complete rerun passed. This is local candidate evidence only. The observer does
-not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
-or REAPER acceptance. A PR has not yet been submitted.
+complete rerun passed. PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) is open at exact head
+`9ec52d91e51294b42b0ba50363967dfc9a5b6a74`; it is not merged. The three
+required platform checks passed, along with initial-decode MSan and the
+MAME research build. Codex exact-head review completed without findings
+(summary comment `6893288095`). GitHub review submissions, inline review
+comments and review threads were zero. Active ruleset `25910947` requires
+three platform checks, zero approvals and resolved review threads; no
+quota error was reported and no bypass was used. This remains bounded
+candidate evidence only: the observer does not establish causality,
+semantics, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
 
 ## Fresh local bounded firmware observation — 2026-11-15
 

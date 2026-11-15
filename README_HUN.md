@@ -60,9 +60,17 @@ segédfejlécet ellenőrzött, és mind a tizenhárom előkészített fájlt egy
 találta a helyi MAME-fával. Egy korábbi teljes CTest-futás jelezte, hogy az új
 kutatási patch hiányzik az értesítés-nyilvántartásból; a sort a meglévő, már
 ellenőrzött MAME-patch kategóriába vettük fel, projektlicenc kiválasztása
-nélkül, majd a teljes újrafutás sikeres lett. Ez csak helyi jelölt. Az
-utasításmegfigyelő nem igazol okozatiságot, szemantikát, hardveregyezést,
-indulást, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást. PR még nem készült.
+nélkül, majd a teljes újrafutás sikeres lett. A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301) nyitva van a pontos
+`9ec52d91e51294b42b0ba50363967dfc9a5b6a74` fejen; még nem olvadt be. A három
+kötelező platformellenőrzés, az initial-decode MSan és a MAME-kutatási
+ellenőrzés sikeres. A Codex pontos fejre vonatkozó áttekintése nem talált
+hibát (összefoglaló megjegyzés: `6893288095`). GitHub review-beküldés,
+beágyazott review-megjegyzés és review-szál nem volt. A `25910947` aktív
+szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
+review-szálakat követel; kvótahibát nem jelentettek, megkerülés nem történt.
+Ez továbbra is korlátozott jelöltbizonyíték: az utasításmegfigyelő nem igazol
+okozatiságot, szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot
+vagy REAPER-elfogadást.
 
 ## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
 
