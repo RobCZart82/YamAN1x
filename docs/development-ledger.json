@@ -6505,13 +6505,14 @@
       "branch": "research/pks-input-producer-crosscheck",
       "base_commit": "00ba1d437e1b2e46813027534b2400a1d50d18c6",
       "kind": "bounded observation-only audit",
-      "status": "candidate",
+      "status": "open",
       "scope": "Compare each captured caller-input read with the latest prior captured write to the same aligned word and selected byte lane; report absent in-window writes without implying absence outside the bounded trace. No new MAME instrumentation.",
       "local_validation": "Focused Python audit 11/11 normally and under -O; full Python 143/143; repository audit 701 files/201 upstream identities PASS; git diff --check PASS. No new MAME build/run.",
-      "review": "not requested",
-      "merge_status": "not submitted",
-      "pr_url": null,
-      "next_step": "Open one PR from the verified main; inspect exact-head required CI, Codex review evidence and conflicts before merging. Keep the MAME source and ROM provenance pinned and make no hardware or audio acceptance claim."
+      "review": "pending exact-head review",
+      "merge_status": "not merged",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/304",
+      "next_step": "Check PR #304 exact head for required CI, review findings or evidence of no review, conflicts and dependencies. Merge only when all required gates pass on the exact head.",
+      "pr_number": 304
     }
   ],
   "audit_correction": {
