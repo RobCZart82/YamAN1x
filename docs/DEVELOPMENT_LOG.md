@@ -2352,12 +2352,12 @@ for that result. Previous recurring automation remains deleted,not recreated.
 
 ## #301 exact-head verification — 2026-11-15
 
-PR #301 is open at exact head `9ec52d91e51294b42b0ba50363967dfc9a5b6a74`,
+PR #301 is open at exact candidate head `f5c923e087330339b525eb9f0e2b4ce793682e9a`,
 base `fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`; it is not merged. The three
-required platform checks passed in ROM-free CI run `43706479955`, initial-decode
+required platform checks passed in ROM-free CI run `43710125929`, initial-decode
 MSan passed in `43706480061`, and the pinned-source MAME research build passed
 in `43706479984`. Codex's PR-open exact-head review completed without findings
-(summary comment `6893288095`). GitHub review submissions, inline review comments
+(summary comment `6893288095` (initial PR-open review), with manual-request receipt `6894010721` confirming no findings on the updated exact head). GitHub review submissions, inline review comments
 and review threads were zero. Active ruleset `25910947` requires three platform
 checks, zero approvals and resolved review threads; no quota error was reported
 and no merge bypass was used. Mergeability is reported as `MERGEABLE`. Candidate

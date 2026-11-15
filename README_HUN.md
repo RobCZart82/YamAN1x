@@ -61,10 +61,11 @@ találta a helyi MAME-fával. Egy korábbi teljes CTest-futás jelezte, hogy az 
 kutatási patch hiányzik az értesítés-nyilvántartásból; a sort a meglévő, már
 ellenőrzött MAME-patch kategóriába vettük fel, projektlicenc kiválasztása
 nélkül, majd a teljes újrafutás sikeres lett. A [#301 PR](https://github.com/RobCZart82/YamAN1x/pull/301) nyitva van a pontos
-`9ec52d91e51294b42b0ba50363967dfc9a5b6a74` fejen; még nem olvadt be. A három
-kötelező platformellenőrzés, az initial-decode MSan és a MAME-kutatási
+`f5c923e087330339b525eb9f0e2b4ce793682e9a` fejen; még nem olvadt be. A három
+kötelező platformellenőrzés (run `43710125929`), az initial-decode MSan
+(run `43710126038`) és a MAME-kutatási ellenőrzés (run `43710125967`)
 ellenőrzés sikeres. A Codex pontos fejre vonatkozó áttekintése nem talált
-hibát (összefoglaló megjegyzés: `6893288095`). GitHub review-beküldés,
+hibát (összefoglaló megjegyzés: `6894010721`). GitHub review-beküldés,
 beágyazott review-megjegyzés és review-szál nem volt. A `25910947` aktív
 szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
 review-szálakat követel; kvótahibát nem jelentettek, megkerülés nem történt.

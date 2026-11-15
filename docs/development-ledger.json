@@ -6424,11 +6424,11 @@
       "scope": "Read-only bounded instruction/register/CCR/time windows around two observed caller reads; independently cross-check address/value/lane, static and dynamic path ordering, writer register snapshots, timing and continuation. No causal, semantic, hardware, boot, MIDI, DSP, audio or REAPER acceptance.",
       "local_validation": "Release build PASS; full 139/139 CTest PASS; Python 138/138 PASS; focused optimized Python 6/6 PASS; focused CTest 2/2 PASS; repository audit 701 files/201 upstream identities PASS; source/notice coverage 232 files/5 texts PASS; pinned raw-source preflight verified 6 inputs, applied 14 patches and matched all 13 prepared files with 7 helper headers. One first full CTest run exposed a missing source/notice inventory row; corrected within existing MAME patch coverage, no project license chosen, full rerun passed.",
       "pr_number": 301,
-      "review": "Codex PR-open exact-head review completed without findings on 9ec52d91e51294b42b0ba50363967dfc9a5b6a74 (summary comment 6893288095). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 requires three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "review": "Codex exact-head review completed without findings on f5c923e087330339b525eb9f0e2b4ce793682e9a (summary comment 6893288095, manual-request receipt 6894010721). GitHub review submissions, inline comments and threads were zero. Active ruleset 25910947 requires three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
       "merge_status": "not merged",
       "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/301",
-      "candidate_head": "9ec52d91e51294b42b0ba50363967dfc9a5b6a74",
-      "hosted_checks": "Exact PR-head ROM-free CI Linux/macOS/Windows passed in run 43706479955; initial-decode MSan passed in 43706480061; MAME research build passed in run 43706479984."
+      "candidate_head": "f5c923e087330339b525eb9f0e2b4ce793682e9a",
+      "hosted_checks": "Exact candidate-head ROM-free CI Linux/macOS/Windows passed in run 43710125929; initial-decode MSan passed in 43710126038; MAME research build passed in 43710125967."
     }
   ],
   "audit_correction": {

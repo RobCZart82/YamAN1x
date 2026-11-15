@@ -56,10 +56,11 @@ MAME tree. One earlier full CTest attempt exposed a missing source/notice
 inventory row for this new research patch; the patch was registered under the
 existing reviewed MAME-patch category, no project license was selected, and the
 complete rerun passed. PR [#301](https://github.com/RobCZart82/YamAN1x/pull/301) is open at exact head
-`9ec52d91e51294b42b0ba50363967dfc9a5b6a74`; it is not merged. The three
-required platform checks passed, along with initial-decode MSan and the
-MAME research build. Codex exact-head review completed without findings
-(summary comment `6893288095`). GitHub review submissions, inline review
+`f5c923e087330339b525eb9f0e2b4ce793682e9a`; it is not merged. The three
+required platform checks passed in ROM-free CI run `43710125929`, along
+with initial-decode MSan run `43710126038` and MAME research run
+`43710125967`. Codex exact-head review completed without findings
+(summary comment `6894010721`). GitHub review submissions, inline review
 comments and review threads were zero. Active ruleset `25910947` requires
 three platform checks, zero approvals and resolved review threads; no
 quota error was reported and no bypass was used. This remains bounded
