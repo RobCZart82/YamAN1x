@@ -97,27 +97,30 @@ complete rerun passed. PR #301 merged this bounded research increment. The obser
 not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
 or REAPER acceptance. The next candidate is to trace the instruction/value path preceding the observed source writes, with independent address, value, byte-lane, raw-flag, timing and continuation checks; no semantic or hardware acceptance is claimed.
 
-## PKS input-word prior-write cross-check — local candidate — 2026-11-15
+## PR #304 merge verification — 2026-11-15
 
-The candidate audit checks each observed caller read against the latest earlier
-captured operand-context write to the same aligned word that covers the selected
-byte lane. It compares the byte value and event ordering. A full-word write or
-a write to the selected byte lane can qualify; an opposite-lane write cannot.
-When the bounded capture contains no qualifying prior write, the result says
-`no preceding write observed`; it does not claim that no write exists outside
-the capture. Synthetic checks cover high and low byte selection, full-word
-writes, mismatched values, wrong addresses, opposite lanes and later writes.
+PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) merged by squash
+at `2026-11-15T18:34:07Z` from exact head
+`6e9380a6c01f2c645da7705942552fa96330f2a4` to main
+`217e8e1af87276ff52d6e7008d70303d3f624440`. PR-head Linux/macOS/Windows
+checks passed (ROM-free CI run `43743313289`); initial-decode MSan passed
+(`43743313286`). Exact-main platform checks passed (`43747490185`) and
+initial-decode MSan passed (`43747490162`), including Ubuntu extended
+UBSan/ASan.
 
-This increment reuses existing read-only trace records and adds no observer or
-MAME patch. Focused instruction-audit tests pass 11/11 normally and under
-Python `-O`; the complete Python suite passes 143/143 and repository audit
-passes (701 files, 201 upstream identities). No new MAME build or run was made
-for this candidate. The pinned source remains
-`706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
-outside Git. This bounded cross-check does not establish data meaning,
-causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+Codex exact-head review completed without findings (summary comment
+`6898697415`; manual review receipt `6898711208`). GitHub review
+submissions, inline comments and review threads were zero. Active ruleset
+`25910947` requires three platform checks, zero approvals and resolved
+threads. No quota error or bypass was involved. PR #304 adds a bounded
+read-only cross-check over existing trace records; it does not establish data
+meaning, causality, hardware agreement, boot, MIDI, DSP, audio or REAPER
+acceptance.
 
-The current main for this candidate is `00ba1d437e1b2e46813027534b2400a1d50d18c6`. PR [#304](https://github.com/RobCZart82/YamAN1x/pull/304) is open from branch `research/pks-input-prior-write-crosscheck`. Hosted checks and exact-head review are pending; no merge or acceptance is claimed. This candidate remains separate from merged state.
+The main currently has no open PR. The next candidate is a wider pre-roll
+capture around the PKS caller reads, to check for a producer outside the
+existing bounded event window. It remains observational and requires separate
+address, value, byte-lane, raw-flag, timing and continuation checks.
 
 ## PR #299 merge verification — 2026-11-15
 
