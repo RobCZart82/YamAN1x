@@ -1,8 +1,30 @@
 # Pks Payload Path
 
-This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
+This English document no longer mixes Hungarian passages into its text. The Hungarian summary is maintained separately in [PKS payload path (Hungarian)](pks-payload-path_HUN.md); historical Hungarian passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
 # Bounded PKS payload path observations
+
+## Bounded caller-input instruction windows — local candidate — 2026-11-15
+
+The new pinned-source patch records four bounded 2,048-instruction windows for
+the repeated `2349EA` and `237204` reads. It preserves PC, opcode, emulated
+time, raw CCR and R0–R7/ER0–ER7. Two passive nine-second runs with the same
+instrumented MAME binary produced identical 8,192 instruction events, no
+dropped records, complete footers and matching 26-field non-trace manifests.
+The event digest is `2938a16d4bad57c0eeffe404d26b4d01e62ef8c9aef853af9cc92aca9e3b84e5`;
+the executable digest is
+`c7f3125bebfffd3e7f26ad8a33dab3a9abadc83f94e367850c1cda4cec8dd8ae`.
+
+An independent audit checks caller address/value/lane, input byte versus the
+first CPU snapshot, ordered static/dynamic PCs, raw flag and register agreement
+with the separate bus observer, R1L byte selection, timing order, and
+continuation. `2349EA` selected `40` with raw CCR `84`, followed by `E0 00 20`
+source writes at 12,625/20,125/27,625 ns. `237204` selected `00` with raw CCR
+`80`, followed by `E0 00 00` at 10,375/17,875/25,375 ns. CCR is not interpreted.
+This evidence is bounded and MAME-only; it does not establish causality,
+meaning, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
+The ROM was unchanged and remained outside Git. This is a local candidate, not
+a PR result; validation must finish before submission.
 
 ## Static caller-input timing windows — local candidate — 2026-11-14
 

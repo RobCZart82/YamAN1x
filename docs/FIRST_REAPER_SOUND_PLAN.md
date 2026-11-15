@@ -2,25 +2,62 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #299 — 2026-11-15
+## Current verified main — PR #300 — 2026-11-15
 
-PR [#299](https://github.com/RobCZart82/YamAN1x/pull/299) merged by squash
-at `2026-11-15T07:42:15Z`, from exact head
-`26d7d6b053e449f3ac1b13869ddd1d725734050a` to main
-`615b25766e2cf3b2ddc399c5a134a09c71666bb5`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43688214713`; initial-decode MSan passed in
-`43688214718`. Exact-main Linux, macOS and Windows passed in run
-`43691124498`; initial-decode MSan passed in `43691124490`. The main Ubuntu
+PR [#300](https://github.com/RobCZart82/YamAN1x/pull/300) merged by squash
+at `2026-11-15T09:02:10Z`, from exact head
+`8f708e34ad1dc07da6cc61cdc0aac2d08450d5a7` to main
+`fe95e7ec5bb76b339f8ffcdd6cbf5b7af704b20e`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43694265960`; initial-decode MSan passed in
+`43694266017`. Exact-main Linux, macOS and Windows passed in run
+`43697268409`; initial-decode MSan passed in `43697268400`. The main Ubuntu
 job's extended UBSan/ASan steps also passed. MAME research was path-filtered
 for this documentation-only PR.
 
 Codex's PR-open exact-head review completed without findings (summary comment
-`6890810839`). GitHub review submissions, inline review comments and review
+`6891642147`). GitHub review submissions, inline review comments and review
 threads were zero. Active ruleset `25910947` requires three platform status
 checks, zero approvals and resolved review threads; no quota error was
-reported and no merge bypass was used. PR #299 reconciles PR #298's merge
+reported and no merge bypass was used. PR #300 reconciles PR #299's merge
 evidence and current main baseline; it changes no runtime behavior or
 acceptance.
+
+## PKS caller-input instruction windows — local candidate — 2026-11-15
+
+This candidate adds a bounded, read-only instruction observer around the two
+repeated PKS caller-input reads. It captures four 2,048-instruction windows
+with PC, opcode, timestamp, raw CCR and R0–R7/ER0–ER7. Two passive nine-second
+runs against the pinned MAME source and identical instrumented executable
+produced identical 8,192 instruction events (SHA-256
+`2938a16d4bad57c0eeffe404d26b4d01e62ef8c9aef853af9cc92aca9e3b84e5`), complete
+footers, no dropped records and matching 26 non-trace manifest fields. The
+MAME executable SHA-256 was
+`c7f3125bebfffd3e7f26ad8a33dab3a9abadc83f94e367850c1cda4cec8dd8ae`.
+
+The independent auditor checks the selected input address, value and byte lane
+against the separate bus observer, the first CPU snapshot, static/dynamic PC
+ordering, raw CCR and register snapshots at the common source writer, R1L byte
+selection, timestamp order, continuation and lossless bounds. The `2349EA`
+read selected `40` with raw CCR `84`, followed by `E0 00 20` source writes at
+12,625, 20,125 and 27,625 ns. The `237204` read selected `00` with raw CCR `80`,
+followed by `E0 00 00` at 10,375, 17,875 and 25,375 ns. CCR is retained without
+interpretation. The ROM identity SHA-256 remains
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` and the
+image remains outside Git. The original MAME reference stays pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+Validation: full Release build passed; the latest full CTest run passed 139/139;
+Python passed 138/138, the focused optimized Python audit 6/6, focused CTest
+passed 2/2, repository audit passed (701 files, 201 upstream identities), and
+source/notice coverage passed (232 files, five license texts). A fresh raw-file
+preflight verified all six pinned inputs, applied all fourteen patches, checked
+seven generated headers and matched all thirteen prepared files to the local
+MAME tree. One earlier full CTest attempt exposed a missing source/notice
+inventory row for this new research patch; the patch was registered under the
+existing reviewed MAME-patch category, no project license was selected, and the
+complete rerun passed. This is local candidate evidence only. The observer does
+not establish causality, semantics, hardware agreement, boot, MIDI, DSP, audio
+or REAPER acceptance. A PR has not yet been submitted.
 
 ## Fresh local bounded firmware observation — 2026-11-15
 

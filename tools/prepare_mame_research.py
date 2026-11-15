@@ -88,7 +88,7 @@ def check_archive(archive, repo, lock):
     with tempfile.TemporaryDirectory(prefix="yamanix-source-check-") as temporary:
         root = Path(temporary)
         with zipfile.ZipFile(archive) as source:
-            # Extract only four reviewed text inputs, never a firmware/ROM member.
+            # Extract only the locked source inputs, never a firmware/ROM member.
             for name in lock["inputs"]:
                 target = safe_path(root, name)
                 target.parent.mkdir(parents=True, exist_ok=True)

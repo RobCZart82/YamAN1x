@@ -36,9 +36,9 @@ Check the original local archive without changing it:
 python3 tools/prepare_mame_research.py --archive /absolute/path/to/mame-master.zip
 ```
 
-Only the four reviewed source-text inputs are extracted temporarily. All eleven
+Only the locked source-text inputs are extracted temporarily. All fourteen
 patches are applied in order, output paths are checked against the reviewed
-set, and all four injected helper headers must equal the project sources.
+set, and all seven injected helper headers must equal the project sources.
 No firmware, ROM or bank member is extracted by this command.
 
 For a full source build, create a separate checkout of the pinned official
@@ -107,3 +107,13 @@ Fresh firmware execution remains **NOT RUN** for the new SCI access patch. M1 is
 in progress, M0's H8 port/isolation work remains open, and EG target hold is
 unchanged. Follow [the M1 experiment](m1-sci-access-milestone.md) after a
 successful full build; successful machine registration does not prove boot.
+
+## Current research chain update — 2026-11-15
+
+The locked input set now also includes official pinned `h8.cpp` and `h8.h`
+files, each verified byte-for-byte against the pinned MAME commit and recorded
+by SHA-256 in `research/mame-source-lock.json`. The current chain contains
+fourteen patches and installs seven project helper headers. The latest
+instruction-context patch is a local bounded candidate; its complete source
+preflight and MAME build must be revalidated after final patch edits. No full
+archive-tree equality or Yamaha ROM redistribution is claimed.
