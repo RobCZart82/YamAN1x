@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-15",
+  "recorded_date": "2026-11-16",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "4b682bb0564119046ff66e0c05e7cfa38c3dad80",
+  "baseline_commit": "c37ac585dc508641a413da201df24949a396a36c",
   "entries": [
     {
       "pr": 6,
@@ -6656,6 +6656,33 @@
       "scope": "Documentation reconciliation and fresh bounded, read-only firmware diagnostics. Existing code captures bounded PKS instruction windows; no runtime code changed in this PR.",
       "acceptance": "No hardware agreement, complete boot, MIDI, DSP, audio or REAPER acceptance.",
       "next_step": "Add a narrowly bounded read-only firmware observation for the TSTR writes at FFFF60 and independently check address/value/raw flags/timing/continuation against the pinned MAME source; do not infer IRQ causality or hardware equivalence."
+    },
+    {
+      "pr": 307,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/307",
+      "title": "docs: reconcile PR 306 and FFFF60 probe",
+      "branch": "docs/reconcile-pr306-firmware-probe",
+      "kind": "documentation reconciliation",
+      "status": "merged",
+      "base_commit": "4b682bb0564119046ff66e0c05e7cfa38c3dad80",
+      "head_commit": "705555681f9aa77f86eaae444c2ff7fc7034258a",
+      "merge_commit": "c37ac585dc508641a413da201df24949a396a36c",
+      "merged_at_utc": "2026-11-16T18:39:09Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43770073433,
+        "initial_decode_msan_run": 43770073394,
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43931077479,
+        "initial_decode_msan_run": 43931080584,
+        "ubuntu_extended_sanitizers": "pass",
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings on 705555681f9aa77f86eaae444c2ff7fc7034258a (summary comment 6902498493; review receipt 6902515270). GitHub review submissions and threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved threads; no quota error and no bypass.",
+      "scope": "Documentation-only reconciliation of PR #306 merge/main evidence and the fixed-profile local FFFF60 diagnostic; no runtime change."
     }
   ],
   "pending_changes": [],
@@ -6766,13 +6793,115 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 306,
+    "pr": 307,
     "status": "merged",
-    "head_commit": "f09bbf8448126e0a78ba8b7648341d87ad12b8fc",
-    "merge_commit": "4b682bb0564119046ff66e0c05e7cfa38c3dad80",
-    "merged_at_utc": "2026-11-15T21:46:37Z",
-    "open_prs_at_reconciliation": 0,
-    "documentation_reconciliation": "PR #306 merge and exact-main checks reconciled. Fresh exact-tree probe reached the 600M horizon with fixed synthetic ADC scan profiles and retained the repeated no-scan stop at FFFFE8. ROM unchanged/outside Git; bounded evidence only."
+    "head_commit": "705555681f9aa77f86eaae444c2ff7fc7034258a",
+    "merge_commit": "c37ac585dc508641a413da201df24949a396a36c",
+    "merged_at_utc": "2026-11-16T18:39:09Z",
+    "main_checks": {
+      "rom_free_ci_run": 43931077479,
+      "required_platform_contexts": "all passed",
+      "initial_decode_msan_run": 43931080584,
+      "ubuntu_extended_sanitizers": "pass"
+    },
+    "review": "Exact-head Codex review completed without findings; summary comment 6902498493; receipt 6902515270; ruleset 25910947 satisfied without bypass."
   },
-  "current_candidate": null
+  "current_candidate": {
+    "branch": "research/itu-tstr-observer",
+    "status": "local_candidate",
+    "base_commit": "c37ac585dc508641a413da201df24949a396a36c",
+    "kind": "bounded observation-only firmware diagnostic",
+    "changed_files": [
+      "src/h8_first_instructions.h",
+      "src/an1x_boot_probe.cpp",
+      "tests/check_an1x_boot_probe.py",
+      "docs/an1x-boot-probe.md",
+      "README.md",
+      "README_HUN.md",
+      "docs/STATUS.md",
+      "docs/STATUS_HUN.md",
+      "docs/FIRST_REAPER_SOUND_PLAN.md",
+      "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
+      "docs/development-ledger.json"
+    ],
+    "local_validation": {
+      "release_build": "pass",
+      "ctest": "139/139 pass",
+      "python": "147/147 pass",
+      "repository_audit": "701 files; 201 upstream identities; pass",
+      "source_notice": "232 files; 5 notice texts; pass; legal clearance not claimed",
+      "focused_tstr_synthetic": "exact address/value/width/raw CCR/cycle/continuation; slice sizes 1,8,64 invariant; opt-in noninterference; capacity 64 and dropped counter checked",
+      "git_diff_check": "pass",
+      "pinned_tstr_reference_test": "pass: pinned commit, h83002.cpp/timer16 source hashes, tstr_w method hash"
+    },
+    "firmware_diagnostic": {
+      "runs": 2,
+      "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+      "adc_input": "disabled",
+      "cycles_requested": 600000000,
+      "slice_cycles": 1000000,
+      "callback_limit": 125000000,
+      "rom_view": "swap16",
+      "probe_sha256": "343c23fe0d23079beae865b30bd66927f5d81349604651c5c1fdcae00f9fd9d2",
+      "trace_sha256": "005288d52f2ffa89b8b94428150e4191973e259db7e5021f579c74c46ae73c35",
+      "trace_events": [
+        {
+          "address": "0xFFFF60",
+          "width": 1,
+          "value": "0xFF",
+          "cycle": 11925102,
+          "raw_ccr": "0x29",
+          "before_pc": "0x0B5E",
+          "before_ppc": "0x0B5C",
+          "continuation_pc": "0x0B60",
+          "continuation_state": "0x5A00"
+        },
+        {
+          "address": "0xFFFF60",
+          "width": 1,
+          "value": "0xFB",
+          "cycle": 92381419,
+          "raw_ccr": "0x25",
+          "before_pc": "0xEA26",
+          "before_ppc": "0xEA22",
+          "continuation_pc": "0xEA28",
+          "continuation_state": "0x6A28"
+        },
+        {
+          "address": "0xFFFF60",
+          "width": 1,
+          "value": "0xFF",
+          "cycle": 92384136,
+          "raw_ccr": "0x00",
+          "before_pc": "0xEB6A",
+          "before_ppc": "0xEB66",
+          "continuation_pc": "0xEB6C",
+          "continuation_state": "0x0B87"
+        }
+      ],
+      "capacity": 64,
+      "dropped": 0,
+      "stop": {
+        "peripheral_cycle": 95706795,
+        "post_fetch_pc": "0x1B64",
+        "write_address": "0xFFFFE8",
+        "width": 1,
+        "value": "0x23",
+        "error": "Unsupported ADC conversion or IRQ enable",
+        "tx_edges": 0,
+        "clock_edges": 0
+      },
+      "rom_sha256_before_after": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+      "rom_unchanged_outside_git": true
+    },
+    "pinned_mame_reference": {
+      "commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+      "h83002_cpp_sha256": "2b422dc4081700cccc27d3a6f62307ae5f138f4f601181015ff1d6605ecf1e92",
+      "h8_timer16_cpp_sha256": "7039beac99834b03ebd25fd20394c40f228cc9e33ee26c1e265a51c544da0c5c",
+      "tstr_w_method_sha256": "238146e5b9de1139c94baf14c5e6471012b21f3d092dce594b03f41b516efc8f"
+    },
+    "scope": "Optional read-only observer only; no timer/IRQ/bus scheduling change. Raw CCR is uninterpreted. Two bounded runs stop at existing later ADC/IRQ unsupported boundary.",
+    "acceptance": "No full firmware boot, timer execution equivalence, IRQ causality, hardware agreement, MIDI, DSP, audio or REAPER acceptance.",
+    "review": "Not opened yet; no review conclusion or quota claim."
+  }
 }

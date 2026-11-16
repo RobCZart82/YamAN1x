@@ -61,10 +61,13 @@ private:
             cpu.m_bcount=b.boundary();
             if(cpu.m_inst_state<0x10000)cpu.m_PPC=cpu.m_NPC;
             cpu.dispatch(false);
+            cpu.observe_dispatch_continuation();
         }
-        void partial(H8ExecutionBudget& b){cpu.m_bcount=b.boundary();cpu.dispatch(true);}
+        void partial(H8ExecutionBudget& b){cpu.m_bcount=b.boundary();cpu.dispatch(true);cpu.observe_dispatch_continuation();}
     };
     void dispatch(bool partial) {
+        if constexpr(requires{host_.observe_cpu_dispatch(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);})
+            host_.observe_cpu_dispatch(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);
         // Flat first-match exits avoid MSVC C1061 from a deep else-if chain.
         if(m_inst_state==0x10000) {if(partial)state_reset_partial();else state_reset_full(); return;
         }
@@ -573,6 +576,10 @@ private:
     uint16_t read16(uint32_t address){auto v=bus_.read16(address);refresh_bus_deadline();return v;}
     void write16(uint32_t address,uint16_t data){bus_.write16(address,data);refresh_bus_deadline();}
     bool access_to_be_redone()const{return false;}
+    void observe_dispatch_continuation(){
+        if constexpr(requires{host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);})
+            host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);
+    }
     uint8_t syscr_value()const{if constexpr(requires{host_.syscr_value();})return host_.syscr_value();else return 0x0b;}
     void update_irq_filter(){if constexpr(requires{host_.sync_cpu_ccr(m_CCR);})host_.sync_cpu_ccr(m_CCR);else if(irq_)irq_->set_filter(H83002SyscrModes::irq_filter(syscr_value(),m_CCR),-1);}
     void prefetch_done(){

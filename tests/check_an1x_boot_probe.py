@@ -33,6 +33,52 @@ def main(binary):
             code, report = run([64, slice_size, 10000])
             require(code == 0 and report["status"] == "cycle_limit" and report["completed_slice_cycles"] == 64, "Bounded synthetic loop")
             require(report["fault_access"] is None and not report["cpu_failed"], "No fabricated fault")
+            require(report["tstr_observations"] is None, "TSTR observer is opt-in")
+        # Two committed TSTR byte writes. The observer must retain the exact
+        # MMIO value/cycle/raw CCR and the first completed CPU continuation,
+        # independent of where the runner's cycle slices fall.
+        image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0xf3e1,0x6883,0x40fe])
+        tstr_reference = None
+        for slice_size in (1,8,64):
+            code, report = run([2048,slice_size,10000], extra=("--observe-tstr",))
+            require(code == 0 and report["tstr_observations"]["capacity"] == 64 and
+                    report["tstr_observations"]["dropped"] == 0, "TSTR observer is bounded and did not overflow")
+            writes = report["tstr_observations"]["writes"]
+            require(len(writes) == 2 and [event["address"] for event in writes] == [0xffff60,0xffff60] and
+                    [event["width"] for event in writes] == [1,1] and
+                    [event["value"] for event in writes] == [0xe0,0xe1],
+                    "TSTR observer reports exact successful byte-write addresses and values")
+            require([event["cycle"] for event in writes] == [18,24] and
+                    [event["raw_ccr"] for event in writes] == [0x88,0x88],
+                    "TSTR event cycles and raw CPU flags are retained")
+            require([event["before"]["pc"] for event in writes] == [0x10a,0x10e] and
+                    [event["before"]["ppc"] for event in writes] == [0x108,0x10c] and
+                    [event["continuation"]["pc"] for event in writes] == [0x10c,0x110] and
+                    [event["continuation"]["ppc"] for event in writes] == [0x108,0x10c] and
+                    [event["continuation"]["instruction_state"] for event in writes] == [0xf3e1,0x40fe] and
+                    all(event["continuation"] is not None and event["continuation"]["instruction_substate"] == 0 and
+                        event["continuation"]["raw_ccr"] == event["raw_ccr"] for event in writes),
+                    "TSTR records carry the post-instruction continuation without flag rewriting")
+            observation = report["tstr_observations"]
+            if tstr_reference is None:
+                tstr_reference = observation
+            require(observation == tstr_reference, "TSTR address/value/flags/cycle/continuation are slice invariant")
+            code_off, report_off = run([2048,slice_size,10000])
+            compared = ("status","stop_reason","completed_slice_cycles","peripheral_cycle","pc",
+                        "instruction_state","instruction_substate","cpu_failed","fault_access",
+                        "tx_edges","clock_edges","gpio_writes")
+            require(code_off == code and all(report_off[key] == report[key] for key in compared),
+                    "Opt-in TSTR observation leaves execution and peripheral outputs unchanged")
+        code, report = run([2048,8,10000], extra=("--observe-tstr","--observe-tstr"))
+        require(code == 1 and report["status"] == "input_error", "Reject duplicate TSTR observer option")
+        words = [0x7a00,0xff,0xff60]
+        words.extend(word for i in range(65) for word in (0xf3e0 + (i % 32),0x6883))
+        words.append(0x40fe)
+        image(words)
+        code, report = run([20000,64,100000], extra=("--observe-tstr",))
+        require(code == 0 and len(report["tstr_observations"]["writes"]) == 64 and
+                report["tstr_observations"]["capacity"] == 64 and report["tstr_observations"]["dropped"] == 1,
+                "TSTR event storage stops at its explicit capacity and reports overflow")
         raw = path.read_bytes()
         swapped = bytearray(raw)
         swapped[0::2], swapped[1::2] = raw[1::2], raw[0::2]
