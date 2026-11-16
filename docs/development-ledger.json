@@ -6902,8 +6902,18 @@
     },
     "scope": "Optional read-only observer only; no timer/IRQ/bus scheduling change. Raw CCR is uninterpreted. Two bounded runs stop at existing later ADC/IRQ unsupported boundary.",
     "acceptance": "No full firmware boot, timer execution equivalence, IRQ causality, hardware agreement, MIDI, DSP, audio or REAPER acceptance.",
-    "review": "Pending on exact PR head; no conclusion or quota claim.",
+    "review": "Codex reviewed superseded PR head 265ed418faf9c088eb4f17fa08539cba922382f7 and reported one P2 continuation-capture finding (thread PRRT_kwDOVYYWIs64GsUq); the finding is addressed in the follow-up. Review of the current head is pending; no quota error was reported.",
     "pr": 308,
-    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/308"
+    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/308",
+    "review_history": [
+      {
+        "head_commit": "265ed418faf9c088eb4f17fa08539cba922382f7",
+        "reviewer": "chatgpt-codex-connector",
+        "finding": "Consecutive identical instruction opcodes could delay the first write's continuation capture.",
+        "thread_id": "PRRT_kwDOVYYWIs64GsUq",
+        "resolution": "Added an explicit instruction-completion signal and an identical-opcode regression test; current-head review pending.",
+        "quota_error": false
+      }
+    ]
   }
 }

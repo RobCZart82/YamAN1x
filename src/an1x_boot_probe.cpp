@@ -79,12 +79,12 @@ struct Host {
   if(!observe_tstr)return;
   cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
  }
- void observe_cpu_dispatch_continuation(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
-  if(!observe_tstr)return;
+ void observe_cpu_dispatch_continuation(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr,bool completed){
+  if(!observe_tstr||!completed)return;
   if(substate!=0)return;
   const CpuContext continuation{pc&0xffffff,ppc&0xffffff,state,substate,ccr};
   for(std::size_t i=0;i<tstr_observation_count;++i){
-   if(tstr_observations[i].continuation_available||state==tstr_observations[i].before.state)continue;
+   if(tstr_observations[i].continuation_available)continue;
    tstr_observations[i].continuation_available=true;
    tstr_observations[i].continuation=continuation;
   }

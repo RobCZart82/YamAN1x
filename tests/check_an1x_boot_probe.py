@@ -69,6 +69,18 @@ def main(binary):
                         "tx_edges","clock_edges","gpio_writes")
             require(code_off == code and all(report_off[key] == report[key] for key in compared),
                     "Opt-in TSTR observation leaves execution and peripheral outputs unchanged")
+        # Equal consecutive opcodes are still distinct completed instructions;
+        # completion must not be inferred from a changed instruction-state word.
+        image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
+        code, report = run([2048,8,10000], extra=("--observe-tstr",))
+        writes = report["tstr_observations"]["writes"]
+        require(code == 0 and len(writes) == 2, "Observe both adjacent identical TSTR stores")
+        require([event["continuation"] for event in writes] == [
+                    {"pc":0x10c,"ppc":0x108,"instruction_state":0x6883,
+                     "instruction_substate":0,"raw_ccr":writes[0]["raw_ccr"]},
+                    {"pc":0x10e,"ppc":0x10a,"instruction_state":0x40fe,
+                     "instruction_substate":0,"raw_ccr":writes[1]["raw_ccr"]}],
+                "Each identical store gets its own completed continuation")
         code, report = run([2048,8,10000], extra=("--observe-tstr","--observe-tstr"))
         require(code == 1 and report["status"] == "input_error", "Reject duplicate TSTR observer option")
         words = [0x7a00,0xff,0xff60]

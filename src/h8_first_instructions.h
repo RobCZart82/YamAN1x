@@ -66,6 +66,7 @@ private:
         void partial(H8ExecutionBudget& b){cpu.m_bcount=b.boundary();cpu.dispatch(true);cpu.observe_dispatch_continuation();}
     };
     void dispatch(bool partial) {
+        m_instruction_completed=false;
         if constexpr(requires{host_.observe_cpu_dispatch(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);})
             host_.observe_cpu_dispatch(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);
         // Flat first-match exits avoid MSVC C1061 from a deep else-if chain.
@@ -577,18 +578,19 @@ private:
     void write16(uint32_t address,uint16_t data){bus_.write16(address,data);refresh_bus_deadline();}
     bool access_to_be_redone()const{return false;}
     void observe_dispatch_continuation(){
-        if constexpr(requires{host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);})
-            host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR);
+        if constexpr(requires{host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR,m_instruction_completed);})
+            host_.observe_cpu_dispatch_continuation(m_PC,m_PPC,m_inst_state,m_inst_substate,m_CCR,m_instruction_completed);
     }
     uint8_t syscr_value()const{if constexpr(requires{host_.syscr_value();})return host_.syscr_value();else return 0x0b;}
     void update_irq_filter(){if constexpr(requires{host_.sync_cpu_ccr(m_CCR);})host_.sync_cpu_ccr(m_CCR);else if(irq_)irq_->set_filter(H83002SyscrModes::irq_filter(syscr_value(),m_CCR),-1);}
     void prefetch_done(){
+        m_instruction_completed=true;
         if(irq_){const auto selected=irq_->current();if(selected.vector>0 && selected.level>=0){
             m_taken_irq_vector=selected.vector;m_taken_irq_level=selected.level;m_inst_state=0x10001;return;
         }}
         m_inst_state=m_IR[0]=m_PIR;
     }
-    void prefetch_done_noirq(){m_inst_state=m_IR[0]=m_PIR;}
+    void prefetch_done_noirq(){m_instruction_completed=true;m_inst_state=m_IR[0]=m_PIR;}
     void prefetch_done_notrace(){prefetch_done();}
     // Shared host mode or legacy fixed0B;original H83002 entry equations.
     int trapa_setup(){m_CCR=H83002SyscrModes::entry_ccr(syscr_value(),m_CCR);update_irq_filter();return 8;}
@@ -726,6 +728,7 @@ void set_nz32(u32 v)
     int m_taken_irq_vector=0,m_taken_irq_level=-1;
     int m_bcount=0;
     std::array<uint16_t,16> m_R{};
+    bool m_instruction_completed=false;
     uint32_t m_PC=0,m_PPC=0,m_NPC=0,m_inst_state=0x10000,m_inst_substate=0,m_TMP1=0,m_TMP2=0;
     std::array<uint16_t,5> m_IR{};
     uint16_t m_PIR=0;
