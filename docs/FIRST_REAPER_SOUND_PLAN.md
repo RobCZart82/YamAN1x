@@ -2,25 +2,63 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #305 — 2026-11-15
+## Current verified main — PR #306 — 2026-11-15
 
-PR [#305](https://github.com/RobCZart82/YamAN1x/pull/305) merged by squash
-at `2026-11-15T19:54:48Z`, from exact head
-`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1` to main
-`585e1a798fd8755227b9d1a9f6f8d85413b398c8`. Exact PR-head Linux, macOS and
-Windows checks passed in ROM-free CI run `43751739615`; initial-decode MSan
-passed in `43751740638`. Exact-main Linux, macOS and Windows checks passed in
-run `43755056441`; initial-decode MSan passed in `43755056449`. Main Ubuntu
-extended UBSan/ASan checks passed.
+PR [#306](https://github.com/RobCZart82/YamAN1x/pull/306) merged by squash
+at `2026-11-15T21:46:37Z`, from exact head
+`f09bbf8448126e0a78ba8b7648341d87ad12b8fc` to main
+`4b682bb0564119046ff66e0c05e7cfa38c3dad80`. Exact PR-head Linux, macOS and
+Windows checks passed in ROM-free CI run `43763192170`; initial-decode MSan
+passed in `43763192313`; the pinned MAME research build passed in
+`43763192208`. Exact-main Linux, macOS and Windows checks passed in run
+`43765551333`; initial-decode MSan passed in `43765551260`; MAME research
+passed in `43765551380`. The main Ubuntu extended UBSan/ASan steps passed.
 
-Codex's exact-head review completed without findings on
-`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1` (summary comment `6899872257`;
-manual review receipt `6899888143`). GitHub review submissions, inline
-comments and review threads were zero. Active ruleset `25910947` requires
-three platform status checks, zero approvals and resolved review threads; no
-quota error was reported and no merge bypass was used. PR #305 reconciled
-PR #304's merge and main-check record; it changed documentation only.
+Codex's manual exact-head review completed without findings on
+`f09bbf8448126e0a78ba8b7648341d87ad12b8fc` (summary comment `6901537499`;
+manual review receipt `6901585294`). The review summary records completion and
+no findings; GitHub review submissions, inline comments and review threads
+were zero. Active ruleset `25910947` required the three platform checks, zero
+approvals and resolved threads; no quota error was reported and no bypass was
+used. PR #306 adds a fixed-capacity, read-only instruction pre-roll around the
+four captured PKS reads; the bounded observations do not establish data
+meaning, causality, hardware agreement, boot, MIDI, DSP, audio or REAPER
+acceptance.
 
+## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-15
+
+The read-only boot probe (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
+was run against source tree `69e43a550406ebf5a1f32889dff27b3b7e1d90a7`,
+identical to the exact current-main tree, and the unchanged external AN1x 1.04
+image. Two runs with the explicit fixed idle-panel profile and no ADC scan
+reproduced the same stop at peripheral cycle `95,706,795`, post-fetch PC
+`0x1B64`, on a byte write of `0x23` to `0xFFFFE8` (`Unsupported ADC
+conversion or IRQ enable`). Both had no TX/clock edges and left
+`audio_accepted:false` and `firmware_boot_accepted:false`.
+
+Four runs added explicitly synthetic constant eight-channel ADC scans (all
+zero or all 1023) and used 4,096- or 1,000,000-cycle slices. All four reached
+the requested 600,000,000-cycle horizon without CPU failure or access fault.
+AN0–AN3 first-scan deadlines were `[95707121,95707387,95707643,95707899]`.
+For zero input, AN4–AN7 were `[127793965,127794231,127794487,127794743]`; for
+1023 input they were `[127794154,127794420,127794676,127794932]`. Each profile's
+deadlines matched across slice sizes. VOP3 sample passes remained `[0,0]`;
+TX edge totals were 1,294 (zero) and 1,315 (1023), with no clock edges.
+
+The earlier unsupported active-mode stop at `0xFFFF60` does not recur on this
+bounded path: the fixed ITU/TSTR profile proceeds to the later ADC boundary.
+The probe emits endpoint state rather than a per-MMIO TSTR event log, so these
+runs do not independently establish exact TSTR writes or IRQ causality. The
+next bounded step is a read-only TSTR observer retaining address, value, cycle,
+raw CPU flags and continuation for independent comparison with pinned MAME
+source; no IRQ-causality claim is planned. Four
+preliminary invocations without the required idle-panel profile stopped at
+`0xFFFFD6` (`Unmodeled external GPIO input`) and are excluded as invalid setup,
+not firmware evidence. The ROM SHA-256 before and after was
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the image
+remained unchanged and outside Git. These synthetic-profile observations do
+not establish hardware agreement, complete boot, MIDI, DSP, audio or REAPER
+acceptance.
 
 ## Latest code baseline — PR #304 — 2026-11-15
 
@@ -109,7 +147,7 @@ for this increment. The pinned source remains
 `706dbb73281320c54d7c2f16262c1c3786f2be01`; ROM remains unchanged and
 outside Git. This bounded cross-check does not establish data meaning,
 causality, hardware agreement, boot, MIDI, DSP, audio or REAPER acceptance.
-## Wider PKS caller-read pre-roll — local candidate — 2026-11-15
+## Wider PKS caller-read pre-roll — merged in PR #306 — 2026-11-15
 
 A fresh read-only capture on the pinned MAME source now retains 65,536 H8
 instruction snapshots before and 2,048 after each of the four observed caller
@@ -143,7 +181,7 @@ the focused optimized audit 14/14, repository audit 701/201, source/notice
 coverage 232/5, and `git diff --check` passed. No ROM file was modified or
 added to Git.
 
-## Fresh local bounded firmware observation — 2026-11-15
+## Earlier bounded firmware observation — 2026-11-15
 
 The project-owned read-only boot probe was run against the unchanged main source
 and an unchanged external AN1x 1.04 image. A no-input run requested 600,000,000
@@ -173,7 +211,7 @@ MAME build or run was made. These are bounded results under synthetic input
 profiles only, not hardware agreement, complete boot, MIDI, DSP, audio or
 REAPER acceptance.
 
-## PKS caller-input timing windows — local candidate — 2026-11-14
+## PKS caller-input timing windows — earlier local baseline, widened in #306 — 2026-11-14
 
 A bounded read-only observer now records the statically identified aligned
 word `2349EA` in addition to the previously observed bases. Two fresh
@@ -187,9 +225,9 @@ the first three writes by 12,625, 20,125 and 27,625 ns; their byte values were
 as raw evidence without interpretation. Both run manifests matched on 26
 non-trace fields. These timing windows do not establish causality, data meaning,
 hardware agreement, complete boot, MIDI, DSP samples, audio or REAPER
-acceptance. The ROM was unchanged and outside Git. The next candidate step is
-to trace the upstream instruction/value path and independently recheck address,
-value, lane, flags, timing and continuation.
+acceptance. The ROM was unchanged and outside Git. The pre-roll candidate that followed
+these observations was merged in PR #306; the current next step is the bounded
+FFFF60 TSTR observation described above.
 
 ## PR #279 merge verification — 2026-11-13
 

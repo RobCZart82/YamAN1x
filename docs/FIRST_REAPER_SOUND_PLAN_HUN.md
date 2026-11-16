@@ -2,19 +2,60 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #305 — 2026-11-15
+## Ellenőrzött főági alap — #306 — 2026-11-15
 
-A [#305 PR](https://github.com/RobCZart82/YamAN1x/pull/305) squash módszerrel
-olvadt be 2026-11-15 19:54:48 UTC-kor. A PR-fej
-`07ba9ac6fe52f186d70f3a44a1c21adc9d31e8a1`, a főági commit
-`585e1a798fd8755227b9d1a9f6f8d85413b398c8`. A PR-fej platform-CI-je és MSan
-ellenőrzése, valamint a pontos főág platform-CI-je, MSan-ja és Ubuntu
-UBSan/ASan lépései sikerültek. Codex pontos fejre vonatkozó áttekintése nem
-talált hibát; GitHub review-beküldés, beágyazott megjegyzés és review-szál nem
-volt. A szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
-review-szálakat követelt; kvótahiba vagy megkerülés nem történt. A #305 csak
-dokumentációs egyeztetés volt.
+A [#306 PR](https://github.com/RobCZart82/YamAN1x/pull/306) squash módszerrel
+olvadt be 2026-11-15 21:46:37 UTC-kor. A pontos PR-fej
+`f09bbf8448126e0a78ba8b7648341d87ad12b8fc`, az új főági commit
+`4b682bb0564119046ff66e0c05e7cfa38c3dad80`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `43763192170` ROM-mentes CI-futásban, az initial-decode MSan a
+`43763192313`, a rögzített MAME-fordítás a `43763192208` futásban sikerült.
+A pontos főág három platformellenőrzése a `43765551333`, az MSan a
+`43765551260`, a MAME-fordítás a `43765551380` futásban sikerült; az Ubuntu
+kiterjesztett UBSan/ASan lépései is zöldek.
 
+A pontos PR-fej Codex-kézi áttekintése nem talált hibát (összefoglaló
+`6901537499`, kézi nyugta `6901585294`). A review összefoglalója sikeres
+befejezést és hibamentes eredményt jelez; GitHub review-beküldés, beágyazott
+megjegyzés és review-szál nem volt. A `25910947` aktív szabályzat három
+platformellenőrzést, nulla jóváhagyást és lezárt szálakat követelt; kvótahiba
+vagy megkerülés nem történt. A #306 korlátozott, körkörös előtörténetű,
+csak olvasó utasításrögzítést ad a négy PKS-olvasáshoz; nem igazol
+adatjelentést, oksági kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t,
+hangot vagy REAPER-elfogadást.
+
+## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-15
+
+A csak olvasó boot-vizsgáló (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
+a pontos főággal azonos forrásfán (`69e43a550406ebf5a1f32889dff27b3b7e1d90a7`)
+és a változatlan, külső AN1x 1.04 képpel futott. Két, explicit rögzített
+nyugalmi panelprofilt és ADC-mintát nem használó futás azonosan állt meg a
+`95 706 795` perifériaciklusnál, `0x1B64` utasítás utáni PC-n, a `0x23` értékű
+bájt `0xFFFFE8` címre írásakor (`Unsupported ADC conversion or IRQ enable`).
+Egyiknél sem volt TX- vagy órajelél; az audio- és firmware-boot-elfogadás hamis
+maradt.
+
+Négy további futás kifejezetten szintetikus, nyolccsatornás, állandó ADC-szkennelést
+használt (minden csatorna 0, illetve 1023), 4096 vagy 1 000 000 ciklusos
+szeletekkel. Mind a négy elérte a kért 600 000 000 ciklust CPU-hiba vagy
+hozzáférési hiba nélkül. Az AN0–AN3 első mintavételi határidői
+`[95707121,95707387,95707643,95707899]`. Nullás bemenetnél az AN4–AN7
+határidői `[127793965,127794231,127794487,127794743]`; 1023-nál
+`[127794154,127794420,127794676,127794932]`. Mindkét profil eredménye
+szeletmérettől függetlenül egyezett. A VOP3 mintamenetei `[0,0]` maradtak;
+a TX-élek száma 1294 (nulla) és 1315 (1023), órajelél nem volt.
+
+A korábban az FFFF60 címen jelentkező nem támogatott aktív mód hibája ezen a
+korlátozott útvonalon nem tért vissza: a rögzített ITU/TSTR-profil továbbjutott
+a későbbi ADC-határig. A vizsgáló végállapotot ad, nem MMIO-nkénti TSTR-naplót;
+ezek a futások nem igazolják külön az írások pontos értékét vagy az IRQ okát.
+Négy kezdeti, nyugalmi panelprofil nélküli próbálkozás korábban, a `0xFFFFD6`
+címen állt le (`Unmodeled external GPIO input`); ezeket hibás beállításként
+kihagytuk, nem firmware-bizonyítékként kezeljük. A ROM előtte és utána is
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` SHA-256
+értékű maradt; változatlan és az adattáron kívüli. A szintetikus profilok nem
+igazolnak hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy REAPER-
+elfogadást.
 
 ## Legutóbbi kódalap — #304 — 2026-11-15
 
@@ -62,15 +103,16 @@ kívül marad. Ez a korlátozott ellenőrzés nem igazol adatjelentést, oksági
 kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
 
-## Következő korlátozott vizsgálati irány — jelölt
+## Következő korlátozott lépés — helyi jelöltirány
 
-Érdemes lehet új, csak olvasó felvételt készíteni hosszabb előtörténettel a két
-PKS-hívói olvasás körül, hogy láthatóvá válhat-e olyan adat-előállító írás,
-amely a jelenlegi korlátozott operandusesemény-ablakon kívül esik. A cím,
-bájtsáv, érték, nyers flag, időzítés és folytathatóság ellenőrzése maradjon
-független; ebből ne következtessünk adatjelentésre vagy okságra. Ez csak
-jelölt irány, még nem megvalósítás vagy elfogadási állítás.
-
+A következő kis fejlesztés legyen egy csak olvasó, korlátos megfigyelés a
+firmware FFFF60 TSTR-írásairól: cím, bájtérték, ciklus/idő, nyers CPU-flag és
+a folytatás rögzítésével. Az értéket és az időrendet a rögzített MAME-forrás
+független ellenőrzésével kell összevetni. Az FFFF60 útvonal a friss, rögzített
+ITU-profil mellett átjutott, de a jelenlegi végállapot-vizsgáló nem rögzíti a
+TSTR eseményt; ezért pontos írási és IRQ-állítást még nem teszünk. A
+szintetikus bemenet nem hardverkalibráció, az eredmény nem boot-, audio- vagy
+REAPER-elfogadás.
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
 A beolvadt fejlesztés új, csak olvasó utasításmegfigyelőt adott a két ismétlődő PKS
@@ -122,7 +164,7 @@ műszerezés továbbra is korlátozott kutatási bizonyíték: nem igazol okozat
 szemantikát, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy
 REAPER-elfogadást.
 
-## PKS hívói olvasások hosszabb előtörténete — helyi jelölt — 2026-11-15
+## PKS hívói olvasások hosszabb előtörténete — beolvadt a #306 PR-ban — 2026-11-15
 
 A rögzített MAME-forráson készült friss, csak olvasó felvétel mind a négy
 megfigyelt hívói olvasás előtt 65 536, utána 2 048 H8-utasítás-pillanatképet
@@ -156,7 +198,7 @@ macOS-en lefordult. A teljes Release-build és CTest 139/139, a Python
 forrás/értesítés-lefedettség 232/5 eredménnyel sikerült. A `git diff --check`
 is tiszta. ROM nem módosult és nem került Git-be.
 
-## Friss, korlátozott helyi firmware-megfigyelés — 2026-11-15
+## Korábbi, korlátozott firmware-megfigyelés — 2026-11-15
 
 A projekt csak olvasó, saját diagnosztikai programja változatlan főági forráson
 és változatlan, külső AN1x 1.04 képen futott. Bemenet nélküli futás 600 000 000
