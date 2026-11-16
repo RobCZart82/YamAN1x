@@ -6808,7 +6808,7 @@
   },
   "current_candidate": {
     "branch": "research/itu-tstr-observer",
-    "status": "local_candidate",
+    "status": "open",
     "base_commit": "c37ac585dc508641a413da201df24949a396a36c",
     "kind": "bounded observation-only firmware diagnostic",
     "changed_files": [
@@ -6902,6 +6902,8 @@
     },
     "scope": "Optional read-only observer only; no timer/IRQ/bus scheduling change. Raw CCR is uninterpreted. Two bounded runs stop at existing later ADC/IRQ unsupported boundary.",
     "acceptance": "No full firmware boot, timer execution equivalence, IRQ causality, hardware agreement, MIDI, DSP, audio or REAPER acceptance.",
-    "review": "Not opened yet; no review conclusion or quota claim."
+    "review": "Pending on exact PR head; no conclusion or quota claim.",
+    "pr": 308,
+    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/308"
   }
 }

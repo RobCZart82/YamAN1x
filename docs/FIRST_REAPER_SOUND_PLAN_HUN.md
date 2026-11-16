@@ -52,7 +52,7 @@ kihagytuk, nem firmware-bizonyítékként kezeljük. A ROM előtte és utána is
 igazolnak hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
 
-## Helyi FFFF60 TSTR-nyom — jelölt — 2026-11-16
+## #308 PR — korlátozott FFFF60 TSTR-nyom — 2026-11-16
 
 Az új, kikapcsolható megfigyelő csak sikeres, egybájtos `0xFFFF60` írásokat
 rögzít: címet, szélességet, értéket, buszciklust, nyers CCR-t, az írás előtti
@@ -79,11 +79,11 @@ TX- és órajelél nem keletkezett. A ROM előtte és utána is ugyanazt a
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
 SHA-256 értéket adta.
 
-A teljes összeállítás és a 139 CTest, 146 Python-teszt, az adattár-audit
+A teljes összeállítás és a 139 CTest, 147 Python-teszt, az adattár-audit
 (701 fájl / 201 upstream azonosság), valamint a forrás- és értesítési lefedettség
-(232 fájl / öt licencszöveg; jogi jóváhagyást nem állítunk) sikerült. A jelölt
-helyi; nem igazol teljes bootot, timer/IRQ-okságot, hardveregyezést, MIDI-t,
-DSP-t, hangot vagy REAPER-elfogadást.
+(232 fájl / öt licencszöveg; jogi jóváhagyást nem állítunk) sikerült az alap commiton. A #308 PR nyitva van; a pontos PR-fej CI-je és
+review-ja folyamatban van. Nem igazol teljes bootot, timer/IRQ-okságot,
+hardveregyezést, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást.
 
 ## Legutóbbi kódalap — #304 — 2026-11-15
 

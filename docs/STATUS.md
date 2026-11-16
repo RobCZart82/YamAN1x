@@ -56,7 +56,7 @@ remained unchanged and outside Git. These synthetic-profile observations do
 not establish hardware agreement, complete boot, MIDI, DSP, audio or REAPER
 acceptance.
 
-## Local FFFF60 TSTR trace candidate — 2026-11-16
+## PR #308 — bounded FFFF60 TSTR trace — 2026-11-16
 
 A fixed-capacity, opt-in observer records only successful byte writes to
 `0xFFFF60`; it retains address, width, value, bus cycle, raw CCR, pre-dispatch
@@ -88,14 +88,15 @@ The CPU still stopped at the later unsupported ADC/IRQ boundary; this is not a
 successful full boot, timer/IRQ validation, hardware-equivalence, MIDI, DSP,
 audio or REAPER acceptance.
 
-Local validation: full build passed; CTest 139/139; Python 146/146;
+Local validation: full build passed; CTest 139/139; Python 147/147;
 repository audit 701 files / 201 upstream identities; source/notice coverage
 232 files / five notice texts (legal clearance not claimed); observer-specific
 synthetic checks and `git diff --check` passed. The current exact-main base is
 `c37ac585dc508641a413da201df24949a396a36c`; its three required platform
 contexts passed in run `43931077479`, main MSan passed in `43931080584`, and
-Ubuntu's extended ASan/UBSan steps passed. The candidate remains local until
-published and reviewed; it does not claim full hardware acceptance.
+Ubuntu's extended ASan/UBSan steps passed on the exact base. PR #308 is open;
+its exact-head CI and review are pending. It does not claim full hardware
+acceptance.
 
 ## Latest code baseline — PR #304 — 2026-11-15
 
