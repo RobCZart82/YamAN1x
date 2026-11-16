@@ -2,25 +2,33 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #307 — 2026-11-16
+## Current verified main — PR #308 — 2026-11-16
 
-PR [#307](https://github.com/RobCZart82/YamAN1x/pull/307) merged by squash
-at `2026-11-16T18:39:09Z`, from exact head
-`705555681f9aa77f86eaae444c2ff7fc7034258a` to main
-`c37ac585dc508641a413da201df24949a396a36c`. Exact PR-head ROM-free CI
-passed in run `43770073433`; initial-decode MSan passed in
-`43770073394`; MAME research was path-filtered for this documentation-only
-change. Exact-main required Linux, macOS and Windows contexts passed in
-`43931077479`; initial-decode MSan passed in `43931080584`; the Ubuntu
-extended UBSan/ASan steps passed. MAME research was path-filtered on main.
+PR [#308](https://github.com/RobCZart82/YamAN1x/pull/308) merged by squash at
+`2026-11-16T20:42:49Z`, from exact head
+`159ea1d78d0c0ee74fd72b794524d20c99a8296e` to main
+`5d64c1e5717490b935f4c65d716f5421fee5031c`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43945292893`; initial-decode MSan passed in
+`43945292933` and MAME research passed in `43945292892`.
 
-Codex exact-head review completed without findings on
-`705555681f9aa77f86eaae444c2ff7fc7034258a` (summary comment `6902498493`;
-review receipt `6902515270`). GitHub review submissions, inline threads and
-review threads were zero. Active ruleset `25910947` required the three
-platform checks, zero approvals and resolved threads; no quota error was
-reported and no bypass was used. PR #307 reconciled #306's merge and recorded
-the fresh local firmware diagnostic; it changed documentation only.
+On exact main, the three required platform contexts passed in ROM-free CI run
+`43952611646` (attempt 2); initial-decode MSan passed in `43952611673`, and
+MAME research passed in `43952611677` (attempt 2). Ubuntu's extended ASan/UBSan
+steps passed. The first main attempts had canceled macOS and MAME jobs with no
+assigned runner or steps; the completed second attempts passed.
+
+Codex's exact-head review on `159ea1d78d0c0ee74fd72b794524d20c99a8296e`
+completed without findings (summary comment `6927307633`; receipt
+`6927714031`). An earlier P2 finding on superseded head
+`265ed418faf9c088eb4f17fa08539cba922382f7` was addressed on the final head;
+its review thread `PRRT_kwDOVYYWIs64GsUq` is resolved and outdated. The PR has
+two review submissions, two inline comments and one resolved/outdated thread.
+Active ruleset `25910947` required the three platform checks, zero approvals
+and resolved threads; no quota error was reported and no merge bypass was used.
+PR #308 adds a bounded, read-only TSTR observer only; it does not establish
+timer or IRQ equivalence, hardware agreement, full boot, MIDI, DSP, audio or
+REAPER acceptance.
+
 ## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-15
 
 The read-only boot probe (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
@@ -56,7 +64,7 @@ remained unchanged and outside Git. These synthetic-profile observations do
 not establish hardware agreement, complete boot, MIDI, DSP, audio or REAPER
 acceptance.
 
-## PR #308 — bounded FFFF60 TSTR trace — 2026-11-16
+## PR #308 — bounded FFFF60 TSTR trace — merged
 
 A fixed-capacity, opt-in observer records only successful byte writes to
 `0xFFFF60`; it retains address, width, value, bus cycle, raw CCR, pre-dispatch
@@ -88,15 +96,21 @@ The CPU still stopped at the later unsupported ADC/IRQ boundary; this is not a
 successful full boot, timer/IRQ validation, hardware-equivalence, MIDI, DSP,
 audio or REAPER acceptance.
 
-Local validation: full build passed; CTest 139/139; Python 147/147;
-repository audit 701 files / 201 upstream identities; source/notice coverage
-232 files / five notice texts (legal clearance not claimed); observer-specific
-synthetic checks and `git diff --check` passed. The current exact-main base is
-`c37ac585dc508641a413da201df24949a396a36c`; its three required platform
-contexts passed in run `43931077479`, main MSan passed in `43931080584`, and
-Ubuntu's extended ASan/UBSan steps passed on the exact base. PR #308 is open;
-its exact-head CI and review are pending. It does not claim full hardware
-acceptance.
+Merge verification: this exact main is `5d64c1e5717490b935f4c65d716f5421fee5031c`. PR-head ROM-free CI
+run `43945292893`, initial-decode MSan run `43945292933` and MAME research
+run `43945292892` all passed. The exact-main platform checks passed in
+`43952611646` (attempt 2), MSan in `43952611673`, and MAME research in
+`43952611677` (attempt 2); Ubuntu's extended ASan/UBSan steps passed. The
+first main attempt's macOS and MAME jobs were canceled with no runner assigned
+and no steps; both completed successfully on attempt 2.
+
+Codex reviewed the exact PR head without findings (summary `6927307633`,
+receipt `6927714031`). The older P2 finding on superseded head
+`265ed418faf9c088eb4f17fa08539cba922382f7` was addressed; its thread is
+resolved and outdated. GitHub records two review submissions, two inline
+comments and one resolved/outdated thread. Ruleset `25910947` was satisfied:
+three required platform checks, zero approvals and resolved threads; no quota
+error or merge bypass.
 
 ## Latest code baseline — PR #304 — 2026-11-15
 

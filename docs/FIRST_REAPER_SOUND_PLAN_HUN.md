@@ -2,23 +2,33 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #307 — 2026-11-16
+## Ellenőrzött főági alap — #308 — 2026-11-16
 
-A [#307 PR](https://github.com/RobCZart82/YamAN1x/pull/307) squash módszerrel
-olvadt be 2026-11-16 18:39:09 UTC-kor: a pontos PR-fej
-`705555681f9aa77f86eaae444c2ff7fc7034258a`, az új főági commit
-`c37ac585dc508641a413da201df24949a396a36c`. A PR-fej ROM-mentes CI-je a
-`43770073433`, az initial-decode MSan a `43770073394` futásban sikerült; a
-csak dokumentációt érintő PR-nél a MAME-kutatási futás útvonalszűrés miatt nem
-indult el. A pontos főágon a három előírt Linux/macOS/Windows ellenőrzés
-`43931077479`, az MSan `43931080584` futásban sikerült; az Ubuntu kiterjesztett
-UBSan/ASan lépései is zöldek. A MAME-kutatás a főágon útvonalszűrt maradt.
+A [#308 PR](https://github.com/RobCZart82/YamAN1x/pull/308) squash módszerrel
+olvadt be `2026-11-16T20:42:49Z` időpontban: a pontos PR-fej
+`159ea1d78d0c0ee74fd72b794524d20c99a8296e`, a főági commit
+`5d64c1e5717490b935f4c65d716f5421fee5031c`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `43945292893` ROM-mentes CI-futásban sikerültek; az initial-decode
+MSan `43945292933`, a MAME-kutatás pedig `43945292892` alatt zárult zölden.
 
-A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló `6902498493`,
-kézi nyugta `6902515270`). GitHub review-beküldés és review-szál nem volt.
-A `25910947` aktív szabályzat három platformellenőrzést, nulla jóváhagyást és
-lezárt szálakat követelt; kvótahiba vagy megkerülés nem történt. A #307 a #306
-beolvadását és a friss helyi firmware-vizsgálatot dokumentálta.
+A pontos főágon a három kötelező platformellenőrzés a `43952611646`
+ROM-mentes CI-futás 2. próbálkozásában sikerült. Az initial-decode MSan
+`43952611673`, a MAME-kutatás `43952611677` (2. próbálkozás) alatt ment át.
+Az Ubuntu kiterjesztett ASan/UBSan lépései is sikerültek. Az első főági
+próbálkozásban a macOS és MAME-feladat futtató és lépések nélkül megszakadt;
+a lezárt futások második próbálkozása sikeres lett.
+
+A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló `6927307633`,
+nyugta `6927714031`). A korábbi, elavult `265ed418faf9c088eb4f17fa08539cba922382f7`
+fejre érkezett P2 észrevételt a végleges fej javította; a
+`PRRT_kwDOVYYWIs64GsUq` review-szál lezárt és elavult. Két review-beküldés,
+két beágyazott megjegyzés és egy lezárt/elavult szál szerepel. A `25910947`
+aktív szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
+review-szálakat követelt; kvótahiba vagy megkerülés nem történt. A #308 csak
+korlátozott, olvasásra szolgáló TSTR-megfigyelőt ad: nem igazol időzítő- vagy
+IRQ-egyezést, hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy
+REAPER-elfogadást.
+
 ## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-15
 
 A csak olvasó boot-vizsgáló (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
@@ -52,7 +62,7 @@ kihagytuk, nem firmware-bizonyítékként kezeljük. A ROM előtte és utána is
 igazolnak hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
 
-## #308 PR — korlátozott FFFF60 TSTR-nyom — 2026-11-16
+## #308 PR — korlátozott FFFF60 TSTR-nyom — beolvadt
 
 Az új, kikapcsolható megfigyelő csak sikeres, egybájtos `0xFFFF60` írásokat
 rögzít: címet, szélességet, értéket, buszciklust, nyers CCR-t, az írás előtti
@@ -79,11 +89,22 @@ TX- és órajelél nem keletkezett. A ROM előtte és utána is ugyanazt a
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
 SHA-256 értéket adta.
 
-A teljes összeállítás és a 139 CTest, 147 Python-teszt, az adattár-audit
-(701 fájl / 201 upstream azonosság), valamint a forrás- és értesítési lefedettség
-(232 fájl / öt licencszöveg; jogi jóváhagyást nem állítunk) sikerült az alap commiton. A #308 PR nyitva van; a pontos PR-fej CI-je és
-review-ja folyamatban van. Nem igazol teljes bootot, timer/IRQ-okságot,
-hardveregyezést, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást.
+A PR-fej és a pontos főág ellenőrzései sikeresek. A PR-fej ROM-mentes CI-je
+(`43945292893`), initial-decode MSan-ja (`43945292933`) és MAME-kutatása
+(`43945292892`) zöld lett. A pontos főág platformellenőrzései
+`43952611646` (2. próbálkozás), az MSan `43952611673`, a MAME-kutatás
+`43952611677` (2. próbálkozás) alatt sikerült; az Ubuntu ASan/UBSan lépései
+is zöldek. Az első főági próbában a macOS és MAME-feladat futtató és lépések
+nélkül megszakadt, a második próbálkozás mindkettőt sikeresen lezárta.
+
+A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló
+`6927307633`, nyugta `6927714031`). A korábbi, elavult PR-fejre érkezett P2
+észrevétel javítása bekerült; a review-szál lezárt és elavult. Két review-beküldés,
+két beágyazott megjegyzés és egy lezárt/elavult szál van. A `25910947` szabályzat
+három platformellenőrzést, nulla jóváhagyást és lezárt review-szálakat követelt;
+kvótahiba vagy megkerülés nem történt. Ez a korlátozott megfigyelő nem igazol
+időzítő- vagy IRQ-egyezést, hardveregyezést, teljes bootot, MIDI-t, DSP-t,
+hangot vagy REAPER-elfogadást.
 
 ## Legutóbbi kódalap — #304 — 2026-11-15
 
