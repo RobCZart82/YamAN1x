@@ -2,28 +2,23 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #306 — 2026-11-15
+## Ellenőrzött főági alap — #307 — 2026-11-16
 
-A [#306 PR](https://github.com/RobCZart82/YamAN1x/pull/306) squash módszerrel
-olvadt be 2026-11-15 21:46:37 UTC-kor. A pontos PR-fej
-`f09bbf8448126e0a78ba8b7648341d87ad12b8fc`, az új főági commit
-`4b682bb0564119046ff66e0c05e7cfa38c3dad80`. A PR-fej Linux, macOS és Windows
-ellenőrzései a `43763192170` ROM-mentes CI-futásban, az initial-decode MSan a
-`43763192313`, a rögzített MAME-fordítás a `43763192208` futásban sikerült.
-A pontos főág három platformellenőrzése a `43765551333`, az MSan a
-`43765551260`, a MAME-fordítás a `43765551380` futásban sikerült; az Ubuntu
-kiterjesztett UBSan/ASan lépései is zöldek.
+A [#307 PR](https://github.com/RobCZart82/YamAN1x/pull/307) squash módszerrel
+olvadt be 2026-11-16 18:39:09 UTC-kor: a pontos PR-fej
+`705555681f9aa77f86eaae444c2ff7fc7034258a`, az új főági commit
+`c37ac585dc508641a413da201df24949a396a36c`. A PR-fej ROM-mentes CI-je a
+`43770073433`, az initial-decode MSan a `43770073394` futásban sikerült; a
+csak dokumentációt érintő PR-nél a MAME-kutatási futás útvonalszűrés miatt nem
+indult el. A pontos főágon a három előírt Linux/macOS/Windows ellenőrzés
+`43931077479`, az MSan `43931080584` futásban sikerült; az Ubuntu kiterjesztett
+UBSan/ASan lépései is zöldek. A MAME-kutatás a főágon útvonalszűrt maradt.
 
-A pontos PR-fej Codex-kézi áttekintése nem talált hibát (összefoglaló
-`6901537499`, kézi nyugta `6901585294`). A review összefoglalója sikeres
-befejezést és hibamentes eredményt jelez; GitHub review-beküldés, beágyazott
-megjegyzés és review-szál nem volt. A `25910947` aktív szabályzat három
-platformellenőrzést, nulla jóváhagyást és lezárt szálakat követelt; kvótahiba
-vagy megkerülés nem történt. A #306 korlátozott, körkörös előtörténetű,
-csak olvasó utasításrögzítést ad a négy PKS-olvasáshoz; nem igazol
-adatjelentést, oksági kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t,
-hangot vagy REAPER-elfogadást.
-
+A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló `6902498493`,
+kézi nyugta `6902515270`). GitHub review-beküldés és review-szál nem volt.
+A `25910947` aktív szabályzat három platformellenőrzést, nulla jóváhagyást és
+lezárt szálakat követelt; kvótahiba vagy megkerülés nem történt. A #307 a #306
+beolvadását és a friss helyi firmware-vizsgálatot dokumentálta.
 ## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-15
 
 A csak olvasó boot-vizsgáló (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
@@ -56,6 +51,39 @@ kihagytuk, nem firmware-bizonyítékként kezeljük. A ROM előtte és utána is
 értékű maradt; változatlan és az adattáron kívüli. A szintetikus profilok nem
 igazolnak hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
+
+## #308 PR — korlátozott FFFF60 TSTR-nyom — 2026-11-16
+
+Az új, kikapcsolható megfigyelő csak sikeres, egybájtos `0xFFFF60` írásokat
+rögzít: címet, szélességet, értéket, buszciklust, nyers CCR-t, az írás előtti
+PC/PPC/utasításállapotot és a következő befejezett CPU-dispatch állapotát. A
+szintetikus próbák külön ellenőrzik a pontos címet/értéket/flaget/ciklust,
+a folytatást, a szeletmérettől való függetlenséget, a megfigyelő nélküli és
+bekapcsolt futás kimenetét, valamint a 64 elemű korlátot és túlcsordulást.
+Az eredeti MAME-hivatkozás a rögzített
+`706dbb73281320c54d7c2f16262c1c3786f2be01` commit; a forrásfájlok és a
+`h8_timer16_device::tstr_w` metódus azonossága a kutatási szerződésben szerepel.
+A forrás a TSTR bájtot eltárolja és a biteket a timer csatornák
+`set_enable` metódusának adja át; ebből nem következtetünk IRQ-okozatra vagy
+időzítő-egyezésre.
+
+Két friss futás a változatlan, adattáron kívüli AN1x 1.04 képpel, a rögzített
+nyugalmi panelprofillal, ADC-bemenet nélkül és azonos futási korlátokkal ugyanazt
+a három írást adta: `0xFF` a 11 925 102 ciklusnál (`CCR=0x29`), `0xFB` a
+92 381 419. ciklusnál (`CCR=0x25`), majd `0xFF` a 92 384 136. ciklusnál
+(`CCR=0x00`). Mindhárom egybájtos FFFF60-írás; a nyom SHA-256 értéke
+`005288d52f2ffa89b8b94428150e4191973e259db7e5021f579c74c46ae73c35`, eldobott
+elem nem volt. Mindkét futás később megállt az ismert, nem támogatott
+`0xFFFFE8` ADC/IRQ írásnál (`0x23` érték, `0x1B64` PC, 95 706 795 ciklus);
+TX- és órajelél nem keletkezett. A ROM előtte és utána is ugyanazt a
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`
+SHA-256 értéket adta.
+
+A teljes összeállítás és a 139 CTest, 147 Python-teszt, az adattár-audit
+(701 fájl / 201 upstream azonosság), valamint a forrás- és értesítési lefedettség
+(232 fájl / öt licencszöveg; jogi jóváhagyást nem állítunk) sikerült az alap commiton. A #308 PR nyitva van; a pontos PR-fej CI-je és
+review-ja folyamatban van. Nem igazol teljes bootot, timer/IRQ-okságot,
+hardveregyezést, MIDI-t, DSP-t, hangot vagy REAPER-elfogadást.
 
 ## Legutóbbi kódalap — #304 — 2026-11-15
 
@@ -103,16 +131,13 @@ kívül marad. Ez a korlátozott ellenőrzés nem igazol adatjelentést, oksági
 kapcsolatot, hardveregyezést, indulást, MIDI-t, DSP-t, hangot vagy REAPER-
 elfogadást.
 
-## Következő korlátozott lépés — helyi jelöltirány
+## Következő korlátozott lépés — helyi jelölt
 
-A következő kis fejlesztés legyen egy csak olvasó, korlátos megfigyelés a
-firmware FFFF60 TSTR-írásairól: cím, bájtérték, ciklus/idő, nyers CPU-flag és
-a folytatás rögzítésével. Az értéket és az időrendet a rögzített MAME-forrás
-független ellenőrzésével kell összevetni. Az FFFF60 útvonal a friss, rögzített
-ITU-profil mellett átjutott, de a jelenlegi végállapot-vizsgáló nem rögzíti a
-TSTR eseményt; ezért pontos írási és IRQ-állítást még nem teszünk. A
-szintetikus bemenet nem hardverkalibráció, az eredmény nem boot-, audio- vagy
-REAPER-elfogadás.
+Az opt-in, csak olvasó FFFF60 TSTR-megfigyelő kódja, szintetikus próbái és két
+azonos firmware-nyom elkészültek. Következőként a `c37ac585` főágra épített
+jelölt pontos PR-fejének CI-jét és review-ját, majd a beolvadás utáni főági
+ellenőrzéseket kell rögzíteni. A megfigyelés nem állít timer/IRQ-okozatot,
+hardveregyezést vagy teljes elfogadást.
 ## PKS-bemeneti utasításablakok — beolvadt a #301 PR-ban — 2026-11-15
 
 A beolvadt fejlesztés új, csak olvasó utasításmegfigyelőt adott a két ismétlődő PKS

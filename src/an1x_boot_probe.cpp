@@ -15,6 +15,12 @@ namespace {
 constexpr uint64_t max_probe_cycles=600000000;
 constexpr uint64_t max_probe_slice_cycles=1000000;
 constexpr uint64_t max_probe_callbacks=125000000;
+constexpr std::size_t max_tstr_observations=64;
+struct CpuContext {uint32_t pc=0,ppc=0,state=0,substate=0;uint8_t ccr=0;};
+struct TstrObservation {
+ uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
+ bool continuation_available=false;CpuContext continuation{};
+};
 struct Sink {
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
@@ -66,14 +72,45 @@ struct Host {
  yamanix::An1xSciBus<Sink> bus;
  bool fault=false;const char*kind="none";uint32_t address=0;unsigned width=0;
  bool fault_has_value=false;uint16_t fault_value=0;
- Host(std::span<const uint8_t>rom,Sink&s):bus(rom,{},s){}
+ bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
+ std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
+ Host(std::span<const uint8_t>rom,Sink&s,bool observe=false):bus(rom,{},s),observe_tstr(observe){}
+ void observe_cpu_dispatch(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
+  if(!observe_tstr)return;
+  cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
+ }
+ void observe_cpu_dispatch_continuation(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr,bool completed){
+  if(!observe_tstr||!completed)return;
+  if(substate!=0)return;
+  const CpuContext continuation{pc&0xffffff,ppc&0xffffff,state,substate,ccr};
+  for(std::size_t i=0;i<tstr_observation_count;++i){
+   if(tstr_observations[i].continuation_available)continue;
+   tstr_observations[i].continuation_available=true;
+   tstr_observations[i].continuation=continuation;
+  }
+ }
+ void observe_tstr_write(uint32_t a,uint8_t v){
+  if(!observe_tstr||(a&0xffffff)!=0xffff60)return;
+  if(tstr_observation_count==tstr_observations.size()){++tstr_observation_dropped;return;}
+  tstr_observations[tstr_observation_count++]={a&0xffffff,1,v,bus.cycle(),cpu_context,false,{}};
+ }
+ void write_tstr_observations()const{
+  if(!observe_tstr){std::cout<<"null";return;}
+  auto write_context=[](const CpuContext&c){std::cout<<"{\"pc\":"<<c.pc<<",\"ppc\":"<<c.ppc<<",\"instruction_state\":"<<c.state<<",\"instruction_substate\":"<<c.substate<<",\"raw_ccr\":"<<unsigned(c.ccr)<<'}';};
+  std::cout<<"{\"capacity\":"<<max_tstr_observations<<",\"dropped\":"<<tstr_observation_dropped<<",\"writes\":[";
+  for(std::size_t i=0;i<tstr_observation_count;++i){if(i)std::cout<<',';const auto&e=tstr_observations[i];
+   std::cout<<"{\"address\":"<<e.address<<",\"width\":"<<unsigned(e.width)<<",\"value\":"<<unsigned(e.value)<<",\"cycle\":"<<e.cycle<<",\"raw_ccr\":"<<unsigned(e.before.ccr)<<",\"before\":{\"pc\":"<<e.before.pc<<",\"ppc\":"<<e.before.ppc<<",\"instruction_state\":"<<e.before.state<<",\"raw_ccr\":"<<unsigned(e.before.ccr)<<'}';
+   std::cout<<",\"continuation\":";if(e.continuation_available)write_context(e.continuation);else std::cout<<"null";std::cout<<'}';
+  }
+  std::cout<<"]}";
+ }
  template<class F>decltype(auto) access(const char*k,uint32_t a,unsigned w,F f,std::optional<uint16_t> write_value=std::nullopt){
   try{return f();}catch(...){fault=true;kind=k;address=a&0xffffff;width=w;if(write_value){fault_has_value=true;fault_value=*write_value;}throw;}
  }
  uint16_t read_instruction_word(uint32_t a){return access("instruction_read",a,2,[&]{return bus.read_instruction_word(a);});}
  uint8_t read_byte(uint32_t a){return access("data_read",a,1,[&]{return bus.read_byte(a);});}
  uint16_t read_word(uint32_t a){return access("data_read",a,2,[&]{return bus.read_word(a);});}
- void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);},v);}
+ void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);observe_tstr_write(a,v);},v);}
  void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);},v);}
  void bus_cycle(uint64_t t){bus.bus_cycle(t);}
  uint64_t update(uint64_t t){return bus.update(t);}
@@ -124,14 +161,15 @@ std::vector<uint8_t>load(const char*path){
 }
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>8)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7]");
+  if(argc<6||argc>9)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  std::string_view profile="disabled";bool profile_seen=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
+  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
+   else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
    else if(option=="lcd-16mhz"||option=="lcd-meg-observe-16mhz"||
            option=="lcd-meg-source-stubs-16mhz"||option=="lcd-meg-vop3-register-experiment-16mhz"||
            option=="lcd-meg-vop3-level-experiment-16mhz"||option=="lcd-meg-vop3-idle-panel-experiment-16mhz"){
@@ -150,7 +188,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;Host host(rom,sink);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;Host host(rom,sink,observe_tstr);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -190,6 +228,7 @@ int main(int argc,char**argv){
    if(host.fault_has_value)std::cout<<",\"value\":"<<host.fault_value;
    std::cout<<'}';}
   else std::cout<<"null";
+  std::cout<<",\"tstr_observations\":";host.write_tstr_observations();
   std::cout<<",\"tx_edges\":"<<sink.tx_count<<",\"clock_edges\":"<<sink.clock_count<<",\"gpio_writes\":"<<sink.gpio_writes
    <<",\"error\":"<<std::quoted(error)<<"}\n";
   return error.empty()?0:2;

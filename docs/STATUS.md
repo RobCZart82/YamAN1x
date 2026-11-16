@@ -2,29 +2,25 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #306 — 2026-11-15
+## Current verified main — PR #307 — 2026-11-16
 
-PR [#306](https://github.com/RobCZart82/YamAN1x/pull/306) merged by squash
-at `2026-11-15T21:46:37Z`, from exact head
-`f09bbf8448126e0a78ba8b7648341d87ad12b8fc` to main
-`4b682bb0564119046ff66e0c05e7cfa38c3dad80`. Exact PR-head Linux, macOS and
-Windows checks passed in ROM-free CI run `43763192170`; initial-decode MSan
-passed in `43763192313`; the pinned MAME research build passed in
-`43763192208`. Exact-main Linux, macOS and Windows checks passed in run
-`43765551333`; initial-decode MSan passed in `43765551260`; MAME research
-passed in `43765551380`. The main Ubuntu extended UBSan/ASan steps passed.
+PR [#307](https://github.com/RobCZart82/YamAN1x/pull/307) merged by squash
+at `2026-11-16T18:39:09Z`, from exact head
+`705555681f9aa77f86eaae444c2ff7fc7034258a` to main
+`c37ac585dc508641a413da201df24949a396a36c`. Exact PR-head ROM-free CI
+passed in run `43770073433`; initial-decode MSan passed in
+`43770073394`; MAME research was path-filtered for this documentation-only
+change. Exact-main required Linux, macOS and Windows contexts passed in
+`43931077479`; initial-decode MSan passed in `43931080584`; the Ubuntu
+extended UBSan/ASan steps passed. MAME research was path-filtered on main.
 
-Codex's manual exact-head review completed without findings on
-`f09bbf8448126e0a78ba8b7648341d87ad12b8fc` (summary comment `6901537499`;
-manual review receipt `6901585294`). The review summary records completion and
-no findings; GitHub review submissions, inline comments and review threads
-were zero. Active ruleset `25910947` required the three platform checks, zero
-approvals and resolved threads; no quota error was reported and no bypass was
-used. PR #306 adds a fixed-capacity, read-only instruction pre-roll around the
-four captured PKS reads; the bounded observations do not establish data
-meaning, causality, hardware agreement, boot, MIDI, DSP, audio or REAPER
-acceptance.
-
+Codex exact-head review completed without findings on
+`705555681f9aa77f86eaae444c2ff7fc7034258a` (summary comment `6902498493`;
+review receipt `6902515270`). GitHub review submissions, inline threads and
+review threads were zero. Active ruleset `25910947` required the three
+platform checks, zero approvals and resolved threads; no quota error was
+reported and no bypass was used. PR #307 reconciled #306's merge and recorded
+the fresh local firmware diagnostic; it changed documentation only.
 ## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-15
 
 The read-only boot probe (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
@@ -58,6 +54,48 @@ not firmware evidence. The ROM SHA-256 before and after was
 `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the image
 remained unchanged and outside Git. These synthetic-profile observations do
 not establish hardware agreement, complete boot, MIDI, DSP, audio or REAPER
+acceptance.
+
+## PR #308 — bounded FFFF60 TSTR trace — 2026-11-16
+
+A fixed-capacity, opt-in observer records only successful byte writes to
+`0xFFFF60`; it retains address, width, value, bus cycle, raw CCR, pre-dispatch
+PC/PPC/state and the first completed dispatch continuation. Synthetic tests
+check exact values, addresses, raw flags, cycles, continuation, slice-size
+invariance, unchanged outputs with the observer disabled/enabled, and the
+64-event limit/overflow counter. The pinned-source cross-check uses MAME
+`706dbb73281320c54d7c2f16262c1c3786f2be01`: the selected upstream
+`h83002.cpp` and `h8_timer16.cpp` file hashes and `h8_timer16_device::tstr_w`
+method hash remain recorded in `research/h83002-active-itu-contract.json`.
+The upstream map assigns TSTR at the H8 address-space base plus `0xFF60`; the
+writer stores the byte and forwards each bit to its timer channel's
+`set_enable`. This verifies the reference map/writer contract, not project
+IRQ causality or timer equivalence.
+
+Two fresh runs used the unchanged external AN1x 1.04 ROM, explicit
+`lcd-meg-vop3-idle-panel-experiment-16mhz`, no ADC input, 600,000,000 requested
+cycles, 1,000,000-cycle slices and the observer. Both stopped at cycle
+`95,706,795` / PC `0x1B64` on the existing unsupported `0x23` byte write to
+`0xFFFFE8`, with no TX or clock edges. The three observed TSTR writes were
+identical in both runs and their JSON trace SHA-256 was
+`005288d52f2ffa89b8b94428150e4191973e259db7e5021f579c74c46ae73c35`:
+`0xFF` at cycle `11,925,102` (raw CCR `0x29`), `0xFB` at `92,381,419`
+(raw CCR `0x25`), and `0xFF` at `92,384,136` (raw CCR `0x00`). All were
+one-byte writes to `0xFFFF60`, with a recorded following CPU dispatch and no
+dropped events. Raw CCR values are left uninterpreted. ROM SHA-256 before and
+after was `4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+The CPU still stopped at the later unsupported ADC/IRQ boundary; this is not a
+successful full boot, timer/IRQ validation, hardware-equivalence, MIDI, DSP,
+audio or REAPER acceptance.
+
+Local validation: full build passed; CTest 139/139; Python 147/147;
+repository audit 701 files / 201 upstream identities; source/notice coverage
+232 files / five notice texts (legal clearance not claimed); observer-specific
+synthetic checks and `git diff --check` passed. The current exact-main base is
+`c37ac585dc508641a413da201df24949a396a36c`; its three required platform
+contexts passed in run `43931077479`, main MSan passed in `43931080584`, and
+Ubuntu's extended ASan/UBSan steps passed on the exact base. PR #308 is open;
+its exact-head CI and review are pending. It does not claim full hardware
 acceptance.
 
 ## Latest code baseline — PR #304 — 2026-11-15

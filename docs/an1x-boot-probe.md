@@ -21,6 +21,30 @@ MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
 No RX input schedule is supplied by this initial CLI.
 
+## Optional FFFF60 TSTR write observer
+
+Append `--observe-tstr` to opt into a fixed-capacity, read-only trace of
+successful byte writes to `0xFFFF60`. The default remains off and reports
+`tstr_observations: null`. When enabled, JSON reports the 64-entry capacity,
+the number of dropped events, and each retained write's 24-bit address, width,
+byte value, bus cycle, raw CCR, pre-dispatch PC/PPC/instruction state, and the
+first completed dispatch continuation. If the bounded buffer fills, later
+events are not retained and the dropped count makes the trace incomplete.
+Writes are recorded only after the existing bus write returns successfully.
+The observer does not change timer, IRQ, bus, or scheduling behavior; the ROM
+remains read-only. It records raw flags without interpreting them.
+
+The source comparison is limited to the pinned MAME commit in
+`research/mame-source-lock.json` and the existing
+`h8_timer16_device::tstr_w` identity in
+`research/h83002-active-itu-contract.json`. That source method stores the TSTR
+byte and calls each timer channel's `set_enable` from the corresponding bit.
+This comparison does not prove the project CPU's timer execution, IRQ
+causality, hardware equivalence, full firmware boot, MIDI, DSP, audio, or
+REAPER acceptance. Synthetic ROM tests independently check address, width,
+value, cycle, raw flags, instruction continuation, slice invariance,
+opt-in behavior and bounded overflow.
+
 One JSON report is written to stdout. Exit0 means the requested bounded cycle
 budget completed;exit2 means execution stopped;exit1 means invalid arguments or
 input. None means boot acceptance:firmware_boot_accepted is always false.
