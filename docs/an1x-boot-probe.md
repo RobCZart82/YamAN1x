@@ -81,6 +81,25 @@ reproduces the TSTR trace and proceeds beyond FFFF60 to the later ADC boundary;
 it does not establish timer/IRQ causality, physical hardware agreement, full
 boot, MIDI, DSP, audio or REAPER acceptance.
 
+## Exact-main synthetic ADC-scan diagnostic — 2026-11-17
+
+The exact-main probe and run parameters, four report hashes, scan counts,
+first-sample cycles, TSTR trace and explicit limits are recorded in
+[the current verified main summary](../README.md#fresh-synthetic-adc-scan-firmware-diagnostic--2026-11-17).
+The four invocations cover two eight-channel constant synthetic profiles
+(0 and 1023) at two slice sizes (1,000,000 and 4,096 cycles). For each profile,
+all trace and output fields stayed invariant across slice sizes except the
+completed callback count, which follows batching. Each run reached its
+600,000,000-cycle limit without a CPU failure or reported fault. All four
+retained the same three successful TSTR writes, and the external ROM hash was
+unchanged.
+
+These synthetic callback values are diagnostic inputs, not hardware samples.
+The result is limited to this project profile. It does not establish ADC
+semantics, timer/IRQ causality, full hardware acceptance, a completed firmware
+boot, MIDI/DSP behavior, audio or REAPER acceptance. The local reports remain
+outside Git.
+
 ## 500-million-cycle bounded observation — candidate, 2026-11-13
 
 The current local candidate raises the total-cycle and callback caps to

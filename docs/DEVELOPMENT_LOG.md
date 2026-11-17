@@ -1,3 +1,39 @@
+## PR #312 merge and exact-main checks — 2026-11-17
+
+PR [#312](https://github.com/RobCZart82/YamAN1x/pull/312) merged by squash at
+`2026-11-17T20:27:40Z`, exact head
+`32787d55ec3dffd2bd9bb8fb1cbd546db95c8955` to main
+`51159e9aff95ae0a1f9d125998be3700f9e8ef7a`. PR-head ROM-free CI passed in
+run `44163666367` (Linux `134323876262`, macOS `134323876971`, Windows
+`134323877130`); initial-decode MSan passed in `44163666435`
+(`134323872684`). MAME research was path-filtered. Exact-main ROM-free CI
+`44169539149` passed on Ubuntu `134368861656`, macOS
+`134368858739` and Windows `134368863183`; initial-decode MSan
+`44169539196` passed (`134344615527`). The initial macOS job had no runner
+or steps; only that job was retried after its enclosing workflow completed,
+and it passed. No Codex review summary/comment or GitHub review submission,
+inline comment or thread was present. Ruleset `25910947` requires the three
+platform checks and resolved threads, with zero approvals. No quota failure or
+merge bypass. MAME was path-filtered. Documentation only.
+
+## Fresh exact-main synthetic ADC-scan diagnostic — 2026-11-17
+
+On exact main `51159e9aff95ae0a1f9d125998be3700f9e8ef7a`, four read-only runs
+used probe SHA-256
+`2938008f192d91eea014d2aba0933c87fc4840a6043f8542e6eed6f04fddd2fc` and
+the unchanged external AN1x image hash
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+They used the explicit idle-panel profile, `swap16`, TSTR observer, 600M
+cycles, callback limit 100M and synthetic eight-channel constants 0/1023 at
+1M/4096-cycle slices. The four report SHA-256 values are recorded in
+`docs/an1x-boot-probe.md`. All reached the cycle limit without CPU failure or
+reported fault. Slice-size comparisons matched except for completed callback
+counts. Each recorded the same three successful TSTR byte writes and left
+audio/firmware acceptance false. The synthetic scan profile passes beyond the
+earlier FFFF60 path to the cycle limit, but does not establish ADC hardware
+semantics, timer/IRQ causality, physical hardware equivalence, complete boot,
+MIDI, DSP, audio or REAPER acceptance. ROM stayed unchanged and outside Git.
+The probe's focused synthetic progress/fault/limit/read-only test passed.
 ## PR #310 merge and exact-main checks — 2026-11-17
 
 PR [#310](https://github.com/RobCZart82/YamAN1x/pull/310) merged by squash at

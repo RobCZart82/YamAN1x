@@ -2,56 +2,69 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #311 — 2026-11-17
+## Current verified main — PR #312 — 2026-11-17
 
-PR [#311](https://github.com/RobCZart82/YamAN1x/pull/311) merged by squash
-at `2026-11-17T18:27:56Z`, from exact head
-`0effafccf999faf605175180368b585874a250a6` to main
-`4b2f4a5186c2801d35ddffa2007c6693067e9317`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `44142821198`; initial-decode MSan passed in
-`44142821229`. MAME research was path-filtered because this was a documentation-only PR.
+PR [#312](https://github.com/RobCZart82/YamAN1x/pull/312) merged by squash at
+`2026-11-17T20:27:40Z`, from exact head
+`32787d55ec3dffd2bd9bb8fb1cbd546db95c8955` to main
+`51159e9aff95ae0a1f9d125998be3700f9e8ef7a`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `44163666367` (jobs
+`134323876262`, `134323876971`, `134323877130`); initial-decode MSan
+passed in run `44163666435` (job `134323872684`). MAME research was
+path-filtered because this was documentation-only.
 
-On exact main, Linux (`134306541322`), macOS (`134306480433`) and Windows
-(`134306482678`) all passed in ROM-free CI run `44148123216` (attempt 2);
-initial-decode MSan passed in run `44148123274` (`134268730898`). In attempt 1,
-the macOS job had no assigned runner (`runner_id: 0`) and no steps; after that
-workflow completed, only that job was rerun and it passed. MAME research was
-path-filtered. No required check remains pending or failed.
+On exact main, Ubuntu (`134368861656`), macOS
+(`134368858739`) and Windows (`134368863183`) passed in ROM-free CI run
+`44169539149`; initial-decode MSan passed in run `44169539196`
+(job `134344615527`). The first macOS job was canceled without an assigned
+runner or steps. After its enclosing workflow completed, only that job was
+retried; it passed. MAME research was path-filtered. No required check remains
+pending or failed.
 
 No Codex review summary/comment or GitHub review submission, inline comment or
-review thread was present. Active ruleset `25910947` requires the three platform
-checks and resolved review threads, with zero approvals required. All required
-checks passed; no quota failure was reported and no merge bypass was needed.
-PR #311 reconciles PR #310's merge evidence and the exact-main TSTR diagnostic;
-it changes no runtime behavior or acceptance.
-## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-17
+review thread was present. Active ruleset `25910947` requires the three
+platform checks and resolved review threads, with zero approvals required.
+No quota failure was reported and no merge bypass was needed. PR #312 reconciles the merge record and exact-main checks for PR #311; it
+changes no runtime behavior or acceptance.
+## Fresh synthetic ADC-scan firmware diagnostic — 2026-11-17
 
-Two read-only runs used the exact main source tree
-`99ce57491916bde11ba81ed8ab7d962a9a704470`, probe binary SHA-256
-`527e9a182bc70b3d0cc47e684f7c86cc5ecd2e974aaa5bac5e2158691938f14b`, and the
-unchanged external AN1x 1.04 image. Each requested 600,000,000 cycles in 1,000,000-cycle slices, with a
-100,000,000 callback limit, `swap16`, the explicit
-`lcd-meg-vop3-idle-panel-experiment-16mhz` profile, no ADC input, and the opt-in
-TSTR observer. Both stdout JSON reports were byte-identical (SHA-256
-`d50bdf1985fe165d0a1a745d534f34c7f1597b5e71da8e6b33294fe0130be1ab`); the local
-reports remain under ignored `work/firmware-itustart-20261115a/` paths.
+Four read-only runs used exact main source
+`51159e9aff95ae0a1f9d125998be3700f9e8ef7a`, probe binary SHA-256
+`2938008f192d91eea014d2aba0933c87fc4840a6043f8542e6eed6f04fddd2fc`, and
+the unchanged external AN1x 1.04 image (SHA-256
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`).
+They used `swap16`, the explicit
+`lcd-meg-vop3-idle-panel-experiment-16mhz` project profile, the opt-in TSTR
+observer, 600,000,000 requested cycles and a 100,000,000 callback limit. Each
+of two explicit synthetic eight-channel constant scans (all 0, then all 1023)
+was run with 1,000,000-cycle and 4,096-cycle slices. The four JSON reports are
+outside the repository under `/private/tmp/yaman1x-pr313-probes/`; their
+SHA-256 values are respectively `d63e69664372f17cce95c204119a163767a78b5ea2e62c0a133dff896d6a9c8b`
+(0 / 1,000,000), `c7d730912c4f94d8321e0c49087416f16bca31c098176c1c775ae01d5a69a812`
+(0 / 4,096), `7ad2aebe8c201ece4b6e91510c8761d05364b5286957bfe799e41201636b695c`
+(1023 / 1,000,000) and `02fa28532909535e22c5b7453e621d23d11a55edda6177797fde1a14fecabaff`
+(1023 / 4,096).
 
-Both runs stopped at peripheral cycle `95,706,795`, post-fetch PC `0x1B64`, on
-the existing rejected byte write `0x23` to `0xFFFFE8` (`Unsupported ADC
-conversion or IRQ enable`). The observer retained three successful one-byte
-TSTR writes with no dropped events: `0xFF` at cycle `11,925,102` (raw CCR
-`0x29`), `0xFB` at `92,381,419` (raw CCR `0x25`), and `0xFF` at `92,384,136`
-(raw CCR `0x00`). Each record includes pre-write PC/PPC/instruction state and
-the first completed CPU-dispatch continuation. Raw CCR is uninterpreted. The
-runs had no TX or clock edges, VOP3 sample passes `[0,0]`, and left
-`audio_accepted:false` and `firmware_boot_accepted:false`.
+All reports reached the cycle limit without CPU failure or a reported fault,
+and retained the same three successful one-byte TSTR writes with no dropped
+events: `0xFF` at cycle 11,925,102 (raw CCR `0x29`), `0xFB` at 92,381,419
+(`0x25`) and `0xFF` at 92,384,136 (`0x00`). The observer trace and all
+other report fields were invariant between slice sizes within each input
+profile; only `completed_slice_callbacks` changed with batching. The per-channel scan sample counts for the zero profile were
+`[339077,336933,334600,332833,159762,158697,157565,156655]`; for 1023 they
+were `[339199,337046,334672,332892,159723,158628,157459,156568]`. The first
+sample cycles were `[95707121,95707387,95707643,95707899,127793965,127794231,127794487,127794743]`
+and `[95707121,95707387,95707643,95707899,127794154,127794420,127794676,127794932]`,
+respectively.
 
-The ROM SHA-256 before and after both runs was
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it remains
-unchanged and outside Git. This bounded project-profile result reproduces the
-TSTR trace and shows that this path proceeds beyond FFFF60 to the later ADC
-boundary. It does not prove timer/IRQ causality, physical hardware equivalence,
-complete firmware boot, MIDI, DSP, audio or REAPER acceptance.
+The project reported zero clock edges, zero VOP3 sample passes, and left
+`audio_accepted:false` and `firmware_boot_accepted:false`. These explicit
+synthetic scan profiles provide bounded project-profile evidence that this
+execution proceeds beyond the earlier FFFF60 path to the requested cycle limit.
+They do not validate ADC hardware semantics, timer/IRQ causality, physical
+hardware equivalence, complete boot, MIDI, DSP, audio or REAPER acceptance.
+The ROM remained unchanged and outside Git. This is a partial profile, not full
+hardware acceptance.
 
 ## PR #308 — bounded FFFF60 TSTR trace — merged
 
