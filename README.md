@@ -13,30 +13,42 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #312 — 2026-11-17
+## Current verified main — PR #313 — 2026-11-17
 
-PR [#312](https://github.com/RobCZart82/YamAN1x/pull/312) merged by squash at
-`2026-11-17T20:27:40Z`, from exact head
-`32787d55ec3dffd2bd9bb8fb1cbd546db95c8955` to main
-`51159e9aff95ae0a1f9d125998be3700f9e8ef7a`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `44163666367` (jobs
-`134323876262`, `134323876971`, `134323877130`); initial-decode MSan
-passed in run `44163666435` (job `134323872684`). MAME research was
-path-filtered because this was documentation-only.
+PR [#313](https://github.com/RobCZart82/YamAN1x/pull/313) merged by squash at
+`2026-11-17T22:27:53Z`, from exact head
+`5666126ddfc8ed596aaf1cf50db450d69e2c4642` to main
+`cd802959f72f5400bccc3a535ed6b53f16a246b5`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `44182647201` (jobs `134390754168`,
+`134390753952`, `134390753414`); initial-decode MSan passed in run
+`44182647243` (job `134390754141`). MAME research was path-filtered because
+this was a documentation-only PR.
 
-On exact main, Ubuntu (`134368861656`), macOS
-(`134368858739`) and Windows (`134368863183`) passed in ROM-free CI run
-`44169539149`; initial-decode MSan passed in run `44169539196`
-(job `134344615527`). The first macOS job was canceled without an assigned
-runner or steps. After its enclosing workflow completed, only that job was
-retried; it passed. MAME research was path-filtered. No required check remains
-pending or failed.
+On exact main, Ubuntu (`134417622415`), macOS (`134417622466`) and Windows
+(`134417621829`) passed in ROM-free CI run `44190306150`; initial-decode MSan
+passed in run `44190306163`. The Ubuntu run's extended UBSan/ASan steps passed.
+The two macOS annotations only reported hosted-runner capacity/queue information;
+the job passed. No required check remains pending or failed.
 
 No Codex review summary/comment or GitHub review submission, inline comment or
-review thread was present. Active ruleset `25910947` requires the three
-platform checks and resolved review threads, with zero approvals required.
-No quota failure was reported and no merge bypass was needed. PR #312 reconciles the merge record and exact-main checks for PR #311; it
-changes no runtime behavior or acceptance.
+review thread was present. Active ruleset `25910947` requires the three platform
+checks and resolved review threads, with zero approvals required. No quota
+failure was reported and no merge bypass was needed. PR #313 reconciles PR #312's
+merge and records four read-only synthetic ADC scans; it changes no runtime
+behavior or acceptance.
+
+## Current candidate — bounded SCI TX observation — PR #314 candidate — 2026-11-18
+
+The active branch adds the opt-in `--observe-sci-tx` diagnostic: at most 4,096
+SCI output-level transitions, with per-channel first-level markers, cycle/order,
+repeat suppression, and overflow count. Exact synthetic checks cover the output
+frame, channel/level/cycle records, 1/8/64-cycle slicing, observer-off/on
+execution invariance, duplicate-option rejection, and bounded overflow. The full
+local CTest suite passes 140/140; repository audit and license coverage pass.
+The observer reports serial line levels only; it does not decode MIDI or claim
+firmware, hardware, audio, or REAPER acceptance. PR-head CI, review status and
+merge are pending.
+
 ## Fresh synthetic ADC-scan firmware diagnostic — 2026-11-17
 
 Four read-only runs used exact main source

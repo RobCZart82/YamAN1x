@@ -1,5 +1,18 @@
 # An1X Boot Probe
 
+## Bounded SCI transmit-level observer — PR #314 candidate
+
+The opt-in `--observe-sci-tx` probe option retains at most 4,096 SCI transmit
+line-level observations across both channels. It records the first observed
+level per channel and subsequent level changes with the channel and peripheral
+cycle; repeated same-level callbacks are omitted. Once full, it retains no more
+records and increments a dropped counter. The default report remains `null`,
+and observing the line does not change execution. Synthetic checks cover both
+channels, exact values/cycles, repeated-level suppression, the storage bound,
+overflow accounting, a CPU-driven SCI frame and observer-on/off invariance.
+This is an output diagnostic, not MIDI decoding or audio evidence. No physical
+UART or board behavior is inferred.
+
 This English document no longer mixes Hungarian passages into its text. The original Hungarian-language passages are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
 # Bounded in-process boot probe
@@ -16,7 +29,7 @@ yamanix_an1x_boot_probe /absolute/path/to/local-ROM.bin 100000 64 100000 swap16
 ```
 
 Arguments are total requested cycles,slice cycles,global callback limit,and view.
-Strict positive integer caps:500000000/1000000/100000000. No implicit GPIO input,
+Strict positive integer caps:600000000/1000000/125000000. No implicit GPIO input,
 MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
 No RX input schedule is supplied by this initial CLI.

@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <iostream>
 #include <optional>
+#include <span>
+#include <stdexcept>
 #include <string>
 
 namespace {
@@ -16,6 +18,30 @@ constexpr uint64_t max_probe_cycles=600000000;
 constexpr uint64_t max_probe_slice_cycles=1000000;
 constexpr uint64_t max_probe_callbacks=125000000;
 constexpr std::size_t max_tstr_observations=64;
+class An1xSciTxObserver {
+public:
+ static constexpr std::size_t capacity=4096;
+ struct Event {
+  unsigned channel;uint64_t cycle;bool level;bool first_observation;
+  friend bool operator==(const Event&,const Event&)=default;
+ };
+ // The first callback per channel records the first observed level; later
+ // callbacks are retained only when that level changes.
+ void tx(unsigned channel,uint64_t cycle,bool level){
+  if(channel>=last_level.size())throw std::out_of_range("SCI TX observer channel");
+  const bool first=!last_level[channel].has_value();
+  if(!first&&*last_level[channel]==level)return;
+  last_level[channel]=level;
+  if(count==events.size()){++dropped_count;return;}
+  events[count++]={channel,cycle,level,first};
+ }
+ std::span<const Event> retained()const{return {events.data(),count};}
+ std::size_t dropped()const{return dropped_count;}
+private:
+ std::array<Event,capacity> events{};
+ std::array<std::optional<bool>,2> last_level{};
+ std::size_t count=0,dropped_count=0;
+};
 struct CpuContext {uint32_t pc=0,ppc=0,state=0,substate=0;uint8_t ccr=0;};
 struct TstrObservation {
  uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
@@ -31,6 +57,8 @@ struct Sink {
  std::optional<std::array<uint16_t,8>> adc_scan_samples;
  std::array<uint64_t,8> adc_scan_sample_counts{};
  std::array<std::optional<uint64_t>,8> adc_scan_first_sample_cycles{};
+ bool observe_sci_tx=false;
+ An1xSciTxObserver sci_tx_observer;
  explicit Sink(bool enabled,bool meg_enabled,bool source_status,bool native,bool level,bool panel):idle_panel(panel){
   if(native)vop3=std::make_unique<yamanix::An1xVop3ResearchSink>(16,
    yamanix::An1xVop3ResearchSink::Adapter::ControlPolicy::experimental_firmware_contract,
@@ -62,7 +90,7 @@ struct Sink {
  bool meg_write_enabled()const{return bool(meg_sink());}
  void meg_write_byte(uint32_t a,uint64_t t,uint8_t v){if(!meg_sink())throw std::out_of_range("MEG profile disabled");meg_sink()->meg_write_byte(a,t,v);}
  uint64_t tx_count=0,clock_count=0,gpio_writes=0;
- void tx(unsigned,uint64_t,bool){++tx_count;}
+ void tx(unsigned channel,uint64_t cycle,bool level){++tx_count;if(observe_sci_tx)sci_tx_observer.tx(channel,cycle,level);}
  void clock(unsigned,uint64_t,bool){++clock_count;}
  bool dma_request(unsigned,uint64_t){return false;}
  uint8_t gpio_read(unsigned p,uint64_t t){if(meg_sink())return meg_sink()->gpio_read(p,t);if(lcd)return lcd->gpio_read(p,t);throw std::logic_error("Unmodeled external GPIO input");}
@@ -159,17 +187,19 @@ std::vector<uint8_t>load(const char*path){
  return rom;
 }
 }
+#ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>9)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr]");
+  if(argc<6||argc>10)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
+  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false,observe_sci_tx=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
    else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
+   else if(option=="--observe-sci-tx"){if(observe_sci_tx)throw std::invalid_argument("Duplicate SCI TX observer option");observe_sci_tx=true;}
    else if(option=="lcd-16mhz"||option=="lcd-meg-observe-16mhz"||
            option=="lcd-meg-source-stubs-16mhz"||option=="lcd-meg-vop3-register-experiment-16mhz"||
            option=="lcd-meg-vop3-level-experiment-16mhz"||option=="lcd-meg-vop3-idle-panel-experiment-16mhz"){
@@ -188,7 +218,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;Host host(rom,sink,observe_tstr);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -229,8 +259,19 @@ int main(int argc,char**argv){
    std::cout<<'}';}
   else std::cout<<"null";
   std::cout<<",\"tstr_observations\":";host.write_tstr_observations();
+  std::cout<<",\"sci_tx_observations\":";
+  if(!observe_sci_tx)std::cout<<"null";
+  else{
+   const auto events=sink.sci_tx_observer.retained();
+   std::cout<<"{\"capacity\":"<<An1xSciTxObserver::capacity<<",\"dropped\":"<<sink.sci_tx_observer.dropped()<<",\"events\":[";
+   for(std::size_t i=0;i<events.size();++i){if(i)std::cout<<',';const auto&e=events[i];
+    std::cout<<"{\"channel\":"<<e.channel<<",\"cycle\":"<<e.cycle<<",\"level\":"<<(e.level?"true":"false")<<",\"first_observation\":"<<(e.first_observation?"true":"false")<<'}';
+   }
+   std::cout<<"]}";
+  }
   std::cout<<",\"tx_edges\":"<<sink.tx_count<<",\"clock_edges\":"<<sink.clock_count<<",\"gpio_writes\":"<<sink.gpio_writes
    <<",\"error\":"<<std::quoted(error)<<"}\n";
   return error.empty()?0:2;
  }catch(const std::exception&e){std::cout<<"{\"schema_version\":1,\"status\":\"input_error\",\"firmware_boot_accepted\":false,\"error\":"<<std::quoted(e.what())<<"}\n";return 1;}
 }
+#endif
