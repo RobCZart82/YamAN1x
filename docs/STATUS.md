@@ -2,62 +2,56 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #309 — 2026-11-16
+## Current verified main — PR #310 — 2026-11-17
 
-PR [#309](https://github.com/RobCZart82/YamAN1x/pull/309) merged by squash at
-`2026-11-16T22:44:28Z`, from exact head
-`07c783189c46c00898c8c4e746520917a1895aa4` to main
-`e2444412d5101fc450be79b55c513ca33c10ebee`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43964556414`; initial-decode MSan passed in
-`43964556401`. MAME research was path-filtered because the PR changed only
+PR [#310](https://github.com/RobCZart82/YamAN1x/pull/310) merged by squash at
+`2026-11-17T17:05:02Z`, from exact head
+`31200e9892d9d8335a30a7558a663f7c5fa330be` to main
+`bca8317ed7aac3c251bf35a1ba785cefb7c064d2`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `44126402696`; initial-decode MSan passed in
+`44126403020`. MAME research was path-filtered because the PR changed only
 documentation.
 
-On exact main, the required Linux, macOS and Windows contexts passed in
-ROM-free CI run `43972926120`; initial-decode MSan passed in
-`43972926110`. Ubuntu's extended ASan/UBSan steps passed. MAME research was
-path-filtered for this documentation-only reconciliation.
+On exact main, Linux, macOS and Windows passed in ROM-free CI run
+`44133021529`; initial-decode MSan passed in `44133021404`. Ubuntu's extended
+ASan/UBSan steps completed successfully. MAME research was path-filtered for
+this documentation-only reconciliation.
 
-Codex's exact-head review completed without findings (summary comment
-`6930509811`). GitHub review submissions, inline comments and review threads
-were zero. Active ruleset `25910947` required the three platform checks, zero
-approvals and resolved review threads; no quota error was reported and no merge
-bypass was used. PR #309 reconciles PR #308's merge evidence and verified-main
-state; it changes no runtime behavior or acceptance.
+No Codex review summary/comment or GitHub review submission, inline comment or
+review thread was present. Active ruleset `25910947` requires the three platform
+checks and resolved review threads, with zero approvals required. All required
+checks passed; no quota failure was reported and no merge bypass was needed.
+PR #310 reconciles PR #309's merge evidence and exact-main verification; it
+changes no runtime behavior or acceptance.
 
-## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-15
+## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-17
 
-The read-only boot probe (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
-was run against source tree `69e43a550406ebf5a1f32889dff27b3b7e1d90a7`,
-identical to the exact current-main tree, and the unchanged external AN1x 1.04
-image. Two runs with the explicit fixed idle-panel profile and no ADC scan
-reproduced the same stop at peripheral cycle `95,706,795`, post-fetch PC
-`0x1B64`, on a byte write of `0x23` to `0xFFFFE8` (`Unsupported ADC
-conversion or IRQ enable`). Both had no TX/clock edges and left
+Two read-only runs used the exact main source tree
+`99ce57491916bde11ba81ed8ab7d962a9a704470`, probe binary SHA-256
+`527e9a182bc70b3d0cc47e684f7c86cc5ecd2e974aaa5bac5e2158691938f14b`, and the
+unchanged external AN1x 1.04 image. Each requested 600,000,000 cycles in 1,000,000-cycle slices, with a
+100,000,000 callback limit, `swap16`, the explicit
+`lcd-meg-vop3-idle-panel-experiment-16mhz` profile, no ADC input, and the opt-in
+TSTR observer. Both stdout JSON reports were byte-identical (SHA-256
+`d50bdf1985fe165d0a1a745d534f34c7f1597b5e71da8e6b33294fe0130be1ab`); the local
+reports remain under ignored `work/firmware-itustart-20261115a/` paths.
+
+Both runs stopped at peripheral cycle `95,706,795`, post-fetch PC `0x1B64`, on
+the existing rejected byte write `0x23` to `0xFFFFE8` (`Unsupported ADC
+conversion or IRQ enable`). The observer retained three successful one-byte
+TSTR writes with no dropped events: `0xFF` at cycle `11,925,102` (raw CCR
+`0x29`), `0xFB` at `92,381,419` (raw CCR `0x25`), and `0xFF` at `92,384,136`
+(raw CCR `0x00`). Each record includes pre-write PC/PPC/instruction state and
+the first completed CPU-dispatch continuation. Raw CCR is uninterpreted. The
+runs had no TX or clock edges, VOP3 sample passes `[0,0]`, and left
 `audio_accepted:false` and `firmware_boot_accepted:false`.
 
-Four runs added explicitly synthetic constant eight-channel ADC scans (all
-zero or all 1023) and used 4,096- or 1,000,000-cycle slices. All four reached
-the requested 600,000,000-cycle horizon without CPU failure or access fault.
-AN0–AN3 first-scan deadlines were `[95707121,95707387,95707643,95707899]`.
-For zero input, AN4–AN7 were `[127793965,127794231,127794487,127794743]`; for
-1023 input they were `[127794154,127794420,127794676,127794932]`. Each profile's
-deadlines matched across slice sizes. VOP3 sample passes remained `[0,0]`;
-TX edge totals were 1,294 (zero) and 1,315 (1023), with no clock edges.
-
-The earlier unsupported active-mode stop at `0xFFFF60` does not recur on this
-bounded path: the fixed ITU/TSTR profile proceeds to the later ADC boundary.
-The probe emits endpoint state rather than a per-MMIO TSTR event log, so these
-runs do not independently establish exact TSTR writes or IRQ causality. The
-next bounded step is a read-only TSTR observer retaining address, value, cycle,
-raw CPU flags and continuation for independent comparison with pinned MAME
-source; no IRQ-causality claim is planned. Four
-preliminary invocations without the required idle-panel profile stopped at
-`0xFFFFD6` (`Unmodeled external GPIO input`) and are excluded as invalid setup,
-not firmware evidence. The ROM SHA-256 before and after was
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; the image
-remained unchanged and outside Git. These synthetic-profile observations do
-not establish hardware agreement, complete boot, MIDI, DSP, audio or REAPER
-acceptance.
+The ROM SHA-256 before and after both runs was
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; it remains
+unchanged and outside Git. This bounded project-profile result reproduces the
+TSTR trace and shows that this path proceeds beyond FFFF60 to the later ADC
+boundary. It does not prove timer/IRQ causality, physical hardware equivalence,
+complete firmware boot, MIDI, DSP, audio or REAPER acceptance.
 
 ## PR #308 — bounded FFFF60 TSTR trace — merged
 

@@ -58,6 +58,29 @@ memory access kind/address/width are diagnostic metadata,not a resumable checkpo
 Decoder/callback stops have no fabricated memory fault. Reports omit ROM bytes,
 register dumps and user file paths. The failed CPU is discarded on process exit.
 
+## Exact-main TSTR observer rerun — 2026-11-17
+
+Two read-only invocations used source tree `99ce57491916bde11ba81ed8ab7d962a9a704470`
+and probe binary SHA-256 `527e9a182bc70b3d0cc47e684f7c86cc5ecd2e974aaa5bac5e2158691938f14b`.
+Both requested 600,000,000 cycles, 1,000,000-cycle slices, a 100,000,000 callback
+limit, `swap16`, `lcd-meg-vop3-idle-panel-experiment-16mhz`, no ADC input and
+`--observe-tstr`. The stdout JSON reports were byte-identical, SHA-256
+`d50bdf1985fe165d0a1a745d534f34c7f1597b5e71da8e6b33294fe0130be1ab`; local
+reports remain in ignored `work/firmware-itustart-20261115a/`. The external ROM
+SHA-256 was unchanged before and after at
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+Both runs stopped at peripheral cycle 95,706,795 / post-fetch PC 0x1B64 on the
+existing rejected byte write 0x23 to 0xFFFFE8. The observer retained exactly
+three one-byte writes to 0xFFFF60, with zero dropped records: 0xFF at cycle
+11,925,102 (raw CCR 0x29), 0xFB at 92,381,419 (raw CCR 0x25), then 0xFF at
+92,384,136 (raw CCR 0x00). Records include pre-write CPU state and first
+completed dispatch continuation; raw CCR remains uninterpreted. There were no
+TX/clock edges or VOP3 sample passes. This bounded project-profile diagnostic
+reproduces the TSTR trace and proceeds beyond FFFF60 to the later ADC boundary;
+it does not establish timer/IRQ causality, physical hardware agreement, full
+boot, MIDI, DSP, audio or REAPER acceptance.
+
 ## 500-million-cycle bounded observation — candidate, 2026-11-13
 
 The current local candidate raises the total-cycle and callback caps to

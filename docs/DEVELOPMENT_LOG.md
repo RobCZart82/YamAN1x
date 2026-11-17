@@ -1,3 +1,36 @@
+## PR #310 merge and exact-main checks — 2026-11-17
+
+PR [#310](https://github.com/RobCZart82/YamAN1x/pull/310) merged by squash at
+`2026-11-17T17:05:02Z`, exact head `31200e9892d9d8335a30a7558a663f7c5fa330be`
+to main `bca8317ed7aac3c251bf35a1ba785cefb7c064d2`. PR-head platform checks
+passed in ROM-free CI run `44126402696`; initial-decode MSan passed in
+`44126403020`; MAME research was path-filtered. Exact-main Linux, macOS and
+Windows checks passed in `44133021529`; initial-decode MSan passed in
+`44133021404`, and Ubuntu's extended ASan/UBSan steps completed successfully.
+MAME research remained path-filtered. No Codex review summary or GitHub review,
+inline comment or thread was present. Ruleset `25910947` requires the three
+platform checks and resolved threads, with zero approvals required. All required
+checks passed; no quota error was reported and no bypass was needed.
+
+## Fresh exact-main FFFF60/TSTR firmware diagnostic — 2026-11-17
+
+Two read-only runs on source tree `99ce57491916bde11ba81ed8ab7d962a9a704470`
+used the opt-in TSTR observer, `swap16`, the explicit idle-panel experiment,
+600,000,000 requested cycles, 1,000,000-cycle slices and no ADC input. Their
+JSON outputs were byte-identical (SHA-256
+`d50bdf1985fe165d0a1a745d534f34c7f1597b5e71da8e6b33294fe0130be1ab`). The
+unchanged external ROM hash stayed
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+
+Each trace recorded exactly three successful one-byte TSTR writes with no drops:
+`FF` at 11,925,102 cycles (`CCR=29`), `FB` at 92,381,419 (`CCR=25`) and `FF`
+at 92,384,136 (`CCR=00`); continuation state was retained and raw CCR was not
+interpreted. Both later stopped at cycle 95,706,795 / PC 0x1B64 on the existing
+unsupported byte write 0x23 to 0xFFFFE8. TX/clock edges and VOP3 sample passes
+were zero. `firmware_boot_accepted` and `audio_accepted` remained false. This is
+bounded project-profile evidence only, not timer/IRQ causality, physical hardware,
+complete boot, MIDI, DSP, audio or REAPER acceptance.
+
 ## PR #303 merge verification — 2026-11-15
 
 PR [#303](https://github.com/RobCZart82/YamAN1x/pull/303) merged by squash at

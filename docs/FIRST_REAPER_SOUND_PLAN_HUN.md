@@ -2,61 +2,60 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
-## Ellenőrzött főági alap — #309 — 2026-11-16
+## Ellenőrzött főági alap — #310 — 2026-11-17
 
-A [#309 PR](https://github.com/RobCZart82/YamAN1x/pull/309) squash módszerrel
-olvadt be `2026-11-16T22:44:28Z` időpontban: a pontos PR-fej
-`07c783189c46c00898c8c4e746520917a1895aa4`, a főági commit
-`e2444412d5101fc450be79b55c513ca33c10ebee`. A PR-fej Linux, macOS és Windows
-ellenőrzései a `43964556414` ROM-mentes CI-futásban sikerültek; az
-initial-decode MSan a `43964556401` futásban zöld lett. Mivel a PR csak
-dokumentációt módosított, MAME-kutatási futás útvonalszűrés miatt nem indult.
+A [#310 PR](https://github.com/RobCZart82/YamAN1x/pull/310) squash módszerrel
+olvadt be `2026-11-17T17:05:02Z` időpontban: a pontos PR-fej
+`31200e9892d9d8335a30a7558a663f7c5fa330be`, az új főági commit
+`bca8317ed7aac3c251bf35a1ba785cefb7c064d2`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `44126402696` ROM-mentes CI-futásban sikerültek; az
+initial-decode MSan a `44126403020` futásban zöld lett. Mivel a PR csak
+dokumentációt módosított, a MAME-kutatási futás útvonalszűrés miatt nem indult.
 
-A pontos főágon a kötelező Linux, macOS és Windows ellenőrzések a
-`43972926120` ROM-mentes CI-futásban sikerültek; az initial-decode MSan a
-`43972926110` futásban zöld lett. Az Ubuntu kiterjesztett ASan/UBSan lépései
-is sikerültek. A MAME-kutatás erre a dokumentációs egyeztetésre útvonalszűrt
+A pontos főágon a Linux, macOS és Windows ellenőrzések a `44133021529`
+ROM-mentes CI-futásban sikerültek; az initial-decode MSan a `44133021404`
+futásban zöld lett. Az Ubuntu kiterjesztett ASan/UBSan lépései is sikeresen
+lezárultak. A MAME-kutatás erre a dokumentációs egyeztetésre útvonalszűrt
 maradt.
 
-A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló
-`6930509811`). GitHub review-beküldés, beágyazott megjegyzés és review-szál
-nem volt. A `25910947` aktív szabályzat három platformellenőrzést, nulla
-jóváhagyást és lezárt review-szálakat követelt; kvótahiba vagy megkerülés nem
-történt. A #309 a #308 beolvadását és ellenőrzött főági állapotát rögzíti;
-futásidejű viselkedést és új elfogadási bizonyítékot nem ad.
+Nem jelent meg Codex-összefoglaló vagy -megjegyzés, GitHub review-beküldés,
+beágyazott megjegyzés vagy review-szál. A `25910947` aktív szabályzat a három
+platformellenőrzést és a review-szálak lezárását követeli; jóváhagyásból nullát
+ír elő. Minden előírt ellenőrzés sikerült; kvótahiba nem jelent meg, megkerülésre
+nem volt szükség. A #310 a #309 beolvadását és a pontos főági ellenőrzéseket
+rögzíti; futásidejű viselkedést vagy új elfogadási bizonyítékot nem ad.
 
-## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-15
+## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-17
 
-A csak olvasó boot-vizsgáló (`c95439962709ef09b5715ec8c5b4d5ef0a608d7b4139e4531d3bf7ae3d570416`)
-a pontos főággal azonos forrásfán (`69e43a550406ebf5a1f32889dff27b3b7e1d90a7`)
-és a változatlan, külső AN1x 1.04 képpel futott. Két, explicit rögzített
-nyugalmi panelprofilt és ADC-mintát nem használó futás azonosan állt meg a
-`95 706 795` perifériaciklusnál, `0x1B64` utasítás utáni PC-n, a `0x23` értékű
-bájt `0xFFFFE8` címre írásakor (`Unsupported ADC conversion or IRQ enable`).
-Egyiknél sem volt TX- vagy órajelél; az audio- és firmware-boot-elfogadás hamis
-maradt.
+Két csak olvasó futás a pontos főági forrásfán
+(`99ce57491916bde11ba81ed8ab7d962a9a704470`), az
+`527e9a182bc70b3d0cc47e684f7c86cc5ecd2e974aaa5bac5e2158691938f14b` SHA-256
+értékű vizsgálóval és a változatlan, külső AN1x 1.04 képpel készült. Mindkettő
+600 000 000 ciklust, 1 000 000 ciklusos szeleteket és 100 000 000-es
+callback-korlátot, `swap16` nézetet, a rögzített
+`lcd-meg-vop3-idle-panel-experiment-16mhz` profilt, ADC-bemenet nélkül és az
+opt-in TSTR-megfigyelővel kért. A két kimeneti JSON bájtról bájtra egyezett
+(SHA-256: `d50bdf1985fe165d0a1a745d534f34c7f1597b5e71da8e6b33294fe0130be1ab`);
+a helyi jelentések a figyelmen kívül hagyott `work/firmware-itustart-20261115a/`
+könyvtárban maradtak.
 
-Négy további futás kifejezetten szintetikus, nyolccsatornás, állandó ADC-szkennelést
-használt (minden csatorna 0, illetve 1023), 4096 vagy 1 000 000 ciklusos
-szeletekkel. Mind a négy elérte a kért 600 000 000 ciklust CPU-hiba vagy
-hozzáférési hiba nélkül. Az AN0–AN3 első mintavételi határidői
-`[95707121,95707387,95707643,95707899]`. Nullás bemenetnél az AN4–AN7
-határidői `[127793965,127794231,127794487,127794743]`; 1023-nál
-`[127794154,127794420,127794676,127794932]`. Mindkét profil eredménye
-szeletmérettől függetlenül egyezett. A VOP3 mintamenetei `[0,0]` maradtak;
-a TX-élek száma 1294 (nulla) és 1315 (1023), órajelél nem volt.
+Mindkét futás a `95 706 795` perifériaciklusnál, `0x1B64` utasítás utáni PC-n,
+a `0x23` értékű, `0xFFFFE8` címre írt bájtnál állt meg (`Unsupported ADC
+conversion or IRQ enable`). A megfigyelő három sikeres egybájtos TSTR-írást
+rögzített, eldobás nélkül: `0xFF` a `11 925 102` ciklusnál (`nyers CCR=0x29`),
+`0xFB` a `92 381 419` ciklusnál (`nyers CCR=0x25`), majd `0xFF` a
+`92 384 136` ciklusnál (`nyers CCR=0x00`). Minden rekord tartalmazza az írás
+előtti PC/PPC/utasításállapotot és az első befejezett CPU-dispatch utáni
+folytatást. A nyers CCR-t nem értelmezzük. TX- és órajelél nem keletkezett;
+a VOP3 mintamenetei `[0,0]`, az audio- és firmware-boot-elfogadás hamis maradt.
 
-A korábban az FFFF60 címen jelentkező nem támogatott aktív mód hibája ezen a
-korlátozott útvonalon nem tért vissza: a rögzített ITU/TSTR-profil továbbjutott
-a későbbi ADC-határig. A vizsgáló végállapotot ad, nem MMIO-nkénti TSTR-naplót;
-ezek a futások nem igazolják külön az írások pontos értékét vagy az IRQ okát.
-Négy kezdeti, nyugalmi panelprofil nélküli próbálkozás korábban, a `0xFFFFD6`
-címen állt le (`Unmodeled external GPIO input`); ezeket hibás beállításként
-kihagytuk, nem firmware-bizonyítékként kezeljük. A ROM előtte és utána is
-`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` SHA-256
-értékű maradt; változatlan és az adattáron kívüli. A szintetikus profilok nem
-igazolnak hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy REAPER-
-elfogadást.
+A ROM előtti és utáni SHA-256 értéke
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`; a kép
+változatlan és az adattáron kívüli. Ez a korlátozott projektprofil megismétli
+a TSTR-nyomot, és azt mutatja, hogy ezen az útvonalon a végrehajtás túljut az
+FFFF60 címen, majd a későbbi ADC-határon áll meg. Nem bizonyít timer/IRQ-okozati
+kapcsolatot, fizikai hardveregyezést, teljes firmware-bootot, MIDI-t, DSP-t,
+hangot vagy REAPER-elfogadást.
 
 ## #308 PR — korlátozott FFFF60 TSTR-nyom — beolvadt
 
