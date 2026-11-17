@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-17",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "bca8317ed7aac3c251bf35a1ba785cefb7c064d2",
+  "baseline_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
   "entries": [
     {
       "pr": 6,
@@ -6874,6 +6874,41 @@
       },
       "review": "No Codex summary/comment or GitHub review submissions, inline comments, or review threads were present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. All required checks passed; no quota failure was reported and no bypass was needed.",
       "scope": "Documentation-only reconciliation of PR #309 merge evidence and exact-main checks; no runtime behavior or acceptance."
+    },
+    {
+      "pr": 311,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/311",
+      "title": "docs: record PR 310 and exact-main TSTR diagnostic",
+      "branch": "docs/reconcile-pr310-and-tstr-followup-20261117",
+      "kind": "documentation reconciliation",
+      "status": "merged",
+      "base_commit": "bca8317ed7aac3c251bf35a1ba785cefb7c064d2",
+      "head_commit": "0effafccf999faf605175180368b585874a250a6",
+      "merge_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
+      "merged_at_utc": "2026-11-17T18:27:56Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 44142821198,
+        "initial_decode_msan_run": 44142821229,
+        "mame_research": "path_filtered",
+        "platform_jobs": "all passed"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 44148123216,
+        "rom_free_ci_attempt": 2,
+        "ubuntu_24_04_job": 134306541322,
+        "macos_14_job": 134306480433,
+        "windows_2025_job": 134306482678,
+        "initial_decode_msan_run": 44148123274,
+        "initial_decode_msan_job": 134268730898,
+        "required_platform_contexts": "all passed",
+        "mame_research": "path_filtered",
+        "first_attempt_mac_infrastructure": "runner_id 0; no steps; after enclosing workflow completed, only this job was retried and passed"
+      },
+      "review": "No Codex review summary/comment or GitHub review submission, inline comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no bypass was needed.",
+      "scope": "Documentation-only reconciliation of PR #310 merge evidence and the exact-main FFFF60/TSTR diagnostic across English/Hungarian summaries and ledger; no runtime behavior.",
+      "acceptance": "No new firmware, timer/IRQ, hardware, boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [],
@@ -6984,21 +7019,20 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 311,
-    "status": "open",
-    "source_pr": 310,
-    "branch": "docs/reconcile-pr310-tstr-followup-20261117",
-    "base_commit": "bca8317ed7aac3c251bf35a1ba785cefb7c064d2",
-    "scope": "Reconcile PR #310 merge evidence, record exact-main repeat of the bounded FFFF60 TSTR observer diagnostic, and maintain English/Hungarian summaries and ledger; no runtime behavior."
+    "pr": 312,
+    "status": "candidate",
+    "source_pr": 311,
+    "branch": "docs/reconcile-pr311-main-20261117",
+    "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
+    "scope": "Reconcile PR #311 merge and exact-main check evidence across English/Hungarian current summaries and ledger; no runtime behavior."
   },
   "current_candidate": {
-    "pr": 311,
-    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/311",
-    "title": "docs: record PR 310 and exact-main TSTR diagnostic",
-    "branch": "docs/reconcile-pr310-tstr-followup-20261117",
-    "kind": "documentation reconciliation and bounded firmware diagnostic",
-    "status": "open",
-    "base_commit": "bca8317ed7aac3c251bf35a1ba785cefb7c064d2",
+    "pr": 312,
+    "title": "docs: reconcile PR 311 merge and verified main",
+    "branch": "docs/reconcile-pr311-main-20261117",
+    "kind": "documentation reconciliation",
+    "status": "candidate",
+    "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
     "changed_files": [
       "README.md",
       "README_HUN.md",
@@ -7007,11 +7041,10 @@
       "docs/FIRST_REAPER_SOUND_PLAN.md",
       "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
       "docs/DEVELOPMENT_LOG.md",
-      "docs/an1x-boot-probe.md",
       "docs/development-ledger.json"
     ],
-    "scope": "Record PR #310 merge/main verification and the reproducible exact-main FFFF60/TSTR observer diagnostic across English/Hungarian status, first-sound plan, probe note, development log and ledger.",
-    "acceptance": "No new firmware implementation, hardware equivalence, timer/IRQ causality, full boot, MIDI, DSP, audio or REAPER acceptance.",
-    "checks_review": "PR-head checks and exact-head review pending."
+    "scope": "Record PR #311 merge and exact-main platform/MSan checks, including targeted macOS infrastructure retry evidence; English/Hungarian summaries and ledger only.",
+    "acceptance": "No runtime, firmware, hardware or audio acceptance.",
+    "checks_review": "Candidate checks and review pending."
   }
 }

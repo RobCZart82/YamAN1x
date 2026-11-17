@@ -2,28 +2,28 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #310 — 2026-11-17
+## Current verified main — PR #311 — 2026-11-17
 
-PR [#310](https://github.com/RobCZart82/YamAN1x/pull/310) merged by squash at
-`2026-11-17T17:05:02Z`, from exact head
-`31200e9892d9d8335a30a7558a663f7c5fa330be` to main
-`bca8317ed7aac3c251bf35a1ba785cefb7c064d2`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `44126402696`; initial-decode MSan passed in
-`44126403020`. MAME research was path-filtered because the PR changed only
-documentation.
+PR [#311](https://github.com/RobCZart82/YamAN1x/pull/311) merged by squash
+at `2026-11-17T18:27:56Z`, from exact head
+`0effafccf999faf605175180368b585874a250a6` to main
+`4b2f4a5186c2801d35ddffa2007c6693067e9317`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `44142821198`; initial-decode MSan passed in
+`44142821229`. MAME research was path-filtered because this was a documentation-only PR.
 
-On exact main, Linux, macOS and Windows passed in ROM-free CI run
-`44133021529`; initial-decode MSan passed in `44133021404`. Ubuntu's extended
-ASan/UBSan steps completed successfully. MAME research was path-filtered for
-this documentation-only reconciliation.
+On exact main, Linux (`134306541322`), macOS (`134306480433`) and Windows
+(`134306482678`) all passed in ROM-free CI run `44148123216` (attempt 2);
+initial-decode MSan passed in run `44148123274` (`134268730898`). In attempt 1,
+the macOS job had no assigned runner (`runner_id: 0`) and no steps; after that
+workflow completed, only that job was rerun and it passed. MAME research was
+path-filtered. No required check remains pending or failed.
 
 No Codex review summary/comment or GitHub review submission, inline comment or
 review thread was present. Active ruleset `25910947` requires the three platform
 checks and resolved review threads, with zero approvals required. All required
 checks passed; no quota failure was reported and no merge bypass was needed.
-PR #310 reconciles PR #309's merge evidence and exact-main verification; it
-changes no runtime behavior or acceptance.
-
+PR #311 reconciles PR #310's merge evidence and the exact-main TSTR diagnostic;
+it changes no runtime behavior or acceptance.
 ## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-17
 
 Two read-only runs used the exact main source tree
