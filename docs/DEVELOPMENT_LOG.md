@@ -12,6 +12,23 @@ inline comment or thread was present. Ruleset `25910947` requires the three
 platform checks and resolved threads, with zero approvals required. All required
 checks passed; no quota error was reported and no bypass was needed.
 
+## PR #311 merge and exact-main checks — 2026-11-17
+
+PR [#311](https://github.com/RobCZart82/YamAN1x/pull/311) merged by squash at
+`2026-11-17T18:27:56Z`, exact head
+`0effafccf999faf605175180368b585874a250a6` to main
+`4b2f4a5186c2801d35ddffa2007c6693067e9317`. PR-head platform checks passed in
+ROM-free CI run `44142821198`; initial-decode MSan passed in `44142821229`;
+MAME research was path-filtered. Exact-main Linux/macOS/Windows passed in ROM-free
+CI run `44148123216` (attempt 2; jobs `134306541322`, `134306480433`,
+`134306482678`); initial-decode MSan passed in run `44148123274`, job
+`134268730898`. The first macOS main job had no runner assigned and no steps;
+after workflow completion, that job alone was rerun successfully. MAME research
+was path-filtered. No Codex summary/comment or GitHub review submission, inline
+comment or thread was present. Ruleset `25910947` requires three platform checks
+and resolved threads, with zero approvals. No quota failure or merge bypass.
+Documentation reconciliation only; no runtime behavior or acceptance changed.
+
 ## Fresh exact-main FFFF60/TSTR firmware diagnostic — 2026-11-17
 
 Two read-only runs on source tree `99ce57491916bde11ba81ed8ab7d962a9a704470`

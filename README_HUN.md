@@ -4,29 +4,31 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Ellenőrzött főági alap — #310 — 2026-11-17
+## Ellenőrzött főági alap — #311 — 2026-11-17
 
-A [#310 PR](https://github.com/RobCZart82/YamAN1x/pull/310) squash módszerrel
-olvadt be `2026-11-17T17:05:02Z` időpontban: a pontos PR-fej
-`31200e9892d9d8335a30a7558a663f7c5fa330be`, az új főági commit
-`bca8317ed7aac3c251bf35a1ba785cefb7c064d2`. A PR-fej Linux, macOS és Windows
-ellenőrzései a `44126402696` ROM-mentes CI-futásban sikerültek; az
-initial-decode MSan a `44126403020` futásban zöld lett. Mivel a PR csak
-dokumentációt módosított, a MAME-kutatási futás útvonalszűrés miatt nem indult.
+A [#311 PR](https://github.com/RobCZart82/YamAN1x/pull/311) squash módszerrel
+olvadt be `2026-11-17T18:27:56Z` időpontban: a pontos PR-fej
+`0effafccf999faf605175180368b585874a250a6`, az új főági commit
+`4b2f4a5186c2801d35ddffa2007c6693067e9317`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `44142821198` ROM-mentes CI-futásban sikerültek; az
+initial-decode MSan a `44142821229` futásban zöld lett. A dokumentációs PR-re a
+MAME-kutatás útvonalszűrés miatt nem indult.
 
-A pontos főágon a Linux, macOS és Windows ellenőrzések a `44133021529`
-ROM-mentes CI-futásban sikerültek; az initial-decode MSan a `44133021404`
-futásban zöld lett. Az Ubuntu kiterjesztett ASan/UBSan lépései is sikeresen
-lezárultak. A MAME-kutatás erre a dokumentációs egyeztetésre útvonalszűrt
-maradt.
+A pontos főágon a Linux (`134306541322`), macOS (`134306480433`) és Windows
+(`134306482678`) ellenőrzések a ROM-mentes CI `44148123216` futásának második
+próbálkozásában sikerültek. Az initial-decode MSan a `44148123274`
+(`134268730898`) futásban zöld lett. Az első próbálkozás macOS-feladatához nem
+rendeltek futtatót (`runner_id: 0`), és egyetlen lépése sem futott le; a teljes
+munkafolyamat lezárása után csak ezt a feladatot indítottuk újra, és sikeresen
+befejeződött. A MAME-kutatás útvonalszűrt maradt. Függő vagy sikertelen előírt
+ellenőrzés nem maradt.
 
-Nem jelent meg Codex-összefoglaló vagy -megjegyzés, GitHub review-beküldés,
+Nem jelent meg Codex-áttekintés vagy -megjegyzés, GitHub review-beküldés,
 beágyazott megjegyzés vagy review-szál. A `25910947` aktív szabályzat a három
 platformellenőrzést és a review-szálak lezárását követeli; jóváhagyásból nullát
 ír elő. Minden előírt ellenőrzés sikerült; kvótahiba nem jelent meg, megkerülésre
-nem volt szükség. A #310 a #309 beolvadását és a pontos főági ellenőrzéseket
+nem volt szükség. A #311 a #310 beolvadását és a pontos főági TSTR-vizsgálatot
 rögzíti; futásidejű viselkedést vagy új elfogadási bizonyítékot nem ad.
-
 ## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-17
 
 Két csak olvasó futás a pontos főági forrásfán
