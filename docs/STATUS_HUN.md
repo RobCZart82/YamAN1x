@@ -2,32 +2,28 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #308 — 2026-11-16
+## Ellenőrzött főági alap — #309 — 2026-11-16
 
-A [#308 PR](https://github.com/RobCZart82/YamAN1x/pull/308) squash módszerrel
-olvadt be `2026-11-16T20:42:49Z` időpontban: a pontos PR-fej
-`159ea1d78d0c0ee74fd72b794524d20c99a8296e`, a főági commit
-`5d64c1e5717490b935f4c65d716f5421fee5031c`. A PR-fej Linux, macOS és Windows
-ellenőrzései a `43945292893` ROM-mentes CI-futásban sikerültek; az initial-decode
-MSan `43945292933`, a MAME-kutatás pedig `43945292892` alatt zárult zölden.
+A [#309 PR](https://github.com/RobCZart82/YamAN1x/pull/309) squash módszerrel
+olvadt be `2026-11-16T22:44:28Z` időpontban: a pontos PR-fej
+`07c783189c46c00898c8c4e746520917a1895aa4`, a főági commit
+`e2444412d5101fc450be79b55c513ca33c10ebee`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `43964556414` ROM-mentes CI-futásban sikerültek; az
+initial-decode MSan a `43964556401` futásban zöld lett. Mivel a PR csak
+dokumentációt módosított, MAME-kutatási futás útvonalszűrés miatt nem indult.
 
-A pontos főágon a három kötelező platformellenőrzés a `43952611646`
-ROM-mentes CI-futás 2. próbálkozásában sikerült. Az initial-decode MSan
-`43952611673`, a MAME-kutatás `43952611677` (2. próbálkozás) alatt ment át.
-Az Ubuntu kiterjesztett ASan/UBSan lépései is sikerültek. Az első főági
-próbálkozásban a macOS és MAME-feladat futtató és lépések nélkül megszakadt;
-a lezárt futások második próbálkozása sikeres lett.
+A pontos főágon a kötelező Linux, macOS és Windows ellenőrzések a
+`43972926120` ROM-mentes CI-futásban sikerültek; az initial-decode MSan a
+`43972926110` futásban zöld lett. Az Ubuntu kiterjesztett ASan/UBSan lépései
+is sikerültek. A MAME-kutatás erre a dokumentációs egyeztetésre útvonalszűrt
+maradt.
 
-A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló `6927307633`,
-nyugta `6927714031`). A korábbi, elavult `265ed418faf9c088eb4f17fa08539cba922382f7`
-fejre érkezett P2 észrevételt a végleges fej javította; a
-`PRRT_kwDOVYYWIs64GsUq` review-szál lezárt és elavult. Két review-beküldés,
-két beágyazott megjegyzés és egy lezárt/elavult szál szerepel. A `25910947`
-aktív szabályzat három platformellenőrzést, nulla jóváhagyást és lezárt
-review-szálakat követelt; kvótahiba vagy megkerülés nem történt. A #308 csak
-korlátozott, olvasásra szolgáló TSTR-megfigyelőt ad: nem igazol időzítő- vagy
-IRQ-egyezést, hardveregyezést, teljes bootot, MIDI-t, DSP-t, hangot vagy
-REAPER-elfogadást.
+A pontos PR-fej Codex-áttekintése nem talált hibát (összefoglaló
+`6930509811`). GitHub review-beküldés, beágyazott megjegyzés és review-szál
+nem volt. A `25910947` aktív szabályzat három platformellenőrzést, nulla
+jóváhagyást és lezárt review-szálakat követelt; kvótahiba vagy megkerülés nem
+történt. A #309 a #308 beolvadását és ellenőrzött főági állapotát rögzíti;
+futásidejű viselkedést és új elfogadási bizonyítékot nem ad.
 
 ## Friss helyi firmware-vizsgálat az FFFF60 útvonalon — 2026-11-15
 

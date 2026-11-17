@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-16",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata, verified against main Git history",
-  "baseline_commit": "5d64c1e5717490b935f4c65d716f5421fee5031c",
+  "baseline_commit": "e2444412d5101fc450be79b55c513ca33c10ebee",
   "entries": [
     {
       "pr": 6,
@@ -6815,6 +6815,36 @@
         "ubuntu_extended_sanitizers": "pass",
         "first_attempt": "macOS and research jobs canceled with no runner and no steps; second attempts passed"
       }
+    },
+    {
+      "pr": 309,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/309",
+      "title": "docs: reconcile PR 308 merge and verified main",
+      "branch": "docs/reconcile-pr308-main-20261116",
+      "kind": "documentation reconciliation",
+      "status": "merged",
+      "base_commit": "5d64c1e5717490b935f4c65d716f5421fee5031c",
+      "head_commit": "07c783189c46c00898c8c4e746520917a1895aa4",
+      "merge_commit": "e2444412d5101fc450be79b55c513ca33c10ebee",
+      "merged_at_utc": "2026-11-16T22:44:28Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 43964556414,
+        "initial_decode_msan_run": 43964556401,
+        "mame_research": "path_filtered",
+        "platform_jobs": "all passed"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 43972926120,
+        "initial_decode_msan_run": 43972926110,
+        "required_platform_contexts": "all passed",
+        "ubuntu_extended_sanitizers": "pass",
+        "mame_research": "path_filtered"
+      },
+      "review": "Codex exact-head review completed without findings (summary comment 6930509811). GitHub review submissions, inline comments and review threads were zero. Active ruleset 25910947 required three platform checks, zero approvals and resolved review threads; no quota error or merge bypass.",
+      "scope": "Documentation-only reconciliation of PR #308's merge and verified-main evidence across English/Hungarian summaries and the ledger; no runtime behavior.",
+      "acceptance": "No new firmware, hardware, timer/IRQ, boot, MIDI, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [],
@@ -6925,21 +6955,21 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 309,
+    "pr": 310,
     "status": "open",
-    "source_pr": 308,
-    "branch": "docs/reconcile-pr308-main-20261116",
-    "base_commit": "5d64c1e5717490b935f4c65d716f5421fee5031c",
-    "scope": "Documentation-only reconciliation of PR #308's merge and verified exact-main checks; no runtime behavior."
+    "source_pr": 309,
+    "branch": "docs/reconcile-pr309-main-20261117",
+    "base_commit": "e2444412d5101fc450be79b55c513ca33c10ebee",
+    "scope": "Documentation-only reconciliation of PR #309 merge evidence and verified exact-main checks; no runtime behavior."
   },
   "current_candidate": {
-    "pr": 309,
-    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/309",
-    "title": "docs: reconcile PR 308 merge and verified main",
-    "branch": "docs/reconcile-pr308-main-20261116",
+    "pr": 310,
+    "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/310",
+    "title": "docs: reconcile PR 309 merge and verified main",
+    "branch": "docs/reconcile-pr309-main-20261117",
     "kind": "documentation reconciliation",
     "status": "open",
-    "base_commit": "5d64c1e5717490b935f4c65d716f5421fee5031c",
+    "base_commit": "e2444412d5101fc450be79b55c513ca33c10ebee",
     "changed_files": [
       "README.md",
       "docs/STATUS.md",
@@ -6949,8 +6979,8 @@
       "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
       "docs/development-ledger.json"
     ],
-    "scope": "Record PR #308's exact-head review, merge and fully green exact-main verification in the English/Hungarian summaries and structured ledger; no runtime change.",
+    "scope": "Record PR #309 merge and fully green exact-main verification in English/Hungarian summaries and the structured ledger; no runtime change.",
     "acceptance": "No new firmware, hardware, timer/IRQ, full-boot, MIDI, DSP, audio or REAPER acceptance.",
-    "checks_review": "PR-head/main checks and exact-head review pending for this documentation candidate."
+    "checks_review": "PR-head checks and exact-head review pending."
   }
 }
