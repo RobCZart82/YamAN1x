@@ -13,32 +13,27 @@ complete a validated hardware-equivalent boot, or provide a plugin or GUI.
 
 For Hungarian-language guidance and the relocated legacy notes, see: [Hungarian summary](README_HUN.md) · [relocated historical Hungarian passages](docs/HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #308 — 2026-11-16
+## Current verified main — PR #309 — 2026-11-16
 
-PR [#308](https://github.com/RobCZart82/YamAN1x/pull/308) merged by squash at
-`2026-11-16T20:42:49Z`, from exact head
-`159ea1d78d0c0ee74fd72b794524d20c99a8296e` to main
-`5d64c1e5717490b935f4c65d716f5421fee5031c`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `43945292893`; initial-decode MSan passed in
-`43945292933` and MAME research passed in `43945292892`.
+PR [#309](https://github.com/RobCZart82/YamAN1x/pull/309) merged by squash at
+`2026-11-16T22:44:28Z`, from exact head
+`07c783189c46c00898c8c4e746520917a1895aa4` to main
+`e2444412d5101fc450be79b55c513ca33c10ebee`. PR-head Linux, macOS and Windows
+checks passed in ROM-free CI run `43964556414`; initial-decode MSan passed in
+`43964556401`. MAME research was path-filtered because the PR changed only
+documentation.
 
-On exact main, the three required platform contexts passed in ROM-free CI run
-`43952611646` (attempt 2); initial-decode MSan passed in `43952611673`, and
-MAME research passed in `43952611677` (attempt 2). Ubuntu's extended ASan/UBSan
-steps passed. The first main attempts had canceled macOS and MAME jobs with no
-assigned runner or steps; the completed second attempts passed.
+On exact main, the required Linux, macOS and Windows contexts passed in
+ROM-free CI run `43972926120`; initial-decode MSan passed in
+`43972926110`. Ubuntu's extended ASan/UBSan steps passed. MAME research was
+path-filtered for this documentation-only reconciliation.
 
-Codex's exact-head review on `159ea1d78d0c0ee74fd72b794524d20c99a8296e`
-completed without findings (summary comment `6927307633`; receipt
-`6927714031`). An earlier P2 finding on superseded head
-`265ed418faf9c088eb4f17fa08539cba922382f7` was addressed on the final head;
-its review thread `PRRT_kwDOVYYWIs64GsUq` is resolved and outdated. The PR has
-two review submissions, two inline comments and one resolved/outdated thread.
-Active ruleset `25910947` required the three platform checks, zero approvals
-and resolved threads; no quota error was reported and no merge bypass was used.
-PR #308 adds a bounded, read-only TSTR observer only; it does not establish
-timer or IRQ equivalence, hardware agreement, full boot, MIDI, DSP, audio or
-REAPER acceptance.
+Codex's exact-head review completed without findings (summary comment
+`6930509811`). GitHub review submissions, inline comments and review threads
+were zero. Active ruleset `25910947` required the three platform checks, zero
+approvals and resolved review threads; no quota error was reported and no merge
+bypass was used. PR #309 reconciles PR #308's merge evidence and verified-main
+state; it changes no runtime behavior or acceptance.
 
 ## Fresh local firmware diagnostic at the FFFF60 path — 2026-11-15
 
