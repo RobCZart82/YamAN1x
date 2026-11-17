@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-17",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
+  "baseline_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
   "entries": [
     {
       "pr": 6,
@@ -6909,6 +6909,43 @@
       "review": "No Codex review summary/comment or GitHub review submission, inline comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no bypass was needed.",
       "scope": "Documentation-only reconciliation of PR #310 merge evidence and the exact-main FFFF60/TSTR diagnostic across English/Hungarian summaries and ledger; no runtime behavior.",
       "acceptance": "No new firmware, timer/IRQ, hardware, boot, MIDI, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 312,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/312",
+      "title": "docs: reconcile PR 311 merge and verified main",
+      "branch": "docs/reconcile-pr311-main-20261117",
+      "kind": "documentation reconciliation",
+      "status": "merged",
+      "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
+      "head_commit": "32787d55ec3dffd2bd9bb8fb1cbd546db95c8955",
+      "merge_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+      "merged_at_utc": "2026-11-17T20:27:40Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 44163666367,
+        "ubuntu_24_04_job": 134323876262,
+        "macos_14_job": 134323876971,
+        "windows_2025_job": 134323877130,
+        "initial_decode_msan_run": 44163666435,
+        "initial_decode_msan_job": 134323872684,
+        "platform_jobs": "all passed",
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 44169539149,
+        "ubuntu_24_04_job": 134368861656,
+        "macos_14_job": 134368858739,
+        "windows_2025_job": 134368863183,
+        "initial_decode_msan_run": 44169539196,
+        "initial_decode_msan_job": 134344615527,
+        "required_platform_contexts": "all passed",
+        "mame_research": "path_filtered",
+        "first_attempt_macos_infrastructure": "no runner assigned and no steps; after whole workflow completed, only this job was retried and passed"
+      },
+      "review": "No Codex review summary/comment or GitHub review submission, inline comment, or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no bypass was needed.",
+      "scope": "Documentation-only reconciliation of PR #311 merge evidence and exact-main check state; no runtime behavior or acceptance."
     }
   ],
   "pending_changes": [],
@@ -7020,19 +7057,22 @@
   },
   "documentation_post_merge_reconciliation": {
     "pr": 312,
-    "status": "candidate",
+    "status": "merged",
     "source_pr": 311,
     "branch": "docs/reconcile-pr311-main-20261117",
     "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
-    "scope": "Reconcile PR #311 merge and exact-main check evidence across English/Hungarian current summaries and ledger; no runtime behavior."
+    "head_commit": "32787d55ec3dffd2bd9bb8fb1cbd546db95c8955",
+    "merge_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+    "merged_at_utc": "2026-11-17T20:27:40Z",
+    "scope": "Reconciled PR #311 merge and exact-main checks across bilingual summaries and ledger; documentation only."
   },
   "current_candidate": {
-    "pr": 312,
-    "title": "docs: reconcile PR 311 merge and verified main",
-    "branch": "docs/reconcile-pr311-main-20261117",
-    "kind": "documentation reconciliation",
+    "pr": 313,
+    "title": "docs: record exact-main synthetic ADC scan diagnostic",
+    "branch": "docs/reconcile-pr312-adc-profile-probe-20261117",
+    "kind": "documentation reconciliation and diagnostic record",
     "status": "candidate",
-    "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
+    "base_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
     "changed_files": [
       "README.md",
       "README_HUN.md",
@@ -7041,10 +7081,11 @@
       "docs/FIRST_REAPER_SOUND_PLAN.md",
       "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
       "docs/DEVELOPMENT_LOG.md",
+      "docs/an1x-boot-probe.md",
       "docs/development-ledger.json"
     ],
-    "scope": "Record PR #311 merge and exact-main platform/MSan checks, including targeted macOS infrastructure retry evidence; English/Hungarian summaries and ledger only.",
-    "acceptance": "No runtime, firmware, hardware or audio acceptance.",
-    "checks_review": "Candidate checks and review pending."
+    "scope": "Reconcile PR #312 exact-main evidence and record four read-only synthetic ADC scan runs on exact main; documentation only.",
+    "acceptance": "Bounded synthetic project-profile evidence only; no runtime, hardware, firmware boot, MIDI, DSP, audio or REAPER acceptance.",
+    "checks_review": "Candidate checks, exact-head review diagnostics and final merge state pending."
   }
 }
