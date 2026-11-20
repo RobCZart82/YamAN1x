@@ -2,30 +2,44 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Ellenőrzött főági alap — #312 — 2026-11-17
+## Ellenőrzött főági alap — #313 — 2026-11-17
 
-A [#312 PR](https://github.com/RobCZart82/YamAN1x/pull/312) squash módszerrel
-olvadt be `2026-11-17T20:27:40Z` időpontban: a pontos PR-fej
-`32787d55ec3dffd2bd9bb8fb1cbd546db95c8955`, az új főági commit
-`51159e9aff95ae0a1f9d125998be3700f9e8ef7a`. A PR-fej Linux, macOS és Windows
-ellenőrzése a `44163666367` ROM-mentes CI-futásban sikerült (feladatok:
-`134323876262`, `134323876971`, `134323877130`); az initial-decode MSan
-a `44163666435` futásban lett zöld (`134323872684`). A dokumentációs PR-re
-a MAME-kutatás útvonalszűrés miatt nem indult.
+A [#313 PR](https://github.com/RobCZart82/YamAN1x/pull/313) squash módszerrel
+olvadt be `2026-11-17T22:27:53Z` időpontban: a pontos PR-fej
+`5666126ddfc8ed596aaf1cf50db450d69e2c4642`, az új főági commit
+`cd802959f72f5400bccc3a535ed6b53f16a246b5`. A PR-fej Linux, macOS és Windows
+ellenőrzései a `44182647201` ROM-mentes CI-futásban sikerültek (feladatok:
+`134390754168`, `134390753952`, `134390753414`); az initial-decode MSan a
+`44182647243` futásban lett zöld (`134390754141`). A csak dokumentációt érintő
+PR-re a MAME-kutatás útvonalszűrés miatt nem indult.
 
-A pontos főágon az Ubuntu (`134368861656`), macOS (`134368858739`) és
-Windows (`134368863183`) feladat a ROM-mentes CI `44169539149` futásában
-sikerült; az initial-decode MSan a `44169539196` futásban lett zöld
-(`134344615527`). A macOS első feladatához nem rendeltek futtatót, és lépések
-sem indultak. A teljes munkafolyamat lezárása után csak ezt a feladatot
-ismételtük meg; sikerült. A MAME-kutatás útvonalszűrt maradt, előírt ellenőrzés
-nem maradt függőben vagy hibában.
+A pontos főágon az Ubuntu (`134417622415`), macOS (`134417622466`) és Windows
+(`134417621829`) ellenőrzés a `44190306150` ROM-mentes CI-futásban sikerült;
+az initial-decode MSan a `44190306163` futásban lett zöld. Az Ubuntu kiterjesztett
+UBSan/ASan lépései is sikerültek. A két macOS megjegyzés csak a futtatókapacitás
+és a várható várakozás tájékoztatása volt; a feladat sikerült. Függő vagy hibás
+előírt ellenőrzés nem maradt.
 
 Nem volt Codex-áttekintés/megjegyzés, GitHub review-beküldés, beágyazott
 megjegyzés vagy review-szál. A `25910947` aktív szabályzat a három
 platformellenőrzést és a review-szálak lezárását követeli; jóváhagyásból nullát
-ír elő. Kvótahiba nem jelent meg, megkerülésre nem volt szükség. A #312 a #311 beolvadási adatait és ellenőrzéseit egyezteti; futásidejű
+ír elő. Kvótahiba nem jelent meg, megkerülésre nem volt szükség. A #313 a #312
+beolvadását és a négy szintetikus ADC-vizsgálatot egyezteti; futásidejű
 viselkedést vagy elfogadást nem módosít.
+
+## Aktuális jelölt — korlátozott SCI TX-megfigyelés — #314 jelölt — 2026-11-18
+
+Az aktív ág opcionális `--observe-sci-tx` diagnosztikát ad: legfeljebb 4096
+SCI-kimeneti szintváltozást rögzít, csatornánkénti elsőszint-jelölővel,
+ciklussal/sorrenddel, ismétléselnyomással és túlcsordulásszámmal. A pontos
+szintetikus tesztek a kimeneti keretet, a csatorna/szint/ciklus adatokat, az
+1/8/64 ciklusos szeletelést, a megfigyelő ki/be kapcsolása melletti futásazonosságot,
+a duplikált kapcsoló elutasítását és a korlátot vizsgálják. A teljes helyi CTest
+140/140 eredménnyel, az adattár-audit és a licenclefedettség sikerült. A nyom
+soros vonalszinteket mér, nem dekódol MIDI-t, és nem igazol firmware-t,
+hardvert, hangot vagy REAPER-elfogadást. A PR CI-je, review-ja és beolvadása még
+függőben van.
+
 ## Friss szintetikus ADC-szkennelési firmware-vizsgálat — 2026-11-17
 
 Négy csak olvasó futás készült a pontos

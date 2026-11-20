@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-17",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+  "baseline_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
   "entries": [
     {
       "pr": 6,
@@ -6946,6 +6946,43 @@
       },
       "review": "No Codex review summary/comment or GitHub review submission, inline comment, or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no bypass was needed.",
       "scope": "Documentation-only reconciliation of PR #311 merge evidence and exact-main check state; no runtime behavior or acceptance."
+    },
+    {
+      "pr": 313,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/313",
+      "title": "docs: record exact-main synthetic ADC scan diagnostic",
+      "branch": "docs/reconcile-pr312-adc-profile-probe-20261117",
+      "kind": "documentation reconciliation and bounded diagnostic record",
+      "status": "merged",
+      "base_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+      "head_commit": "5666126ddfc8ed596aaf1cf50db450d69e2c4642",
+      "merge_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
+      "merged_at_utc": "2026-11-17T22:27:53Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 44182647201,
+        "ubuntu_24_04_job": 134390754168,
+        "macos_14_job": 134390753952,
+        "windows_2025_job": 134390753414,
+        "initial_decode_msan_run": 44182647243,
+        "initial_decode_msan_job": 134390754141,
+        "platform_jobs": "all passed",
+        "mame_research": "path_filtered"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 44190306150,
+        "ubuntu_24_04_job": 134417622415,
+        "macos_14_job": 134417622466,
+        "windows_2025_job": 134417621829,
+        "initial_decode_msan_run": 44190306163,
+        "required_platform_contexts": "all passed",
+        "ubuntu_extended_sanitizers": "passed",
+        "macos_annotations": "hosted capacity/queue notices only; job passed",
+        "mame_research": "path_filtered"
+      },
+      "review": "No Codex review summary/comment or GitHub review submission, inline comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved threads and zero approvals. No quota failure was reported and no bypass was needed.",
+      "scope": "Reconcile PR #312 merge and record four exact-main read-only synthetic ADC scan reports; documentation only, no runtime or acceptance change."
     }
   ],
   "pending_changes": [],
@@ -7056,24 +7093,29 @@
     "prepared_date": "2026-11-12"
   },
   "documentation_post_merge_reconciliation": {
-    "pr": 312,
+    "pr": 313,
     "status": "merged",
-    "source_pr": 311,
-    "branch": "docs/reconcile-pr311-main-20261117",
-    "base_commit": "4b2f4a5186c2801d35ddffa2007c6693067e9317",
-    "head_commit": "32787d55ec3dffd2bd9bb8fb1cbd546db95c8955",
-    "merge_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
-    "merged_at_utc": "2026-11-17T20:27:40Z",
-    "scope": "Reconciled PR #311 merge and exact-main checks across bilingual summaries and ledger; documentation only."
+    "source_pr": 312,
+    "branch": "docs/reconcile-pr312-adc-profile-probe-20261117",
+    "base_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+    "head_commit": "5666126ddfc8ed596aaf1cf50db450d69e2c4642",
+    "merge_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
+    "merged_at_utc": "2026-11-17T22:27:53Z",
+    "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
   "current_candidate": {
-    "pr": 313,
-    "title": "docs: record exact-main synthetic ADC scan diagnostic",
-    "branch": "docs/reconcile-pr312-adc-profile-probe-20261117",
-    "kind": "documentation reconciliation and diagnostic record",
+    "pr": 314,
+    "title": "Add bounded opt-in SCI TX output observation",
+    "branch": "feat/bounded-sci-tx-observer-20261118",
+    "kind": "bounded runtime diagnostic",
     "status": "candidate",
-    "base_commit": "51159e9aff95ae0a1f9d125998be3700f9e8ef7a",
+    "base_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
     "changed_files": [
+      "src/an1x_boot_probe.cpp",
+      "tests/an1x_sci_tx_observer_check.cpp",
+      "tests/check_an1x_boot_probe.py",
+      "CMakeLists.txt",
+      "docs/an1x-boot-probe.md",
       "README.md",
       "README_HUN.md",
       "docs/STATUS.md",
@@ -7081,11 +7123,10 @@
       "docs/FIRST_REAPER_SOUND_PLAN.md",
       "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
       "docs/DEVELOPMENT_LOG.md",
-      "docs/an1x-boot-probe.md",
       "docs/development-ledger.json"
     ],
-    "scope": "Reconcile PR #312 exact-main evidence and record four read-only synthetic ADC scan runs on exact main; documentation only.",
-    "acceptance": "Bounded synthetic project-profile evidence only; no runtime, hardware, firmware boot, MIDI, DSP, audio or REAPER acceptance.",
-    "checks_review": "Candidate checks, exact-head review diagnostics and final merge state pending."
+    "scope": "Add an opt-in fixed-capacity SCI transmit-level event observer to the firmware probe, with exact synthetic channel/level/cycle tests and observer-on/off invariance. Reconcile PR #313 and exact-main verification evidence.",
+    "acceptance": "Diagnostic only. No MIDI protocol, physical UART, firmware boot, DSP, audio or REAPER acceptance.",
+    "checks_review": "Focused tests pass; full local CTest 140/140, repository audit and license coverage pass. PR-head CI/review and merge state pending."
   }
 }

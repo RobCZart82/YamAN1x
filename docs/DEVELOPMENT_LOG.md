@@ -1,3 +1,44 @@
+# PR #314 candidate — bounded opt-in SCI TX observation — 2026-11-18
+
+The candidate adds `--observe-sci-tx` to the bounded boot probe. Its observer
+retains at most 4,096 transitions, records each channel's first observed output
+level and later changes with cycle/order, suppresses repeated same-level
+callbacks, and counts transitions not retained after the bound. The default
+report remains `null`; this reports serial levels, not decoded MIDI or audio.
+
+Synthetic CLI checks verify a CPU-driven SCI frame, exact channel/level/cycle
+records, 1/8/64-cycle slicing invariance, disabled/enabled run-output invariance,
+duplicate-option rejection and no effect on the input image. A direct observer
+test verifies separate channel baselines, exact events, repeat suppression,
+invalid-channel rejection, fixed capacity and overflow count. Build plus focused
+checks passed. Full CTest passed 140/140; repository audit verified 702 files
+and 201 upstream files; license coverage passed for 232 files and 5 license
+texts. The first full CTest attempt caught an unlisted new production header;
+the implementation was moved into the already-covered boot-probe source, so no
+license decision or coverage-manifest change was made. The rerun passed.
+
+The candidate is based on exact main `cd802959f72f5400bccc3a535ed6b53f16a246b5`.
+PR-head CI, review diagnostics and merge status are pending. No firmware run was
+performed for this candidate; it makes no firmware-boot, MIDI, DSP, hardware,
+audio or REAPER acceptance claim. ROMs remain untouched and outside Git.
+
+## PR #313 merge and exact-main checks — 2026-11-17
+
+PR [#313](https://github.com/RobCZart82/YamAN1x/pull/313) merged by squash at
+`2026-11-17T22:27:53Z`, exact head
+`5666126ddfc8ed596aaf1cf50db450d69e2c4642` to main
+`cd802959f72f5400bccc3a535ed6b53f16a246b5`. PR-head ROM-free CI run
+`44182647201` passed on Ubuntu `134390754168`, macOS `134390753952` and
+Windows `134390753414`; initial-decode MSan run `44182647243` passed on
+`134390754141`. MAME research was path-filtered. Exact-main ROM-free CI run
+`44190306150` passed on Ubuntu `134417622415`, macOS `134417622466` and
+Windows `134417621829`; initial-decode MSan run `44190306163` passed. Ubuntu's
+extended UBSan/ASan steps passed. The macOS annotations were capacity/queue
+notices only; its job passed. No Codex review or GitHub review objects were
+present. Ruleset `25910947` requires three platform checks and resolved threads,
+with zero approvals; no quota failure or merge bypass. Documentation and four
+bounded synthetic-input diagnostics only; no runtime or sound acceptance.
+
 ## PR #312 merge and exact-main checks — 2026-11-17
 
 PR [#312](https://github.com/RobCZart82/YamAN1x/pull/312) merged by squash at

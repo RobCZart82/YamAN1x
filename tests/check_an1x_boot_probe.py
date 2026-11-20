@@ -69,6 +69,40 @@ def main(binary):
                         "tx_edges","clock_edges","gpio_writes")
             require(code_off == code and all(report_off[key] == report[key] for key in compared),
                     "Opt-in TSTR observation leaves execution and peripheral outputs unchanged")
+        # SCI output observation is opt-in and does not alter the bounded run.
+        image([0x7a00,0xff,0xffb1,0xfa00,0x688a,0x0b00,0xfa20,0x688a,
+               0x0b00,0xfaa5,0x688a,0x0b00,0x680b,0xeb7f,0x688b,0x40fe])
+        code_off, report_off = run([1000,8,10000])
+        require(report_off["sci_tx_observations"] is None, "SCI TX observer is opt-in")
+        expected_tx_events = [
+                    {"channel":0,"cycle":48,"level":False,"first_observation":True},
+                    {"channel":0,"cycle":80,"level":True,"first_observation":False},
+                    {"channel":0,"cycle":112,"level":False,"first_observation":False},
+                    {"channel":0,"cycle":144,"level":True,"first_observation":False},
+                    {"channel":0,"cycle":176,"level":False,"first_observation":False},
+                    {"channel":0,"cycle":240,"level":True,"first_observation":False},
+                    {"channel":0,"cycle":272,"level":False,"first_observation":False},
+                    {"channel":0,"cycle":304,"level":True,"first_observation":False},
+                ]
+        trace_reference = None
+        for slice_size in (1, 8, 64):
+            code_on, report_on = run([1000,slice_size,10000], extra=("--observe-sci-tx",))
+            require(code_on == code_off and report_on["stop_reason"] == report_off["stop_reason"] and
+                    report_on["pc"] == report_off["pc"] and report_on["peripheral_cycle"] == report_off["peripheral_cycle"] and
+                    report_on["tx_edges"] == report_off["tx_edges"] and
+                    report_on["sci_tx_observations"]["capacity"] == 4096 and
+                    report_on["sci_tx_observations"]["dropped"] == 0,
+                    "SCI TX observer leaves execution and legacy output counters unchanged")
+            events = report_on["sci_tx_observations"]["events"]
+            require(events == expected_tx_events and
+                    all(a["cycle"] <= b["cycle"] for a,b in zip(events,events[1:])),
+                    "SCI TX trace records exact channel, serial levels and transition cycles")
+            if trace_reference is None:
+                trace_reference = report_on["sci_tx_observations"]
+            require(report_on["sci_tx_observations"] == trace_reference,
+                    "SCI TX trace is invariant under CPU slice partitioning")
+        code_dup, report_dup = run([64,8,10000], extra=("--observe-sci-tx","--observe-sci-tx"))
+        require(code_dup == 1 and report_dup["status"] == "input_error", "Reject duplicate SCI TX observer option")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
