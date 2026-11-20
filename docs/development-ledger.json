@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-17",
+  "recorded_date": "2026-11-20",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
+  "baseline_commit": "ede7a1bc56a3502ad47b3e76127d0e1f83e3f870",
   "entries": [
     {
       "pr": 6,
@@ -6983,6 +6983,48 @@
       },
       "review": "No Codex review summary/comment or GitHub review submission, inline comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved threads and zero approvals. No quota failure was reported and no bypass was needed.",
       "scope": "Reconcile PR #312 merge and record four exact-main read-only synthetic ADC scan reports; documentation only, no runtime or acceptance change."
+    },
+    {
+      "pr": 314,
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/314",
+      "title": "Add bounded opt-in SCI TX observation",
+      "branch": "feat/bounded-sci-tx-observer-20261118",
+      "kind": "bounded runtime diagnostic",
+      "status": "merged",
+      "base_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
+      "head_commit": "259575202cec7bec5452e7f17a756578c205fc69",
+      "merge_commit": "ede7a1bc56a3502ad47b3e76127d0e1f83e3f870",
+      "merged_at_utc": "2026-11-20T16:18:16Z",
+      "merge_method": "squash",
+      "bypass_used": false,
+      "pr_head_checks": {
+        "rom_free_ci_run": 44199714607,
+        "ubuntu_24_04_job": 134450359393,
+        "macos_14_job": 134450359355,
+        "windows_2025_job": 134450358989,
+        "initial_decode_msan_run": 44199714385,
+        "initial_decode_msan_job": 134450358364,
+        "mame_research_run": 44199714367,
+        "mame_research_job": 134450358493,
+        "platform_jobs": "all passed",
+        "mame_research": "passed"
+      },
+      "main_checks": {
+        "rom_free_ci_run": 44772033660,
+        "ubuntu_24_04_job": 136411908454,
+        "macos_14_job": 136411908397,
+        "windows_2025_job": 136411907847,
+        "initial_decode_msan_run": 44772033696,
+        "initial_decode_msan_job": 136411907679,
+        "mame_research_run": 44772033600,
+        "mame_research_job": 136411908644,
+        "required_platform_contexts": "all passed",
+        "ubuntu_extended_sanitizers": "passed",
+        "mame_research": "passed"
+      },
+      "review": "No Codex review summary/comment, GitHub review submission, inline review comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no merge bypass was used.",
+      "scope": "Add a bounded opt-in SCI output-level observer to the firmware probe, capped at 4,096 transitions with per-channel first-level state, cycle/order and overflow accounting; repeated same-level callbacks are suppressed. Synthetic checks cover exact output, slicing invariance and observer-on/off run invariance.",
+      "acceptance": "Bounded serial line-level diagnostic only. No MIDI decoding, physical UART, complete firmware boot, DSP, audio or REAPER acceptance."
     }
   ],
   "pending_changes": [],
@@ -7103,30 +7145,5 @@
     "merged_at_utc": "2026-11-17T22:27:53Z",
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
-  "current_candidate": {
-    "pr": 314,
-    "title": "Add bounded opt-in SCI TX output observation",
-    "branch": "feat/bounded-sci-tx-observer-20261118",
-    "kind": "bounded runtime diagnostic",
-    "status": "candidate",
-    "base_commit": "cd802959f72f5400bccc3a535ed6b53f16a246b5",
-    "changed_files": [
-      "src/an1x_boot_probe.cpp",
-      "tests/an1x_sci_tx_observer_check.cpp",
-      "tests/check_an1x_boot_probe.py",
-      "CMakeLists.txt",
-      "docs/an1x-boot-probe.md",
-      "README.md",
-      "README_HUN.md",
-      "docs/STATUS.md",
-      "docs/STATUS_HUN.md",
-      "docs/FIRST_REAPER_SOUND_PLAN.md",
-      "docs/FIRST_REAPER_SOUND_PLAN_HUN.md",
-      "docs/DEVELOPMENT_LOG.md",
-      "docs/development-ledger.json"
-    ],
-    "scope": "Add an opt-in fixed-capacity SCI transmit-level event observer to the firmware probe, with exact synthetic channel/level/cycle tests and observer-on/off invariance. Reconcile PR #313 and exact-main verification evidence.",
-    "acceptance": "Diagnostic only. No MIDI protocol, physical UART, firmware boot, DSP, audio or REAPER acceptance.",
-    "checks_review": "Focused tests pass; full local CTest 140/140, repository audit and license coverage pass. PR-head CI/review and merge state pending."
-  }
+  "current_candidate": null
 }

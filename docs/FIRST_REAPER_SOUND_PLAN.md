@@ -2,41 +2,40 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current verified main — PR #313 — 2026-11-17
+## Current verified main — PR #314 — 2026-11-20
 
-PR [#313](https://github.com/RobCZart82/YamAN1x/pull/313) merged by squash at
-`2026-11-17T22:27:53Z`, from exact head
-`5666126ddfc8ed596aaf1cf50db450d69e2c4642` to main
-`cd802959f72f5400bccc3a535ed6b53f16a246b5`. PR-head Linux, macOS and Windows
-checks passed in ROM-free CI run `44182647201` (jobs `134390754168`,
-`134390753952`, `134390753414`); initial-decode MSan passed in run
-`44182647243` (job `134390754141`). MAME research was path-filtered because
-this was a documentation-only PR.
+PR [#314](https://github.com/RobCZart82/YamAN1x/pull/314) was squash-merged at
+`2026-11-20T16:18:16Z`, from exact PR head
+`259575202cec7bec5452e7f17a756578c205fc69` to main
+`ede7a1bc56a3502ad47b3e76127d0e1f83e3f870`. All five PR-head checks passed: ROM-free Ubuntu, macOS and Windows
+(run `44199714607`; jobs `134450359393`, `134450359355`, `134450358989`),
+initial-decode MSan (run `44199714385`, job `134450358364`) and MAME research
+(run `44199714367`, job `134450358493`).
 
-On exact main, Ubuntu (`134417622415`), macOS (`134417622466`) and Windows
-(`134417621829`) passed in ROM-free CI run `44190306150`; initial-decode MSan
-passed in run `44190306163`. The Ubuntu run's extended UBSan/ASan steps passed.
-The two macOS annotations only reported hosted-runner capacity/queue information;
-the job passed. No required check remains pending or failed.
+On exact merge commit `ede7a1bc56a3502ad47b3e76127d0e1f83e3f870`, all five checks also passed: ROM-free Ubuntu,
+macOS and Windows (run `44772033660`; jobs `136411908454`, `136411908397`,
+`136411907847`), initial-decode MSan (run `44772033696`, job
+`136411907679`) and MAME research (run `44772033600`, job
+`136411908644`). The Ubuntu ROM-free job's extended UBSan and ASan steps
+passed. No required check remains pending or failed.
 
-No Codex review summary/comment or GitHub review submission, inline comment or
-review thread was present. Active ruleset `25910947` requires the three platform
-checks and resolved review threads, with zero approvals required. No quota
-failure was reported and no merge bypass was needed. PR #313 reconciles PR #312's
-merge and records four read-only synthetic ADC scans; it changes no runtime
-behavior or acceptance.
+No Codex review summary/comment, GitHub review submission, inline review comment
+or review thread was present. Active ruleset `25910947` requires the three
+platform checks and resolved review threads, with zero approvals required. No
+quota failure was reported and no merge bypass was used.
 
-## Current candidate — bounded SCI TX observation — PR #314 candidate — 2026-11-18
+PR #314 adds an opt-in, fixed-capacity SCI output-level observer to the bounded
+firmware probe. It records at most 4,096 transitions with channel, first level,
+cycle/order and overflow count; repeated same-level callbacks are suppressed.
+This is line-level evidence only, not MIDI decoding or physical UART validation.
+The PR-head local CTest suite passed 140/140; repository audit and license
+coverage passed. No fresh firmware run was performed for this candidate, and no
+ROM was modified or uploaded.
 
-The active branch adds the opt-in `--observe-sci-tx` diagnostic: at most 4,096
-SCI output-level transitions, with per-channel first-level markers, cycle/order,
-repeat suppression, and overflow count. Exact synthetic checks cover the output
-frame, channel/level/cycle records, 1/8/64-cycle slicing, observer-off/on
-execution invariance, duplicate-option rejection, and bounded overflow. The full
-local CTest suite passes 140/140; repository audit and license coverage pass.
-The observer reports serial line levels only; it does not decode MIDI or claim
-firmware, hardware, audio, or REAPER acceptance. PR-head CI, review status and
-merge are pending.
+Next: use the observer in a fresh, read-only local firmware probe on exact main
+with the unchanged external image and an explicit project profile. Preserve
+bounded traces and slice-size/observer-on-off checks; do not treat line levels
+as decoded MIDI or as boot, hardware, DSP, audio or REAPER acceptance.
 
 ## Fresh synthetic ADC-scan firmware diagnostic — 2026-11-17
 

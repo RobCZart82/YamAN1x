@@ -4,43 +4,42 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
-## Ellenőrzött főági alap — #313 — 2026-11-17
+## Ellenőrzött főági alap — #314 — 2026-11-20
 
-A [#313 PR](https://github.com/RobCZart82/YamAN1x/pull/313) squash módszerrel
-olvadt be `2026-11-17T22:27:53Z` időpontban: a pontos PR-fej
-`5666126ddfc8ed596aaf1cf50db450d69e2c4642`, az új főági commit
-`cd802959f72f5400bccc3a535ed6b53f16a246b5`. A PR-fej Linux, macOS és Windows
-ellenőrzései a `44182647201` ROM-mentes CI-futásban sikerültek (feladatok:
-`134390754168`, `134390753952`, `134390753414`); az initial-decode MSan a
-`44182647243` futásban lett zöld (`134390754141`). A csak dokumentációt érintő
-PR-re a MAME-kutatás útvonalszűrés miatt nem indult.
+A [#314 PR](https://github.com/RobCZart82/YamAN1x/pull/314) squash módszerrel
+olvadt be `2026-11-20T16:18:16Z` időpontban. A pontos PR-fej
+`259575202cec7bec5452e7f17a756578c205fc69`, az új főági commit `ede7a1bc56a3502ad47b3e76127d0e1f83e3f870`. Mind az öt PR-fej-ellenőrzés
+sikerült: ROM-mentes Ubuntu, macOS és Windows (futás `44199714607`;
+feladatok `134450359393`, `134450359355`, `134450358989`), initial-decode
+MSan (futás `44199714385`, feladat `134450358364`) és MAME-kutatás
+(futás `44199714367`, feladat `134450358493`).
 
-A pontos főágon az Ubuntu (`134417622415`), macOS (`134417622466`) és Windows
-(`134417621829`) ellenőrzés a `44190306150` ROM-mentes CI-futásban sikerült;
-az initial-decode MSan a `44190306163` futásban lett zöld. Az Ubuntu kiterjesztett
-UBSan/ASan lépései is sikerültek. A két macOS megjegyzés csak a futtatókapacitás
-és a várható várakozás tájékoztatása volt; a feladat sikerült. Függő vagy hibás
-előírt ellenőrzés nem maradt.
+A pontos beolvasztott főági commiton `ede7a1bc56a3502ad47b3e76127d0e1f83e3f870` mind az öt ellenőrzés szintén
+sikerült: ROM-mentes Ubuntu, macOS és Windows (futás `44772033660`;
+feladatok `136411908454`, `136411908397`, `136411907847`), initial-decode
+MSan (futás `44772033696`, feladat `136411907679`) és MAME-kutatás
+(futás `44772033600`, feladat `136411908644`). Az Ubuntu ROM-mentes feladat
+kiterjesztett UBSan- és ASan-lépései is sikerültek. Függő vagy hibás kötelező
+ellenőrzés nem maradt.
 
-Nem volt Codex-áttekintés/megjegyzés, GitHub review-beküldés, beágyazott
-megjegyzés vagy review-szál. A `25910947` aktív szabályzat a három
-platformellenőrzést és a review-szálak lezárását követeli; jóváhagyásból nullát
-ír elő. Kvótahiba nem jelent meg, megkerülésre nem volt szükség. A #313 a #312
-beolvadását és a négy szintetikus ADC-vizsgálatot egyezteti; futásidejű
-viselkedést vagy elfogadást nem módosít.
+Nem volt Codex-review-összefoglaló/megjegyzés, GitHub review-beküldés,
+beágyazott review-megjegyzés vagy review-szál. A `25910947` aktív szabályzat
+a három platformellenőrzést és a review-szálak lezárását követeli; jóváhagyásból
+nullát ír elő. Kvótahiba nem jelent meg, megkerülés nem történt.
 
-## Aktuális jelölt — korlátozott SCI TX-megfigyelés — #314 jelölt — 2026-11-18
+A #314 korlátozott, bekapcsolható SCI-kimenetiszint-megfigyelőt ad a firmware-
+vizsgálóhoz. Legfeljebb 4096 csatorna/szint/ciklus/sorrend eseményt és
+túlcsordulásszámot rögzít; az ismétlődő, azonos szintű hívásokat elnyomja. Ez
+csak soros vonalszint-adat, nem MIDI-dekódolás vagy fizikai UART-ellenőrzés.
+A PR-fejen a helyi CTest 140/140 eredménnyel, az adattár-audit és a
+licenclefedettség sikerült. Ehhez a jelölthöz friss firmware-futás nem készült;
+ROM-ot nem módosítottunk és nem töltöttünk fel.
 
-Az aktív ág opcionális `--observe-sci-tx` diagnosztikát ad: legfeljebb 4096
-SCI-kimeneti szintváltozást rögzít, csatornánkénti elsőszint-jelölővel,
-ciklussal/sorrenddel, ismétléselnyomással és túlcsordulásszámmal. A pontos
-szintetikus tesztek a kimeneti keretet, a csatorna/szint/ciklus adatokat, az
-1/8/64 ciklusos szeletelést, a megfigyelő ki/be kapcsolása melletti futásazonosságot,
-a duplikált kapcsoló elutasítását és a korlátot vizsgálják. A teljes helyi CTest
-140/140 eredménnyel, az adattár-audit és a licenclefedettség sikerült. A nyom
-soros vonalszinteket mér, nem dekódol MIDI-t, és nem igazol firmware-t,
-hardvert, hangot vagy REAPER-elfogadást. A PR CI-je, review-ja és beolvadása még
-függőben van.
+Következő lépés: az új megfigyelőt friss, csak olvasó helyi firmware-próbában
+használni a pontos főágon, változatlan külső képpel és rögzített projektprofillal.
+A korlátos nyom, a szeletméret és a megfigyelő be/ki kapcsolása közötti
+azonosságot ellenőrizni kell. A vonalszintek önmagukban nem MIDI-dekódolás,
+boot-, hardver-, DSP-, hang- vagy REAPER-elfogadás.
 
 ## Friss szintetikus ADC-szkennelési firmware-vizsgálat — 2026-11-17
 
