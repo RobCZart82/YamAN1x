@@ -1,26 +1,38 @@
-# PR #314 candidate — bounded opt-in SCI TX observation — 2026-11-18
+## PR #314 merge and exact-main verification — 2026-11-20
 
-The candidate adds `--observe-sci-tx` to the bounded boot probe. Its observer
-retains at most 4,096 transitions, records each channel's first observed output
-level and later changes with cycle/order, suppresses repeated same-level
-callbacks, and counts transitions not retained after the bound. The default
-report remains `null`; this reports serial levels, not decoded MIDI or audio.
+PR [#314](https://github.com/RobCZart82/YamAN1x/pull/314) was squash-merged at
+`2026-11-20T16:18:16Z`, from exact head
+`259575202cec7bec5452e7f17a756578c205fc69` to main `ede7a1bc56a3502ad47b3e76127d0e1f83e3f870`. PR-head ROM-free Linux/macOS/Windows checks
+passed in run `44199714607` (jobs `134450359393`, `134450359355`,
+`134450358989`); initial-decode MSan passed in `44199714385`
+(`134450358364`); MAME research passed in `44199714367`
+(`134450358493`).
 
-Synthetic CLI checks verify a CPU-driven SCI frame, exact channel/level/cycle
-records, 1/8/64-cycle slicing invariance, disabled/enabled run-output invariance,
-duplicate-option rejection and no effect on the input image. A direct observer
-test verifies separate channel baselines, exact events, repeat suppression,
-invalid-channel rejection, fixed capacity and overflow count. Build plus focused
-checks passed. Full CTest passed 140/140; repository audit verified 702 files
-and 201 upstream files; license coverage passed for 232 files and 5 license
-texts. The first full CTest attempt caught an unlisted new production header;
-the implementation was moved into the already-covered boot-probe source, so no
-license decision or coverage-manifest change was made. The rerun passed.
+All five checks passed on exact main `ede7a1bc56a3502ad47b3e76127d0e1f83e3f870`: ROM-free Linux/macOS/Windows
+run `44772033660` (jobs `136411908454`, `136411908397`, `136411907847`),
+initial-decode MSan run `44772033696` (`136411907679`) and MAME research
+run `44772033600` (`136411908644`). The Ubuntu job's extended UBSan/ASan
+steps passed.
 
-The candidate is based on exact main `cd802959f72f5400bccc3a535ed6b53f16a246b5`.
-PR-head CI, review diagnostics and merge status are pending. No firmware run was
-performed for this candidate; it makes no firmware-boot, MIDI, DSP, hardware,
-audio or REAPER acceptance claim. ROMs remain untouched and outside Git.
+No Codex review summary/comment, GitHub review submission, inline review comment
+or review thread was present. Ruleset `25910947` requires three platform checks
+and resolved threads, with zero approvals. No quota failure was reported and no
+bypass was used.
+
+The bounded `--observe-sci-tx` feature records no more than 4,096 SCI output
+level transitions, with per-channel first-level state, cycle/order, repeated
+level suppression and an overflow count. Synthetic validation covered exact
+frames/levels/cycles, 1/8/64-cycle slicing, observer-on/off execution invariance,
+duplicate-option rejection and overflow. Local full CTest passed 140/140;
+repository audit (702 files, 201 upstream identities) and license coverage
+(232 files, five license texts) passed. The implementation required no license
+choice or license-coverage manifest change.
+
+No fresh firmware run was performed for #314. No ROM was changed or uploaded.
+Next: perform a fresh read-only exact-main firmware probe with the unchanged
+external image and explicit project profile, using the new observer to retain
+bounded SCI line-level evidence. This does not decode MIDI or establish boot,
+hardware, DSP, audio or REAPER acceptance.
 
 ## PR #313 merge and exact-main checks — 2026-11-17
 
