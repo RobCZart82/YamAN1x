@@ -7145,5 +7145,47 @@
     "merged_at_utc": "2026-11-17T22:27:53Z",
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
-  "current_candidate": null
+  "current_candidate": null,
+  "sci_tx_firmware_diagnostic_20261120": {
+    "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
+    "binary_sha256": "a48643b6ea1fdd30afa969b96b5c73632683d4c84651ee25619b11309cc3ed0a",
+    "slice_differences": [
+      "completed_slice_callbacks"
+    ],
+    "observer_differences": [
+      "sci_tx_observations"
+    ],
+    "events": 238,
+    "dropped": 0,
+    "first": {
+      "channel": 1,
+      "cycle": 127846336,
+      "level": false,
+      "first_observation": true
+    },
+    "last": {
+      "channel": 1,
+      "cycle": 597556608,
+      "level": true,
+      "first_observation": false
+    },
+    "reports": {
+      "scan0-1m-off.json": "632bc24f0aab39f3fc06b6784a8e8d8fb59661501039f0fb60bb1b26ae604792",
+      "scan0-4096-on.json": "b3d296855a8868e372f541c4b3aeadbc565bd03dedd356a26f288b97ff4ce85e",
+      "scan0-1m-on.json": "c8eeb946b1290452ceb5b5856c66e5f6eecf5a944ed5abb947f453c95185ce05"
+    },
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "requested_cycles": 600000000,
+    "acceptance": "Bounded line-level project-profile evidence only; firmware_boot_accepted and audio_accepted remain false."
+  }
 }

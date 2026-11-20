@@ -2,6 +2,32 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## Fresh bounded SCI TX firmware evidence — 2026-11-20
+
+Three read-only probes used exact source `746697354478a403af47f6438e7b9d3eb58b51ce`,
+probe SHA-256 `a48643b6ea1fdd30afa969b96b5c73632683d4c84651ee25619b11309cc3ed0a`,
+and unchanged external AN1x 1.04 image SHA-256
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe`.
+They used `swap16`, `lcd-meg-vop3-idle-panel-experiment-16mhz`, eight explicit
+zero ADC samples, the TSTR observer, 600,000,000 cycles and a 100,000,000
+callback limit. SCI observation was enabled at 1,000,000- and 4,096-cycle
+slices, then disabled at 1,000,000-cycle slices. All exited successfully at
+the cycle limit without CPU failure. The enabled runs retained identical 238
+SCI channel-1 events with zero drops, from low at cycle 127,846,336 to high at
+597,556,608. Across slice sizes only `completed_slice_callbacks` differed;
+with observation disabled only `sci_tx_observations` differed.
+
+Reports remain outside Git in `/private/tmp/yaman1x-sci-probes/`.
+- `scan0-1m-off.json`: SHA-256 `632bc24f0aab39f3fc06b6784a8e8d8fb59661501039f0fb60bb1b26ae604792`.
+- `scan0-4096-on.json`: SHA-256 `b3d296855a8868e372f541c4b3aeadbc565bd03dedd356a26f288b97ff4ce85e`.
+- `scan0-1m-on.json`: SHA-256 `c8eeb946b1290452ceb5b5856c66e5f6eecf5a944ed5abb947f453c95185ce05`.
+
+The input image stayed unchanged. These are serial line levels under an explicit
+synthetic project profile. MIDI decoding, physical UART/hardware equivalence,
+firmware boot, DSP, audio and REAPER acceptance remain unestablished; both
+acceptance flags remained false. The original MAME reference remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; no fresh MAME run is claimed.
+
 ## Current verified main — PR #314 — 2026-11-20
 
 PR [#314](https://github.com/RobCZart82/YamAN1x/pull/314) was squash-merged at
