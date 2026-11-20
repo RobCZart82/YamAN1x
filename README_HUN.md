@@ -4,6 +4,22 @@ A YamAN1x a Yamaha AN1x hangszer firmware-alapú emulációját kutató projekt.
 
 Az adattár dokumentációja nyelvenként külön fájlban található: az angol dokumentumok nem tartalmaznak magyar prózát, a magyar összefoglalók pedig külön `_HUN.md` fájlokban találhatók. Az angol dokumentáció a kanonikus műszaki leírás. A gyökérben lévő `README.md` angolul tartalmazza a projekt bemutatását és állapotát. A részletes MAME-kutatási útmutató a [külön magyar fájlban](research/README_HUN.md) található. A korábbi magyar nyelvű dokumentumrészeket a [külön magyar archívum](docs/HUNGARIAN_NOTES_HUN.md) őrzi.
 
+## Friss, korlátozott SCI TX firmware-vizsgálat — 2026-11-20
+
+A `746697354478a403af47f6438e7b9d3eb58b51ce` forrásból három csak olvasó
+próba készült a változatlan AN1x 1.04 ROM-mal, `swap16` nézettel,
+`lcd-meg-vop3-idle-panel-experiment-16mhz` projektprofillal és nyolc nulla
+ADC-bemenettel. Mindegyik elérte a 600 millió ciklust CPU-hiba nélkül.
+Az SCI-megfigyelő 1 000 000 és 4096 ciklusos szeleteléssel ugyanazt a 238,
+1-es csatornához tartozó eseményt rögzítette, eldobás nélkül. Az első alacsony
+szint a 127 846 336., az utolsó magas szint az 597 556 608. ciklusnál volt.
+A szeletméret csak a befejezett callbackek számát változtatta; a megfigyelő
+kikapcsolása csak a megfigyelési mezőt. A teljes mérési azonosságok és jelentés-
+hash-ek az angol dokumentumban és a strukturált naplóban szerepelnek.
+A ROM változatlan maradt. Ez szintetikus részprofil soros vonalszint-eredménye;
+a MIDI-dekódolás, fizikai UART, teljes boot, hardveregyezés, DSP, hang és
+REAPER-elfogadás továbbra is nyitott. Friss MAME-futás nem készült.
+
 ## Ellenőrzött főági alap — #314 — 2026-11-20
 
 A [#314 PR](https://github.com/RobCZart82/YamAN1x/pull/314) squash módszerrel
