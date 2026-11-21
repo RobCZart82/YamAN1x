@@ -2,6 +2,23 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## SCI register write and output capture — 2026-11-21
+
+Two read-only runs on `11d3f0e421705c1e3ad48860d4884950fe033db1` used the idle panel profile
+with eight zero ADC inputs, `swap16`, all three observers, and 600 million
+cycles. The 1,000,000- and 4,096-cycle slices produced identical traces.
+Only the completed callback count differed. Both reached the cycle limit
+without CPU failure. Both acceptance flags stayed false.
+
+The register write trace retained 256 writes through cycle 143,205,628 and
+counted 7,073 later writes beyond capacity. The output trace retained all 238
+events. Use a focused write capture to study later output events. This result
+applies to the bounded project profile. The existing MAME source lock remains
+the reference, with no fresh comparison run for these captures.
+
+Source, executable, input and report hashes are recorded in the
+[development ledger](development-ledger.json).
+
 ## Fresh bounded SCI TX firmware evidence — 2026-11-20
 
 Three read-only probes used exact source `746697354478a403af47f6438e7b9d3eb58b51ce`,
