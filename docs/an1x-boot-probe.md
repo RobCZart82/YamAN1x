@@ -2,6 +2,11 @@
 
 ## Optional SCI register write observation
 
+Use `--observe-sci-writes=FIRST:LAST` to restrict recording to an inclusive
+range of bus cycles. Each endpoint is an integer from 0 through 600,000,000.
+Writes outside the selected range use no capacity and do not count as drops.
+Supply only one SCI write observation option per run.
+
 Enable `--observe-sci-writes` to record up to 256 successful CPU byte writes
 to the two SCI register ranges `0xFFFFB0–0xFFFFB5` and `0xFFFFB8–0xFFFFBD`.
 The report records address, value and bus cycle and counts discarded records
