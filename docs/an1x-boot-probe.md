@@ -108,7 +108,7 @@ boot, MIDI, DSP, audio or REAPER acceptance.
 
 The exact-main probe and run parameters, four report hashes, scan counts,
 first-sample cycles, TSTR trace and explicit limits are recorded in
-[the current verified main summary](../README.md#fresh-synthetic-adc-scan-firmware-diagnostic--2026-11-17).
+[the current verified main summary](STATUS.md#fresh-synthetic-adc-scan-firmware-diagnostic--2026-11-17).
 The four invocations cover two eight-channel constant synthetic profiles
 (0 and 1023) at two slice sizes (1,000,000 and 4,096 cycles). For each profile,
 all trace and output fields stayed invariant across slice sizes except the
