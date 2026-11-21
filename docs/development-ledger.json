@@ -7145,7 +7145,14 @@
     "merged_at_utc": "2026-11-17T22:27:53Z",
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
-  "current_candidate": null,
+  "current_candidate": {
+    "status": "candidate",
+    "branch": "feat/bounded-sci-write-observer-20261121",
+    "base_commit": "10b277ede0a15ff94270dae54cabf65117e5d058",
+    "scope": "Bounded opt-in observation of successful SCI byte writes",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "validation": "Focused CTest 2/2 passed; GitHub CI and merge pending."
+  },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
     "binary_sha256": "a48643b6ea1fdd30afa969b96b5c73632683d4c84651ee25619b11309cc3ed0a",

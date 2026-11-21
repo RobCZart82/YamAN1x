@@ -42,6 +42,26 @@ private:
  std::array<std::optional<bool>,2> last_level{};
  std::size_t count=0,dropped_count=0;
 };
+// Records successful byte writes only; callers invoke this after bus completion.
+class An1xSciWriteObserver {
+public:
+ static constexpr std::size_t capacity=256;
+ struct Event {
+  uint32_t address;uint8_t value;uint64_t cycle;
+  friend bool operator==(const Event&,const Event&)=default;
+ };
+ void write(uint32_t raw,uint8_t value,uint64_t cycle){
+  const auto address=raw&0xffffff;
+  if(!((address>=0xffffb0&&address<=0xffffb5)||(address>=0xffffb8&&address<=0xffffbd)))return;
+  if(count==events.size()){++dropped_count;return;}
+  events[count++]={address,value,cycle};
+ }
+ std::span<const Event> retained()const{return {events.data(),count};}
+ std::size_t dropped()const{return dropped_count;}
+private:
+ std::array<Event,capacity> events{};
+ std::size_t count=0,dropped_count=0;
+};
 struct CpuContext {uint32_t pc=0,ppc=0,state=0,substate=0;uint8_t ccr=0;};
 struct TstrObservation {
  uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
@@ -100,6 +120,7 @@ struct Host {
  yamanix::An1xSciBus<Sink> bus;
  bool fault=false;const char*kind="none";uint32_t address=0;unsigned width=0;
  bool fault_has_value=false;uint16_t fault_value=0;
+ bool observe_sci_writes=false;An1xSciWriteObserver sci_writes;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
  Host(std::span<const uint8_t>rom,Sink&s,bool observe=false):bus(rom,{},s),observe_tstr(observe){}
@@ -138,7 +159,7 @@ struct Host {
  uint16_t read_instruction_word(uint32_t a){return access("instruction_read",a,2,[&]{return bus.read_instruction_word(a);});}
  uint8_t read_byte(uint32_t a){return access("data_read",a,1,[&]{return bus.read_byte(a);});}
  uint16_t read_word(uint32_t a){return access("data_read",a,2,[&]{return bus.read_word(a);});}
- void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);observe_tstr_write(a,v);},v);}
+ void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);observe_tstr_write(a,v);if(observe_sci_writes)sci_writes.write(a,v,bus.cycle());},v);}
  void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);},v);}
  void bus_cycle(uint64_t t){bus.bus_cycle(t);}
  uint64_t update(uint64_t t){return bus.update(t);}
@@ -190,15 +211,16 @@ std::vector<uint8_t>load(const char*path){
 #ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>10)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx]");
+  if(argc<6||argc>11)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false,observe_sci_tx=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
+  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
    else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
+   else if(option=="--observe-sci-writes"){if(observe_sci_writes)throw std::invalid_argument("Duplicate SCI write observer option");observe_sci_writes=true;}
    else if(option=="--observe-sci-tx"){if(observe_sci_tx)throw std::invalid_argument("Duplicate SCI TX observer option");observe_sci_tx=true;}
    else if(option=="lcd-16mhz"||option=="lcd-meg-observe-16mhz"||
            option=="lcd-meg-source-stubs-16mhz"||option=="lcd-meg-vop3-register-experiment-16mhz"||
@@ -218,7 +240,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr);yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr);host.observe_sci_writes=observe_sci_writes;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -259,6 +281,15 @@ int main(int argc,char**argv){
    std::cout<<'}';}
   else std::cout<<"null";
   std::cout<<",\"tstr_observations\":";host.write_tstr_observations();
+  std::cout<<",\"sci_write_observations\":";
+  if(!observe_sci_writes)std::cout<<"null";
+  else{
+   std::cout<<"{\"capacity\":"<<An1xSciWriteObserver::capacity<<",\"dropped\":"<<host.sci_writes.dropped()<<",\"events\":[";
+   bool first=true;for(const auto&e:host.sci_writes.retained()){
+    if(!first)std::cout<<',';first=false;
+    std::cout<<"{\"address\":"<<e.address<<",\"value\":"<<unsigned(e.value)<<",\"cycle\":"<<e.cycle<<'}';
+   }std::cout<<"]}";
+  }
   std::cout<<",\"sci_tx_observations\":";
   if(!observe_sci_tx)std::cout<<"null";
   else{

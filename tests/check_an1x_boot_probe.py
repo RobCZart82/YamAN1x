@@ -103,6 +103,25 @@ def main(binary):
                     "SCI TX trace is invariant under CPU slice partitioning")
         code_dup, report_dup = run([64,8,10000], extra=("--observe-sci-tx","--observe-sci-tx"))
         require(code_dup == 1 and report_dup["status"] == "input_error", "Reject duplicate SCI TX observer option")
+        require(report_off["sci_write_observations"] is None, "SCI write observer is opt-in")
+        for size in (1, 8, 64):
+            code, traced = run([1000,size,10000], extra=("--observe-sci-writes",))
+            writes = traced["sci_write_observations"]
+            events = writes["events"]
+            require(code == code_off and writes["dropped"] == 0 and
+                    [(e["address"], e["value"]) for e in events[:3]] ==
+                    [(0xffffb1, 0), (0xffffb2, 0x20), (0xffffb3, 0xa5)] and
+                    len(events) == 4 and events[-1]["address"] == 0xffffb4,
+                    "Capture the four CPU writes to the SCI byte registers")
+            require(all(a["cycle"] < b["cycle"] for a,b in zip(events,events[1:])),
+                    "SCI writes are recorded in cycle order")
+            if size == 1:
+                write_reference = writes
+            require(writes == write_reference, "SCI write trace is invariant across slices")
+            if size == 8:
+                traced.pop("sci_write_observations")
+                require(traced == {k:v for k,v in report_off.items() if k != "sci_write_observations"},
+                        "SCI write observation leaves the rest of the report unchanged")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
