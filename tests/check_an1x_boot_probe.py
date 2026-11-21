@@ -122,6 +122,17 @@ def main(binary):
                 traced.pop("sci_write_observations")
                 require(traced == {k:v for k,v in report_off.items() if k != "sci_write_observations"},
                         "SCI write observation leaves the rest of the report unchanged")
+        first, last = write_reference["events"][1:3]
+        option = f'--observe-sci-writes={first["cycle"]}:{last["cycle"]}'
+        for size in (1, 8, 64):
+            code, report = run([1000, size, 10000], extra=(option,))
+            require(code == code_off and report["sci_write_observations"]["events"] == [first, last]
+                    and report["sci_write_observations"]["dropped"] == 0,
+                    "An inclusive cycle window retains exactly the selected SCI writes")
+        for options in (("--observe-sci-writes=5:4",), ("--observe-sci-writes=0:",),
+                        ("--observe-sci-writes", option), ("--observe-sci-writes=0:600000001",)):
+            code, report = run([1000, 8, 10000], extra=options)
+            require(code == 1 and report["status"] == "input_error", "Reject invalid SCI cycle windows")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
