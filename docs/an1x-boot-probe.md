@@ -1,5 +1,15 @@
 # An1X Boot Probe
 
+## Optional SCI register write observation
+
+Enable `--observe-sci-writes` to record up to 256 successful CPU byte writes
+to the two SCI register ranges `0xFFFFB0–0xFFFFB5` and `0xFFFFB8–0xFFFFBD`.
+The report records address, value and bus cycle and counts discarded records
+after the limit. With the option disabled, `sci_write_observations` is null.
+Word writes are outside this observation. The register map reference is the
+pinned MAME source described in [SCI MMIO and IRQ](h83002-sci-mmio-irq.md).
+The trace supports comparison with SCI output levels under a bounded profile.
+
 ## Bounded SCI transmit-level observer — PR #314 candidate
 
 The opt-in `--observe-sci-tx` probe option retains at most 4,096 SCI transmit
