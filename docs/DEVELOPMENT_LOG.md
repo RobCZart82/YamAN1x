@@ -1,3 +1,45 @@
+## First SCI1 frame cross-check — 2026-11-22
+
+The 4,096-cycle and 1,000,000-cycle captures both give a 512-cycle bit period
+from the observed SCI1 mode and baud registers in the supported internal
+asynchronous profile. Sampling the first frame at bit centers gives
+`0 0 0 0 0 0 1 1 1 1`, including the start and stop levels. The data bits,
+least significant first, give `0xE0`, matching the first retained TDR write.
+This is evidence for the emulated frame in this profile. Firmware MIDI
+handling, hardware agreement and audio remain open.
+
+Save the following verifier and pass the directory containing the earlier
+baseline and first-window JSON reports. The report hashes are in the ledger.
+
+```python
+import json
+from pathlib import Path
+import sys
+
+directory = Path(sys.argv[1])
+for size in (4096, 1000000):
+    baseline = json.loads((directory / f"{size}.json").read_bytes())
+    window = json.loads((directory / f"first-tx-window-{size}.json").read_bytes())
+    trace = window["sci_tx_observations"]
+    edges = [event for event in trace["events"] if event["channel"] == 1]
+    start = edges[0]["cycle"]
+    regs = {event["address"]: event["value"]
+            for event in baseline["sci_write_observations"]["events"]
+            if event["cycle"] < start}
+    if trace["dropped"] or regs[0xffffb8] != 0 or regs[0xffffb9] != 15:
+        raise SystemExit("Unexpected SCI1 trace or configuration")
+    period = 32 * (regs[0xffffb9] + 1)
+    levels = [int(next(event["level"] for event in reversed(edges)
+                       if event["cycle"] <= start + slot * period + period // 2))
+              for slot in range(10)]
+    decoded = sum(bit << index for index, bit in enumerate(levels[1:9]))
+    source = next(event for event in window["sci_write_observations"]["events"]
+                  if event["address"] == 0xffffbb)
+    if levels[0] != 0 or levels[-1] != 1 or decoded != source["value"] or decoded != 0xe0:
+        raise SystemExit("First SCI1 frame did not match its TDR value")
+    print(size, period, levels, hex(decoded))
+```
+
 ## Merge reconciliation — PRs #315–321
 
 The structured ledger records the seven merged PRs, their tested heads and
