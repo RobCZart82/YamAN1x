@@ -1,3 +1,10 @@
+## Merge reconciliation — PRs #315–321
+
+The structured ledger records the seven merged PRs, their tested heads and
+their merge commits. The recorded GitHub checks passed for all seven heads
+and their corresponding main commits. This closes the stale SCI write observer
+candidate entry. See [the structured ledger](development-ledger.json).
+
 ## First SCI output window — 2026-11-21
 
 Two local runs on `ba6e7787075db82374202f167cf9392f41659536` reached

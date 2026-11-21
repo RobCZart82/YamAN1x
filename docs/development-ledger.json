@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-20",
+  "recorded_date": "2026-11-21",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "ede7a1bc56a3502ad47b3e76127d0e1f83e3f870",
+  "baseline_commit": "9d96272694adae779ebfb622b3f9836654cf14ea",
   "entries": [
     {
       "pr": 6,
@@ -7025,6 +7025,157 @@
       "review": "No Codex review summary/comment, GitHub review submission, inline review comment or review thread was present. Active ruleset 25910947 required three platform checks, resolved review threads and zero approvals. No quota failure was reported and no merge bypass was used.",
       "scope": "Add a bounded opt-in SCI output-level observer to the firmware probe, capped at 4,096 transitions with per-channel first-level state, cycle/order and overflow accounting; repeated same-level callbacks are suppressed. Synthetic checks cover exact output, slicing invariance and observer-on/off run invariance.",
       "acceptance": "Bounded serial line-level diagnostic only. No MIDI decoding, physical UART, complete firmware boot, DSP, audio or REAPER acceptance."
+    },
+    {
+      "pr": 315,
+      "title": "docs: reconcile PR #314 merge and verified main",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/315",
+      "status": "merged",
+      "head_commit": "e6901e47a2e3741efecfbb9e1336878b79a3c47b",
+      "merge_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
+      "merged_at_utc": "2026-11-20T17:36:27Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (macos-14)": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      }
+    },
+    {
+      "pr": 316,
+      "title": "docs: record bounded SCI TX firmware evidence",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/316",
+      "status": "merged",
+      "head_commit": "4c05b7ec796711b039de9a1c376f7698c7334570",
+      "merge_commit": "10b277ede0a15ff94270dae54cabf65117e5d058",
+      "merged_at_utc": "2026-11-20T20:36:20Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      }
+    },
+    {
+      "pr": 317,
+      "title": "Observe bounded SCI byte writes in the boot probe",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/317",
+      "status": "merged",
+      "head_commit": "ec044ecc21c2c87ffbd9d6f17e677480c1db980d",
+      "merge_commit": "2690fb0eae1fb751ff2cf57337a3fe28790010b7",
+      "merged_at_utc": "2026-11-21T12:40:50Z",
+      "pr_head_checks": {
+        "research-macos": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "research-macos": "success",
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (ubuntu-24.04)": "success"
+      }
+    },
+    {
+      "pr": 318,
+      "title": "Make the README easier for musicians to read",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/318",
+      "status": "merged",
+      "head_commit": "90c6fbf4832c2d826ba6f5724d0efb64614ca903",
+      "merge_commit": "11d3f0e421705c1e3ad48860d4884950fe033db1",
+      "merged_at_utc": "2026-11-21T13:58:38Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (ubuntu-24.04)": "success"
+      }
+    },
+    {
+      "pr": 319,
+      "title": "Record the SCI register and output capture",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/319",
+      "status": "merged",
+      "head_commit": "2642ac9e129e5fd1c2d8151f00212f5856490455",
+      "merge_commit": "ecc8d491d3550d614a3fdc6f119eb7fa65f84f06",
+      "merged_at_utc": "2026-11-21T15:51:44Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (windows-2025)": "success"
+      }
+    },
+    {
+      "pr": 320,
+      "title": "Filter SCI register observations by bus cycle",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/320",
+      "status": "merged",
+      "head_commit": "391f6e306d6228ea85f9894b272b569f7bf502c4",
+      "merge_commit": "ba6e7787075db82374202f167cf9392f41659536",
+      "merged_at_utc": "2026-11-21T17:32:11Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "initial-decode-msan": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "research-macos": "success"
+      }
+    },
+    {
+      "pr": 321,
+      "title": "Record the first SCI transmit window",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/321",
+      "status": "merged",
+      "head_commit": "ca7b1f9910a2b435ba6a595b37a0a28d7a353410",
+      "merge_commit": "9d96272694adae779ebfb622b3f9836654cf14ea",
+      "merged_at_utc": "2026-11-21T20:48:02Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "initial-decode-msan": "success"
+      }
     }
   ],
   "pending_changes": [],
@@ -7145,14 +7296,7 @@
     "merged_at_utc": "2026-11-17T22:27:53Z",
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
-  "current_candidate": {
-    "status": "candidate",
-    "branch": "feat/bounded-sci-write-observer-20261121",
-    "base_commit": "10b277ede0a15ff94270dae54cabf65117e5d058",
-    "scope": "Bounded opt-in observation of successful SCI byte writes",
-    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "validation": "Focused CTest 2/2 passed; GitHub CI and merge pending."
-  },
+  "current_candidate": null,
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
     "binary_sha256": "a48643b6ea1fdd30afa969b96b5c73632683d4c84651ee25619b11309cc3ed0a",
