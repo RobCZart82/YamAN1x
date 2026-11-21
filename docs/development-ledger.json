@@ -7194,5 +7194,35 @@
     ],
     "requested_cycles": 600000000,
     "acceptance": "Bounded line-level project-profile evidence only; firmware_boot_accepted and audio_accepted remain false."
+  },
+  "sci_write_firmware_diagnostic_20261121": {
+    "source_commit": "11d3f0e421705c1e3ad48860d4884950fe033db1",
+    "probe_sha256": "4163974e7fa483fb3954fd05ee758d1fb82216f4da31fd0d5d45a9de1f52a959",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "rom_view": "swap16",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "requested_cycles": 600000000,
+    "callback_limit": 100000000,
+    "report_sha256_by_slice": {
+      "1000000": "56a99fe158f9dfade3a721ef4eee412a8bfdd6cbd4e825e227e9dedf156068aa",
+      "4096": "0c11f829b15623067ded1d078a01859bc716c3b0dfb8de96234eb562402b9455"
+    },
+    "retained_register_writes": 256,
+    "dropped_register_writes": 7073,
+    "last_retained_write_cycle": 143205628,
+    "line_events": 238,
+    "dropped_line_events": 0,
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }
