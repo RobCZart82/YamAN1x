@@ -7224,5 +7224,38 @@
     "dropped_line_events": 0,
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "sci_first_tx_window_20261121": {
+    "source_commit": "ba6e7787075db82374202f167cf9392f41659536",
+    "probe_sha256": "d400376b173d5ae5bfdf3735b383a29137a8f9d026aca2ab3f77ba1d458110bb",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "rom_view": "swap16",
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "requested_cycles": 128310000,
+    "callback_limit": 100000000,
+    "write_window": [
+      127800000,
+      128310000
+    ],
+    "report_sha256_by_slice": {
+      "1000000": "604c00d496bdf8a7fa73bbc3d1ab1458fbc85584e4dae861d8a86cd24f72a1cf",
+      "4096": "c917e1e1be60163a07a512f999ec40f919629d0c4e1d02766e685cd8b85ec17c"
+    },
+    "register_writes": 23,
+    "output_events": 14,
+    "dropped_register_writes": 0,
+    "dropped_output_events": 0,
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }

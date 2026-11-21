@@ -1,3 +1,19 @@
+## First SCI output window — 2026-11-21
+
+Two local runs on `ba6e7787075db82374202f167cf9392f41659536` reached
+128,310,000 cycles without CPU failure. Both observed SCI output and TSTR
+and captured SCI writes from cycle 127,800,000 through 128,310,000. The
+4,096-cycle and 1,000,000-cycle slices produced the same traces, including
+23 register writes and 14 output events with zero drops. Only the completed
+callback count differed. The first retained SCI1 transmit data write was
+`0xE0` to `0xFFFFBB` at cycle 127,846,279. The first observed SCI1 low
+level followed at cycle 127,846,336.
+
+The structured ledger records the profile, ROM identity, executable and
+report hashes. The original MAME reference remains pinned at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. This measures a bounded project
+profile. Hardware equivalence, full firmware boot and audio remain open.
+
 ## SCI register write and output capture — 2026-11-21
 
 Two read-only runs on `11d3f0e421705c1e3ad48860d4884950fe033db1` used the idle panel profile
