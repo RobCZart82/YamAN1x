@@ -62,6 +62,19 @@ private:
  std::array<Event,capacity> events{};
  std::size_t count=0,dropped_count=0;
 };
+// MIDI at 31,250 bits/s on the probe's 16 MHz timeline. RXD0 is MIDI IN.
+constexpr uint64_t midi_bit_cycles=512;
+using MidiByteSchedule=std::array<yamanix::SciCycleTimeline::RxEvent,10>;
+MidiByteSchedule schedule_midi_byte(uint64_t start,uint8_t byte){
+ if(start==0||start>max_probe_cycles-10*midi_bit_cycles)
+  throw std::invalid_argument("MIDI byte must fit within the probe cycle range");
+ MidiByteSchedule events{};
+ events.front()={start,0,false};
+ for(unsigned bit=0;bit<8;++bit)
+  events[bit+1]={start+(bit+1)*midi_bit_cycles,0,bool(byte&(1u<<bit))};
+ events.back()={start+9*midi_bit_cycles,0,true};
+ return events;
+}
 struct CpuContext {uint32_t pc=0,ppc=0,state=0,substate=0;uint8_t ccr=0;};
 struct TstrObservation {
  uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
@@ -124,7 +137,7 @@ struct Host {
  uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
- Host(std::span<const uint8_t>rom,Sink&s,bool observe=false):bus(rom,{},s),observe_tstr(observe){}
+ Host(std::span<const uint8_t>rom,Sink&s,bool observe=false,std::span<const yamanix::SciCycleTimeline::RxEvent> input={}):bus(rom,input,s),observe_tstr(observe){}
  void observe_cpu_dispatch(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
   if(!observe_tstr)return;
   cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
@@ -212,15 +225,30 @@ std::vector<uint8_t>load(const char*path){
 #ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>11)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]]");
+  if(argc<6||argc>12)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
+  std::optional<MidiByteSchedule> midi;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
+   else if(option.starts_with("--midi-byte=")){
+    if(midi)throw std::invalid_argument("Duplicate MIDI byte");
+    const std::string fields(option.substr(12));
+    const auto separator=fields.find(':');
+    if(separator==std::string::npos)throw std::invalid_argument("Expected MIDI CYCLE:BYTE");
+    const auto start=number(fields.substr(0,separator).c_str(),max_probe_cycles);
+    const auto digits=std::string_view(fields).substr(separator+1);
+    unsigned byte=0;
+    const auto [end,error]=std::from_chars(digits.data(),digits.data()+digits.size(),byte);
+    if(error!=std::errc{}||end!=digits.data()+digits.size()||byte>255||
+       cycles<10*midi_bit_cycles||start>cycles-10*midi_bit_cycles)
+     throw std::invalid_argument("Invalid MIDI byte or frame exceeds requested cycles");
+    midi=schedule_midi_byte(start,uint8_t(byte));
+   }
    else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
    else if(option=="--observe-sci-writes"){if(observe_sci_writes)throw std::invalid_argument("Duplicate SCI write observer option");observe_sci_writes=true;}
    else if(option.starts_with("--observe-sci-writes=")){
@@ -259,7 +287,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr);host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -292,6 +320,7 @@ int main(int argc,char**argv){
   std::cout
    <<",\"audio_accepted\":false"
    <<",\"firmware_boot_accepted\":false,\"rom_view\":"<<std::quoted(view)<<",\"reset_target\":"<<reset_target<<",\"cycles_requested\":"<<cycles<<",\"completed_slice_cycles\":"<<completed
+   <<",\"midi_input_events_consumed\":"<<host.bus.consumed_input()
    <<",\"completed_slice_callbacks\":"<<calls<<",\"peripheral_cycle\":"<<host.bus.cycle()
    <<",\"pc\":"<<state.pc<<",\"instruction_state\":"<<state.state<<",\"instruction_substate\":"<<state.substate
    <<",\"cpu_failed\":"<<(cpu.failed()?"true":"false")<<",\"fault_access\":";

@@ -47,7 +47,11 @@ Arguments are total requested cycles,slice cycles,global callback limit,and view
 Strict positive integer caps:600000000/1000000/125000000. No implicit GPIO input,
 MIDI,PKS,LCD or DSP response is invented:an external GPIO read fails closed.
 Output notifications are only counted;they do not emulate attached hardware.
-No RX input schedule is supplied by this initial CLI.
+An optional `--midi-byte=CYCLE:BYTE` schedules one SCI0 (RXD0) frame at
+31,250 bits/s on the 16 MHz project timeline. Use decimal values and allow
+the complete frame to fit within the cycle budget. The consumed input count
+reports scheduler delivery. The [MIDI input reference](midi-input-milestone.md)
+describes the RXD0 route used by the separate MAME research target.
 
 ## Optional FFFF60 TSTR write observer
 

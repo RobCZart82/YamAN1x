@@ -58,6 +58,11 @@ int main() {
     for(unsigned i=0;i<257;++i)writes.write(0xffffb3,0x55,30+i);
     check(writes.retained().size()==256 && writes.dropped()==3,
           "SCI write storage is bounded and counts every lost record");
+    const auto midi=schedule_midi_byte(17,0xa5);
+    constexpr bool levels[]{false,true,false,true,false,false,true,false,true,true};
+    for(unsigned i=0;i<midi.size();++i)
+        check(midi[i].cycle==17+512*i && midi[i].channel==0 && midi[i].level==levels[i],
+              "MIDI RXD0 frame has exact baud, bit order and framing");
     std::printf("AN1x SCI TX observer: exact line changes, per-channel baseline and %zu-event bound: %u failures\n",
                 Observer::capacity, failures);
     return failures ? 1 : 0;
