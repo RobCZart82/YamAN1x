@@ -1,3 +1,19 @@
+## SCI0 MIDI receive diagnostic — 2026-11-22
+
+On `d73408cc4ebdb528fbabd22db0d8f2c33c077b67`, two local runs reached
+140 million cycles without CPU failure. The test scheduled `0xF8` at
+cycle 128,000,000. Only the delivery counter differed from the control
+run, rising from 0 to 10. Neither run recorded an SCI0 SSR or RDR byte
+read or a combined SSR/RDR word read. The captured SCI0 byte writes were
+SMR `0x00` at 475, SCR `0x00` at 483 and BRR `0x0F` at 491.
+Neither the read nor the write observer dropped events.
+
+The project profile demonstrates input line delivery to the emulated SCI0
+timeline. Firmware MIDI handling, full boot and audio remain open. The
+[development ledger](development-ledger.json) records the run parameters
+and hashes. The original MAME source lock remains the comparison reference.
+The next question is when firmware enables SCI0 reception.
+
 ## First SCI1 frame cross-check — 2026-11-22
 
 The 4,096-cycle and 1,000,000-cycle captures both give a 512-cycle bit period
