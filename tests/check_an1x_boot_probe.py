@@ -155,6 +155,12 @@ def main(binary):
             if size == 8:
                 require(report == {k:v for k,v in report_off.items() if k != "sci0_rx_read_observations"},
                         "Observe SCI0 reads without altering execution")
+        image([0x7a00, 0xff, 0xffb4, 0x6903, 0x40fe])
+        code, report = run([1000, 8, 10000], extra=("--observe-sci0-rx-reads",))
+        events = report["sci0_rx_read_observations"]["events"]
+        require(code == 0 and len(events) == 1 and events[0]["address"] == 0xffffb4
+                and events[0]["width"] == 2 and events[0]["value"] & 0x8000,
+                "SCI0 word read preserves the high status lane")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])

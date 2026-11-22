@@ -42,20 +42,20 @@ int main() {
     check(invalid_channel_rejected && bounded.dropped() == 3,
           "Invalid channel fails closed without changing overflow accounting");
 
-    An1xSciWriteObserver writes;
-    writes.write(0xffffaf, 0xaa, 1);
-    writes.write(0xffffb6, 0xbb, 2);
-    writes.write(0xffffb7, 0xcc, 3);
-    writes.write(0xffffbe, 0xdd, 4);
-    writes.write(0x12ffffb0, 0x80, 19);
-    writes.write(0xffffbd, 0x23, 21);
+    An1xSciAccessObserver writes;
+    writes.record(0xffffaf, 0xaa, 1);
+    writes.record(0xffffb6, 0xbb, 2);
+    writes.record(0xffffb7, 0xcc, 3);
+    writes.record(0xffffbe, 0xdd, 4);
+    writes.record(0x12ffffb0, 0x80, 19);
+    writes.record(0xffffbd, 0x23, 21);
     check(writes.retained().size()==2 && writes.dropped()==0,
           "SCI writes exclude neighboring and gap addresses");
     if(writes.retained().size()==2)
-      check(writes.retained()[0]==An1xSciWriteObserver::Event{0xffffb0,0x80,19} &&
-            writes.retained()[1]==An1xSciWriteObserver::Event{0xffffbd,0x23,21},
+      check(writes.retained()[0]==An1xSciAccessObserver::Event{0xffffb0,0x80,19} &&
+            writes.retained()[1]==An1xSciAccessObserver::Event{0xffffbd,0x23,21},
             "SCI writes preserve normalized address, value and exact cycle");
-    for(unsigned i=0;i<257;++i)writes.write(0xffffb3,0x55,30+i);
+    for(unsigned i=0;i<257;++i)writes.record(0xffffb3,0x55,30+i);
     check(writes.retained().size()==256 && writes.dropped()==3,
           "SCI write storage is bounded and counts every lost record");
     const auto midi=schedule_midi_byte(17,0xa5);
