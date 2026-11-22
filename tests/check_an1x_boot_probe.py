@@ -161,6 +161,20 @@ def main(binary):
         require(code == 0 and len(events) == 1 and events[0]["address"] == 0xffffb4
                 and events[0]["width"] == 2 and events[0]["value"] & 0x8000,
                 "SCI0 word read preserves the high status lane")
+        image([0x7a00, 0xff, 0xffbc, 0x6903, 0x680a, 0x40fe])
+        for size in (8, 64):
+            code, report = run([1000, size, 10000],
+                               extra=("--observe-sci0-rx-reads", "--observe-sci1-rx-reads"))
+            reads = report["sci1_rx_read_observations"]["events"]
+            require(code == 0 and report["sci0_rx_read_observations"]["events"] == []
+                    and [(e["address"], e["width"]) for e in reads] ==
+                    [(0xffffbc, 2), (0xffffbc, 1)]
+                    and reads[0]["value"] >> 8 == reads[1]["value"]
+                    and reads[1]["value"] & 0x80 and reads[0]["cycle"] < reads[1]["cycle"],
+                    "Observe SCI1 SSR byte and SSR/RDR word without including them in SCI0")
+            if size == 8:
+                sci1_reference = reads
+            require(reads == sci1_reference, "SCI1 receive read trace is slice invariant")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
