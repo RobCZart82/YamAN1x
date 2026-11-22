@@ -2,6 +2,38 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
+## Current evidence and next step — 2026-11-22
+
+The planning baseline is [PR #331 on main](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37).
+The exact merge commit passed [ROM-free CI on Linux, macOS and Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706)
+and [initial-decode MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719).
+
+- The [active ITU profile](an1x-active-itu-contract.md) connects its supported
+  internal timers to machine scheduling and CPU interrupt delivery. The
+  [TSTR recheck](DEVELOPMENT_LOG.md#tstr-continuation-recheck--2026-11-22)
+  reproduced three writes to `0xFFFF60` and the corresponding CPU continuations.
+  Interrupt delivery and acceptance in that firmware run remain unobserved.
+- The [SCI0 probes](DEVELOPMENT_LOG.md#late-sci0-receive-probe-and-mame-comparison--2026-11-22)
+  observed receive-line activity, and the [SCI1 probe](DEVELOPMENT_LOG.md#sci1-status-read-and-write-pairs--2026-11-22)
+  observed transmit acknowledgements. Firmware consumption of a MIDI Note On
+  and Note Off at SCI0 remains open.
+- The existing DSP experiments expose register observations and timed stepping
+  in separate profiles. Firmware-driven PCM, a shared offline and real-time
+  engine, a VST3 build and REAPER playback still need their own evidence.
+
+The next development step is a paired boot comparison on the project machine
+and on the pinned original MAME source
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. Observe interrupt requests and CPU
+acceptance around the TSTR boundary, then follow ADC and SCI initialization.
+Use the first reproducible difference to choose a focused fix, or document the
+specific missing input if both runs stop at the same condition. See the
+[active first-sound plan](FIRST_REAPER_SOUND_PLAN.md#active-development-plan)
+and [roadmap](ROADMAP.md#path-to-the-first-reaper-sound).
+
+All entries below are historical, including those headed “Current” or
+“Next.” See the [development log](DEVELOPMENT_LOG.md) and
+[structured ledger](development-ledger.json) for measurements and merge records.
+
 ## SCI register write and output capture — 2026-11-21
 
 Two read-only runs on `11d3f0e421705c1e3ad48860d4884950fe033db1` used the idle panel profile

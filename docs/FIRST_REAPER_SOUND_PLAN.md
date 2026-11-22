@@ -2,6 +2,123 @@
 
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
+## Active development plan
+
+The verified planning baseline is [main at d025f423](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37) after
+[#331](https://github.com/RobCZart82/YamAN1x/pull/331). The current [status](STATUS.md)
+and [development log](DEVELOPMENT_LOG.md) track subsequent evidence.
+
+The first local acceptance is one firmware-driven note in native Apple Silicon
+REAPER. A saved MIDI clip starts and releases a reproducible voice using the
+unchanged local AN1x image. The same emulated signal path produces a standalone
+WAV and a REAPER bounce. A verified pre-MEG VOP3 output can serve as the signal
+source for this explicitly named experimental profile. The Yamaha AN1x Service
+Manual, printed pp. 8–9, routes both VOP3 chips through the MEG to the original
+D/A output. Original output equivalence, hardware clock accuracy, full effects,
+AU and public distribution have separate acceptance criteria.
+See [clock and table evidence](an1x-clock-and-table-rom.md) and
+[MEG research](an1x-meg-research.md).
+
+### 1. Locate the first firmware divergence
+
+Start with one bounded comparison of the project machine and the original MAME
+source locked at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Record the observer
+patch, executable, unchanged firmware identity, reset and NVRAM state, ADC inputs
+and time origin. Match inputs where the implementations permit it and disclose
+remaining differences. Reuse the `0xFFFF60` TSTR windows from #331. Observe the
+address, access width, value and cycle, ITU flags and IRQ requests, the vector
+the CPU accepts, the handler PC and raw CCR, and where execution resumes. Align
+ADC activity, SCI1 setup and transmit, and SCI0 control writes in event order.
+Record each implementation's timestamps in its own timebase.
+
+The result must reproduce across repeats and two cycle slice sizes with zero
+drops in the compared windows. It should identify the first relevant difference
+or show the last shared state and the firmware condition for leaving it. Fix
+only a demonstrated behavioral difference and test address, value, flags,
+timing and continuation with independent expectations. If both machines wait
+for a signal unavailable in their profiles, name the missing board observation
+before proposing a model change. A PKS/PKSCLK dependency needs evidence that the
+firmware is waiting for it. Another longer run needs a question it can answer.
+See the [active ITU contract](an1x-active-itu-contract.md) and
+[MAME source lock](../research/mame-source-lock.json).
+
+### 2. Prove that firmware consumes and acts on one MIDI note
+
+Use the external MIDI path into SCI0. With the prepared receive channel set to
+1, send `90 3C 64`, hold for half a second, then send `80 3C 00`. Use an
+otherwise identical no-MIDI control. Test `90 3C 00` as a separate release
+encoding. Record the actual byte times; the existing MAME file player starts
+no earlier than ten seconds after reset. Capture the receiver enable, expected
+status and RDR byte reads, any IRQ acceptance or observed polling, and the
+firmware's corresponding voice start and release actions. Both note messages
+must be consumed in order and cause actions absent in the control.
+See the [Yamaha AN1x Data List, printed p. 12](https://data.yamaha.com/files/download/other_assets/5/317965/AN1XE2.PDF)
+and [SCI0 input evidence](midi-input-milestone.md).
+
+### 3. Produce timed DSP samples for the selected voice
+
+Put CPU register writes and both VOP3 chips on one machine timeline. Use an
+independently generated, ROM-free program with known output samples and a
+silent control to verify the chosen serial output slot, signed scaling and
+chip isolation. Test address and data at the chosen table boundaries and the
+ordering of writes and sample edges at equal times, including split execution.
+Compare firmware progress with DSP time advancement enabled and disabled to
+expose any change in status or envelope readback before integrating the voice.
+Coverage here extends to the path the selected voice needs. Keep a named
+experimental clock until hardware timing is established. Add the smallest
+evidence-backed MEG behavior if the selected voice needs it. Yamaha service
+tests T7 and T8, printed pp. 30–31, specify independent 1 kHz L/R analog
+signals (±1.5 Hz) for later output comparison.
+See [VOP3 readback](vop3-readback-contract.md).
+
+### 4. Render the first firmware-driven WAV
+
+Combine milestones 2 and 3. A standalone renderer runs the same note and the
+no-MIDI control from the same saved starting conditions. Record the selected
+profile and output channel mapping, onset, peak, noise floor, pitch and release.
+Acceptance requires repeatable finite, unclipped PCM with audibly distinct
+attack and release and a measurable difference from the control. The captured
+voice and DSP events must connect the MIDI bytes to that sound. Set the
+comparison tolerance before the acceptance run. Preserve the source, input
+identities and summarized results in the ledger; private WAVs and raw traces
+stay local.
+
+### 5. Bring the shared engine into a headless VST3
+
+Reuse the offline engine in the host adapter described in
+[ADR-0001](ADR-0001-engine-boundary.md), with the
+[pinned VST3 SDK](engine-dependencies.json). Preserve MIDI sample offsets and
+order using a bounded SCI0 queue that can accept events during playback. Prove
+partition-independent output, isolated instances, reset behavior, controlled
+queue overflow and silent failure for missing local data. Prepare inputs and
+any DSP compilation outside the callback or validate a bounded interpreter,
+including when firmware changes the DSP program. At 48 kHz and 256 samples,
+the callback budget is 5.33 ms; measure a defined margin on the target machine.
+Run the VST3 validator.
+
+### 6. Confirm the first note in REAPER
+
+Run native arm64 REAPER with the saved MIDI clip, the selected voice and the
+same engine/profile. Listen and confirm the meter, then make two local bounces
+and replay after reopening the project. Compare to the offline WAV with the
+recorded tolerance and any documented rate conversion or latency. Record the
+build, REAPER version and architecture, audio settings, profile/input
+identities and results. This proves the first local profile. Preserve the
+separate hardware and release gates.
+
+Milestones 1 → 2 are the firmware sequence. The ROM-free DSP work in milestone 3
+can be investigated independently. Milestone 4 needs both 2 and 3, followed by
+5 → 6. Keep one open PR at a time and start the next change after the merged
+main commit passes its required checks. Record PR-head, review and merge
+evidence in the [ledger](development-ledger.json). Keep Yamaha inputs and
+private captures local. The first sound requires no plug-in editor or project
+license selection.
+
+## Historical evidence
+
+The sections below preserve their dated results, candidate labels and the next
+steps proposed at the time. The active plan above determines current sequencing.
+
 ## SCI register write and output capture — 2026-11-21
 
 Two read-only runs on `11d3f0e421705c1e3ad48860d4884950fe033db1` used the idle panel profile

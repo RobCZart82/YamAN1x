@@ -1,3 +1,58 @@
+## Updated first REAPER sound milestones — 2026-11-22
+
+The [active plan](FIRST_REAPER_SOUND_PLAN.md) puts the remaining work in this
+order:
+
+1. Compare matched startup runs on the project machine and pinned MAME source
+   at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Around `0xFFFF60`,
+   record interrupt requests, the vector actually accepted by the CPU and
+   execution after entry. Follow the sequence through ADC and serial setup
+   to SCI0 receiver enablement or the first reproducible divergence.
+2. Trace an actual MIDI Note On and Note Off through SCI0 reads and the
+   corresponding firmware voice-start and release actions. Include a run
+   without MIDI to distinguish the response from unrelated activity.
+3. Qualify the selected voice's timed DSP path with independent ROM-free
+   output, timing and continuation tests.
+4. Render a repeatable offline WAV with the firmware-driven note and its
+   release, and compare it with the run without MIDI.
+5. Use the same bounded engine in a headless VST3 and test host timing,
+   instance isolation and audio callback deadlines.
+6. Play, listen to, render and reopen the same MIDI clip in native Apple
+   Silicon REAPER. Compare the rendered audio with the offline result.
+
+The immediate comparison follows the repeatable TSTR writes and the earlier
+SCI0 line observations. Those traces leave CPU interrupt acceptance and
+firmware MIDI consumption open. Run the next comparison with a repeatable
+starting state, zero dropped observations and two slice sizes. Document any
+difference between the profiles that limits the comparison. Investigate the
+first confirmed divergence or specify the hardware observation needed to
+resolve a shared wait condition.
+
+The first local trial may use a verified internal VOP3 output with an
+explicit experimental profile. Acceptance of the factory output path
+requires the MEG signal route and hardware evidence. This candidate updates
+the documentation. Runtime behavior and firmware, hardware, MIDI, audio and
+REAPER acceptance still require their respective tests. Candidate PR, checks,
+review and merge metadata are pending in the
+[structured ledger](development-ledger.json).
+
+## Merge reconciliation — PRs #322–331
+
+GitHub confirmed final heads and squash merge commits for #322–331. The merge
+commits match main's first-parent history. Platform and MSan jobs passed on each
+head and its merge commit. For #324–326 and #329, the MAME research job also
+passed on both revisions. GitHub returned no review submission, review thread or
+conversation comment for these PRs. The [structured ledger](development-ledger.json)
+records the observed conclusions and workflow links for each revision.
+
+The verified starting point is [#331](https://github.com/RobCZart82/YamAN1x/pull/331),
+merged from `481b3adb282ff946c2279721476096966bd851bb` to
+`d025f4231c37b268ea10dd0a7c8ba5b9927eec37`. Its main
+[platform checks](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706)
+and [MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719)
+passed. The TSTR results below record the observation that motivates the
+next diagnostic.
+
 ## TSTR continuation recheck — 2026-11-22
 
 Two 100-million-cycle runs on `194597f` reproduced the three byte writes
