@@ -1,3 +1,13 @@
+## TSTR continuation recheck — 2026-11-22
+
+Two 100-million-cycle runs on `194597f` reproduced the three byte writes
+to `0xFFFF60`: `FF`, `FB`, and `FF` at cycles 11,925,102, 92,381,419,
+and 92,384,136. Both traces retain the same raw CCR and completed CPU
+continuations without dropped observations. Only the completed slice
+callback count differed. The [development ledger](development-ledger.json)
+records the reports and the pinned MAME reference. The next comparison
+needs observations of IRQ delivery in this profile.
+
 ## SCI1 status read and write pairs — 2026-11-22
 
 The two 140-million-cycle captures on `d1a6981` agree apart from the

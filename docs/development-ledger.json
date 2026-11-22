@@ -7563,5 +7563,95 @@
     "dropped_writes": 0,
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "tstr_recheck_20261122": {
+    "source_commit": "194597fc2473b7d0ce236d8808510755f1abd7d1",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "rom_view": "swap16",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "requested_cycles": 100000000,
+    "callback_limit": 30000000,
+    "report_sha256_by_slice": {
+      "4096": "09b8dbf1e213fa9d6df1c0ab03107e43894db61101e3f9a7f482a9b7cf39778f",
+      "1000000": "7a576b4818f0fed99440dbb0bde0150abc7677b148e38d6811b19bfb050c5f80"
+    },
+    "observations": {
+      "capacity": 64,
+      "dropped": 0,
+      "writes": [
+        {
+          "address": 16777056,
+          "width": 1,
+          "value": 255,
+          "cycle": 11925102,
+          "raw_ccr": 41,
+          "before": {
+            "pc": 2910,
+            "ppc": 2908,
+            "instruction_state": 14432,
+            "raw_ccr": 41
+          },
+          "continuation": {
+            "pc": 2912,
+            "ppc": 2908,
+            "instruction_state": 23040,
+            "instruction_substate": 0,
+            "raw_ccr": 41
+          }
+        },
+        {
+          "address": 16777056,
+          "width": 1,
+          "value": 251,
+          "cycle": 92381419,
+          "raw_ccr": 37,
+          "before": {
+            "pc": 59942,
+            "ppc": 59938,
+            "instruction_state": 1864224,
+            "raw_ccr": 37
+          },
+          "continuation": {
+            "pc": 59944,
+            "ppc": 59938,
+            "instruction_state": 27176,
+            "instruction_substate": 0,
+            "raw_ccr": 37
+          }
+        },
+        {
+          "address": 16777056,
+          "width": 1,
+          "value": 255,
+          "cycle": 92384136,
+          "raw_ccr": 0,
+          "before": {
+            "pc": 60266,
+            "ppc": 60262,
+            "instruction_state": 1863712,
+            "raw_ccr": 0
+          },
+          "continuation": {
+            "pc": 60268,
+            "ppc": 60262,
+            "instruction_state": 2951,
+            "instruction_substate": 0,
+            "raw_ccr": 0
+          }
+        }
+      ]
+    },
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }
