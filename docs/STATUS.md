@@ -4,6 +4,14 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The current comparison covers the same three TSTR writes and first IRQ vector
+40 on the pinned MAME and project profiles. Their first recorded TSTR
+timestamps and first entry CCR differ. See the
+[paired observations](DEVELOPMENT_LOG.md#mame-and-project-boot-irq-comparison--2026-11-22)
+for the limits and the next pre-TSTR/IRQ-continuation comparison.
+
+Earlier planning snapshot:
+
 The boot-probe IRQ observer candidate records the first accepted IRQ in the
 bounded project firmware run. See the [IRQ observation record](DEVELOPMENT_LOG.md#boot-probe-irq-observations--2026-11-22)
 for the request and handler details. The matched MAME run remains open.

@@ -1,0 +1,113 @@
+diff --git a/src/devices/cpu/h8/h8.h b/src/devices/cpu/h8/h8.h
+--- a/src/devices/cpu/h8/h8.h
++++ b/src/devices/cpu/h8/h8.h
+@@ -60,6 +60,7 @@
+ 	};
+ 
+ 	using yamanix_instruction_observer = std::function<void(u32, u16, u8, const u16 *, u64)>;
++	void set_yamanix_irq_observer(std::function<void(bool, int, u32, u8)> observer) { m_yamanix_irq_observer = observer; }
+ 	void set_yamanix_instruction_observer(yamanix_instruction_observer observer) { m_yamanix_instruction_observer = observer; }
+ 
+ 	template<int Port> auto read_adc() { return m_read_adc[Port].bind(); }
+@@ -210,6 +211,7 @@
+ 	u64 m_standby_time;
+ 	u16 m_nvram_defval;
+ 	bool m_nvram_battery;
++	std::function<void(bool, int, u32, u8)> m_yamanix_irq_observer;
+ 	yamanix_instruction_observer m_yamanix_instruction_observer;
+ 
+ 	virtual void do_exec_full();
+diff --git a/src/devices/cpu/h8/h8.cpp b/src/devices/cpu/h8/h8.cpp
+--- a/src/devices/cpu/h8/h8.cpp
++++ b/src/devices/cpu/h8/h8.cpp
+@@ -281,6 +281,8 @@
+ 
+ bool h8_device::trigger_dma(int vector)
+ {
++	if(m_yamanix_irq_observer)
++		m_yamanix_irq_observer(false, vector, m_PC, m_CCR);
+ 	bool dma_triggered = false;
+ 	bool drop_interrupt = false;
+ 	for(int i=0; i != 8; i++)
+diff --git a/src/devices/cpu/h8/h83002.cpp b/src/devices/cpu/h8/h83002.cpp
+--- a/src/devices/cpu/h8/h83002.cpp
++++ b/src/devices/cpu/h8/h83002.cpp
+@@ -219,6 +219,8 @@
+ void h83002_device::interrupt_taken()
+ {
+ 	standard_irq_callback(m_intc->interrupt_taken(m_taken_irq_vector), m_NPC);
++	if(m_yamanix_irq_observer)
++		m_yamanix_irq_observer(true, m_taken_irq_vector, m_PC, m_CCR);
+ }
+ 
+ void h83002_device::internal_update(u64 current_time)
+diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -96,6 +96,11 @@
+     yamanix::UploadControlContract m_upload_control[2];
+     void dsp_event(char op, offs_t address, u16 data, u16 mask);
+     void dsp_trace_end();
++    bool m_boot_irq_trace = false;
++    unsigned m_boot_count = 0, m_boot_dropped = 0;
++    bool m_boot_entry_pending = false;
++    memory_passthrough_handler m_boot_tstr_tap;
++    void boot_observe(const char *kind, unsigned number, u32 pc, u8 ccr, u16 mask = 0);
+     yamanix::LcdBus m_lcd_bus;
+     unsigned m_lcd_commands = 0, m_lcd_data = 0;
+     unsigned m_lcd_busy_reads = 0, m_lcd_ready_reads = 0;
+@@ -129,6 +134,20 @@
+         m_dms_installed ? "installed" : "absent", m_dms_installed ? 0xfb : 0xff);
+     start_bridge();
+     auto &space = m_maincpu->space(AS_PROGRAM);
++    const char *boot_trace = std::getenv("YAMANIX_BOOT_IRQ_TRACE");
++    m_boot_irq_trace = boot_trace && !std::strcmp(boot_trace, "1");
++    if (m_boot_irq_trace) {
++        m_maincpu->set_yamanix_irq_observer([this](bool accepted, int vector, u32 pc, u8 ccr) {
++            boot_observe(accepted ? "accepted" : "request", unsigned(vector), pc, ccr);
++            if (accepted)
++                m_boot_entry_pending = true;
++        });
++        m_boot_tstr_tap = space.install_write_tap(0xffff60, 0xffff61, "yamanix_boot_tstr",
++            [this](offs_t, u16 &data, u16 mask) {
++                if (!machine().side_effects_disabled() && (mask & 0xff00))
++                    boot_observe("tstr", data >> 8, m_maincpu->pc(), m_maincpu->state_int(h83002_device::H8_CCR), mask);
++            });
++    }
+     space.set_log_unmap(false);
+     logerror("YAMANIX DSP_BEGIN version=1 clock_hz=1000000000 limit=200000\n");
+     logerror("YAMANIX PKS_CONTEXT_BEGIN version=1 capacity=4096 hardware_validated=0\n");
+@@ -139,6 +158,10 @@
+         unsigned(m_pks_instruction_context_trace.pre_roll_length()));
+     m_maincpu->set_yamanix_instruction_observer([this](u32 pc, u16 opcode, u8 ccr, const u16 *registers, u64 time_ns) {
+         m_pks_instruction_context_trace.observe(pc, opcode, ccr, registers, time_ns);
++        if (m_boot_entry_pending) {
++            m_boot_entry_pending = false;
++            boot_observe("dispatch", opcode, pc, ccr);
++        }
+     });
+     machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::dsp_trace_end, this));
+     an1x_dasm_buffer buffer(space);
+@@ -348,8 +371,22 @@
+         op, chip, (address - base) / 2, data, mask, m_maincpu->pc());
+ }
+ 
++void an1x_state::boot_observe(const char *kind, unsigned number, u32 pc, u8 ccr, u16 mask)
++{
++    if (m_boot_count == 8192) {
++        ++m_boot_dropped;
++        return;
++    }
++    logerror("YAMANIX BOOT_IRQ seq=%u kind=%s value=%x pc=%06x ccr=%02x mask=%04x time_ns=%llu\n",
++        m_boot_count++, kind, number, pc & 0xffffff, unsigned(ccr), unsigned(mask),
++        (unsigned long long)machine().time().as_ticks(1000000000));
++}
++
+ void an1x_state::dsp_trace_end()
+ {
++    if (m_boot_irq_trace)
++        logerror("YAMANIX BOOT_IRQ_END count=%u dropped=%u pending=%u\n",
++            m_boot_count, m_boot_dropped, unsigned(m_boot_entry_pending));
+     m_pks_instruction_context_trace.finish();
+     logerror("YAMANIX PKS_INSTRUCTION_CONTEXT_WINDOWS count=%u events=%u dropped=%llu finished=%u hardware_validated=0\n",
+         unsigned(m_pks_instruction_context_trace.window_count()),

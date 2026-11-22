@@ -10,7 +10,8 @@
     "src/devices/cpu/h8/h8.h": "c8f4d4dc0a9e8e84dd16414f33700e827022d70520313ea1ee79dc3a34db66c0",
     "src/mame/yamaha/yman1x.cpp": "beab3e6c2eb2a2dc46ef240bd59fb1f463e1875f80e7a3610ae8ea9d22192e14",
     "src/osd/mac/main.mm": "7eaae4d3447a2341990b8de97e500e3622d94ef73d7e7f16226bf2d3604c8eed",
-    "src/osd/mac/video.cpp": "b65c090c4aabb06a898f18cc2ef2860d166bcb5a4e1e02a5f2d2c3a67034ab63"
+    "src/osd/mac/video.cpp": "b65c090c4aabb06a898f18cc2ef2860d166bcb5a4e1e02a5f2d2c3a67034ab63",
+    "src/devices/cpu/h8/h83002.cpp": "2b422dc4081700cccc27d3a6f62307ae5f138f4f601181015ff1d6605ecf1e92"
   },
   "patches": [
     "mame-headless-trace.patch",
@@ -26,7 +27,8 @@
     "mame-sci-access-observation.patch",
     "mame-pks-operand-context.patch",
     "mame-pks-source-context.patch",
-    "mame-pks-instruction-context.patch"
+    "mame-pks-instruction-context.patch",
+    "mame-boot-irq-observation.patch"
   ],
   "generated_headers": {
     "src/mame/yamaha/yamanix_lcd_bus.h": "src/lcd_bus.h",
