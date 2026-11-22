@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "fd7b7d1e68dd41120b420f9426292f0f5b9d1e9d",
+  "baseline_commit": "46159881c1642d5a4501653731a7976540a4f31f",
   "entries": [
     {
       "pr": 6,
@@ -7522,6 +7522,40 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45056717067"
       },
       "review": "No review request, submission, thread or conversation comment was visible before the head-bound merge. Active ruleset required zero approving reviews and all threads resolved. No automated review result or quota error was observed."
+    },
+    {
+      "pr": 333,
+      "title": "Trace peripheral IRQ requests and CPU acceptance during the boot probe",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/333",
+      "status": "merged",
+      "head_commit": "ddb90e4d5af9186ad7a8105a34242fbec8606798",
+      "merge_commit": "46159881c1642d5a4501653731a7976540a4f31f",
+      "merged_at_utc": "2026-11-22T20:03:26Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45060879375",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45060879316",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45060879315"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45064231475",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45064231398",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45064231485"
+      },
+      "review": "No review request, submission, thread or conversation comment was visible before the head-bound merge. No automated review result or quota error was observed."
     }
   ],
   "pending_changes": [],
@@ -7643,10 +7677,10 @@
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
   "current_candidate": {
-    "kind": "diagnostic",
+    "kind": "research",
     "status": "candidate",
-    "branch": "research/boot-probe-irq-observer",
-    "base_commit": "fd7b7d1e68dd41120b420f9426292f0f5b9d1e9d",
+    "branch": "research/mame-boot-irq-trace",
+    "base_commit": "46159881c1642d5a4501653731a7976540a4f31f",
     "pr": null,
     "head_commit": null,
     "pr_head_checks": null,
@@ -7654,7 +7688,7 @@
     "review": null,
     "merge_commit": null,
     "merged_at_utc": null,
-    "scope": "Observe peripheral IRQ requests and CPU acceptance in the project boot probe. First-sound milestone 1.",
+    "scope": "Observe TSTR and IRQ entry on locked MAME and compare with the bounded project profile. First-sound milestone 1.",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01"
   },
   "sci_tx_firmware_diagnostic_20261120": {
@@ -8047,5 +8081,57 @@
     "matched_mame_run": false,
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "mame_boot_irq_comparison_20261122": {
+    "project_source_commit": "46159881c1642d5a4501653731a7976540a4f31f",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_observer_patch_sha256": "2c5b02c796019eaab9a5d479c82a5abcb71db290f4adfefa48aa84c06884d929",
+    "mame_sha256": "1e67e40f85432596d9086af7b3290d234d0646ae3b36a0329bf6fe84554d5ccd",
+    "mame_bridge_sha256": "d783c6940a5db5e45007a8d7555a0cb054ba63605b1fc3307650856b25fdc0a4",
+    "mame_event_trace_sha256": "835b46a0ebc43076ce5e0ca31169b16d03e0371f290e602ae31ad7c5efa20ee7",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "mame_seconds": 7,
+    "project_cycles": 100000000,
+    "mame_events": 6726,
+    "mame_dropped": 0,
+    "project_irq_events": 260,
+    "project_irq_dropped": 0,
+    "tstr_values": [
+      255,
+      251,
+      255
+    ],
+    "tstr_masks_mame": [
+      65280,
+      65280,
+      65280
+    ],
+    "tstr_mame_time_ns": [
+      516419250,
+      3961207125,
+      3961323750
+    ],
+    "tstr_project_cycles": [
+      11925102,
+      92381419,
+      92384136
+    ],
+    "tstr_raw_ccr": [
+      41,
+      37,
+      0
+    ],
+    "first_irq_vector": 40,
+    "first_irq_handler_pc": 5560,
+    "mame_request_time_ns": 4090131500,
+    "mame_entry_time_ns": 4090132500,
+    "mame_handler_dispatch_time_ns": 4090132625,
+    "mame_first_entry_ccr": 196,
+    "project_request_cycle": 95318896,
+    "project_last_vector_read_cycle": 95318910,
+    "project_first_entry_ccr": 192,
+    "mame_sci0_rdr_reads": 0,
+    "mame_non_observer_trace_invariance": true,
+    "hardware_validated": false
   }
 }

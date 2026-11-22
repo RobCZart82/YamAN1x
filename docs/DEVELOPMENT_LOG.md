@@ -1,3 +1,40 @@
+## MAME and project boot IRQ comparison — 2026-11-22
+
+The locked MAME observer is opt-in via `YAMANIX_BOOT_IRQ_TRACE=1` with the
+existing local boot harness. It records TSTR high-lane write values and masks,
+peripheral requests before the DMA decision, CPU IRQ entry and the following
+instruction dispatch. Counts are bounded at 8,192 with an explicit drop count.
+The observer patch and locked input passed source preflight and the macOS MAME
+research build.
+
+Two seven-second MAME runs used unchanged AN1x 1.04, fresh NVRAM, no MIDI,
+zero default ADC inputs, the firmware-contract DSP profile with the register
+bridge, the DMS-absent input (port 9 reads `FF`), and disabled DSP sample
+execution. Both retained 6,726 identical events with zero drops. With the
+observer disabled, the remaining research trace was identical. The project
+probe on merged #333 used its idle-panel LCD/MEG/VOP3 profile with eight zero
+ADC inputs, no MIDI and 100 million cycles, with the same output at 4,096 and
+1,000,000 cycle slices except for the callback count.
+
+Both retained the same three TSTR values `FF / FB / FF`, raw CCR
+`29 / 25 / 00` and recorded PCs `000B5E / 00EA26 / 00EB6A`. The MAME tap
+recorded the high-byte mask `FF00` at aligned word `0xFFFF60`; the project
+observer recorded byte writes to `0xFFFF60`. The first observed IRQ was
+vector 40 and handler `0x0015B8` in both. The MAME observer also recorded
+the first dispatch at that handler. The first MAME entry CCR was `C4`;
+the project entry CCR was `C0`. TSTR timestamps already differ at the first
+retained write (MAME 516,419,250 ns, project cycle 11,925,102, about 745 ms at
+16 MHz). The observers sample different timebases and the peripheral
+profiles are only partially matched. These observations bound the next
+comparison to pre-TSTR startup and the IRQ continuation. The earliest causal
+difference and hardware timing remain open. MAME recorded
+SCI0 SCR `00` and no RDR reads in this window.
+
+The [structured ledger](development-ledger.json) records hashes for local
+reproduction and the exact [#333](https://github.com/RobCZart82/YamAN1x/pull/333)
+merge. All five exact-head and main checks passed. No automatic review result
+or quota error was visible before merging.
+
 ## Boot probe IRQ observations — 2026-11-22
 
 The optional IRQ observer records bounded peripheral requests at their event

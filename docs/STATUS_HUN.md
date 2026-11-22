@@ -4,6 +4,14 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A rögzített MAME és a projekt részprofilja ugyanazt a három TSTR-írást és első,
+40-es megszakításvektort mutatta. Az első TSTR időbélyege és az első IRQ-belépés
+CCR-értéke eltér. A [páros megfigyelés](DEVELOPMENT_LOG.md#mame-and-project-boot-irq-comparison--2026-11-22)
+rögzíti a korlátokat és a TSTR előtti indulás, illetve a kezelő folytatásának
+következő mérését.
+
+Korábbi tervezési állapot:
+
 A firmware-vizsgáló új jelöltje a korlátozott projektprofilban már rögzíti
 az első elfogadott megszakítást. A kérés és a kezelő adatai a
 [fejlesztési naplóban](DEVELOPMENT_LOG.md#boot-probe-irq-observations--2026-11-22)
