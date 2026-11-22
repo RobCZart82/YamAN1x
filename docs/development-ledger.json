@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "d025f4231c37b268ea10dd0a7c8ba5b9927eec37",
+  "baseline_commit": "fd7b7d1e68dd41120b420f9426292f0f5b9d1e9d",
   "entries": [
     {
       "pr": 6,
@@ -7492,6 +7492,36 @@
         "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706"
       },
       "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 332,
+      "title": "Document the path to the first REAPER sound",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/332",
+      "status": "merged",
+      "head_commit": "60d48c1600710fb0c11b1038aa56329ad08eeaf3",
+      "merge_commit": "fd7b7d1e68dd41120b420f9426292f0f5b9d1e9d",
+      "merged_at_utc": "2026-11-22T18:43:41Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45029500018",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45029499963"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45056717066",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45056717067"
+      },
+      "review": "No review request, submission, thread or conversation comment was visible before the head-bound merge. Active ruleset required zero approving reviews and all threads resolved. No automated review result or quota error was observed."
     }
   ],
   "pending_changes": [],
@@ -7613,29 +7643,19 @@
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
   "current_candidate": {
+    "kind": "diagnostic",
     "status": "candidate",
-    "kind": "documentation",
-    "branch": "docs/first-reaper-sound-roadmap",
-    "base_commit": "d025f4231c37b268ea10dd0a7c8ba5b9927eec37",
+    "branch": "research/boot-probe-irq-observer",
+    "base_commit": "fd7b7d1e68dd41120b420f9426292f0f5b9d1e9d",
     "pr": null,
     "head_commit": null,
-    "merge_commit": null,
-    "merged_at_utc": null,
     "pr_head_checks": null,
     "main_checks": null,
     "review": null,
-    "scope": "Reorder and define the first local REAPER sound milestones and reconcile merged PRs #322–331. Planning and evidence reconciliation only.",
-    "plan": "docs/FIRST_REAPER_SOUND_PLAN.md",
-    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
-    "next_step": "Compare pinned MAME and the project machine with matched startup inputs around 0xFFFF60. Observe interrupt request, CPU acceptance and continuation through SCI0 receiver setup.",
-    "milestone_order": [
-      "Identify the first startup divergence with paired firmware runs",
-      "Observe firmware processing one MIDI Note On and Note Off",
-      "Qualify timed DSP output for the selected voice",
-      "Render a repeatable firmware-driven offline WAV",
-      "Use the same bounded engine in a headless VST3",
-      "Verify a local Apple Silicon REAPER session"
-    ]
+    "merge_commit": null,
+    "merged_at_utc": null,
+    "scope": "Observe peripheral IRQ requests and CPU acceptance in the project boot probe. First-sound milestone 1.",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01"
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -7991,6 +8011,40 @@
         }
       ]
     },
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
+  },
+  "irq_boot_diagnostic_20261122": {
+    "source_commit": "c55dfdb9c5ff614c020e945e05d70cedcd9aa4cb",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "probe_sha256": "442f8b62f6cfc86ae15ea94c0dda2abba63d9ebfbcfc0b4e1bfa11582b557971",
+    "image_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "rom_view": "swap16",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cycles": 100000000,
+    "callback_limit": 30000000,
+    "events": 260,
+    "dropped": 0,
+    "first_request_vector": 40,
+    "first_request_cycle": 95318896,
+    "first_accepted_vector_bus_cycle": 95318910,
+    "first_handler_pc": 5560,
+    "first_entry_raw_ccr": 192,
+    "report_sha256_by_slice": {
+      "4096": "2f6cd10e8a33d44e9eab45ad1d76ae5b1f71b0cc4b5d2f85181b5477bb00306a",
+      "1000000": "fdf5ad36e123ae1b9ccffe9a181f47925ca8109706557272600f4e437b3f1faa"
+    },
+    "matched_mame_run": false,
     "firmware_boot_accepted": false,
     "audio_accepted": false
   }

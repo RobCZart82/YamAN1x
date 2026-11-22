@@ -4,6 +4,10 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The boot-probe IRQ observer candidate records the first accepted IRQ in the
+bounded project firmware run. See the [IRQ observation record](DEVELOPMENT_LOG.md#boot-probe-irq-observations--2026-11-22)
+for the request and handler details. The matched MAME run remains open.
+
 The planning baseline is [PR #331 on main](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37).
 The exact merge commit passed [ROM-free CI on Linux, macOS and Windows](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706)
 and [initial-decode MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719).
