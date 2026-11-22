@@ -133,6 +133,13 @@ def main(binary):
                         ("--observe-sci-writes", option), ("--observe-sci-writes=0:600000001",)):
             code, report = run([1000, 8, 10000], extra=options)
             require(code == 1 and report["status"] == "input_error", "Reject invalid SCI cycle windows")
+        for size in (8, 64):
+            code, report = run([10000, size, 10000], extra=("--midi-byte=1024:165",))
+            require(code == 0 and report["midi_input_events_consumed"] == 10,
+                    "Consume all ten scheduled MIDI line levels")
+        code, report = run([10000, 8, 10000], extra=("--midi-byte=9000:165",))
+        require(code == 1 and report["status"] == "input_error",
+                "Reject a MIDI frame that extends beyond the cycle limit")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
