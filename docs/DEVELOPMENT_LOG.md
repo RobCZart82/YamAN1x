@@ -1,3 +1,15 @@
+## SCI1 status read and write pairs — 2026-11-22
+
+The two 140-million-cycle captures on `d1a6981` agree apart from the
+completed callback count. Neither receive trace nor the SCI write trace
+dropped events. Each of the eight SCI1 status byte reads at `0xFFFFBC`
+was followed five cycles later by a byte write to that address. Reads
+returned `0x80` or `0x84`, and their paired writes cleared bit 7,
+retaining `0x00` or `0x04`. This matches the documented
+[SCI transmit acknowledgement](h83002-sci-mmio-irq.md) in the supported
+profile. The [ledger](development-ledger.json) records the measured pairs
+and report hashes. No data-register read or full boot was observed.
+
 ## Late SCI0 receive probe and MAME comparison — 2026-11-22
 
 Two local runs used the same probe binary, ROM and profile as the earlier
