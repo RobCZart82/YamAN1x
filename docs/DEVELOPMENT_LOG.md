@@ -1,3 +1,22 @@
+## Late SCI0 receive probe and MAME comparison — 2026-11-22
+
+Two local runs used the same probe binary, ROM and profile as the earlier
+SCI0 diagnostic. Both reached 600 million cycles. A single `0xF8` frame at
+cycle 500 million changed only the consumed input count from 0 to 10.
+There were no SCI0 SSR or RDR reads over either run and no dropped reads.
+The 499,900,000–500,100,000 write window retained only two SCI1 SCR writes,
+both `0x70`, with no drops. It does not cover SCI0 configuration throughout
+the full run.
+
+The [historical 30-second MAME run](midi-input-milestone.md), on the pinned
+source and local research patches, delivered 21 RXD0 line transitions from
+a note-on and note-off file. Its corrected taps observed one SCI0 SCR write
+of `0x00` and no RDR read. Both profiles delivered input to RXD0 without
+an observed RDR read. They use different input and timing, so a direct
+timing or hardware-equivalence claim would require a matched experiment.
+No new MAME run was performed here. The next useful comparison is earlier
+firmware progress or initialization before SCI0 reception is enabled.
+
 ## SCI0 MIDI receive diagnostic — 2026-11-22
 
 On `d73408cc4ebdb528fbabd22db0d8f2c33c077b67`, two local runs reached
