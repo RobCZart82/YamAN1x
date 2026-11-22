@@ -140,6 +140,21 @@ def main(binary):
         code, report = run([10000, 8, 10000], extra=("--midi-byte=9000:165",))
         require(code == 1 and report["status"] == "input_error",
                 "Reject a MIDI frame that extends beyond the cycle limit")
+        require(report_off["sci0_rx_read_observations"] is None, "RX read observer is opt-in")
+        rx_reference = None
+        for size in (1, 8, 64):
+            code, report = run([1000, size, 10000], extra=("--observe-sci0-rx-reads",))
+            trace = report.pop("sci0_rx_read_observations")
+            events = trace["events"]
+            require(code == code_off and trace["dropped"] == 0 and len(events) == 1
+                    and events[0]["address"] == 0xffffb4 and events[0]["value"] & 0x80,
+                    "Capture the CPU status read with the transmit-empty flag")
+            if rx_reference is None:
+                rx_reference = trace
+            require(trace == rx_reference, "SCI0 read trace is slice invariant")
+            if size == 8:
+                require(report == {k:v for k,v in report_off.items() if k != "sci0_rx_read_observations"},
+                        "Observe SCI0 reads without altering execution")
         # Equal consecutive opcodes are still distinct completed instructions;
         # completion must not be inferred from a changed instruction-state word.
         image([0x7a00,0xff,0xff60,0xf3e0,0x6883,0x6883,0x40fe])
