@@ -1,0 +1,32 @@
+diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -97,6 +97,8 @@
+     void dsp_event(char op, offs_t address, u16 data, u16 mask);
+     void dsp_trace_end();
+     bool m_boot_irq_trace = false;
++    bool m_boot_prefix_trace = false;
++    unsigned m_boot_prefix_count = 0;
+     unsigned m_boot_count = 0, m_boot_dropped = 0;
+     bool m_boot_entry_pending = false;
+     memory_passthrough_handler m_boot_tstr_tap;
+@@ -136,6 +138,8 @@
+     auto &space = m_maincpu->space(AS_PROGRAM);
+     const char *boot_trace = std::getenv("YAMANIX_BOOT_IRQ_TRACE");
+     m_boot_irq_trace = boot_trace && !std::strcmp(boot_trace, "1");
++    const char *prefix_trace = std::getenv("YAMANIX_BOOT_PREFIX_TRACE");
++    m_boot_prefix_trace = prefix_trace && !std::strcmp(prefix_trace, "1");
+     if (m_boot_irq_trace) {
+         m_maincpu->set_yamanix_irq_observer([this](bool accepted, int vector, u32 pc, u8 ccr) {
+             boot_observe(accepted ? "accepted" : "request", unsigned(vector), pc, ccr);
+@@ -158,6 +162,10 @@
+         unsigned(m_pks_instruction_context_trace.pre_roll_length()));
+     m_maincpu->set_yamanix_instruction_observer([this](u32 pc, u16 opcode, u8 ccr, const u16 *registers, u64 time_ns) {
+         m_pks_instruction_context_trace.observe(pc, opcode, ccr, registers, time_ns);
++        if (m_boot_prefix_trace && m_boot_prefix_count < 128)
++            logerror("YAMANIX BOOT_PREFIX seq=%u pc=%06x opcode=%04x ccr=%02x cpu_cycle=%llu time_ns=%llu\n",
++                m_boot_prefix_count++, pc, unsigned(opcode), unsigned(ccr),
++                (unsigned long long)m_maincpu->total_cycles(), (unsigned long long)time_ns);
+         if (m_boot_entry_pending) {
+             m_boot_entry_pending = false;
+             boot_observe("dispatch", opcode, pc, ccr);

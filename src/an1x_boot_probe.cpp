@@ -76,6 +76,24 @@ MidiByteSchedule schedule_midi_byte(uint64_t start,uint8_t byte){
  return events;
 }
 struct CpuContext {uint32_t pc=0,ppc=0,state=0,substate=0;uint8_t ccr=0;};
+struct StartupPrefix {
+ struct Instruction {uint32_t pc;uint16_t opcode;uint8_t ccr;uint64_t bus_cycle;};
+ std::array<Instruction,128> instructions{};
+ std::size_t count=0;
+ void record(uint32_t pc,uint16_t opcode,uint8_t ccr,uint64_t cycle){
+  if(count<instructions.size())instructions[count++]={pc,opcode,ccr,cycle};
+ }
+ void write()const{
+  std::cout<<'[';
+  for(std::size_t i=0;i<count;++i){
+   if(i)std::cout<<',';
+   const auto&e=instructions[i];
+   std::cout<<"{\"pc\":"<<e.pc<<",\"opcode\":"<<e.opcode<<",\"raw_ccr\":"<<unsigned(e.ccr)
+    <<",\"bus_cycle\":"<<e.bus_cycle<<'}';
+  }
+  std::cout<<']';
+ }
+};
 struct TstrObservation {
  uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
  bool continuation_available=false;CpuContext continuation{};
@@ -164,10 +182,13 @@ struct Host {
  bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
  An1xSciAccessObserver sci0_rx_reads,sci1_rx_reads;
  uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
+ bool observe_startup_prefix=false;StartupPrefix startup_prefix;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
  Host(std::span<const uint8_t>rom,Sink&s,bool observe=false,std::span<const yamanix::SciCycleTimeline::RxEvent> input={}):sink(s),bus(rom,input,s),observe_tstr(observe){}
  void observe_cpu_dispatch(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
+  if(observe_startup_prefix&&state<0x10000&&substate==0)
+   startup_prefix.record(ppc&0xffffff,uint16_t(state),ccr,bus.cycle());
   if(!observe_tstr)return;
   cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
  }
@@ -277,10 +298,10 @@ std::vector<uint8_t>load(const char*path){
 #ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>15)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads] [--observe-irq]");
+  if(argc<6||argc>16)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads] [--observe-irq] [--observe-startup-prefix]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  std::string_view profile="disabled";bool profile_seen=false,observe_irq=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
+  std::string_view profile="disabled";bool profile_seen=false,observe_startup_prefix=false,observe_irq=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
   std::optional<MidiByteSchedule> midi;
   bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
@@ -310,6 +331,7 @@ int main(int argc,char**argv){
     if(observe_sci1_rx_reads)throw std::invalid_argument("Duplicate SCI1 receive read observer option");
     observe_sci1_rx_reads=true;
    }
+   else if(option=="--observe-startup-prefix"){if(observe_startup_prefix)throw std::invalid_argument("Duplicate startup prefix option");observe_startup_prefix=true;}
    else if(option=="--observe-irq"){if(observe_irq)throw std::invalid_argument("Duplicate IRQ observer option");observe_irq=true;}
    else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
    else if(option=="--observe-sci-writes"){if(observe_sci_writes)throw std::invalid_argument("Duplicate SCI write observer option");observe_sci_writes=true;}
@@ -349,7 +371,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -390,6 +412,7 @@ int main(int argc,char**argv){
    if(host.fault_has_value)std::cout<<",\"value\":"<<host.fault_value;
    std::cout<<'}';}
   else std::cout<<"null";
+  std::cout<<",\"startup_prefix\":";if(observe_startup_prefix)host.startup_prefix.write();else std::cout<<"null";
   std::cout<<",\"irq_observations\":";sink.irq_observer.write();
   std::cout<<",\"tstr_observations\":";host.write_tstr_observations();
   std::cout<<",\"sci_write_observations\":";

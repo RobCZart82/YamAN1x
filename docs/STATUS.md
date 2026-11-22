@@ -4,6 +4,11 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+Both models execute the same first 128 PC/opcode/CCR tuples. Their cycle
+observations separate immediately after the firmware configures ASTCR.
+The [prefix comparison](DEVELOPMENT_LOG.md#startup-instruction-prefix-and-first-timing-split--2026-11-22)
+narrows the next controlled experiment to the external bus wait profile.
+
 The current comparison covers the same three TSTR writes and first IRQ vector
 40 on the pinned MAME and project profiles. Their first recorded TSTR
 timestamps and first entry CCR differ. See the

@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "46159881c1642d5a4501653731a7976540a4f31f",
+  "baseline_commit": "35d486d2fdcf43930b5379542bff53d3429d6491",
   "entries": [
     {
       "pr": 6,
@@ -7556,6 +7556,40 @@
         "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45064231485"
       },
       "review": "No review request, submission, thread or conversation comment was visible before the head-bound merge. No automated review result or quota error was observed."
+    },
+    {
+      "pr": 334,
+      "title": "Compare locked MAME and project boot IRQ observations",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/334",
+      "status": "merged",
+      "head_commit": "598048157d6c34e8c7c560d08c717c479c0b2e72",
+      "merge_commit": "35d486d2fdcf43930b5379542bff53d3429d6491",
+      "merged_at_utc": "2026-11-22T21:23:22Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45068753015",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45068752985",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45068752983"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45071835422",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45071835424",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45071835508"
+      },
+      "review": "No review request, submission, comment or thread was visible before the head-bound merge. No automated review result or quota error was observed."
     }
   ],
   "pending_changes": [],
@@ -7679,8 +7713,8 @@
   "current_candidate": {
     "kind": "research",
     "status": "candidate",
-    "branch": "research/mame-boot-irq-trace",
-    "base_commit": "46159881c1642d5a4501653731a7976540a4f31f",
+    "branch": "research/first-tstr-startup-comparison",
+    "base_commit": "35d486d2fdcf43930b5379542bff53d3429d6491",
     "pr": null,
     "head_commit": null,
     "pr_head_checks": null,
@@ -7688,7 +7722,7 @@
     "review": null,
     "merge_commit": null,
     "merged_at_utc": null,
-    "scope": "Observe TSTR and IRQ entry on locked MAME and compare with the bounded project profile. First-sound milestone 1.",
+    "scope": "Compare the first 128 boot instructions and identify the first observed timing split.",
     "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01"
   },
   "sci_tx_firmware_diagnostic_20261120": {
@@ -8132,6 +8166,28 @@
     "project_first_entry_ccr": 192,
     "mame_sci0_rdr_reads": 0,
     "mame_non_observer_trace_invariance": true,
+    "hardware_validated": false
+  },
+  "boot_prefix_comparison_20261122": {
+    "source_commit": "3ede4b25ace4422afae70e0077831d69cbbd06a1",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "image_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "mame_binary_sha256": "34e2bdbe4c0b8aea9283239c350a103f091869234d3c36331f3418de794248ed",
+    "project_binary_sha256": "d8bac03b9fd17c48ec827d3abdee1b666d6b19fc3c3382249c205058901367f1",
+    "mame_patch_sha256": "20b46ed523911d17c084de3bae03e57904c5851a821caa9814340ac85ab0628f",
+    "mame_prefix_sha256": "86e66b51d5594b90ec46e9dd2ecd9060cbe56156a20e00cdbda39b0ff5cb68b2",
+    "project_report_sha256_by_slice": {
+      "4096": "9d5b6249e79f408ebc735541b60f253075176da892e8d8c56cdf544317167392",
+      "1000000": "313f6db6db8a978a588a9f37396cda4ff9d15da424ff08d4af9d7fa2043f418d"
+    },
+    "compared_instructions": 128,
+    "matching_pc_opcode_ccr": 128,
+    "first_cycle_difference_zero_based_index": 10,
+    "first_cycle_difference_pc": 2544,
+    "mame_cpu_cycle": 38,
+    "project_bus_cycle": 39,
+    "mame_last_cpu_cycle": 482,
+    "project_last_bus_cycle": 639,
     "hardware_validated": false
   }
 }
