@@ -4,6 +4,11 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A firmware-vizsgáló új jelöltje a korlátozott projektprofilban már rögzíti
+az első elfogadott megszakítást. A kérés és a kezelő adatai a
+[fejlesztési naplóban](DEVELOPMENT_LOG.md#boot-probe-irq-observations--2026-11-22)
+szerepelnek. Az egyeztetett MAME-futás még hátravan.
+
 A terv alapja a [#331 beolvasztása a főágon](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37).
 Ugyanezen a változaton sikeres volt a [ROM nélküli Linux-, macOS- és Windows-ellenőrzés](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706)
 és az [initial-decode MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719).

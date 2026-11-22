@@ -1,3 +1,36 @@
+## Boot probe IRQ observations — 2026-11-22
+
+The optional IRQ observer records bounded peripheral requests at their event
+cycle and hardware IRQ acceptance with the selected vector, handler PC and raw
+post-entry CCR. The accepted event's bus cycle is the last vector read, before
+the handler fetch. The observer leaves the DMA decision unchanged and the CPU
+acceptance hook runs on hardware IRQ entry. The ROM-free test checks ITU0
+compare A vector 24, request timing relative to the TSTR write, handler PC,
+CCR and matching execution with observation disabled across three slice sizes.
+
+Two read-only 100-million-cycle runs on source
+`c55dfdb9c5ff614c020e945e05d70cedcd9aa4cb` used unchanged AN1x 1.04,
+`swap16`, the idle-panel LCD/MEG/VOP3 profile, eight zero ADC inputs and
+4,096- or 1,000,000-cycle slices. Each retained 260 IRQ events with zero
+drops. The first observed request was vector 40 at cycle 95,318,896.
+The corresponding CPU entry reported handler `0x0015B8`, CCR `0xC0`
+and last vector-read cycle 95,318,910. The three TSTR writes matched #331.
+Only the completed callback count differed between the two reports.
+
+This is one side of the [paired boot comparison](FIRST_REAPER_SOUND_PLAN.md#1-locate-the-first-firmware-divergence).
+The original MAME reference is locked at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`. Its archived source matches the
+lock, and the [active ITU contract](an1x-active-itu-contract.md) records the
+vector bases. A matched MAME firmware run and observation of the handler's
+continuation are still open. This profile establishes IRQ entry, with
+firmware MIDI reception and audio acceptance still open.
+
+The [#332 documentation PR](https://github.com/RobCZart82/YamAN1x/pull/332)
+merged from `60d48c1` to `fd7b7d1`. Both revisions passed the platform
+checks and MSan. No automatic review result or quota error was visible
+before the merge. The [structured ledger](development-ledger.json) records
+the exact merge and check links separately from this candidate's results.
+
 ## Updated first REAPER sound milestones — 2026-11-22
 
 The [active plan](FIRST_REAPER_SOUND_PLAN.md) puts the remaining work in this
