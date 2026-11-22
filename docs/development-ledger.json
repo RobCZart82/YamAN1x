@@ -7454,5 +7454,37 @@
     "dropped_writes": 0,
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "sci0_late_receive_diagnostic_20261122": {
+    "binary_source_commit": "d73408cc4ebdb528fbabd22db0d8f2c33c077b67",
+    "report_sha256": {
+      "control": "cbc1ef4c15a7620663812105ba7f4b32fca7f2ea8989ddf0f2d26fabb92edc42",
+      "midi": "7b58f168737289ec6ce595c2dd15933258555ce33e755bff449ed0c4983f635a"
+    },
+    "requested_cycles": 600000000,
+    "slice_cycles": 4096,
+    "midi_cycle": 500000000,
+    "midi_byte": 248,
+    "sci_write_window": [
+      499900000,
+      500100000
+    ],
+    "sci0_receive_reads": 0,
+    "dropped_reads": 0,
+    "observed_sci_writes": [
+      {
+        "address": 16777146,
+        "value": 112,
+        "cycle": 499965856
+      },
+      {
+        "address": 16777146,
+        "value": 112,
+        "cycle": 500012484
+      }
+    ],
+    "dropped_writes": 0,
+    "mame_reference_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "historical_mame_evidence": "docs/midi-input-milestone.md"
   }
 }
