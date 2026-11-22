@@ -1,5 +1,33 @@
 # Development roadmap
 
+## Path to the first REAPER sound
+
+Follow the [active first-sound plan](FIRST_REAPER_SOUND_PLAN.md#active-development-plan)
+for the acceptance criteria and [development status](STATUS.md#current-evidence-and-next-step--2026-11-22)
+for the evidence at the planning baseline. A [Hungarian plan summary](FIRST_REAPER_SOUND_PLAN_HUN.md#aktív-fejlesztési-terv)
+is also available.
+
+1. Compare matched boot runs and trace interrupt request, acceptance and
+   continuation at `0xFFFF60` to locate the first reproducible divergence.
+2. Follow one Note On and Note Off through SCI0 to firmware voice control.
+3. Qualify timed DSP output for the selected voice with independent ROM-free
+   checks. This work can proceed independently if the boot comparison
+   identifies a specific external dependency.
+4. Join the firmware and DSP results in a repeatable offline WAV render with
+   a no-MIDI control.
+5. Qualify a bounded shared engine and a minimal VST3 without a custom editor.
+6. Play and listen to the same note in REAPER on macOS arm64, render the track
+   and repeat after reopening the session. Compare against the offline result.
+
+A documented internal VOP3 output can serve the first local test if it carries
+the firmware-controlled voice through note release. Fidelity to the original
+output path through the MEG has its own acceptance criteria. The
+[development log](DEVELOPMENT_LOG.md) and [structured ledger](development-ledger.json)
+record observations, candidate changes and merged results.
+
+The sections below preserve earlier roadmap snapshots. Their “Current,”
+“Candidate” and “Next” labels reflect their original dates.
+
 ## Current verified main — PR #287 — 2026-11-14
 
 PR [#287](https://github.com/RobCZart82/YamAN1x/pull/287) merged by squash at

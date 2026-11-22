@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-21",
+  "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "9d96272694adae779ebfb622b3f9836654cf14ea",
+  "baseline_commit": "d025f4231c37b268ea10dd0a7c8ba5b9927eec37",
   "entries": [
     {
       "pr": 6,
@@ -7176,6 +7176,322 @@
         "build-and-test (macos-14)": "success",
         "initial-decode-msan": "success"
       }
+    },
+    {
+      "pr": 322,
+      "title": "Reconcile merged PRs 315 through 321",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/322",
+      "status": "merged",
+      "head_commit": "737fefc13a340979de2dc4bd6e10de73871d3fb4",
+      "merge_commit": "6d704bf0a1ab769cedaca87bc5d6d0eb04a52313",
+      "merged_at_utc": "2026-11-21T22:07:57Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44951713206",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44951713196"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44955127348",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44955127305"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 323,
+      "title": "Make the first SCI1 frame cross-check reproducible",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/323",
+      "status": "merged",
+      "head_commit": "f74394d2b2ae5098261976c474e12620a73ae278",
+      "merge_commit": "0e08791f7361f3f7db6e88441c5904079cc5ec83",
+      "merged_at_utc": "2026-11-21T23:47:57Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44960299259",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44960299304"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44963535044",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44963535021"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 324,
+      "title": "Schedule one MIDI input byte in the boot probe",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/324",
+      "status": "merged",
+      "head_commit": "cbdd2672fdbab05d06612fb15e6c04c4af1e8079",
+      "merge_commit": "2ad4defabf12053eb2e684c443ce9ea13961f46e",
+      "merged_at_utc": "2026-11-22T01:28:01Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44968434145",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44968434116",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44968434131"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44971588759",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44971588795",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44971588797"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 325,
+      "title": "Observe SCI0 receive register reads in the probe",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/325",
+      "status": "merged",
+      "head_commit": "1239354059156639dbacb8b1295ed448f44ea964",
+      "merge_commit": "7ede05ac4e5824a7431aa569bef118a4cb999728",
+      "merged_at_utc": "2026-11-22T03:27:59Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44977760755",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44977760762",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44977760735"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44980757796",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44980757884",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44980757826"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 326,
+      "title": "Observe paired SCI0 status and receive word reads",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/326",
+      "status": "merged",
+      "head_commit": "027b7ea042d4f6746a8e341d1618550c75651fb3",
+      "merge_commit": "d73408cc4ebdb528fbabd22db0d8f2c33c077b67",
+      "merged_at_utc": "2026-11-22T05:08:01Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44985213976",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44985213977",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44985213975"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44988063662",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/44988063647",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44988063642"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 327,
+      "title": "Record the bounded SCI0 MIDI receive result",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/327",
+      "status": "merged",
+      "head_commit": "a906a44581c075bcc3707eaade3142d01ae26975",
+      "merge_commit": "d4849e46b840d401fdd6d08303e8b402751e3f9c",
+      "merged_at_utc": "2026-11-22T06:48:00Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44992397593",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44992397603"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44995350707",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44995350706"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 328,
+      "title": "Compare the late SCI0 probe with recorded MAME evidence",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/328",
+      "status": "merged",
+      "head_commit": "9c29d1fa290b4eaaa4dfbf399e08999742b9c4a4",
+      "merge_commit": "3281921bb0d1f5626bf2d066b73feeb5694dfb68",
+      "merged_at_utc": "2026-11-22T08:28:04Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/44999900993",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/44999900984"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45002949070",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45002949098"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 329,
+      "title": "Observe SCI1 keyboard receive register reads",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/329",
+      "status": "merged",
+      "head_commit": "0666873ad491108d3e07191917fb7942da998a37",
+      "merge_commit": "d1a698170e73a2089c71053423a7f0346fb6c898",
+      "merged_at_utc": "2026-11-22T10:08:03Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45007727112",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/45007727116",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45007727127"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45010924161",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/45010924036",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45010924120"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 330,
+      "title": "Record SCI1 transmit status acknowledgement pairs",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/330",
+      "status": "merged",
+      "head_commit": "1595f28e93bac690b7057269a96e05b81044d698",
+      "merge_commit": "194597fc2473b7d0ce236d8808510755f1abd7d1",
+      "merged_at_utc": "2026-11-22T11:48:03Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45015852184",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45015852206"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45019083353",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45019083369"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
+    },
+    {
+      "pr": 331,
+      "title": "Record the current TSTR continuation recheck",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/331",
+      "status": "merged",
+      "head_commit": "481b3adb282ff946c2279721476096966bd851bb",
+      "merge_commit": "d025f4231c37b268ea10dd0a7c8ba5b9927eec37",
+      "merged_at_utc": "2026-11-22T13:18:49Z",
+      "pr_head_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45024187396",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45024187390"
+      },
+      "main_check_runs": {
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719",
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706"
+      },
+      "review": "No review submission, review thread or conversation comment observed. No automated review result or quota error observed."
     }
   ],
   "pending_changes": [],
@@ -7296,7 +7612,31 @@
     "merged_at_utc": "2026-11-17T22:27:53Z",
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
-  "current_candidate": null,
+  "current_candidate": {
+    "status": "candidate",
+    "kind": "documentation",
+    "branch": "docs/first-reaper-sound-roadmap",
+    "base_commit": "d025f4231c37b268ea10dd0a7c8ba5b9927eec37",
+    "pr": null,
+    "head_commit": null,
+    "merge_commit": null,
+    "merged_at_utc": null,
+    "pr_head_checks": null,
+    "main_checks": null,
+    "review": null,
+    "scope": "Reorder and define the first local REAPER sound milestones and reconcile merged PRs #322–331. Planning and evidence reconciliation only.",
+    "plan": "docs/FIRST_REAPER_SOUND_PLAN.md",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "next_step": "Compare pinned MAME and the project machine with matched startup inputs around 0xFFFF60. Observe interrupt request, CPU acceptance and continuation through SCI0 receiver setup.",
+    "milestone_order": [
+      "Identify the first startup divergence with paired firmware runs",
+      "Observe firmware processing one MIDI Note On and Note Off",
+      "Qualify timed DSP output for the selected voice",
+      "Render a repeatable firmware-driven offline WAV",
+      "Use the same bounded engine in a headless VST3",
+      "Verify a local Apple Silicon REAPER session"
+    ]
+  },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
     "binary_sha256": "a48643b6ea1fdd30afa969b96b5c73632683d4c84651ee25619b11309cc3ed0a",

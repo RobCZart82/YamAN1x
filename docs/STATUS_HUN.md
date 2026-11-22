@@ -2,6 +2,37 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
+## Jelenlegi eredmények és következő lépés — 2026-11-22
+
+A terv alapja a [#331 beolvasztása a főágon](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37).
+Ugyanezen a változaton sikeres volt a [ROM nélküli Linux-, macOS- és Windows-ellenőrzés](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812706)
+és az [initial-decode MSan](https://github.com/RobCZart82/YamAN1x/actions/runs/45026812719).
+
+- Az [aktív ITU-profil](an1x-active-itu-contract.md) támogatott belső időzítői
+  be vannak kötve a gépütemezőbe és a CPU megszakításkezelésébe. A
+  [TSTR-ellenőrzés](DEVELOPMENT_LOG.md#tstr-continuation-recheck--2026-11-22)
+  megismételte a három `0xFFFF60` írást és a CPU folytatását. Ebben a
+  firmware-futásban a megszakítás továbbítását és elfogadását még nem mértük.
+- Az [SCI0-próbák](DEVELOPMENT_LOG.md#late-sci0-receive-probe-and-mame-comparison--2026-11-22)
+  a bemeneti jelváltásokat, az [SCI1-próba](DEVELOPMENT_LOG.md#sci1-status-read-and-write-pairs--2026-11-22)
+  az adás nyugtázását figyelte meg. Továbbra is nyitott annak bizonyítása,
+  hogy a firmware az SCI0-n beolvassa a Note On és Note Off üzeneteket.
+- A DSP-regiszterek megfigyelése és az időzített DSP-léptetés külön
+  kísérleti profilokban működik. A firmware által előállított hang, a közös
+  offline és valós idejű motor, a VST3 és a REAPER-próba még igazolásra vár.
+
+A következő fejlesztés párosított indulási mérés a projekt gépén és a
+`706dbb73281320c54d7c2f16262c1c3786f2be01` verzióra rögzített eredeti MAME
+forráson. A TSTR-határnál a megszakítási kérést és a CPU általi elfogadást
+kell megfigyelni, majd követni az ADC és az SCI inicializálását. Az első
+reprodukálható eltérés alapján következik a célzott javítás. Ha mindkét futás
+azonos feltételnél áll meg, a hiányzó konkrét bemenetet kell azonosítani.
+Lásd az [aktív fejlesztési tervet](FIRST_REAPER_SOUND_PLAN_HUN.md#aktív-fejlesztési-terv)
+és az [angol fejlesztési naplót](DEVELOPMENT_LOG.md).
+
+Az alábbi bejegyzések a korábbi méréseket és az akkori fejlesztési
+sorrendet őrzik. Ez a „Következő” és „Legutóbbi” címekre is vonatkozik.
+
 ## Friss, korlátozott SCI TX firmware-vizsgálat — 2026-11-20
 
 A `746697354478a403af47f6438e7b9d3eb58b51ce` forrásból három csak olvasó

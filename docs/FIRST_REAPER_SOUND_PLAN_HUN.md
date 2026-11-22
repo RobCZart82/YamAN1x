@@ -2,6 +2,103 @@
 
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
+## Aktív fejlesztési terv
+
+A terv ellenőrzött alapja a [d025f423 főági commit](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37)
+a [#331](https://github.com/RobCZart82/YamAN1x/pull/331) beolvadása után.
+A további eredmények az [állapotoldalon](STATUS_HUN.md) és a
+[fejlesztési naplóban](DEVELOPMENT_LOG.md) követhetők.
+
+Az első helyi elfogadás egy firmware-vezérelt hang natív Apple Silicon REAPER-ben.
+Egy mentett MIDI-klip elindítja és elengedi ugyanazt a hangszínt a változatlan,
+helyben hozzáférhető AN1x firmware-rel. Az önálló WAV-renderelő és a REAPER
+ugyanazt az emulált jelutat használja. Az első helyi profilhoz használható a
+VOP3 igazolt, MEG előtti belső kimenete. A Yamaha szervizkönyv nyomtatott
+8–9. oldala szerint az eredeti D/A kimenetre mindkét VOP3 jele a MEG-en át jut.
+A gyári kimenet egyezése, a hardveróra pontossága, a teljes effektmodell, az AU
+és a nyilvános kiadás külön elfogadási pont.
+
+### 1. Az első firmware-eltérés helye
+
+A projekt gépén és a `706dbb73281320c54d7c2f16262c1c3786f2be01` forrásra
+rögzített MAME-en induljon egy párosított próba. Kerüljön a jegyzőkönyvbe a
+megfigyelőpatch, a program, a változatlan firmware azonosítója, a reset,
+a tartós memória, az ADC-bemenetek és a kezdőidő. Az eltérő profilfeltételeket
+jelöljük. A #331 `0xFFFF60` körüli ablakában rögzítsük a hozzáférés címét,
+szélességét, értékét és ciklusát, az ITU jelzőbitjeit, a megszakításkérést, a CPU
+által elfogadott vektort, a kezelő címét, a nyers CCR-t és a folytatást. Ugyanebben
+az eseménysorrendben legyen látható az ADC, a SCI1 adása és a SCI0 beállítása.
+
+Az ismétlések és két szeletméret az összevetett ablakokban eldobás nélkül adják
+ugyanazt az eredményt. Az első jelentős eltérést vagy az utolsó közös állapotból
+való továbblépés feltételét keressük. Igazolt eltérés esetén egy célzott javítás
+kapjon független cím-, érték-, jelzőbit-, időzítés- és folytatási tesztet.
+Ha mindkét modell ugyanazt a külső jelet várja, nevezzük meg a szükséges
+hardvermegfigyelést. A PKS/PKSCLK akkor válik függőséggé, ha a firmware
+várakozása ehhez köthető. [Aktív ITU](an1x-active-itu-contract.md)
+
+### 2. Egy MIDI-hangjegyet feldolgoz a firmware
+
+Az 1-es vételi csatornára beállított profil SCI0 bemenetére a
+`90 3C 64` kerüljön, majd fél másodperc múlva a `80 3C 00`. Készüljön
+MIDI nélküli kontroll és külön próba a `90 3C 00` elengedésre. Rögzítsük a
+tényleges bájtidőket, mert a MAME jelenlegi fájllejátszása legkorábban a
+10. másodpercben kezdődik. A firmware a vevő engedélyezése után olvassa ki
+mindkét üzenet bájtjait, és legyen megfigyelhető a hozzájuk tartozó hangindítás
+és elengedés. [Yamaha Data List, nyomtatott 12. oldal](https://data.yamaha.com/files/download/other_assets/5/317965/AN1XE2.PDF) · [SCI0 bemenet](midi-input-milestone.md)
+
+### 3. Időzített DSP-kimenet a kijelölt hangszínhez
+
+A CPU-regiszterírások és a két VOP3 közös idővonalon futnak. Egy ROM-mentes
+teszt ismert mintákkal és néma kontrollal igazolja a soros kimeneti helyet,
+előjelet, skálát és a chipek elkülönülését. Külön teszt ellenőrzi a táblacímet és
+adatot, valamint az egyidejű írás és DSP-lépés sorrendjét szeletváltáskor is.
+A DSP-óra be- és kikapcsolása mellett hasonlítsuk össze a firmware állapotát.
+A kísérleti órát jelöljük a profilban. Ha a hanghoz szükséges, a MEG igazolt
+részét építsük be. A gyári bal és jobb analóg kimenet későbbi ellenőrzéséhez
+a szervizkönyv T7 és T8 próbája külön 1 kHz-es szinuszt ír elő.
+[Órajel és táblák](an1x-clock-and-table-rom.md) · [VOP3-visszaolvasás](vop3-readback-contract.md)
+
+### 4. Első firmware-vezérelt offline WAV
+
+A 2. és 3. lépés eredménye együtt adjon ismételhető, véges és vágásmentes PCM-et.
+Mérjük a hangkezdetet, a csúcsot, az alapzajt, a hangmagasságot és a lecsengést.
+A hang leütéskor emelkedjen a MIDI nélküli kontroll fölé, elengedéskor csengjen
+le. A DSP-események legyenek visszakövethetők a firmware MIDI-feldolgozásáig.
+A toleranciát az átvételi futás előtt rögzítsük.
+
+### 5. Közös motor és grafikus szerkesztő nélküli VST3
+
+Az adapter ugyanazt a motort használja, mint az offline renderelő. Korlátos
+SCI0-sor őrzi meg a MIDI-események helyét és sorrendjét a host blokkjában.
+Próbáljuk ki a különböző blokkfelosztásokat, két példányt, a resetet, a sor
+telítődését és a hiányzó helyi ROM esetén adott stabil csendet. A program
+előkészítése a hangfeldolgozó szálon kívül történik, vagy méréssel igazolt,
+korlátos interpreter fut. A mérés fedje le a DSP-programváltást is. A 48 kHz-es,
+256 mintás blokk 5,33 ms-os keretén belül maradjon tartalék. A rögzített SDK
+validatora fusson sikeresen. [Motorarchitektúra](ADR-0001-engine-boundary.md)
+
+### 6. Első hang a REAPER-ben
+
+Natív arm64 REAPER-ben a mentett klip szólaljon meg és a mérő jelezzen. Két
+helyi render és a projekt újranyitása után is ismétlődjön meg az eredmény.
+A REAPER-ben készült WAV egyezzen az offline próbával a rögzített tolerancián
+belül, a késleltetés és az esetleges mintavételi konverzió figyelembevételével.
+A jegyzőkönyvben szerepeljen a build, a REAPER-verzió, a hangbeállítás,
+a profil és a mérési eredmény.
+
+Az 1. lépést a 2. követi. A 3. lépés ROM-mentes próbája önállóan vizsgálható.
+A 4. lépéshez mindkét eredmény kell, utána jöhet az 5. és a 6. Egyszerre egy PR
+maradjon nyitva. Új változtatás a beolvadás és a főági kötelező ellenőrzések
+sikere után indul. A naplóban a jelölt és a beolvadt eredmény külön szerepel.
+A ROM, a nyers nyom és a WAV helyi marad. Az első hanghoz grafikus szerkesztő
+és nyilvános terjesztési licenc nem szükséges.
+
+## Korábbi bizonyítékok
+
+Az alábbi szakaszok megőrzik az eredeti méréseket és az akkor javasolt
+következő lépéseket. Az aktuális sorrendet a fenti terv adja meg.
+
 ## Friss, korlátozott SCI TX firmware-vizsgálat — 2026-11-20
 
 A `746697354478a403af47f6438e7b9d3eb58b51ce` forrásból három csak olvasó
