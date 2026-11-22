@@ -8,6 +8,10 @@ cycle and width of successful CPU reads from SCI0 SSR and RDR (`0xFFFFB4` and
 as dropped. See [SCI MMIO and IRQ](h83002-sci-mmio-irq.md) for the pinned
 MAME register reference. A word read at `0xFFFFB4` retains both SSR and RDR in one event.
 
+Use `--observe-sci1-rx-reads` to record the equivalent keyboard serial channel
+reads at `0xFFFFBC` and `0xFFFFBD`. Each channel has its own 256-entry trace
+and overflow count. Both options may be enabled together.
+
 ## Optional SCI register write observation
 
 Use `--observe-sci-writes=FIRST:LAST` to restrict recording to an inclusive
