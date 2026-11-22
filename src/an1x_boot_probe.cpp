@@ -43,18 +43,18 @@ private:
  std::size_t count=0,dropped_count=0;
 };
 // Records successful byte writes only; callers invoke this after bus completion.
-class An1xSciWriteObserver {
+class An1xSciAccessObserver {
 public:
  static constexpr std::size_t capacity=256;
  struct Event {
-  uint32_t address;uint8_t value;uint64_t cycle;
+  uint32_t address;uint16_t value;uint64_t cycle;unsigned width=1;
   friend bool operator==(const Event&,const Event&)=default;
  };
- void write(uint32_t raw,uint8_t value,uint64_t cycle){
+ void record(uint32_t raw,uint16_t value,uint64_t cycle,unsigned width=1){
   const auto address=raw&0xffffff;
   if(!((address>=0xffffb0&&address<=0xffffb5)||(address>=0xffffb8&&address<=0xffffbd)))return;
   if(count==events.size()){++dropped_count;return;}
-  events[count++]={address,value,cycle};
+  events[count++]={address,value,cycle,width};
  }
  std::span<const Event> retained()const{return {events.data(),count};}
  std::size_t dropped()const{return dropped_count;}
@@ -133,9 +133,9 @@ struct Host {
  yamanix::An1xSciBus<Sink> bus;
  bool fault=false;const char*kind="none";uint32_t address=0;unsigned width=0;
  bool fault_has_value=false;uint16_t fault_value=0;
- bool observe_sci_writes=false;An1xSciWriteObserver sci_writes;
+ bool observe_sci_writes=false;An1xSciAccessObserver sci_writes;
  bool observe_sci0_rx_reads=false;
- An1xSciWriteObserver sci0_rx_reads;
+ An1xSciAccessObserver sci0_rx_reads;
  uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
@@ -178,12 +178,19 @@ struct Host {
    const auto value=bus.read_byte(a);
    const auto address=a&0xffffff;
    if(observe_sci0_rx_reads&&(address==0xffffb4||address==0xffffb5))
-    sci0_rx_reads.write(address,value,bus.cycle());
+    sci0_rx_reads.record(address,value,bus.cycle());
    return value;
   });
  }
- uint16_t read_word(uint32_t a){return access("data_read",a,2,[&]{return bus.read_word(a);});}
- void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);observe_tstr_write(a,v);const auto cycle=bus.cycle();if(observe_sci_writes&&cycle>=sci_first_cycle&&cycle<=sci_last_cycle)sci_writes.write(a,v,cycle);},v);}
+ uint16_t read_word(uint32_t a){
+  return access("data_read",a,2,[&]{
+   const auto value=bus.read_word(a);
+   if(observe_sci0_rx_reads&&(a&0xffffff)==0xffffb4)
+    sci0_rx_reads.record(a,value,bus.cycle(),2);
+   return value;
+  });
+ }
+ void write_byte(uint32_t a,uint8_t v){access("data_write",a,1,[&]{bus.write_byte(a,v);observe_tstr_write(a,v);const auto cycle=bus.cycle();if(observe_sci_writes&&cycle>=sci_first_cycle&&cycle<=sci_last_cycle)sci_writes.record(a,v,cycle);},v);}
  void write_word(uint32_t a,uint16_t v){access("data_write",a,2,[&]{bus.write_word(a,v);},v);}
  void bus_cycle(uint64_t t){bus.bus_cycle(t);}
  uint64_t update(uint64_t t){return bus.update(t);}
@@ -347,7 +354,7 @@ int main(int argc,char**argv){
   std::cout<<",\"sci_write_observations\":";
   if(!observe_sci_writes)std::cout<<"null";
   else{
-   std::cout<<"{\"capacity\":"<<An1xSciWriteObserver::capacity<<",\"dropped\":"<<host.sci_writes.dropped()<<",\"events\":[";
+   std::cout<<"{\"capacity\":"<<An1xSciAccessObserver::capacity<<",\"dropped\":"<<host.sci_writes.dropped()<<",\"events\":[";
    bool first=true;for(const auto&e:host.sci_writes.retained()){
     if(!first)std::cout<<',';first=false;
     std::cout<<"{\"address\":"<<e.address<<",\"value\":"<<unsigned(e.value)<<",\"cycle\":"<<e.cycle<<'}';
@@ -356,12 +363,12 @@ int main(int argc,char**argv){
   std::cout<<",\"sci0_rx_read_observations\":";
   if(!observe_sci0_rx_reads)std::cout<<"null";
   else{
-   std::cout<<"{\"capacity\":"<<An1xSciWriteObserver::capacity<<",\"dropped\":"<<host.sci0_rx_reads.dropped()<<",\"events\":[";
+   std::cout<<"{\"capacity\":"<<An1xSciAccessObserver::capacity<<",\"dropped\":"<<host.sci0_rx_reads.dropped()<<",\"events\":[";
    bool first=true;
    for(const auto& event:host.sci0_rx_reads.retained()){
     if(!first)std::cout<<',';
     first=false;
-    std::cout<<"{\"address\":"<<event.address<<",\"value\":"<<unsigned(event.value)<<",\"cycle\":"<<event.cycle<<'}';
+    std::cout<<"{\"address\":"<<event.address<<",\"width\":"<<event.width<<",\"value\":"<<unsigned(event.value)<<",\"cycle\":"<<event.cycle<<'}';
    }
    std::cout<<"]}";
   }
