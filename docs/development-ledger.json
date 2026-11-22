@@ -7486,5 +7486,82 @@
     "dropped_writes": 0,
     "mame_reference_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "historical_mame_evidence": "docs/midi-input-milestone.md"
+  },
+  "sci1_status_pairs_20261122": {
+    "source_commit": "d1a698170e73a2089c71053423a7f0346fb6c898",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "report_sha256": {
+      "1000000": "d101c9ad4116e3c07c5bf656553a9632c33dc05d70902829da3f17325aebbd45",
+      "4096": "b8247d450d5db279f626700288499fa0e3753e2175fdb5b72ebcc99cc09c66e0"
+    },
+    "requested_cycles": 140000000,
+    "callback_limit": 100000000,
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "rom_view": "swap16",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sci1_status_address": 16777148,
+    "status_pairs": [
+      {
+        "read_cycle": 127846305,
+        "read_value": 132,
+        "write_cycle": 127846310,
+        "write_value": 4
+      },
+      {
+        "read_cycle": 127847972,
+        "read_value": 128,
+        "write_cycle": 127847977,
+        "write_value": 0
+      },
+      {
+        "read_cycle": 127851177,
+        "read_value": 128,
+        "write_cycle": 127851182,
+        "write_value": 0
+      },
+      {
+        "read_cycle": 128288483,
+        "read_value": 132,
+        "write_cycle": 128288488,
+        "write_value": 4
+      },
+      {
+        "read_cycle": 128290150,
+        "read_value": 128,
+        "write_cycle": 128290155,
+        "write_value": 0
+      },
+      {
+        "read_cycle": 128293352,
+        "read_value": 128,
+        "write_cycle": 128293357,
+        "write_value": 0
+      },
+      {
+        "read_cycle": 131987992,
+        "read_value": 132,
+        "write_cycle": 131987997,
+        "write_value": 4
+      },
+      {
+        "read_cycle": 136182370,
+        "read_value": 132,
+        "write_cycle": 136182375,
+        "write_value": 4
+      }
+    ],
+    "dropped_reads": 0,
+    "dropped_writes": 0,
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }
