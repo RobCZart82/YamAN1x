@@ -1,5 +1,13 @@
 # An1X Boot Probe
 
+## Optional SCI0 receive register observation
+
+Use `--observe-sci0-rx-reads` to record the address, returned byte and bus
+cycle of successful CPU byte reads from SCI0 SSR and RDR (`0xFFFFB4` and
+`0xFFFFB5`). The first 256 reads are retained and later reads are counted
+as dropped. See [SCI MMIO and IRQ](h83002-sci-mmio-irq.md) for the pinned
+MAME register reference. Word accesses are outside the observed scope.
+
 ## Optional SCI register write observation
 
 Use `--observe-sci-writes=FIRST:LAST` to restrict recording to an inclusive
