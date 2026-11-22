@@ -1,3 +1,36 @@
+## Startup instruction prefix and first timing split — 2026-11-22
+
+The optional project `--observe-startup-prefix` and MAME
+`YAMANIX_BOOT_PREFIX_TRACE=1` retain the first 128 instruction dispatches.
+A synthetic project fixture asserts PC, opcode, CCR and cycles around a
+committed ASTCR write, plus the fixed record count and unchanged execution
+with observation disabled over three slice sizes. The boot probe and wait
+profile checks, 16-patch locked-source preflight and local MAME build passed.
+
+The local comparison used unchanged AN1x 1.04, no MIDI, zero ADC inputs and
+the #334 project idle-panel and MAME firmware-contract/DMS-absent settings.
+The project reached one million cycles with slices of 4,096 and 1,000,000.
+Two one-second MAME runs produced the same prefix, and with the observer
+disabled the remaining MAME trace matched. All 128 PC/opcode/raw-CCR
+tuples matched between models.
+
+The two local cycle observations first differ at index 10 (zero-based), PC
+`0x0009F0`: MAME CPU cycle 38 and project bus cycle 39. The preceding
+dispatch at `0x0009EE` loads `FF` into R0L; the write instruction at
+`0x0009EC` (index 8) writes the earlier `0F` to ASTCR at `0xFFFFED`.
+At index 9 both report 36. The project applies the selected three-state
+ROM access after that ASTCR write. The locked original H8/3002 map omits
+the external wait registers. The final prefix cycles are 482 and 639.
+These are local observations with different timestamp hooks. The wait
+model explains a plausible early timing split; its contribution to the
+later TSTR and IRQ observations needs a controlled test. The
+[documented project wait behavior](an1x-wait-profile.md) remains active.
+
+The [structured ledger](development-ledger.json) records the patch, binary
+and trace hashes and the verified [#334](https://github.com/RobCZart82/YamAN1x/pull/334)
+merge. All five checks passed on its exact head and main revisions; no
+automatic review result or quota error was visible before merging.
+
 ## MAME and project boot IRQ comparison — 2026-11-22
 
 The locked MAME observer is opt-in via `YAMANIX_BOOT_IRQ_TRACE=1` with the

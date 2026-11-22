@@ -4,6 +4,11 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az első 128 utasítás címe, műveleti kódja és CCR-értéke megegyezik a két
+modellben. A ciklusmegfigyelések közvetlenül az ASTCR beállítása után
+térnek el. A [mérés](DEVELOPMENT_LOG.md#startup-instruction-prefix-and-first-timing-split--2026-11-22)
+a külső busz várakozási profiljára szűkíti a következő kontrollpróbát.
+
 A rögzített MAME és a projekt részprofilja ugyanazt a három TSTR-írást és első,
 40-es megszakításvektort mutatta. Az első TSTR időbélyege és az első IRQ-belépés
 CCR-értéke eltér. A [páros megfigyelés](DEVELOPMENT_LOG.md#mame-and-project-boot-irq-comparison--2026-11-22)
