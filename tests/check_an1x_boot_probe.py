@@ -34,6 +34,25 @@ def main(binary):
             require(code == 0 and report["status"] == "cycle_limit" and report["completed_slice_cycles"] == 64, "Bounded synthetic loop")
             require(report["fault_access"] is None and not report["cpu_failed"], "No fabricated fault")
             require(report["tstr_observations"] is None, "TSTR observer is opt-in")
+        # Internal ASTCR write selects three-cycle ROM reads. Initial
+        # instruction fetches cost two cycles in the default boot profile.
+        image([0xf8ff,0x38ed,0x40fe])
+        prefix_reference = None
+        for slice_size in (1,8,64):
+            code, report = run([2048,slice_size,10000], extra=("--observe-startup-prefix",))
+            code_off, report_off = run([2048,slice_size,10000])
+            prefix = report.pop("startup_prefix")
+            require(code == code_off == 0 and report_off.pop("startup_prefix") is None and
+                    report == report_off, "Startup prefix observer leaves execution unchanged")
+            require(len(prefix) == 128 and prefix[:4] == [
+                {"pc":0x100,"opcode":0xf8ff,"raw_ccr":0x80,"bus_cycle":6},
+                {"pc":0x102,"opcode":0x38ed,"raw_ccr":0x88,"bus_cycle":8},
+                {"pc":0x104,"opcode":0x40fe,"raw_ccr":0x88,"bus_cycle":12},
+                {"pc":0x104,"opcode":0x40fe,"raw_ccr":0x88,"bus_cycle":18},
+            ], "Startup prefix retains the ASTCR write boundary and raw CCR")
+            if prefix_reference is None:
+                prefix_reference = prefix
+            require(prefix == prefix_reference, "Startup prefix is invariant across slices")
         # Two committed TSTR byte writes. The observer must retain the exact
         # MMIO value/cycle/raw CCR and the first completed CPU continuation,
         # independent of where the runner's cycle slices fall.

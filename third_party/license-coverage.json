@@ -1562,6 +1562,10 @@
           "required_notices": []
         },
         {
+          "path": "research/mame-boot-prefix-observation.patch",
+          "required_notices": []
+        },
+        {
           "path": "research/mame-dsp-capture.patch",
           "required_notices": []
         },
