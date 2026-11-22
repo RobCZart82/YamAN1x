@@ -595,7 +595,12 @@ private:
     // Shared host mode or legacy fixed0B;original H83002 entry equations.
     int trapa_setup(){m_CCR=H83002SyscrModes::entry_ccr(syscr_value(),m_CCR);update_irq_filter();return 8;}
     void irq_setup(){m_CCR=H83002SyscrModes::entry_ccr(syscr_value(),m_CCR);update_irq_filter();}
-    void interrupt_taken(){if(!irq_)throw std::logic_error("Missing IRQ owner");irq_->taken(m_taken_irq_vector);}
+    void interrupt_taken(){
+        if(!irq_)throw std::logic_error("Missing IRQ owner");
+        irq_->taken(m_taken_irq_vector);
+        if constexpr(requires{host_.observe_irq_taken(m_taken_irq_vector,m_PC,m_CCR);})
+            host_.observe_irq_taken(m_taken_irq_vector,m_PC,m_CCR);
+    }
     void debugger_exception_hook(int vector){if constexpr(requires{host_.exception_hook(vector);})host_.exception_hook(vector);}
     bool exr_in_stack()const{return false;}
     void internal(int cycles){m_icount-=cycles+1;}

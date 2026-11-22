@@ -69,6 +69,34 @@ def main(binary):
                         "tx_edges","clock_edges","gpio_writes")
             require(code_off == code and all(report_off[key] == report[key] for key in compared),
                     "Opt-in TSTR observation leaves execution and peripheral outputs unchanged")
+        # ITU0 compare A raises vector 24 exactly 100 cycles after TSTR.
+        image([0x7a07,0xff,0xfefe,0x7a00,0xff,0xff6a,0xf300,0x6883,
+               0x0b00,0xf363,0x6883,0x7a00,0xff,0xff66,0xf301,0x6883,
+               0x7a00,0xff,0xff60,0x6883,0x0700,0x0180,0x40fe])
+        program = bytearray(path.read_bytes())
+        program[24*4:24*4+4] = (0x180).to_bytes(4, "big")
+        program[0x180:0x182] = bytes.fromhex("40 fe")
+        path.write_bytes(program)
+        irq_reference = None
+        for slice_size in (1, 8, 64):
+            code, report = run([400,slice_size,10000], extra=("--observe-tstr","--observe-irq"))
+            code_off, report_off = run([400,slice_size,10000], extra=("--observe-tstr",))
+            irq = report.pop("irq_observations")
+            require(code == code_off == 0 and report_off.pop("irq_observations") is None and
+                    report == report_off, "IRQ observation is opt-in and does not change execution")
+            events = irq["events"]
+            tstr_cycle = report["tstr_observations"]["writes"][0]["cycle"]
+            require(irq["dropped"] == 0 and len(events) == 2 and events[0] ==
+                    {"vector":24,"bus_cycle":tstr_cycle+100,"kind":"request"},
+                    f"ITU compare A request: {irq}")
+            accepted = events[1]
+            require(accepted["kind"] == "accepted" and accepted["vector"] == 24 and
+                    accepted["handler_pc"] == 0x180 and accepted["raw_ccr"] == 0x80 and
+                    accepted["bus_cycle"] > events[0]["bus_cycle"],
+                    f"Hardware IRQ entered handler with post-entry CCR: {irq}")
+            if irq_reference is None:
+                irq_reference = irq
+            require(irq == irq_reference, "IRQ observations are slice invariant")
         # SCI output observation is opt-in and does not alter the bounded run.
         image([0x7a00,0xff,0xffb1,0xfa00,0x688a,0x0b00,0xfa20,0x688a,
                0x0b00,0xfaa5,0x688a,0x0b00,0x680b,0xeb7f,0x688b,0x40fe])

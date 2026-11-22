@@ -80,7 +80,33 @@ struct TstrObservation {
  uint32_t address=0;uint8_t width=1,value=0;uint64_t cycle=0;CpuContext before{};
  bool continuation_available=false;CpuContext continuation{};
 };
+struct IrqObserver {
+ static constexpr std::size_t capacity=512;
+ struct Event {unsigned vector;uint64_t cycle;std::optional<uint32_t> handler;uint8_t ccr;};
+ bool enabled=false;
+ std::array<Event,capacity> events{};
+ std::size_t count=0,dropped=0;
+ void record(unsigned vector,uint64_t cycle,std::optional<uint32_t> handler={},uint8_t ccr=0){
+  if(!enabled)return;
+  if(count==capacity){++dropped;return;}
+  events[count++]={vector,cycle,handler,ccr};
+ }
+ void write()const{
+  if(!enabled){std::cout<<"null";return;}
+  std::cout<<"{\"capacity\":"<<capacity<<",\"dropped\":"<<dropped<<",\"events\":[";
+  for(std::size_t i=0;i<count;++i){
+   if(i)std::cout<<',';
+   const auto&e=events[i];
+   std::cout<<"{\"vector\":"<<e.vector<<",\"bus_cycle\":"<<e.cycle<<",\"kind\":"
+    <<std::quoted(e.handler?"accepted":"request");
+   if(e.handler)std::cout<<",\"handler_pc\":"<<*e.handler<<",\"raw_ccr\":"<<unsigned(e.ccr);
+   std::cout<<'}';
+  }
+  std::cout<<"]}";
+ }
+};
 struct Sink {
+ IrqObserver irq_observer;
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
  std::unique_ptr<yamanix::An1xVop3ResearchSink> vop3;
@@ -125,11 +151,12 @@ struct Sink {
  uint64_t tx_count=0,clock_count=0,gpio_writes=0;
  void tx(unsigned channel,uint64_t cycle,bool level){++tx_count;if(observe_sci_tx)sci_tx_observer.tx(channel,cycle,level);}
  void clock(unsigned,uint64_t,bool){++clock_count;}
- bool dma_request(unsigned,uint64_t){return false;}
+ bool dma_request(unsigned vector,uint64_t at){irq_observer.record(vector,at);return false;}
  uint8_t gpio_read(unsigned p,uint64_t t){if(meg_sink())return meg_sink()->gpio_read(p,t);if(lcd)return lcd->gpio_read(p,t);throw std::logic_error("Unmodeled external GPIO input");}
  void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(meg_sink())meg_sink()->gpio_write(p,t,v,d);else if(lcd)lcd->gpio_write(p,t,v,d);}
 };
 struct Host {
+ Sink& sink;
  yamanix::An1xSciBus<Sink> bus;
  bool fault=false;const char*kind="none";uint32_t address=0;unsigned width=0;
  bool fault_has_value=false;uint16_t fault_value=0;
@@ -139,7 +166,7 @@ struct Host {
  uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
- Host(std::span<const uint8_t>rom,Sink&s,bool observe=false,std::span<const yamanix::SciCycleTimeline::RxEvent> input={}):bus(rom,input,s),observe_tstr(observe){}
+ Host(std::span<const uint8_t>rom,Sink&s,bool observe=false,std::span<const yamanix::SciCycleTimeline::RxEvent> input={}):sink(s),bus(rom,input,s),observe_tstr(observe){}
  void observe_cpu_dispatch(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
   if(!observe_tstr)return;
   cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
@@ -202,6 +229,10 @@ struct Host {
  uint64_t next_bus_event()const{return bus.next_bus_event();}
  uint8_t syscr_value()const{return bus.syscr_value();}
  void sync_cpu_ccr(uint8_t v){bus.sync_cpu_ccr(v);}
+ // The bus timestamp is from the last vector read, before the handler fetch.
+ void observe_irq_taken(unsigned vector,uint32_t handler,uint8_t ccr){
+  sink.irq_observer.record(vector,bus.cycle(),handler&0xffffff,ccr);
+ }
 };
 uint64_t number(const char*s,uint64_t maximum){
  const std::string_view v(s);uint64_t n=0;auto [end,error]=std::from_chars(v.data(),v.data()+v.size(),n);
@@ -246,10 +277,10 @@ std::vector<uint8_t>load(const char*path){
 #ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>14)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads]");
+  if(argc<6||argc>15)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads] [--observe-irq]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
-  std::string_view profile="disabled";bool profile_seen=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
+  std::string_view profile="disabled";bool profile_seen=false,observe_irq=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
   std::optional<MidiByteSchedule> midi;
   bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
@@ -279,6 +310,7 @@ int main(int argc,char**argv){
     if(observe_sci1_rx_reads)throw std::invalid_argument("Duplicate SCI1 receive read observer option");
     observe_sci1_rx_reads=true;
    }
+   else if(option=="--observe-irq"){if(observe_irq)throw std::invalid_argument("Duplicate IRQ observer option");observe_irq=true;}
    else if(option=="--observe-tstr"){if(observe_tstr)throw std::invalid_argument("Duplicate TSTR observer option");observe_tstr=true;}
    else if(option=="--observe-sci-writes"){if(observe_sci_writes)throw std::invalid_argument("Duplicate SCI write observer option");observe_sci_writes=true;}
    else if(option.starts_with("--observe-sci-writes=")){
@@ -317,7 +349,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -358,6 +390,7 @@ int main(int argc,char**argv){
    if(host.fault_has_value)std::cout<<",\"value\":"<<host.fault_value;
    std::cout<<'}';}
   else std::cout<<"null";
+  std::cout<<",\"irq_observations\":";sink.irq_observer.write();
   std::cout<<",\"tstr_observations\":";host.write_tstr_observations();
   std::cout<<",\"sci_write_observations\":";
   if(!observe_sci_writes)std::cout<<"null";
