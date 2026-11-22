@@ -7401,5 +7401,58 @@
     "dropped_output_events": 0,
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "sci0_midi_receive_diagnostic_20261122": {
+    "source_commit": "d73408cc4ebdb528fbabd22db0d8f2c33c077b67",
+    "rom_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "probe_sha256": "ba1c34ebf3b41e5964f79be056bd14d997e7f811cd2daf08f306c418a70447f2",
+    "report_sha256": {
+      "without": "ecf42230d25227c90ff01381df6343d65276af321fc5d40342fa854b2fc595bf",
+      "with": "87e6fe022c8be4847b46726e6e53a06a45270e9a63418f4f6a0350d8707cb32a"
+    },
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "profile": "lcd-meg-vop3-idle-panel-experiment-16mhz",
+    "rom_view": "swap16",
+    "adc_scan": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "requested_cycles": 140000000,
+    "slice_cycles": 4096,
+    "callback_limit": 100000000,
+    "midi_start_cycle": 128000000,
+    "midi_byte": 248,
+    "consumed_input_levels": [
+      0,
+      10
+    ],
+    "sci0_writes": [
+      {
+        "address": 16777136,
+        "value": 0,
+        "cycle": 475
+      },
+      {
+        "address": 16777138,
+        "value": 0,
+        "cycle": 483
+      },
+      {
+        "address": 16777137,
+        "value": 15,
+        "cycle": 491
+      }
+    ],
+    "sci0_receive_reads": 0,
+    "dropped_reads": 0,
+    "dropped_writes": 0,
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }
