@@ -1,3 +1,39 @@
+## Paired dispatch windows around TSTR and IRQ — 2026-11-23
+
+The pinned MAME research target accepts `YAMANIX_BOOT_CPU_WINDOW=FIRST:LAST`
+with inclusive CPU-cycle bounds. It reports up to 128 dispatches and counts
+overflow. The locked 17-patch preflight and local macOS build passed. Two
+five-second repetitions per window reproduced all 16 TSTR and 23 IRQ
+dispatch records without drops. Disabling the window preserved the remaining
+trace. The broad 0–10,000 cycle control retained 128 records and reported
+3,173 drops. Reversed endpoints failed at startup.
+
+The run used unchanged AN1x 1.04, fresh NVRAM, no MIDI, zero default ADC
+inputs, the firmware-contract DSP profile and local register bridge, the
+DMS-absent input and disabled DSP sample advancement. It uses the same
+nominal cycle bounds as the [project two-cycle control windows](#boot-dispatch-windows-around-tstr-and-irq--2026-11-23).
+The original MAME source is locked at
+`706dbb73281320c54d7c2f16262c1c3786f2be01`.
+
+- The shared sequence from `0x00EB50` through the third TSTR write has
+  matching PC, opcode and raw CCR on both sides. At `0x00EB50` MAME reports
+  CPU cycle 63,381,146 and the project reports bus cycle 63,381,162. The
+  16-cycle difference is already present there and persists at the write.
+- Before vector 40, both dispatch `0x03C93E` with raw CCR `25`, again 16
+  cycles apart. The project then enters the interrupt handler. MAME executes
+  four more instructions, starting at `0x03C942` and ending at `0x03C996`,
+  and dispatches the same handler `0x0015B8` with CCR `C4` at cycle
+  65,442,122. The project enters with CCR `E5` at bus cycle 65,442,120.
+
+The first handler's CCR difference is already present in the pre-entry
+instruction context. The next useful comparison moves the common-PC window
+earlier, between the second TSTR write and `0x00EB50`, to isolate the start of
+the 16-cycle offset. Hardware timing and MIDI acceptance remain open.
+
+The [ledger](development-ledger.json) records the report, binary and patch
+identities and reconciles the [#337 merge](https://github.com/RobCZart82/YamAN1x/pull/337),
+with all five checks successful on both revisions.
+
 ## Boot dispatch windows around TSTR and IRQ — 2026-11-23
 
 The project probe accepts `--observe-startup-prefix=FIRST:LAST` to select an

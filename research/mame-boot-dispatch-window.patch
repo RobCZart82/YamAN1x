@@ -1,0 +1,70 @@
+diff --git a/src/mame/yamaha/yman1x.cpp b/src/mame/yamaha/yman1x.cpp
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -11,6 +11,7 @@
+ *******************************************************************************/
+ 
+ #include "emu.h"
++#include <charconv>
+ #include "yamanix_pks_operand_context_trace.h"
+ #include "yamanix_pks_source_context_trace.h"
+ #include "yamanix_pks_instruction_context_trace.h"
+@@ -98,6 +99,10 @@
+     void dsp_trace_end();
+     bool m_boot_irq_trace = false;
+     bool m_boot_prefix_trace = false;
++    bool m_boot_window_trace = false;
++    u64 m_boot_window_first = 0, m_boot_window_last = 0;
++    unsigned m_boot_window_count = 0;
++    u64 m_boot_window_dropped = 0;
+     unsigned m_boot_prefix_count = 0;
+     unsigned m_boot_count = 0, m_boot_dropped = 0;
+     bool m_boot_entry_pending = false;
+@@ -140,6 +145,18 @@
+     m_boot_irq_trace = boot_trace && !std::strcmp(boot_trace, "1");
+     const char *prefix_trace = std::getenv("YAMANIX_BOOT_PREFIX_TRACE");
+     m_boot_prefix_trace = prefix_trace && !std::strcmp(prefix_trace, "1");
++    if (const char *window = std::getenv("YAMANIX_BOOT_CPU_WINDOW")) {
++        const char *split = std::strchr(window, ':');
++        const char *end = window + std::strlen(window);
++        if (!split)
++            fatalerror("Expected YAMANIX_BOOT_CPU_WINDOW=FIRST:LAST");
++        const auto first = std::from_chars(window, split, m_boot_window_first);
++        const auto last = std::from_chars(split + 1, end, m_boot_window_last);
++        if (first.ec != std::errc{} || first.ptr != split || last.ec != std::errc{} ||
++                last.ptr != end || m_boot_window_first > m_boot_window_last)
++            fatalerror("Invalid YAMANIX_BOOT_CPU_WINDOW endpoints");
++        m_boot_window_trace = true;
++    }
+     if (m_boot_irq_trace) {
+         m_maincpu->set_yamanix_irq_observer([this](bool accepted, int vector, u32 pc, u8 ccr) {
+             boot_observe(accepted ? "accepted" : "request", unsigned(vector), pc, ccr);
+@@ -166,6 +183,17 @@
+             logerror("YAMANIX BOOT_PREFIX seq=%u pc=%06x opcode=%04x ccr=%02x cpu_cycle=%llu time_ns=%llu\n",
+                 m_boot_prefix_count++, pc, unsigned(opcode), unsigned(ccr),
+                 (unsigned long long)m_maincpu->total_cycles(), (unsigned long long)time_ns);
++        if (m_boot_window_trace) {
++            const u64 cycle = m_maincpu->total_cycles();
++            if (cycle >= m_boot_window_first && cycle <= m_boot_window_last) {
++                if (m_boot_window_count < 128)
++                    logerror("YAMANIX BOOT_WINDOW seq=%u pc=%06x opcode=%04x ccr=%02x cpu_cycle=%llu time_ns=%llu\n",
++                        m_boot_window_count++, pc, unsigned(opcode), unsigned(ccr),
++                        (unsigned long long)cycle, (unsigned long long)time_ns);
++                else
++                    ++m_boot_window_dropped;
++            }
++        }
+         if (m_boot_entry_pending) {
+             m_boot_entry_pending = false;
+             boot_observe("dispatch", opcode, pc, ccr);
+@@ -392,6 +420,10 @@
+ 
+ void an1x_state::dsp_trace_end()
+ {
++    if (m_boot_window_trace)
++        logerror("YAMANIX BOOT_WINDOW_END first=%llu last=%llu count=%u dropped=%llu\n",
++            (unsigned long long)m_boot_window_first, (unsigned long long)m_boot_window_last,
++            m_boot_window_count, (unsigned long long)m_boot_window_dropped);
+     if (m_boot_irq_trace)
+         logerror("YAMANIX BOOT_IRQ_END count=%u dropped=%u pending=%u\n",
+             m_boot_count, m_boot_dropped, unsigned(m_boot_entry_pending));
