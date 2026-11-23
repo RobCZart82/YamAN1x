@@ -4,6 +4,10 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A kétciklusos kontroll már rögzíti a harmadik TSTR-írás és az első, 40-es
+megszakítás körüli utasításokat. A [napló](DEVELOPMENT_LOG.md#boot-dispatch-windows-around-tstr-and-irq--2026-11-23)
+tartalmazza a következő MAME-összevetés projektoldali adatait.
+
 A kétciklusos buszkontroll 16 MHz-es átszámítással egyezik a MAME első két
 TSTR-időpontjával és első megszakításkérésével. A harmadik TSTR-időpont és
 a belépéskori CCR továbbra is eltér. Lásd a [kontroll eredményét](DEVELOPMENT_LOG.md#fixed-cost-bus-startup-control--2026-11-23).

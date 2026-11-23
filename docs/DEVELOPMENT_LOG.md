@@ -1,3 +1,34 @@
+## Boot dispatch windows around TSTR and IRQ — 2026-11-23
+
+The project probe accepts `--observe-startup-prefix=FIRST:LAST` to select an
+inclusive CPU bus-cycle window. It retains up to 128 dispatches and reports
+overflow within the selected window. The ROM-free CLI test exercises exact
+endpoints, overflow, input validation and matching output across three slice
+sizes. The baseline startup prefix remains available.
+
+The local two-cycle control from [the previous comparison](#fixed-cost-bus-startup-control--2026-11-23)
+ran 66 million cycles using unchanged AN1x 1.04, the same eight zero ADC inputs,
+no MIDI and 4,096- and 1,000,000-cycle slices. For each window the two reports
+matched apart from the callback count. The third-TSTR window retained 15
+dispatches, and the first-IRQ window retained 20. Neither lost events.
+
+- The TSTR write at project cycle 63,381,196 follows the dispatch at
+  `0x00EB66`, opcode `0x7F60`, and precedes the dispatch at `0x00EB6A`.
+- The vector-40 request occurred at cycle 65,442,104. Before it, the
+  `0x03C93E` dispatch at cycle 65,442,100 had raw CCR `25`. The project
+  first dispatched handler `0x0015B8`, opcode `0x0100`, with raw CCR `E5`
+  at cycle 65,442,120. The earlier vector-read marker was 65,442,116.
+
+The [locked MAME comparison](#mame-and-project-boot-irq-comparison--2026-11-22)
+already has a handler dispatch, with raw CCR `C4`. The next comparison
+needs the corresponding MAME pre-entry instruction window. The project
+results apply to the diagnostic bus-cost control. Hardware timing and MIDI
+acceptance remain open.
+
+The [structured ledger](development-ledger.json) records binary and report
+hashes and the exact [#336](https://github.com/RobCZart82/YamAN1x/pull/336)
+merge. Its four checks passed on both revisions.
+
 ## Fixed-cost bus startup control — 2026-11-23
 
 Two baseline runs and two bounded control runs used #335's merged source
