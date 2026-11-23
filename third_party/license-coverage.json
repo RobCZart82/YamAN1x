@@ -1558,6 +1558,10 @@
       "source": "https://github.com/mamedev/mame/tree/706dbb73281320c54d7c2f16262c1c3786f2be01",
       "files": [
         {
+          "path": "research/mame-boot-dispatch-window.patch",
+          "required_notices": []
+        },
+        {
           "path": "research/mame-boot-irq-observation.patch",
           "required_notices": []
         },
