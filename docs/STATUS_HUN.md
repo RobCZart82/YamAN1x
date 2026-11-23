@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [mérés](DEVELOPMENT_LOG.md#branch-split-before-the-third-tstr-write--2026-11-23) a tartós 16 ciklusos eltérést a `0x00EAD0` elágazáshoz köti. A két modell eltérő CCR-rel érkezik ide. A következő mérés az elágazás előtti adatolvasás címét és értékét veti össze.
+
 A [páros utasításnyom](DEVELOPMENT_LOG.md#paired-dispatch-windows-around-tstr-and-irq--2026-11-23) szerint a 16 ciklusos eltérés már a harmadik TSTR-írás előtt jelen van. A MAME négy további utasítást hajt végre a megszakításkezelő előtt.
 
 A kétciklusos kontroll már rögzíti a harmadik TSTR-írás és az első, 40-es

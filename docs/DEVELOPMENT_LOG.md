@@ -1,3 +1,34 @@
+## Branch split before the third TSTR write — 2026-11-23
+
+The project two-cycle control from #337 and the locked MAME observer from
+#338 each retained 409 dispatches over nominal cycles 63,379,260–63,381,235.
+Capture consecutive inclusive windows of up to 200 cycles in both models,
+with the same no-MIDI, zero-ADC profiles as the previous paired measurement.
+The project used 63.4 million cycles and both 4,096 and 1,000,000 cycle
+slices. MAME used fresh NVRAM and four seconds per window with the
+firmware-contract bridge and DMS-absent settings. Each window repeated
+exactly on its own model without dropped events. Concatenate windows in
+ascending order, retaining cycle, PC, opcode and raw CCR.
+
+The first 46 records matched. At `0x00EA96` (cycle 63,379,492), both
+dispatched the same instruction with raw CCR `25` in MAME and `29` in
+the project. Earlier flags can therefore differ while the dispatch order
+still agrees. At `0x00EAD0` (cycle 63,381,026), both dispatch the same
+conditional branch. MAME has CCR `08` and takes `0x00EADE`. The project
+has CCR `04` and executes `0x00EAD2`, `0x00EAD8`, and `0x00EADA`
+before reaching `0x00EADE`, 16 cycles after MAME. That offset persists at
+the third TSTR write.
+
+The next evidence is the operand address and value at the preceding loads
+at `0x00EACC` and `0x00EA90`. The branch outcomes are consistent with the
+recorded Z flags. This observation leaves the origin of the input and
+hardware timing open.
+
+The [ledger](development-ledger.json) records trace identities and the
+[#338 merge](https://github.com/RobCZart82/YamAN1x/pull/338), including both
+successful targeted macOS repeats after the initial runner-capacity failures.
+No automated review result or quota error was visible before merging.
+
 ## Paired dispatch windows around TSTR and IRQ — 2026-11-23
 
 The pinned MAME research target accepts `YAMANIX_BOOT_CPU_WINDOW=FIRST:LAST`
