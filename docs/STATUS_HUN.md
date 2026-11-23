@@ -4,6 +4,10 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A kétciklusos buszkontroll 16 MHz-es átszámítással egyezik a MAME első két
+TSTR-időpontjával és első megszakításkérésével. A harmadik TSTR-időpont és
+a belépéskori CCR továbbra is eltér. Lásd a [kontroll eredményét](DEVELOPMENT_LOG.md#fixed-cost-bus-startup-control--2026-11-23).
+
 Az első 128 utasítás címe, műveleti kódja és CCR-értéke megegyezik a két
 modellben. A ciklusmegfigyelések közvetlenül az ASTCR beállítása után
 térnek el. A [mérés](DEVELOPMENT_LOG.md#startup-instruction-prefix-and-first-timing-split--2026-11-22)

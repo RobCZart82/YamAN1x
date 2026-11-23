@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "35d486d2fdcf43930b5379542bff53d3429d6491",
+  "baseline_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
   "entries": [
     {
       "pr": 6,
@@ -7590,6 +7590,40 @@
         "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45071835508"
       },
       "review": "No review request, submission, comment or thread was visible before the head-bound merge. No automated review result or quota error was observed."
+    },
+    {
+      "pr": 335,
+      "title": "Locate the early boot timing split at ASTCR",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/335",
+      "status": "merged",
+      "head_commit": "c292d2feec4a446ff08d717eca59f58d9de13391",
+      "merge_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
+      "merged_at_utc": "2026-11-22T22:36:24Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45075864457",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45075864351",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45075864369"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45078669250",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45078669333",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45078669303"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error observed in the PR diagnostics."
     }
   ],
   "pending_changes": [],
@@ -7711,19 +7745,15 @@
     "scope": "Reconciled PR #312 merge/exact-main checks and recorded bounded synthetic ADC scan evidence; documentation only."
   },
   "current_candidate": {
-    "kind": "research",
     "status": "candidate",
-    "branch": "research/first-tstr-startup-comparison",
-    "base_commit": "35d486d2fdcf43930b5379542bff53d3429d6491",
+    "branch": "docs/boot-fixed-bus-control",
+    "base_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
     "pr": null,
     "head_commit": null,
+    "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "review": null,
-    "merge_commit": null,
-    "merged_at_utc": null,
-    "scope": "Compare the first 128 boot instructions and identify the first observed timing split.",
-    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01"
+    "scope": "Record fixed-cost bus timing control against the pinned MAME evidence."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8188,6 +8218,45 @@
     "project_bus_cycle": 39,
     "mame_last_cpu_cycle": 482,
     "project_last_bus_cycle": 639,
+    "hardware_validated": false
+  },
+  "boot_bus_cost_control_20261123": {
+    "source_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "baseline_binary_sha256": "d8005c4002d9bc98beececd592b7eb7684df370c603efa2ff6bbc9781166e211",
+    "control_binary_sha256": "799136a540ec200b85de2b0e42b8cb0ac76deadb651e079eb72121781fcd5a2b",
+    "control_changes": "Probe Host::access_cycles returns constant 2; all MMIO accesses remain intact.",
+    "project_cycles": {
+      "baseline": 100000000,
+      "control": 66000000
+    },
+    "report_sha256": {
+      "baseline": {
+        "4096": "a2e580465746c113a6f6933d023cb103d7999b2a7a821b5de47a93292036f670",
+        "1000000": "845eae2a7f4982855325dc4375cc9266c87e7151ae83c4837bf5d24bda6be269"
+      },
+      "bounded": {
+        "4096": "f67ebed122297f77336331f000897d556f1ffed0da60b3c0458d29fdba18e8e3",
+        "1000000": "d6b30fcfcce077ec04f942300afbc3cafacbc084f9e93d7ecf36e12d1b5a3056"
+      }
+    },
+    "tstr_control_cycles": [
+      8262708,
+      63379314,
+      63381196
+    ],
+    "tstr_mame_normalized_cycles": [
+      8262708,
+      63379314,
+      63381180
+    ],
+    "first_irq_vector": 40,
+    "first_irq_control_request_cycle": 65442104,
+    "first_irq_mame_normalized_request_cycle": 65442104,
+    "first_accepted_control_ccr": 229,
+    "first_accepted_mame_ccr": 196,
+    "control_irq_events": 10,
+    "control_dropped": 0,
     "hardware_validated": false
   }
 }

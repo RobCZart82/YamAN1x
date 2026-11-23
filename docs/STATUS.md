@@ -4,6 +4,10 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The fixed-cost control reproduces the first two TSTR timestamps and the first
+IRQ request under the 16 MHz reference conversion. The third TSTR timestamp
+and entry CCR still differ. See the [control result](DEVELOPMENT_LOG.md#fixed-cost-bus-startup-control--2026-11-23).
+
 Both models execute the same first 128 PC/opcode/CCR tuples. Their cycle
 observations separate immediately after the firmware configures ASTCR.
 The [prefix comparison](DEVELOPMENT_LOG.md#startup-instruction-prefix-and-first-timing-split--2026-11-22)

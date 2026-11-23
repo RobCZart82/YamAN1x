@@ -1,3 +1,40 @@
+## Fixed-cost bus startup control — 2026-11-23
+
+Two baseline runs and two bounded control runs used #335's merged source
+and unchanged AN1x 1.04, with the same idle-panel profile, eight zero ADC
+inputs, no MIDI, and 4,096- and 1,000,000-cycle slices. For the local control
+build, replace the boot probe's `Host::access_cycles` body with `return 2;`
+and remove the unused parameter names. Build separately and keep the existing
+ASTCR/WCR/WCER register accesses. The build hashes and report hashes are in
+the [ledger](development-ledger.json). Use a 66-million-cycle control window
+to retain every IRQ event. The normal profile ran for 100 million cycles.
+Both pairs matched apart from the completed callback count, with zero drops
+and unchanged input bytes.
+
+Compare with the archived [#334 MAME run](#mame-and-project-boot-irq-comparison--2026-11-22)
+on the original source lock. Multiplying its nanosecond timestamps by 16 MHz
+gives the following observations:
+
+| Event | Normal project cycle | Fixed-cost control cycle | MAME nominal cycle |
+| --- | ---: | ---: | ---: |
+| First TSTR write | 11,925,102 | 8,262,708 | 8,262,708 |
+| Second TSTR write | 92,381,419 | 63,379,314 | 63,379,314 |
+| Third TSTR write | 92,384,136 | 63,381,196 | 63,381,180 |
+| First IRQ request, vector 40 | 95,318,896 | 65,442,104 | 65,442,104 |
+
+The control reproduces the first two TSTR timestamps and first IRQ request
+under this conversion. It also reproduces the early prefix cycle observations
+at indices 10 and 127 (38 and 482). The third TSTR observation differs by
+16 cycles. The first raw IRQ-entry CCR remains different: control `E5`,
+MAME `C4`. This isolates the bus-cost contribution in the observed profile.
+The next comparison should capture CPU context immediately before the first
+request and through the first handler instruction with the fixed-cost control.
+The [project's modeled wait behavior](an1x-wait-profile.md) remains the
+operational profile. Hardware timing and MIDI acceptance remain open.
+
+The [#335 merge](https://github.com/RobCZart82/YamAN1x/pull/335) and both sets of
+five successful checks are reconciled in the ledger.
+
 ## Startup instruction prefix and first timing split — 2026-11-22
 
 The optional project `--observe-startup-prefix` and MAME
