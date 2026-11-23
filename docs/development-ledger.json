@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "f380eecf3ad27a206dd3416eca40785f775e1397",
+  "baseline_commit": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
   "entries": [
     {
       "pr": 6,
@@ -7688,6 +7688,47 @@
         "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45239483746"
       },
       "review": "No review submission, request, thread, automated review result or quota error observed before the head-bound merge."
+    },
+    {
+      "pr": 338,
+      "title": "Compare MAME and project dispatch windows around TSTR and IRQ",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/338",
+      "status": "merged",
+      "head_commit": "8f0d56d3b8dca66ab9c1bdbabe44239def3b0e8e",
+      "merge_commit": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
+      "merged_at_utc": "2026-11-23T20:12:40Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45246933114",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45246933089",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45246933067"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45256988257",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45256988114",
+        "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45256988139"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge.",
+      "infrastructure_retries": {
+        "pr_original_macos_job": 137946056524,
+        "pr_successful_macos_job": 137968810317,
+        "main_original_research_job": 137981290951,
+        "main_successful_research_job": 138003138186,
+        "reason": "GitHub-hosted macOS arm64 runner unavailable before steps started."
+      }
     }
   ],
   "pending_changes": [],
@@ -7810,14 +7851,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/mame-dispatch-window",
-    "base_commit": "f380eecf3ad27a206dd3416eca40785f775e1397",
+    "branch": "docs/tstr-offset-origin",
+    "base_commit": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Capture matching MAME dispatch windows and compare with the project two-cycle control."
+    "scope": "Record repeatable branch split between second and third TSTR writes."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8391,6 +8432,40 @@
     "mame_last_pre_irq_pc": 248214,
     "mame_handler_dispatch_cycle": 65442122,
     "mame_handler_raw_ccr": 196,
+    "hardware_validated": false
+  },
+  "tstr_offset_origin_20261123": {
+    "project_source_commit": "da83287685d65e2c07c747edc57519de510e8712",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "main_revision": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
+    "project_binary_sha256": "dbf1aa87d724d1730bcadd0236dce2175b56e41c15eee3874a86f1f4443be431",
+    "mame_binary_sha256": "534280145d5bd8de7cb67d9a907d65eb409929671b69caaa301c83088088614e",
+    "combined_summary_sha256": "693e5761d33a834213edb8c04e280c76b245a4f8700adbda5b64fd9a44fed34e",
+    "first_cycle": 63379260,
+    "last_cycle": 63381235,
+    "max_window_cycles": 200,
+    "dispatches_per_model": 409,
+    "dropped": 0,
+    "first_observed_ccr_difference": {
+      "cycle": 63379492,
+      "pc": 60054,
+      "mame_ccr": 37,
+      "project_ccr": 41
+    },
+    "branch_split": {
+      "cycle": 63381026,
+      "pc": 60112,
+      "mame_ccr": 8,
+      "project_ccr": 4,
+      "mame_next_pc": 60126,
+      "project_next_pc": 60114,
+      "project_extra_pcs": [
+        60114,
+        60120,
+        60122
+      ],
+      "rejoin_offset_cycles": 16
+    },
     "hardware_validated": false
   }
 }

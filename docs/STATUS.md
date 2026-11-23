@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [trace](DEVELOPMENT_LOG.md#branch-split-before-the-third-tstr-write--2026-11-23) locates the persistent 16-cycle offset at the branch at `0x00EAD0`. The two models enter the branch with different CCR values. The next probe should compare the address and value of the preceding data read.
+
 The two [dispatch windows](DEVELOPMENT_LOG.md#paired-dispatch-windows-around-tstr-and-irq--2026-11-23) show the 16-cycle offset already present before the third TSTR write and the four additional MAME instructions before IRQ entry.
 
 The local two-cycle control now captures the project dispatches around the
