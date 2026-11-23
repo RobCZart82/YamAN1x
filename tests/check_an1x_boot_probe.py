@@ -53,6 +53,21 @@ def main(binary):
             if prefix_reference is None:
                 prefix_reference = prefix
             require(prefix == prefix_reference, "Startup prefix is invariant across slices")
+        for slice_size in (1, 8, 64):
+            code, report = run([2048,slice_size,10000], extra=("--observe-startup-prefix=8:12",))
+            require(code == 0 and report["startup_prefix"] == prefix_reference[1:3] and
+                    report["startup_prefix_window"] == {
+                        "first_cycle":8,"last_cycle":12,"capacity":128,"dropped":0,
+                    }, "Dispatch window retains both endpoints and preserves exact records")
+        code, report = run([2048,8,10000], extra=("--observe-startup-prefix=0:2048",))
+        require(code == 0 and report["startup_prefix"] == prefix_reference and
+                report["startup_prefix_window"]["dropped"] > 0,
+                "Dispatch window reports eligible records beyond its retained capacity")
+        for options in (("--observe-startup-prefix=12:8",),
+                        ("--observe-startup-prefix=:8",),
+                        ("--observe-startup-prefix","--observe-startup-prefix=8:12")):
+            code, report = run([64,8,10000], extra=options)
+            require(code == 1 and report["status"] == "input_error", "Reject invalid dispatch window")
         # Two committed TSTR byte writes. The observer must retain the exact
         # MMIO value/cycle/raw CCR and the first completed CPU continuation,
         # independent of where the runner's cycle slices fall.
