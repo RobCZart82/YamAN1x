@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
+  "baseline_commit": "e6319eb383e8455a37c4b6ac10e68be3c5bb936c",
   "entries": [
     {
       "pr": 6,
@@ -7624,6 +7624,36 @@
         "research_macos": "https://github.com/RobCZart82/YamAN1x/actions/runs/45078669303"
       },
       "review": "No review submission, request, thread, automated review result or quota error observed in the PR diagnostics."
+    },
+    {
+      "pr": 336,
+      "title": "Record the two-cycle boot timing control",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/336",
+      "status": "merged",
+      "head_commit": "f9cfc83aef73d0cbead0289d17998a1786e0b202",
+      "merge_commit": "e6319eb383e8455a37c4b6ac10e68be3c5bb936c",
+      "merged_at_utc": "2026-11-23T17:12:27Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45218205741",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45218205919"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45225102613",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45225102691"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error observed in the PR diagnostics."
     }
   ],
   "pending_changes": [],
@@ -7746,14 +7776,15 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/boot-fixed-bus-control",
-    "base_commit": "ec0129b335aee419d3722e0f33ecb4580cf0a732",
+    "branch": "research/boot-dispatch-window",
+    "base_commit": "e6319eb383e8455a37c4b6ac10e68be3c5bb936c",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record fixed-cost bus timing control against the pinned MAME evidence."
+    "review": null,
+    "scope": "Bounded project CPU dispatch windows at the third TSTR write and first vector-40 interrupt."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8257,6 +8288,43 @@
     "first_accepted_mame_ccr": 196,
     "control_irq_events": 10,
     "control_dropped": 0,
+    "hardware_validated": false
+  },
+  "boot_dispatch_window_20261123": {
+    "source_commit": "da83287685d65e2c07c747edc57519de510e8712",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "control_binary_sha256": "dbf1aa87d724d1730bcadd0236dce2175b56e41c15eee3874a86f1f4443be431",
+    "cycles": 66000000,
+    "windows": {
+      "tstr": {
+        "first_cycle": 63381145,
+        "last_cycle": 63381235,
+        "records": 15,
+        "dropped": 0,
+        "report_sha256_by_slice": {
+          "4096": "63c78294ef0065f37ba10c350a9f8499d03dbcbb8232880b24c303b67a68f1da",
+          "1000000": "5be24053b5e7a4ae47ad7a339d048a06d260ae15ac138b91e0a0e77fe8e80721"
+        }
+      },
+      "irq": {
+        "first_cycle": 65442040,
+        "last_cycle": 65442170,
+        "records": 20,
+        "dropped": 0,
+        "report_sha256_by_slice": {
+          "4096": "6b00b93c2eed7b17120b1b17417ed432976cdcf7193cc33051a1da372060e177",
+          "1000000": "dc8aa6392487badc4171cd8adb8568b7e5d50bfbc1297f9aecfdefb22c5b5b9f"
+        }
+      }
+    },
+    "third_tstr_cycle": 63381196,
+    "third_tstr_instruction_pc": 60262,
+    "first_irq_request_cycle": 65442104,
+    "last_vector_read_cycle": 65442116,
+    "first_handler_dispatch_cycle": 65442120,
+    "first_handler_pc": 5560,
+    "first_handler_opcode": 256,
+    "first_handler_raw_ccr": 229,
     "hardware_validated": false
   }
 }

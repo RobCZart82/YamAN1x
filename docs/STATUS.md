@@ -4,6 +4,10 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The local two-cycle control now captures the project dispatches around the
+third TSTR write and the first vector-40 interrupt. The [boot windows](DEVELOPMENT_LOG.md#boot-dispatch-windows-around-tstr-and-irq--2026-11-23)
+provide the project-side instruction sequence for the next MAME comparison.
+
 The fixed-cost control reproduces the first two TSTR timestamps and the first
 IRQ request under the 16 MHz reference conversion. The third TSTR timestamp
 and entry CCR still differ. See the [control result](DEVELOPMENT_LOG.md#fixed-cost-bus-startup-control--2026-11-23).
