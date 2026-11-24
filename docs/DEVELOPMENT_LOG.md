@@ -1,3 +1,41 @@
+## Matched ADC and SCI0 startup through 112 million cycles — 2026-11-24
+
+The [idle-panel control](#idle-panel-input-accounts-for-the-observed-tstr-branch-split--2026-11-24)
+was repeated on both models with no MIDI, eight zero ADC inputs, unchanged
+AN1x 1.04, and disabled DSP sample advancement. The project used merged
+#340 with the local two-cycle bus control and ran for 112 million cycles
+at 4,096 and 1,000,000 cycle slices. MAME used the locked 17-patch chain,
+the idle panel high lane set to `FF`, fresh NVRAM, seven seconds, the
+firmware-contract bridge and DMS-absent input. Both pairs repeated.
+
+For reproduction, observe successful program-space data accesses after
+the project byte/word read or write and via MAME read/write taps. Select
+`0xFFFFE0–0xFFFFE9` (ADC) and `0xFFFFB0–0xFFFFB5` (SCI0), ignoring MAME
+side-effect-disabled accesses. Report the first value and each subsequent
+change for each operation/address/width key, with a 2,048-record cap and
+separate total access/change counts. Use bus cycle on the project and CPU
+cycle on MAME. Normalize MAME masks `FF00`, `00FF` and `FFFF` to the
+byte/word address, width and value. The local observer edits and raw reports
+stay outside the repository.
+
+All 1,725 first-value and changed-value records through cycle 112,000,000
+matched in address, value, width, operation and cycle, with zero drops.
+MAME retained a further 18 records after the project cutoff. The ADC
+completed the first conversion, returned status `83` at cycle 65,635,170
+and read zero at `0xFFFFE6` at cycle 65,635,182. Both models proceeded to
+the lower and upper ADC scans. SCI0 wrote SMR `00`, SCR `00` and BRR
+`0F` at cycles 360, 366 and 372. The common trace has no subsequent value
+change enabling `SCR.RE`, and both observers recorded zero status/data
+register reads. These are activity and timing results for the matched
+control profiles. The next useful comparison is the firmware control flow
+and initialization state that gates the later receiver enable, including
+SCI1 exchange where the firmware expects a response.
+
+The [structured ledger](development-ledger.json) records trace identities
+and the [#340 merge](https://github.com/RobCZart82/YamAN1x/pull/340). All
+four checks passed on its exact head and main. No automatic review result
+or quota error was visible before merging.
+
 ## Idle-panel input accounts for the observed TSTR branch split — 2026-11-24
 
 Two local MAME repeats per setting used the original locked source at
