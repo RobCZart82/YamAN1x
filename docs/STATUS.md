@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [ADC and SCI0 comparison](DEVELOPMENT_LOG.md#matched-adc-and-sci0-startup-through-112-million-cycles--2026-11-24) matches all 1,725 observed value transitions through cycle 112 million. SCI0 remains disabled in the observed window. The later firmware receiver-enable condition is the next comparison.
+
 The [idle-panel control](DEVELOPMENT_LOG.md#idle-panel-input-accounts-for-the-observed-tstr-branch-split--2026-11-24) reproduces the project branch, third TSTR cycle and first IRQ handler CCR on MAME. The next matched-input comparison can focus on ADC completion and SCI0 receiver setup.
 
 The [trace](DEVELOPMENT_LOG.md#branch-split-before-the-third-tstr-write--2026-11-23) locates the persistent 16-cycle offset at the branch at `0x00EAD0`. The two models enter the branch with different CCR values. The next probe should compare the address and value of the preceding data read.

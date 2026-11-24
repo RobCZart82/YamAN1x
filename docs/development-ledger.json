@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "03105e0cd60039ba34551703d7998899cc373f94",
+  "baseline_commit": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
   "entries": [
     {
       "pr": 6,
@@ -7759,6 +7759,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45274048450"
       },
       "review": "No review submission, request, thread, automated review result or quota error observed before the head-bound merge."
+    },
+    {
+      "pr": 340,
+      "title": "Isolate the idle-panel input effect at the third TSTR write",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/340",
+      "status": "merged",
+      "head_commit": "d436bed3680b04f0243d33a4f9053282190a8654",
+      "merge_commit": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
+      "merged_at_utc": "2026-11-24T19:32:55Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45464822243",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45464822097"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45471377022",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45471377052"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -7881,14 +7911,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/idle-panel-tstr-control",
-    "base_commit": "03105e0cd60039ba34551703d7998899cc373f94",
+    "branch": "docs/adc-sci0-matched-boot",
+    "base_commit": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Document the causal idle-panel input comparison at the third TSTR write and first IRQ."
+    "scope": "Record matched ADC/SCR trace and the open firmware receiver gate."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8533,5 +8563,38 @@
     },
     "firmware_boot_accepted": false,
     "audio_accepted": false
+  },
+  "matched_adc_sci0_20261124": {
+    "main_revision": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "image_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "mame_binary_sha256": "636b6fe03ab310b1b4736290b37b3300ae3dfbec3db89e796241470495affd1c",
+    "project_binary_sha256": "ac66c3ee7c3fa2d3781375d46d8ea86a505e3ff12bc74e098f5c8499a415888f",
+    "mame_trace_sha256": "15c87d4c05d4c66324a69912ec33aee10fd0e7f7858b49c9b7b83f2865ea4875",
+    "project_trace_sha256": "1b6872be598415bfa7aa8b865c4fcc5dc2d5b158d8664ce8ddb00cf48d84974d",
+    "nominal_cycles": 112000000,
+    "matched_changed_events": 1725,
+    "mame_changed_events_total": 1743,
+    "project_accesses": 3566,
+    "mame_accesses_total": 3605,
+    "capacity": 2048,
+    "dropped_changed_events": 0,
+    "sci0_write_cycles": [
+      360,
+      366,
+      372
+    ],
+    "sci0_write_addresses": [
+      16777136,
+      16777138,
+      16777137
+    ],
+    "sci0_write_values": [
+      0,
+      0,
+      15
+    ],
+    "sci0_rx_register_reads": 0,
+    "hardware_validated": false
   }
 }
