@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-22",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
+  "baseline_commit": "03105e0cd60039ba34551703d7998899cc373f94",
   "entries": [
     {
       "pr": 6,
@@ -7729,6 +7729,36 @@
         "main_successful_research_job": 138003138186,
         "reason": "GitHub-hosted macOS arm64 runner unavailable before steps started."
       }
+    },
+    {
+      "pr": 339,
+      "title": "Trace the 16-cycle TSTR offset to a firmware branch",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/339",
+      "status": "merged",
+      "head_commit": "72f59c9fce675e7cceba57a9fc25d1af0b15121c",
+      "merge_commit": "03105e0cd60039ba34551703d7998899cc373f94",
+      "merged_at_utc": "2026-11-23T21:52:26Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45267635476",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45267635464"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45274048209",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45274048450"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error observed before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -7851,14 +7881,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/tstr-offset-origin",
-    "base_commit": "518a5b2e2c5413d0ad5d6a27d6f6670041ae3f85",
+    "branch": "docs/idle-panel-tstr-control",
+    "base_commit": "03105e0cd60039ba34551703d7998899cc373f94",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record repeatable branch split between second and third TSTR writes."
+    "scope": "Document the causal idle-panel input comparison at the third TSTR write and first IRQ."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8467,5 +8497,41 @@
       "rejoin_offset_cycles": 16
     },
     "hardware_validated": false
+  },
+  "idle_panel_tstr_control_20261124": {
+    "main_revision": "03105e0cd60039ba34551703d7998899cc373f94",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_binary_sha256": "a0dbfd139fd95c6ec204574abf2ed582a6e1d8395d72ef52aca5375e75bcbdc4",
+    "project_binary_sha256": "80b3575f6059d53c5c33d992f1dbaaaa7040b8742ff55a4b62a5f11efdd80d87",
+    "mame_trace_sha256": {
+      "baseline": "c7a8945547ef2181080e8f78971db7015e759f070af27af27fa9ec5ae72b1ce6",
+      "idle_ff": "dee08049b64e0a0b193ba186d325b6f76114caf0515bf3aa739237ae8e034fa0"
+    },
+    "project_operand_trace_sha256": "5f1371d9835002cf020bd67308893ebdcd0b2d92836a67528ce8dd0eb4472ca0",
+    "operand_panel": {
+      "pc": 60048,
+      "address": 6815744,
+      "baseline_mame": 0,
+      "project": 255
+    },
+    "operand_stack": {
+      "pc": 60108,
+      "address": 2293355,
+      "baseline_mame": 255,
+      "control_mame": 0,
+      "project": 0
+    },
+    "third_tstr_nominal_cycles": {
+      "baseline_mame": 63381180,
+      "controlled_mame": 63381196,
+      "project": 63381196
+    },
+    "irq_handler_ccr": {
+      "baseline_mame": 196,
+      "controlled_mame": 229,
+      "project": 229
+    },
+    "firmware_boot_accepted": false,
+    "audio_accepted": false
   }
 }

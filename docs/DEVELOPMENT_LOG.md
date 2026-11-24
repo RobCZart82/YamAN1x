@@ -1,3 +1,48 @@
+## Idle-panel input accounts for the observed TSTR branch split — 2026-11-24
+
+Two local MAME repeats per setting used the original locked source at
+`706dbb73281320c54d7c2f16262c1c3786f2be01` with the reviewed 17-patch chain,
+fresh NVRAM, five seconds, no MIDI, default zero ADC, firmware-contract DSP,
+DMS-absent input and no sample advancement. Two local project runs used
+#339 main, the [two-cycle control](#fixed-cost-bus-startup-control--2026-11-23),
+66 million cycles, eight zero ADC inputs, no MIDI and slices of 4,096 and
+1,000,000 cycles. The AN1x 1.04 image was unchanged.
+
+For local reproduction, log successful project byte reads at dispatch PCs
+`00EA90` and `00EACC` over cycles 63,379,260–63,381,235. Use the probe's
+dispatch PPC and enable TSTR observation to populate it. In MAME, record the
+last dispatch PC through its existing instruction observer, then use a
+read-only program-space tap to log the corresponding address, mask and raw
+data over the same cycle range. Exclude ROM instruction fetches from the
+operand comparison. In the separate MAME control, install a second tap on
+aligned word `0x680000` after the logger. For accesses with mask `FF00` or
+`FFFF`, OR `FF00` into the returned word to model the project idle-panel
+byte. The operand logger still shows the raw value before this override at
+that address. Observe dispatches over 63,380,990–63,381,320 and the IRQ/TSTR
+markers in both runs. The diagnostic changes and raw traces stay local.
+
+| Observation | Default MAME input | MAME idle-panel control | Project two-cycle control |
+| --- | --- | --- | --- |
+| Panel byte supplied at `0x680000`, PC `00EA90` | `00` | `FF` | `FF` |
+| Stack byte read at `0x22FE6B`, PC `00EACC` | `FF` | `00` | `00` |
+| CCR and next PC at branch `00EAD0` | `08`, `00EADE` | `04`, `00EAD2` | `04`, `00EAD2` |
+| Third TSTR, cycles at nominal 16 MHz | 63,381,180 | 63,381,196 | 63,381,196 |
+| First vector-40 handler dispatch CCR | `C4` | `E5` | `E5` |
+
+The input change also keeps the first IRQ request at nominal cycle
+65,442,104 and aligns the first handler dispatch at 65,442,120. Repeats
+matched and the selected instruction windows had zero drops. This isolates
+the panel-input effect on the observed branch, third TSTR and IRQ context.
+The matched idle input is an experimental control. Physical panel timing,
+full firmware initialization and MIDI acceptance remain open. The next
+comparison can move to ADC completion and SCI0 receiver setup with matched
+idle-panel inputs.
+
+The [ledger](development-ledger.json) records trace identities and reconciles
+the [#339 merge](https://github.com/RobCZart82/YamAN1x/pull/339). All four
+checks passed on its head and main. No automatic review result or quota
+error was visible in the merge diagnostics.
+
 ## Branch split before the third TSTR write — 2026-11-23
 
 The project two-cycle control from #337 and the locked MAME observer from
