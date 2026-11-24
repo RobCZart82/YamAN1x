@@ -1,3 +1,31 @@
+## Matched SCI1 startup writes through 88 million cycles — 2026-11-24
+
+The two-cycle project control and the pinned MAME idle-panel control from
+[#341](https://github.com/RobCZart82/YamAN1x/pull/341) used the unchanged
+AN1x 1.04 image, cold startup, zero ADC inputs, no MIDI and disabled DSP
+sample advancement. The existing instrumented binaries were reused. MAME ran
+twice for 12 seconds with fresh NVRAM. The project ran twice to cycle
+88,000,000 with 4,096- and 1,000,000-cycle slices. Project reports matched
+apart from the slice callback count. Both MAME SCI access streams matched.
+
+Compare writes only. Convert MAME nanoseconds using the 16 MHz profile and
+map each byte event to `0xFFFFB0 + 8 × channel + register`. The project
+normalizes writes to byte addresses. Within the common window all 48 writes
+matched in order, cycle, address, width and value, with no drops. SCI1 SCR
+first became `70` at cycle 86,732,524. At `0xFFFFBB` both models wrote
+the six-byte prefix `E0 00 20 E0 00 00` at cycles 87,035,718, 87,036,882,
+87,040,496, 87,187,192, 87,188,356 and 87,191,984.
+
+SCI0 SCR remained `00` in the common window. The project read SCI1 status
+`84` at cycle 87,035,736, four cycles before the matched write of `04`.
+The MAME generic read trace also captured status `84` at `0x0018BE`, but
+the structured MAME SCI stream contains only write events in these runs.
+A separate timed read observer is needed before claiming cross-model read
+agreement. The shared transmit prefix does not establish a keyboard-board
+response or a dependency between SCI1 and SCI0. Next, observe SCI1 status,
+RDR and IRQ continuation around the first `FE` transmit and determine
+which condition the firmware tests before proposing a reply model.
+
 ## Matched ADC and SCI0 startup through 112 million cycles — 2026-11-24
 
 The [idle-panel control](#idle-panel-input-accounts-for-the-observed-tstr-branch-split--2026-11-24)

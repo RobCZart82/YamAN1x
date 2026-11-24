@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az [SCI1 összevetésben](DEVELOPMENT_LOG.md#matched-sci1-startup-writes-through-88-million-cycles--2026-11-24) mind a 48 sorosregiszter-írás egyezik 88 millió ciklusig, köztük az SCI1 első hat adásbájtja. A következő mérés az első SCI1 `FE` küldés körüli olvasásokat és megszakításokat vizsgálja.
+
 Az [ADC és SCI0 összevetésében](DEVELOPMENT_LOG.md#matched-adc-and-sci0-startup-through-112-million-cycles--2026-11-24) mind az 1 725 rögzített értékváltozás egyezik 112 millió ciklusig. Az SCI0 vevő ebben az ablakban letiltva marad. Következő lépés a későbbi vevőengedélyezés firmware-feltételének vizsgálata.
 
 A [nyugalmi panelbemenettel végzett MAME-kontroll](DEVELOPMENT_LOG.md#idle-panel-input-accounts-for-the-observed-tstr-branch-split--2026-11-24) reprodukálta a projekt elágazását, a harmadik TSTR időpontját és az első megszakításkezelő CCR-értékét. Következő lépés az ADC befejezésének és az SCI0 vevőbeállításának összevetése egyező bemenettel.

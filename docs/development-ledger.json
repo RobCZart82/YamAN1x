@@ -7789,6 +7789,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45471377052"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 341,
+      "title": "Record matched ADC and SCI0 startup evidence",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/341",
+      "status": "merged",
+      "head_commit": "84bb7f3bd68ea14d941d7cecceed7949850704fa",
+      "merge_commit": "76766bd1f362646d7f940822e39f2d0d65bd6e48",
+      "merged_at_utc": "2026-11-24T20:52:59Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45478925673",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45478925849"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45485385111",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45485384938"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -7911,14 +7941,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/adc-sci0-matched-boot",
-    "base_commit": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
+    "branch": "docs/sci1-matched-startup",
+    "base_commit": "76766bd1f362646d7f940822e39f2d0d65bd6e48",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record matched ADC/SCR trace and the open firmware receiver gate."
+    "scope": "Record matched SCI startup writes and the next timed read and IRQ probe."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8595,6 +8625,34 @@
       15
     ],
     "sci0_rx_register_reads": 0,
+    "hardware_validated": false
+  },
+  "matched_sci1_startup_20261124": {
+    "main_baseline": "76766bd1f362646d7f940822e39f2d0d65bd6e48",
+    "research_binary_base": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
+    "original_mame_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "image_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "mame_binary_sha256": "636b6fe03ab310b1b4736290b37b3300ae3dfbec3db89e796241470495affd1c",
+    "project_binary_sha256": "ac66c3ee7c3fa2d3781375d46d8ea86a505e3ff12bc74e098f5c8499a415888f",
+    "mame_sci_stream_sha256": "1dc07d502e03c5d0ec812c66648cbbdd5404c0074f86553c5a1fde0cf3a58745",
+    "project_report_sha256": [
+      "e1e154d2330636e1a5fd6e8d4eebb7c374b36335711932663d2eac333fc85dc5",
+      "984c4e3359716433bdac94f1946d7183ec9e3911e006a52c7dfc9bca508155d2"
+    ],
+    "compared_cycles": 88000000,
+    "matched_serial_writes": 48,
+    "dropped_in_common_window": 0,
+    "first_sci1_enable_cycle": 86732524,
+    "sci1_tdr_prefix_hex": "e00020e00000",
+    "sci1_tdr_prefix_cycles": [
+      87035718,
+      87036882,
+      87040496,
+      87187192,
+      87188356,
+      87191984
+    ],
+    "timed_comparison_scope": "writes only",
     "hardware_validated": false
   }
 }

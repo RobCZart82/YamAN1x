@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [SCI1 comparison](DEVELOPMENT_LOG.md#matched-sci1-startup-writes-through-88-million-cycles--2026-11-24) matches all 48 startup serial writes through cycle 88 million, including the initial six SCI1 transmit bytes. The next probe should identify the firmware condition around the first SCI1 `FE` transmit with a timed read and interrupt trace.
+
 The [ADC and SCI0 comparison](DEVELOPMENT_LOG.md#matched-adc-and-sci0-startup-through-112-million-cycles--2026-11-24) matches all 1,725 observed value transitions through cycle 112 million. SCI0 remains disabled in the observed window. The later firmware receiver-enable condition is the next comparison.
 
 The [idle-panel control](DEVELOPMENT_LOG.md#idle-panel-input-accounts-for-the-observed-tstr-branch-split--2026-11-24) reproduces the project branch, third TSTR cycle and first IRQ handler CCR on MAME. The next matched-input comparison can focus on ADC completion and SCI0 receiver setup.
