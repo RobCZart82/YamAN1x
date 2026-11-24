@@ -7819,6 +7819,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45485384938"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 342,
+      "title": "Record matched SCI1 startup writes",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/342",
+      "status": "merged",
+      "head_commit": "cd1781c3d1a483f4bed9b4d07871a7cc7a5f04e6",
+      "merge_commit": "e6f4e6004d5dc5f2492642ef0b89b1e6bbf309cc",
+      "merged_at_utc": "2026-11-24T22:33:02Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45495985233",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45495985196"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45501975668",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45501975774"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -7941,14 +7971,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-matched-startup",
-    "base_commit": "76766bd1f362646d7f940822e39f2d0d65bd6e48",
+    "branch": "docs/sci1-first-fe",
+    "base_commit": "e6f4e6004d5dc5f2492642ef0b89b1e6bbf309cc",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record matched SCI startup writes and the next timed read and IRQ probe."
+    "scope": "Record matched dispatch and transmit service after the first SCI1 FE write."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8653,6 +8683,30 @@
       87191984
     ],
     "timed_comparison_scope": "writes only",
+    "hardware_validated": false
+  },
+  "sci1_first_fe_20261125": {
+    "main_baseline": "e6f4e6004d5dc5f2492642ef0b89b1e6bbf309cc",
+    "setup": "matched_sci1_startup_20261124",
+    "window_cycles": [
+      90576430,
+      90576830
+    ],
+    "matched_dispatches": 50,
+    "dropped_dispatches": 0,
+    "tx_cycle": 90576448,
+    "project_ssr_read_cycle": 90576466,
+    "ssr_write_cycle": 90576470,
+    "handler_pc": "0x00186A",
+    "handler_entry_cycle": 90576628,
+    "vector_table_entry": 58,
+    "request_cycle": null,
+    "acceptance_cycle": null,
+    "mame_dispatch_stream_sha256": "78f4c1c7d4bc9bb66a3d0bfc51da95fa3a621312adcb57c35c192c134f96a4eb",
+    "project_report_sha256": [
+      "daf51f8083dc6c55379f66e6a62bfc355c780c68e132e42e887d1ba24c111609",
+      "2a199411e25a916a9d1874dbc09e3b7aabfb600de1c215539a708eefd0402057"
+    ],
     "hardware_validated": false
   }
 }

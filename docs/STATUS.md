@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [first SCI1 FE continuation](DEVELOPMENT_LOG.md#first-sci1-fe-transmit-continuation--2026-11-25) matches 50 instruction dispatches across both controls. The next comparison follows the caller that schedules recurring FE transmissions and checks which state it tests between them.
+
 The [SCI1 comparison](DEVELOPMENT_LOG.md#matched-sci1-startup-writes-through-88-million-cycles--2026-11-24) matches all 48 startup serial writes through cycle 88 million, including the initial six SCI1 transmit bytes. The next probe should identify the firmware condition around the first SCI1 `FE` transmit with a timed read and interrupt trace.
 
 The [ADC and SCI0 comparison](DEVELOPMENT_LOG.md#matched-adc-and-sci0-startup-through-112-million-cycles--2026-11-24) matches all 1,725 observed value transitions through cycle 112 million. SCI0 remains disabled in the observed window. The later firmware receiver-enable condition is the next comparison.

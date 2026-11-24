@@ -1,3 +1,31 @@
+## First SCI1 FE transmit continuation — 2026-11-25
+
+The paired controls from [#342](https://github.com/RobCZart82/YamAN1x/pull/342)
+were repeated with the same binaries and inputs. MAME ran twice for six
+seconds with fresh NVRAM and `YAMANIX_BOOT_CPU_WINDOW=90576430:90576830`.
+The project ran to cycle 90,600,000 at slices of 4,096 and 1,000,000, with
+`--observe-startup-prefix=90576430:90576830` and
+`--observe-sci1-rx-reads`. Each dispatch window records 50 instructions
+with zero drops. All 50 match in PC, opcode, raw CCR and cycle across the
+four runs.
+
+The first `FE` write at SCI1 TDR (`0xFFFFBB`) completes at cycle
+90,576,448. The project reads SCI1 SSR `84` at cycle 90,576,466 and the
+matched MAME write changes SSR to `04` at cycle 90,576,470. The bounded
+project read observer records no SCI1 RDR accesses in the window. The MAME
+SCI1 summary also reports zero RDR reads for both full runs. The shared
+instruction trace reaches `RTE` at `0x0001A0` and enters `0x00186A` at
+90,576,628. The local AN1x 1.04 vector table maps vector 58 to that address,
+and pinned MAME configures SCI1 TXI as vector 58. The handler reaches
+`0x0018C6` and restores SCI1 SCR `70` at cycle 90,576,748.
+
+This measures transmit service and continuation around the first `FE`.
+The project-wide IRQ observer fills before this window, so the dispatch
+PC and vector table alone do not measure the request or acceptance cycle.
+The next comparison should identify the caller that schedules the recurring
+`FE` byte and the state it tests between transmissions. This window
+contains no receive-data test linking SCI1 to SCI0 enable.
+
 ## Matched SCI1 startup writes through 88 million cycles — 2026-11-24
 
 The two-cycle project control and the pinned MAME idle-panel control from
