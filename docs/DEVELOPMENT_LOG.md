@@ -1,3 +1,32 @@
+## SCI1 F8 leads to an accepted ITU overflow interrupt in MAME — 2026-11-25
+
+Repeat the [TIER experiment](#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25)
+on pinned MAME with fresh NVRAM and a six-second horizon. Keep the
+same-file no-frame control. Starting at cycle 91,000,000, filter the
+existing CPU IRQ observer to vector 26 and add a read-only low-lane
+observer for ITU channel 0 TSR (`0xFFFF67`). Two F8 runs agree on
+the captured IRQ and TSR stream. The control records no vector-26
+requests or acceptances.
+
+| Cycle | Event |
+| --- | --- |
+| 91,100,208 | Vector 26 requested, reported PC `0x000506`, CCR `C8` |
+| 91,100,594 | CPU accepts vector 26, reported PC `0x0012AE`, CCR `C4` |
+| 91,100,596 | First dispatch at handler `0x0012AE` |
+| 91,100,624 | TSR reads `FD` at reported PC `0x0012BE` |
+| 91,100,628 | TSR write `F9` at reported PC `0x0012C2` acknowledges overflow |
+
+The unchanged local AN1x 1.04 vector-table entry 26 points to
+`0x0012AE`. The handler dispatches the RAM increment path for
+`0x234A78` and enters the common handler at `0x000140` at
+cycle 91,100,670. The address follows from local instruction decode.
+The two continuation windows match on all 40 dispatches from cycles
+91,100,588–91,100,850, with zero drops. All runs still record only the
+reset write `00` to SCI0 SCR. Next, reproduce the same F8 input on
+the project through an explicit diagnostic SCI1 schedule with the
+SCI0 input path unchanged. Compare the receiver, timer and IRQ
+milestones before changing the emulation model.
+
 ## SCI1 F8 changes the ITU overflow interrupt enable — 2026-11-25
 
 Repeat the [F8 branch control](#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25)
