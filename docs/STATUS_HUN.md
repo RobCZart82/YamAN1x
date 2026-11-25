@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [T6 soros nyoma](DEVELOPMENT_LOG.md#t6-sends-three-bytes-on-sci1-before-ng--2026-11-25) három SCI1-adásbájtot rögzít az NG kijelzése előtt. A következő mérés az adás után ellenőrzött vételi vagy időtúllépési feltételt keresi.
+
 A [T6 próba](DEVELOPMENT_LOG.md#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25) kiválasztja és elindítja a MIDI-tesztet. Visszacsatolás nélkül NG az eredmény, az SCI0 vezérlőregisztere alapértéken marad. Következő lépés az első hibafeltétel követése.
 
 A [panelgombos próba](DEVELOPMENT_LOG.md#the-panel-chord-enters-test-mode-in-mame--2026-11-25) reprodukálta a tesztmódba lépést a rögzített MAME-on. Következő lépés a gombok felengedése, majd a T6 kiválasztása és indítása.

@@ -8179,6 +8179,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45621331778"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 354,
+      "title": "Record execution of the T6 service MIDI test",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/354",
+      "status": "merged",
+      "head_commit": "c12b6ba750e6ed8a330cc2b19049e702c9c003ac",
+      "merge_commit": "90f7836053ef03a89e226bd768acb1c84730c3d8",
+      "merged_at_utc": "2026-11-25T14:33:00Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45628387198",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45628387273"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45635278709",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45635278704"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8301,14 +8331,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/t6-service-execution",
-    "base_commit": "eb0f599579e03fbcf43db5be688936df24c555c1",
+    "branch": "docs/t6-sci1-request",
+    "base_commit": "90f7836053ef03a89e226bd768acb1c84730c3d8",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record timed T6 selection, execution and no-loopback result."
+    "scope": "Record SCI1 transmit activity before the T6 NG result."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9321,6 +9351,23 @@
     ],
     "sci0_rdr_reads": 0,
     "loopback_applied": false,
+    "hardware_validated": false
+  },
+  "t6_sci1_request_20261125": {
+    "main_baseline": "90f7836053ef03a89e226bd768acb1c84730c3d8",
+    "setup": "t6_service_execution_20261125",
+    "mame_binary_sha256": "86ac5cfdd2845794baef0b73d731fcb70739f34d77c33046f7784ae8c6bd75fa",
+    "execute_stream_sha256": "4208804b26461347f85a0c408ff9ee9dd685b0a5a8da18d396df7cd0f4a4eb04",
+    "select_stream_sha256": "c1e1c6f058753a95f1f5aca58be8517c02663a2af67bf6cfe9b56dafa9c3bc8f",
+    "sci1_tdr_hex": "AA505F",
+    "sci1_tdr_cycles": [
+      100913444,
+      100914608,
+      100918222
+    ],
+    "sci1_rdr_reads": 0,
+    "control_tdr_writes": 0,
+    "first_ng_lcd_cycle": 103416108,
     "hardware_validated": false
   }
 }
