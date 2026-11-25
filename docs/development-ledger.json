@@ -7879,6 +7879,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45513644875"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 344,
+      "title": "Record the SCI1 FE caller conditions",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/344",
+      "status": "merged",
+      "head_commit": "8ef1ed71d7eaa46f4e39754d5db211a49bf140ae",
+      "merge_commit": "71f815616b50ae29c1c0749eea18573c7101a527",
+      "merged_at_utc": "2026-11-25T01:12:54Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45519130301",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45519130459"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45524059407",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45524059398"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8001,14 +8031,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-fe-caller",
-    "base_commit": "70e22a2bf8f733d9c4bafe66bb60d05e291255b3",
+    "branch": "docs/sci1-fe-ram-writers",
+    "base_commit": "71f815616b50ae29c1c0749eea18573c7101a527",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record matched SCI1 FE caller and RAM branch conditions."
+    "scope": "Record the matched RAM accesses at the two SCI1 FE caller conditions."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8770,6 +8800,18 @@
       "b3d215d187db4241d161ea901db45c042891a77154087cbfbbeabcdb5c202614"
     ],
     "ram_bus_values_measured": false,
+    "hardware_validated": false
+  },
+  "sci1_fe_caller_ram_20261125": {
+    "main_baseline": "71f815616b50ae29c1c0749eea18573c7101a527",
+    "setup": "matched_sci1_startup_20261124",
+    "compared_cycles": 95000000,
+    "matched_accesses": 526,
+    "mame_rdr_reads": 0,
+    "mame_stream_sha256": "5a604d1709eb1907f292421df0c15b31a856cc084611b3f2d05c66429c516659",
+    "project_stream_sha256": "85e9d3666f40c23d84a6d9de07402f9e6723cd34368848efa12ae97889b05173",
+    "project_binary_sha256": "5e11308b136a150c79b33d7846155bbdca80fa4e91cee503053cfb3e3ba5e0cb",
+    "mame_binary_sha256": "9cfc6f60c45e68b9e498e65de01a4c6f1af75fe80740488348535318808fcf87",
     "hardware_validated": false
   }
 }

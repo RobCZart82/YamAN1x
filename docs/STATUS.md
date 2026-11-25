@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [SCI1 caller RAM comparison](DEVELOPMENT_LOG.md#matched-sci1-fe-caller-ram-accesses--2026-11-25) matches 526 accesses and directly measures the two send conditions. Next, trace SCI1 receive vector 57 and look for a path that enables SCI0.
+
 The [SCI1 FE caller trace](DEVELOPMENT_LOG.md#the-sci1-fe-transmit-caller-checks-two-ram-bytes--2026-11-25) identifies two RAM checks before the firmware queues the byte. Next, identify the writers and any receive dependency.
 
 The [first SCI1 FE continuation](DEVELOPMENT_LOG.md#first-sci1-fe-transmit-continuation--2026-11-25) matches 50 instruction dispatches across both controls. The next comparison follows the caller that schedules recurring FE transmissions and checks which state it tests between them.
