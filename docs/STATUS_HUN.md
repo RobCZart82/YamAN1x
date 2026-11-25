@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [panelgombos próba](DEVELOPMENT_LOG.md#the-panel-chord-enters-test-mode-in-mame--2026-11-25) reprodukálta a tesztmódba lépést a rögzített MAME-on. Következő lépés a gombok felengedése, majd a T6 kiválasztása és indítása.
+
 A [megszakításkezelő inicializálási nyoma](DEVELOPMENT_LOG.md#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25) két futásban egyezik. A következő próba a szervizkönyvben dokumentált tesztmód indítása, majd az SCI0 figyelése a T6 MIDI-teszt alatt.
 
 Az [SCI0 jelöltek ellenőrzése](DEVELOPMENT_LOG.md#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25) szerint a két azonosított közvetlen írás nullázza a vezérlőregisztert. A következő vizsgálat az SCI0 megszakításainak közös rutinját és annak inicializálását követi.

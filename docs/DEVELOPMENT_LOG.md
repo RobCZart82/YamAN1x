@@ -1,3 +1,29 @@
+## The panel chord enters Test Mode in MAME — 2026-11-25
+
+The local Yamaha AN1x Service Manual (PDF pages 19 and 51–52, drawings
+8811454 and 8811456) specifies holding 0, minus and plus at power-on.
+The panel diagram maps SW20 to SG/S4, SW21 to SG/S8 and SW22 to SF/S4.
+On the DM diagram P62, P61 and P60 drive PNSA, PNSB and PNSC. IC20 and
+the transistor stages select the active-low strobe. IC19 maps S1–S8
+onto D8–D15 for the upper byte at `0x680000`.
+
+Use the same pinned MAME configuration as the
+[dispatcher initialization trace](#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25).
+The temporary probe records Port 6 writes and supplies the upper byte
+only during panel reads. Hold the chord throughout both six-second
+runs. For selectors 5 (SF) and 6 (SG) return `F7` and `77`
+respectively. Return `FF` on all other selectors and in the same-binary
+idle control. The early scan at reported PC `0x00EA96` visits all eight
+selectors. It receives `F7` at 63,380,504 and `77` at 63,380,764.
+The control receives `FF` at the same points.
+
+The two pressed runs produce identical panel and LCD data streams.
+The LCD data contains `TestModeV1.04` and `01;RAM`; the idle control
+contains neither. This establishes the service entry input and its
+firmware outcome in MAME. Next, release the chord after the boot scan,
+select and execute T6 with timed panel events, and observe SCI0.
+This run does not test the MIDI loopback or normal firmware note input.
+
 ## SCI0 dispatcher initialization and a service-mode control — 2026-11-25
 
 The [SCI0 candidate check](#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25)
