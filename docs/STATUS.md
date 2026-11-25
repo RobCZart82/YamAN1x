@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [SCI0 candidate check](DEVELOPMENT_LOG.md#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25) confirms the two decoded direct writes clear SCR and that the SCI0 vectors share a dispatch routine. Next, trace how that routine is initialized and identify a boot or service-mode condition to test.
+
 The [project SCI1 F8 comparison](DEVELOPMENT_LOG.md#yaman1x-reproduces-the-sci1-f8-overflow-path--2026-11-25) reproduces the receive, timer and overflow acknowledgement landmarks. Next, find candidate writes that enable SCI0 SCR and trace their prerequisites.
 
 The [F8 overflow trace](DEVELOPMENT_LOG.md#sci1-f8-leads-to-an-accepted-itu-overflow-interrupt-in-mame--2026-11-25) measures vector 26 request, acceptance and TSR acknowledgement. SCI0 stays disabled. Next, reproduce the receive stimulus and timer milestones on the project using a diagnostic SCI1 schedule.

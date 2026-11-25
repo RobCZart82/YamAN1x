@@ -8059,6 +8059,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45571609246"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 350,
+      "title": "Record the project SCI1 F8 overflow comparison",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/350",
+      "status": "merged",
+      "head_commit": "7d0115ad0fe3ec84afe2983cf1ae430a07eb3021",
+      "merge_commit": "3ca63789b2d395bd1612e16da7fa8b59d1c92bc4",
+      "merged_at_utc": "2026-11-25T09:13:02Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45577482103",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45577482166"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45583297795",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45583297769"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8181,14 +8211,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-f8-project-comparison",
-    "base_commit": "9bb0b99d0414ddde27dc32253867d6499ca6cec0",
+    "branch": "docs/sci0-enable-search",
+    "base_commit": "3ca63789b2d395bd1612e16da7fa8b59d1c92bc4",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record the project-side matched SCI1 F8 and overflow control."
+    "scope": "Record bounded SCI0 candidate tracing and refresh the active firmware step."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9122,6 +9152,31 @@
     "control_filtered_irq_events": 0,
     "dropped_irq_events": 0,
     "sci0_scr_writes_in_window": 0,
+    "hardware_validated": false
+  },
+  "sci0_enable_candidate_search_20261125": {
+    "main_baseline": "3ca63789b2d395bd1612e16da7fa8b59d1c92bc4",
+    "reference": "sci1_f8_overflow_20261125",
+    "mame_binary_sha256": "282115b09bf0e75fd0e8f9a3b44d713d0e074a9f6c9ca08211cb156228ce3bef",
+    "mame_filtered_stream_sha256": "2cda529c8fe95f21627625046d144cef014777d1ca20796574da4825a8a050e0",
+    "seconds": 6,
+    "runs": {
+      "f8": 2,
+      "control": 1
+    },
+    "candidate_dispatch_pcs": [
+      "000AD2"
+    ],
+    "sci0_scr_values": [
+      0
+    ],
+    "sci0_rdr_reads": 0,
+    "direct_clear_pcs": [
+      "000AD2",
+      "000C56"
+    ],
+    "shared_vector_call": "0x0008F8",
+    "receiver_enable_found": false,
     "hardware_validated": false
   }
 }
