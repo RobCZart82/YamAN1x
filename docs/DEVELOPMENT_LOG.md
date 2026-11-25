@@ -1,3 +1,33 @@
+## YamAN1x reproduces the SCI1 F8 overflow path — 2026-11-25
+
+Use main after [#349](https://github.com/RobCZart82/YamAN1x/pull/349)
+with the two-cycle project control, idle panel, eight zero ADC inputs,
+unchanged local AN1x 1.04 and DSP sample advancement disabled. In a
+temporary probe, keep the existing 512-cycle 8N1 frame generator and
+route the diagnostic frame to RXD1. Start it at cycle 91,000,000 and
+run to 91,200,000 at slices of 4,096 and 1,000,000. Also run a no-frame
+control. Filter the IRQ observer from cycle 91,000,000 to vectors 57
+and 26 and locally log byte reads and writes at `0xFFFF66–0xFFFF67`.
+The probe edits are local and the public MIDI input remains on RXD0.
+
+Both project input reports agree apart from callback count. The
+control has no observed vector-57 or vector-26 event in the filter.
+The project accepts SCI1 RXI at cycle 91,005,064 with handler
+`0x0016CA` and CCR `C0`. The SCI1 RDR read of `F8` at 91,005,160
+matches pinned MAME, as do all four measured TIER accesses around
+the F8 branch. Both request vector 26 at 91,100,208 and report
+handler `0x0012AE` with CCR `C4`. The request and acceptance
+observers have separate hooks. The acceptance records differ by
+two cycles, 91,100,592 on the project and 91,100,594 on MAME.
+Both read TSR `FD` at 91,100,624 and write `F9` at 91,100,628.
+
+The measured project window has no SCI0 SCR write. The comparison
+supports the synthetic SCI1 receiver and timer path. It does not
+establish a keyboard response or the cause of SCI0 remaining off.
+Next, locate candidate firmware writes enabling SCI0 SCR and work
+backward to an observable branch or board input that can be tested
+on both engines. Preserve the F8 path as a control.
+
 ## SCI1 F8 leads to an accepted ITU overflow interrupt in MAME — 2026-11-25
 
 Repeat the [TIER experiment](#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25)

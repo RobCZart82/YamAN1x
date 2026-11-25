@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [YamAN1x SCI1 F8 próbája](DEVELOPMENT_LOG.md#yaman1x-reproduces-the-sci1-f8-overflow-path--2026-11-25) reprodukálja a vételt, az időzítő beállítását és a túlcsordulás nyugtázását. A következő lépés az SCI0 vevőt engedélyező írások és előfeltételeik felkutatása.
+
 Az [F8 túlcsordulási mérése](DEVELOPMENT_LOG.md#sci1-f8-leads-to-an-accepted-itu-overflow-interrupt-in-mame--2026-11-25) rögzíti a 26-os megszakítás kérését, elfogadását és nyugtázását. Az SCI0 letiltva maradt. A következő lépés ugyanezt a vételi próbát futtatja a projektben.
 
 Az [SCI1 F8 utáni TIER-mérés](DEVELOPMENT_LOG.md#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25) szerint az első írás érintetlenül hagyja a törölt 2-es bitet, a meghívott rutin pedig beállítja. A következő mérés az időzítő állapotát és a CPU által elfogadott vektort követi.
