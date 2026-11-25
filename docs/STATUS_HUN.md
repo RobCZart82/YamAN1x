@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az [SCI1 F8 utáni TIER-mérés](DEVELOPMENT_LOG.md#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25) szerint az első írás érintetlenül hagyja a törölt 2-es bitet, a meghívott rutin pedig beállítja. A következő mérés az időzítő állapotát és a CPU által elfogadott vektort követi.
+
 Az [SCI1 F8 kontroll](DEVELOPMENT_LOG.md#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25) külön vételi ágat ér el. A következő mérés az ITU TIER bit törlésének hatását és az utána meghívott rutint követi.
 
 Az [SCI1 vételi kontrollban](DEVELOPMENT_LOG.md#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25) a firmware az 57-es vektoron keresztül beolvasott egy próbabájtot. Az SCI0 letiltva maradt. A következő mérés a beolvasott bájt feldolgozását követi.

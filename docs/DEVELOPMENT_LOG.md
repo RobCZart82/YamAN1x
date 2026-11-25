@@ -1,3 +1,32 @@
+## SCI1 F8 changes the ITU overflow interrupt enable — 2026-11-25
+
+Repeat the [F8 branch control](#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25)
+on the locked MAME reference with six-second runs and fresh NVRAM. Use
+two identical F8 frames, one A5 frame and one no-frame control. Attach a
+read and write tap to the high byte of the aligned word at `0xFFFF66`.
+Record CPU cycle, reported PC and data from cycles 91,005,000–91,007,000.
+Exclude side-effect-disabled accesses. Local tracing leaves the firmware
+and returned data unchanged.
+
+| Cycle | Reported PC | Access to channel 0 TIER |
+| --- | --- | --- |
+| 91,005,238 | `0x001756` | Read `FA` |
+| 91,005,242 | `0x00175A` | Write `FA` |
+| 91,005,310 | `0x005146` | Read `FA` |
+| 91,005,314 | `0x00514A` | Write `FE` |
+
+The first write leaves the already-clear overflow enable bit unchanged.
+The second write sets it in the called path. Neither control records any
+TIER access in this window. Both F8 runs match on the four bus records
+and all 72 instruction dispatches in cycles 91,005,580–91,006,100, with
+zero dispatch drops. That continuation reaches `0x0007DC` at cycle
+91,006,096. All runs record only the reset write `00` to SCI0 SCR.
+
+The measured TIER effect is conditional on the synthetic F8 input in
+this profile. It does not locate an overflow IRQ request or acceptance.
+Next, follow the newly enabled timer's status and first accepted vector
+with a bounded observer and test whether that handler changes SCI0 SCR.
+
 ## SCI1 F8 selects a distinct firmware receive branch — 2026-11-25
 
 Repeat the [SCI1 receive control](#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25)

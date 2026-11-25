@@ -7969,6 +7969,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45542985346"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 347,
+      "title": "Record the distinct SCI1 F8 receive branch",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/347",
+      "status": "merged",
+      "head_commit": "0b3cb6d6e79bcfc3f6ed588313540d48cb437767",
+      "merge_commit": "0dbc9cbbed12db6e364198c107a0a4f474226008",
+      "merged_at_utc": "2026-11-25T05:12:55Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45547692259",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45547692246"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45552008873",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45552008840"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8091,14 +8121,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-f8-receive-branch",
-    "base_commit": "b98053bf554abbbd0acb17120476aa5181c467fc",
+    "branch": "docs/sci1-f8-tier-effects",
+    "base_commit": "0dbc9cbbed12db6e364198c107a0a4f474226008",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record the distinct SCI1 F8 receive branch and the open ITU effect."
+    "scope": "Record the measured channel 0 TIER effects of the SCI1 F8 branch."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8932,6 +8962,52 @@
     "f8_stream_sha256": "1aead52052e7c2e62d11c1c8a1798a86a4ee79b5962df6822b52bf8e8e50c65c",
     "a5_stream_sha256": "c6b687f2d15b13bc3dd781c331449ee0005cb6ecd24bd825f8f645093ebf011e",
     "control_stream_sha256": "ed155e061d141111ed15766df85a55021463ff153d79a8e20fa64074e974aee3",
+    "hardware_validated": false
+  },
+  "sci1_f8_tier_effects_20261125": {
+    "main_baseline": "0dbc9cbbed12db6e364198c107a0a4f474226008",
+    "setup": "sci1_receive_f8_branch_20261125",
+    "mame_binary_sha256": "cc751e865581b38366d972a4e17596f2d0e57becfc325898d5bc65c50c4cf56a",
+    "f8_stream_sha256": "2d5c463bd54958cf6e0455021e532afb3078deaf140c140c2af39fbb9cd9d46a",
+    "tier_address": "0xFFFF66",
+    "tier_tap_window": [
+      91005000,
+      91007000
+    ],
+    "tier_events": [
+      [
+        "read",
+        91005238,
+        "0x001756",
+        "FA"
+      ],
+      [
+        "write",
+        91005242,
+        "0x00175A",
+        "FA"
+      ],
+      [
+        "read",
+        91005310,
+        "0x005146",
+        "FA"
+      ],
+      [
+        "write",
+        91005314,
+        "0x00514A",
+        "FE"
+      ]
+    ],
+    "control_tier_events": 0,
+    "a5_tier_events": 0,
+    "f8_continuation_dispatches": 72,
+    "dropped_dispatches": 0,
+    "sci0_scr_values": [
+      0
+    ],
+    "irq_acceptance_measured": false,
     "hardware_validated": false
   }
 }
