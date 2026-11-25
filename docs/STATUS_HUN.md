@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az [SCI1 vételi kontrollban](DEVELOPMENT_LOG.md#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25) a firmware az 57-es vektoron keresztül beolvasott egy próbabájtot. Az SCI0 letiltva maradt. A következő mérés a beolvasott bájt feldolgozását követi.
+
 Az [SCI1 küldő rutin RAM-összevetésében](DEVELOPMENT_LOG.md#matched-sci1-fe-caller-ram-accesses--2026-11-25) mind az 526 hozzáférés egyezett. A következő vizsgálat az SCI1 57-es vételi vektorától követi a firmware útját az SCI0 esetleges engedélyezéséig.
 
 Az [SCI1 FE küldő rutinja](DEVELOPMENT_LOG.md#the-sci1-fe-transmit-caller-checks-two-ram-bytes--2026-11-25) két RAM-bájtot ellenőriz sorba állítás előtt. A következő mérés e bájtok íróit és a vételtől való esetleges függést vizsgálja.
