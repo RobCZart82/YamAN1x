@@ -1,3 +1,29 @@
+## SCI1 receives a diagnostic byte in the MAME control — 2026-11-25
+
+Repeat the [matched startup controls](#matched-sci1-fe-caller-ram-accesses--2026-11-25)
+on the locked MAME build with fresh NVRAM, six seconds and no external MIDI.
+Use a temporary local timer to drive one synthetic 8N1 frame into H8 RXD1.
+Start at the nominal cycle 91,000,000. Drive a low start bit, `A5` least
+significant bit first and a high stop bit, each for 512 cycles at 16 MHz.
+Run twice with the frame and once with the same binary and timer disabled.
+This test byte has no asserted keyboard protocol meaning.
+
+Both input runs agree on all 46 dispatch records in cycles
+91,005,060–91,005,360. The control records 44. All windows have zero drops.
+The AN1x 1.04 vector table maps entry 57 to `0x0016CA`. The input runs
+enter that PC at cycle 91,005,068, read `A5` from SCI1 RDR
+(`0xFFFFBD`) at 91,005,160 and then execute the SCI1 SSR bit-clear path.
+The dispatches proceed through `0x001738` and `0x0038EC` before returning
+to `0x001770`. The control has no SCI1 RDR reads. All three runs transmit
+eight SCI1 bytes and record a single SCI0 SCR write of `00` at reset.
+
+This reference experiment demonstrates the firmware's receive path for one
+synthetic input. Next, verify the receive-byte handoff beyond the observed
+routine and select a second input from the firmware branch conditions.
+Look for an SCI0-enabling write before proposing a keyboard reply model.
+Project-side SCI1 injection, actual keyboard communication, boot, MIDI
+note handling and sound remain separate acceptance points.
+
 ## Matched SCI1 FE caller RAM accesses — 2026-11-25
 
 Repeat the two-cycle project and pinned MAME idle-panel controls from
