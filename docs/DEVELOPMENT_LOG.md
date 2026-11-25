@@ -1,3 +1,32 @@
+## SCI0 enable candidate check after the SCI1 control — 2026-11-25
+
+The [paired SCI1 F8 experiment](#yaman1x-reproduces-the-sci1-f8-overflow-path--2026-11-25)
+provides a control for serial receive and ITU overflow. For SCI0, inspect
+the unchanged local AN1x 1.04 using the pinned MAME H8 disassembler.
+Two confirmed direct SCR writes at `0x000AD2` and `0x000C56` load zero.
+The apparent `FFFFFFB0` literals at `0x02673E` and `0x02686C` are added to
+ER6 before the next call. The literals alone do not establish an access
+to the SCI0 MMIO range. The SCI0 interrupt vector entries 52–55 share
+a call to `0x0008F8`. This is a candidate for inspecting vector dispatch
+and initialization, rather than treating the vector table as proof that
+the SCI0 source is enabled.
+
+Repeat six seconds on the pinned MAME idle-panel control with fresh
+NVRAM, no external MIDI and two synthetic F8 runs plus a no-frame run.
+Observe all SCI0 SCR writes and RDR reads, and the candidate dispatch
+PCs `000AD2`, `000C56`, `0008F8`, `02673E`, `02686C` and the
+unconfirmed direct-store opcode matches `01432C`, `0183C0`, `02148E`,
+`02361E`, `02415E`, `0388BA` and `058BCC`. In all three runs only
+`0x000AD2` dispatches among those PCs, at cycle 362. Its write supplies
+SCR `00`, and there are zero RDR reads. The three filtered streams
+match. This bounded probe cannot rule out indirect or unexecuted paths.
+
+Next, trace the common vector dispatch initialization and identify a
+specific boot or service-mode condition to test before running another
+SCI0 trace. Keep the external MIDI milestone open. The existing F8
+trace is a reproducible control for SCI1 and does not establish the
+SCI0 enable condition.
+
 ## YamAN1x reproduces the SCI1 F8 overflow path — 2026-11-25
 
 Use main after [#349](https://github.com/RobCZart82/YamAN1x/pull/349)
