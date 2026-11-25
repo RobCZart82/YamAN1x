@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [F8 overflow trace](DEVELOPMENT_LOG.md#sci1-f8-leads-to-an-accepted-itu-overflow-interrupt-in-mame--2026-11-25) measures vector 26 request, acceptance and TSR acknowledgement. SCI0 stays disabled. Next, reproduce the receive stimulus and timer milestones on the project using a diagnostic SCI1 schedule.
+
 The [SCI1 F8 TIER measurement](DEVELOPMENT_LOG.md#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25) shows the first write leaves bit 2 clear and the called path sets it. Next, follow the timer status and accepted vector and check for SCI0 enable.
 
 The [SCI1 F8 control](DEVELOPMENT_LOG.md#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25) reaches a distinct receive branch and calls a routine after an ITU TIER bit-clear instruction. The next probe should measure the register effect and follow that routine.
