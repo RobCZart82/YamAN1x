@@ -1,3 +1,29 @@
+## Matched SCI1 FE caller RAM accesses — 2026-11-25
+
+Repeat the two-cycle project and pinned MAME idle-panel controls from
+[the caller trace](#the-sci1-fe-transmit-caller-checks-two-ram-bytes--2026-11-25).
+Use six seconds and fresh NVRAM for two MAME runs. Run the project to
+95,000,000 cycles at slices of 4,096 and 1,000,000. Add local read-only
+observers for the aligned words at `0x234940` and `0x234A62`. Capture
+successful CPU data reads and writes through cycle 95,000,000 and exclude
+debugger reads and instruction fetches. In MAME, log CPU cycle, reported
+PC, address, data and mask. Use the project bus cycle and normalize MAME
+masks `FF00`, `00FF` and `FFFF` to byte or word accesses. All 526
+records match in order, cycle, operation, normalized address, width and
+value across the four runs. The temporary observers and raw traces stay local.
+
+| Target | Observed activity |
+| --- | --- |
+| `0x234A63` | Initialized to zero at cycle 324,744. An increment path writes 1 through 7 at reported MAME PC `0x00152A`. The first FE path reads 7 at cycle 90,576,188 and writes zero at 90,576,916. |
+| `0x234940` | Initialized to zero at cycle 324,416. Two earlier intervals set it to 1 at reported PC `0x0599F8` and clear it at `0x059A28`. The first and second FE paths read zero at cycles 90,576,206 and 94,770,504. |
+
+The MAME SCI1 summary records eight transmit bytes and zero RDR reads in
+both runs. The measured send cadence and flag writes occur without an
+observed SCI1 data read. This does not identify the SCI0 receiver-enable
+condition. Next, trace the path from SCI1 receive vector 57 and check
+whether any reachable routine writes SCI0 SCR with RE set before choosing
+a keyboard reply to test.
+
 ## The SCI1 FE transmit caller checks two RAM bytes — 2026-11-25
 
 On the controls used for [the first FE dispatch window](#first-sci1-fe-transmit-continuation--2026-11-25),
