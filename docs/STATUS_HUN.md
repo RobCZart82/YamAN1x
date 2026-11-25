@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az [SCI1 FE küldő rutinja](DEVELOPMENT_LOG.md#the-sci1-fe-transmit-caller-checks-two-ram-bytes--2026-11-25) két RAM-bájtot ellenőriz sorba állítás előtt. A következő mérés e bájtok íróit és a vételtől való esetleges függést vizsgálja.
+
 Az [első SCI1 FE utáni folytatás](DEVELOPMENT_LOG.md#first-sci1-fe-transmit-continuation--2026-11-25) során 50 utasítás végrehajtása egyezett. A következő mérés az ismétlődő FE küldést ütemező rutint és az általa ellenőrzött állapotot keresi.
 
 Az [SCI1 összevetésben](DEVELOPMENT_LOG.md#matched-sci1-startup-writes-through-88-million-cycles--2026-11-24) mind a 48 sorosregiszter-írás egyezik 88 millió ciklusig, köztük az SCI1 első hat adásbájtja. A következő mérés az első SCI1 `FE` küldés körüli olvasásokat és megszakításokat vizsgálja.
