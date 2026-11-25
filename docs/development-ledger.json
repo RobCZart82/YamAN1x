@@ -8029,6 +8029,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45561424655"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 349,
+      "title": "Record the F8-triggered ITU overflow interrupt",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/349",
+      "status": "merged",
+      "head_commit": "30f087c1ac17d86ebd85a65d6045e324907ff128",
+      "merge_commit": "9bb0b99d0414ddde27dc32253867d6499ca6cec0",
+      "merged_at_utc": "2026-11-25T07:52:57Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45566696435",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45566696242"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45571609256",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45571609246"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8151,14 +8181,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-f8-overflow-irq",
-    "base_commit": "88ab0d92c7f443955b68cdd90784ad7f7e0d5bb1",
+    "branch": "docs/sci1-f8-project-comparison",
+    "base_commit": "9bb0b99d0414ddde27dc32253867d6499ca6cec0",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record matched MAME F8 overflow IRQ request, acceptance and continuation."
+    "scope": "Record the project-side matched SCI1 F8 and overflow control."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9064,6 +9094,34 @@
     "sci0_scr_values": [
       0
     ],
+    "hardware_validated": false
+  },
+  "sci1_f8_project_comparison_20261125": {
+    "main_baseline": "9bb0b99d0414ddde27dc32253867d6499ca6cec0",
+    "reference": "sci1_f8_overflow_20261125",
+    "project_binary_sha256": "80e31f62492041df6d757ad30872907b2d35e8f9cad5f1ed2645e025dc304bc2",
+    "project_report_sha256": [
+      "748a0ce75988c22a158cb55053d7d393ca6b03032968d61ba775a8ad87ba2fef",
+      "b7a27e28e38c07b6e2bfca53b31c4efc182b01fd4f2d0d0ce3ddfd5056dde5b9",
+      "1c02bf647e80d3482cc5da31c42b95492d094bf09ef5c165cfd5806fba2c04e5"
+    ],
+    "input_channel": 1,
+    "frame_start": 91000000,
+    "stop_cycle": 91200000,
+    "project_rxi_request": 91004896,
+    "project_rxi_acceptance": 91005064,
+    "matched_rdr_cycle": 91005160,
+    "matched_tier_accesses": 4,
+    "matched_overflow_request": 91100208,
+    "project_overflow_acceptance": 91100592,
+    "mame_overflow_acceptance": 91100594,
+    "matched_tsr_cycles": [
+      91100624,
+      91100628
+    ],
+    "control_filtered_irq_events": 0,
+    "dropped_irq_events": 0,
+    "sci0_scr_writes_in_window": 0,
     "hardware_validated": false
   }
 }
