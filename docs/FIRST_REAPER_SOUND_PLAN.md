@@ -23,7 +23,8 @@ See [clock and table evidence](an1x-clock-and-table-rom.md) and
 
 The startup controls now reach matching ADC, SCI1 and ITU overflow landmarks.
 The [SCI0 candidate check](DEVELOPMENT_LOG.md#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25) leaves the receiver-enable condition open.
-Trace the shared SCI0 dispatch initialization before the next input experiment.
+The [dispatcher initialization trace](DEVELOPMENT_LOG.md#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25) now points to
+a documented service-mode T6 MIDI test as a way to locate an SCI0 enable path.
 
 Start with one bounded comparison of the project machine and the original MAME
 source locked at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Record the observer
