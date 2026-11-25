@@ -8089,6 +8089,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45583297769"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 351,
+      "title": "Record bounded SCI0 receiver-enable search",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/351",
+      "status": "merged",
+      "head_commit": "3c1e9aa0ab9baed77dd533125579b05db29d9c9c",
+      "merge_commit": "c98bd58e74221edfa066eca64e4c091e352dcf2e",
+      "merged_at_utc": "2026-11-25T10:32:58Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45590128129",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45590128409"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45596046128",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45596046138"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8211,14 +8241,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci0-enable-search",
-    "base_commit": "3ca63789b2d395bd1612e16da7fa8b59d1c92bc4",
+    "branch": "docs/sci0-dispatch-init",
+    "base_commit": "c98bd58e74221edfa066eca64e4c091e352dcf2e",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record bounded SCI0 candidate tracing and refresh the active firmware step."
+    "scope": "Record dispatcher RAM initialization and the documented T6 control."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9177,6 +9207,24 @@
     ],
     "shared_vector_call": "0x0008F8",
     "receiver_enable_found": false,
+    "hardware_validated": false
+  },
+  "sci0_dispatch_init_20261125": {
+    "main_baseline": "c98bd58e74221edfa066eca64e4c091e352dcf2e",
+    "mame_binary_sha256": "60faa909d07449f0d455786f453b84de752f45ea5cfb39837f8ba9e277d20a31",
+    "stream_sha256": "db82cca7a418f1f80c9462ff599aa57e34f361b91421f65e6f581bffd4013974",
+    "runs": 2,
+    "horizon_cycles": 96000000,
+    "matched_writes": 41024,
+    "tap_range": [
+      "0x22B80A",
+      "0x22B813"
+    ],
+    "service_manual_pdf_pages": [
+      19,
+      20
+    ],
+    "service_test": "T6 MIDI loopback",
     "hardware_validated": false
   }
 }

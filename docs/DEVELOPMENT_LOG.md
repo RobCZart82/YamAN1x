@@ -1,3 +1,26 @@
+## SCI0 dispatcher initialization and a service-mode control — 2026-11-25
+
+The [SCI0 candidate check](#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25)
+located a shared dispatcher that references RAM at `0x22B80A`. Add a
+temporary MAME write tap at `0x22B80A–0x22B813`, exclude
+side-effect-disabled accesses, and record cycle, reported PC, address,
+data and mask through cycle 96,000,000. Two six-second idle-panel runs
+with fresh NVRAM and no serial stimulus produce identical streams of
+41,024 writes. The first writes clear `0x22B80C` at cycle 8,262,754
+(reported PC `0x000892`) and `0x22B80A` at 8,262,758 (reported PC
+`0x000894`). The early writes at `0x0002BA` and `0x0002BE` link
+words in the same RAM range. These observations identify initialization
+and subsequent traffic. They do not identify a write enabling SCI0.
+
+The local Yamaha AN1x Service Manual, PDF pages 19–20, describes a
+power-on panel chord to enter Test Mode and a T6 MIDI loopback test using
+MIDI OUT and IN. This gives the next experiment a documented trigger and
+an observable outcome. First identify which panel inputs represent the
+chord and confirm the LCD reaches Test Mode. Then select T6 and monitor
+SCI0 SCR, TDR and RDR with a loopback control. The service test would
+provide a reference for a reachable SCI0 enable path. Normal boot and
+note handling remain separate.
+
 ## SCI0 enable candidate check after the SCI1 control — 2026-11-25
 
 The [paired SCI1 F8 experiment](#yaman1x-reproduces-the-sci1-f8-overflow-path--2026-11-25)
