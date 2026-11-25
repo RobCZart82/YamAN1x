@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [SCI1 F8 TIER measurement](DEVELOPMENT_LOG.md#sci1-f8-changes-the-itu-overflow-interrupt-enable--2026-11-25) shows the first write leaves bit 2 clear and the called path sets it. Next, follow the timer status and accepted vector and check for SCI0 enable.
+
 The [SCI1 F8 control](DEVELOPMENT_LOG.md#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25) reaches a distinct receive branch and calls a routine after an ITU TIER bit-clear instruction. The next probe should measure the register effect and follow that routine.
 
 The [SCI1 receive control](DEVELOPMENT_LOG.md#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25) delivers one diagnostic byte to firmware through vector 57. SCI0 remains disabled. Next, follow the received byte beyond the first firmware handoff.
