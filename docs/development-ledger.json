@@ -7939,6 +7939,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45533736910"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 346,
+      "title": "Record the SCI1 receive control in pinned MAME",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/346",
+      "status": "merged",
+      "head_commit": "257ccd8fa25702dfcdd6a0099294ff1a1ceee776",
+      "merge_commit": "b98053bf554abbbd0acb17120476aa5181c467fc",
+      "merged_at_utc": "2026-11-25T03:52:53Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45538608768",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45538608831"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45542985329",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45542985346"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8061,14 +8091,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-rxi-synthetic-byte",
-    "base_commit": "80ea22cf880c99282f94e403246c34d4cf718106",
+    "branch": "docs/sci1-f8-receive-branch",
+    "base_commit": "b98053bf554abbbd0acb17120476aa5181c467fc",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record MAME SCI1 receive path for a synthetic diagnostic byte."
+    "scope": "Record the distinct SCI1 F8 receive branch and the open ITU effect."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8870,6 +8900,38 @@
     ],
     "input_stream_sha256": "ccf38a6fec82994295e5369d256095c6ee9514a721decb80eb82af5cc5cb4b72",
     "control_stream_sha256": "f713b514a2dc6317d3963e378790088911ba10b47819e12aa8fe42785aee96e7",
+    "hardware_validated": false
+  },
+  "sci1_receive_f8_branch_20261125": {
+    "main_baseline": "b98053bf554abbbd0acb17120476aa5181c467fc",
+    "setup": "sci1_receive_control_20261125",
+    "mame_binary_sha256": "1591c21935fd20d6a7d2c0d4bc872a5e0d22e807bea940e21dd44f557f41e018",
+    "window_cycles": [
+      91005150,
+      91005580
+    ],
+    "dispatch_counts": {
+      "control": 67,
+      "a5": 85,
+      "f8": 68
+    },
+    "dropped_dispatches": 0,
+    "rdr_cycle": 91005160,
+    "branch_pc": "0x001752",
+    "branch_ccr": {
+      "a5": "E9",
+      "f8": "C4"
+    },
+    "f8_next_pc": "0x001756",
+    "a5_next_pc": "0x001762",
+    "f8_itu_address": "0xFFFF66",
+    "f8_itu_bit": 2,
+    "sci0_scr_values": [
+      0
+    ],
+    "f8_stream_sha256": "1aead52052e7c2e62d11c1c8a1798a86a4ee79b5962df6822b52bf8e8e50c65c",
+    "a5_stream_sha256": "c6b687f2d15b13bc3dd781c331449ee0005cb6ecd24bd825f8f645093ebf011e",
+    "control_stream_sha256": "ed155e061d141111ed15766df85a55021463ff153d79a8e20fa64074e974aee3",
     "hardware_validated": false
   }
 }

@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+Az [SCI1 F8 kontroll](DEVELOPMENT_LOG.md#sci1-f8-selects-a-distinct-firmware-receive-branch--2026-11-25) külön vételi ágat ér el. A következő mérés az ITU TIER bit törlésének hatását és az utána meghívott rutint követi.
+
 Az [SCI1 vételi kontrollban](DEVELOPMENT_LOG.md#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25) a firmware az 57-es vektoron keresztül beolvasott egy próbabájtot. Az SCI0 letiltva maradt. A következő mérés a beolvasott bájt feldolgozását követi.
 
 Az [SCI1 küldő rutin RAM-összevetésében](DEVELOPMENT_LOG.md#matched-sci1-fe-caller-ram-accesses--2026-11-25) mind az 526 hozzáférés egyezett. A következő vizsgálat az SCI1 57-es vételi vektorától követi a firmware útját az SCI0 esetleges engedélyezéséig.
