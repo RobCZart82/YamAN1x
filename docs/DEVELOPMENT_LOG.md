@@ -1,3 +1,27 @@
+## T6 executes and reports NG without MIDI loopback — 2026-11-25
+
+Use the [panel chord](#the-panel-chord-enters-test-mode-in-mame--2026-11-25)
+in the pinned MAME control with fresh NVRAM and unchanged AN1x 1.04.
+Follow the local Yamaha Service Manual, PDF pages 19–20, which specifies
+PROGRAM plus to select tests and STORE to execute them. Use the panel
+schematic's SF/S7 for STORE. Hold the startup chord until 4.2 seconds.
+From 5.0 seconds, apply five plus presses of 100 ms at 200 ms intervals.
+In the execution runs only, press STORE from 6.20 to 6.32 seconds.
+Run for seven seconds with no external MIDI and no loopback.
+
+The LCD stream reaches `06;MIDI` in all three runs. The two STORE
+runs subsequently display `NG` and reproduce identical panel, LCD and
+SCI0 records. The selection-only control has no `NG`. All three runs
+observed only SCI0 SCR `00` at reset and zero RDR reads. The two
+execution runs have no SCI0 TDR access in the structured SCI stream.
+Executing this test without loopback therefore does not demonstrate
+SCI0 enable. The observed result may precede serial setup or use a
+different signal path.
+
+Next, trace the T6 routine from STORE to the first failure condition.
+Log the operand and compare a documented loopback stimulus only after
+identifying which pin or register the firmware actually checks.
+
 ## The panel chord enters Test Mode in MAME — 2026-11-25
 
 The local Yamaha AN1x Service Manual (PDF pages 19 and 51–52, drawings

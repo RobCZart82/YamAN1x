@@ -8149,6 +8149,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45608523321"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 353,
+      "title": "Record service-mode entry from the panel chord",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/353",
+      "status": "merged",
+      "head_commit": "6b34a8b1e7cca796067c4d6f6cad5252f05dda8e",
+      "merge_commit": "eb0f599579e03fbcf43db5be688936df24c555c1",
+      "merged_at_utc": "2026-11-25T13:13:04Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45615340832",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45615340834"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45621331762",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45621331778"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8271,14 +8301,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/panel-service-chord",
-    "base_commit": "ac72db0e71285a97f0852ff53078137bf30b0a54",
+    "branch": "docs/t6-service-execution",
+    "base_commit": "eb0f599579e03fbcf43db5be688936df24c555c1",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record schematic-backed service-mode entry and LCD confirmation."
+    "scope": "Record timed T6 selection, execution and no-loopback result."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9275,6 +9305,22 @@
     ],
     "test_mode_lcd": true,
     "t6_executed": false,
+    "hardware_validated": false
+  },
+  "t6_service_execution_20261125": {
+    "main_baseline": "eb0f599579e03fbcf43db5be688936df24c555c1",
+    "mame_binary_sha256": "265424bd2efc59254b1743c6eee2a4686c2749965f66e0ac1d23acff1ae2778d",
+    "execute_stream_sha256": "04b5c5205662b62e88530a311805e9b44742af705fed79f06af1eaf85e76d173",
+    "select_stream_sha256": "caf3569571f0e97f0705678f39601c3e46cc9a344526ec534de1dd89bf3e4ab8",
+    "execute_runs": 2,
+    "select_runs": 1,
+    "seconds": 7,
+    "execute_lcd": "NG",
+    "sci0_scr_values": [
+      0
+    ],
+    "sci0_rdr_reads": 0,
+    "loopback_applied": false,
     "hardware_validated": false
   }
 }

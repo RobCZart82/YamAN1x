@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [T6 control](DEVELOPMENT_LOG.md#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25) reaches and executes the MIDI test. It reports NG without loopback while SCI0 SCR remains at reset value. Next, trace the first failure condition.
+
 The [service panel control](DEVELOPMENT_LOG.md#the-panel-chord-enters-test-mode-in-mame--2026-11-25) reproduces Test Mode entry on pinned MAME. Next, release the boot chord and use timed panel events to select and execute T6.
 
 The [dispatcher initialization trace](DEVELOPMENT_LOG.md#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25) reproduces the startup RAM writes. The next experiment is to reproduce the documented power-on Test Mode and use T6 to locate a reachable SCI0 enable path.
