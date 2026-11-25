@@ -1,3 +1,26 @@
+## T6 sends three bytes on SCI1 before NG — 2026-11-25
+
+Repeat the [timed T6 execution](#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25)
+twice and the selection-only control once on the pinned MAME profile.
+Record the structured SCI stream, timestamp LCD data on the CPU timeline
+and log dispatch PC and CCR during cycles 100,039,130–100,110,000.
+Use the same fresh NVRAM, seven-second horizon and no loopback.
+
+The STORE read occurs at cycle 100,039,132. Both execution runs send
+`AA 50 5F` via SCI1 TDR at nominal cycles 100,913,444, 100,914,608
+and 100,918,222. Convert the SCI observer's nanosecond timestamps
+at the configured 16 MHz rate. Both runs have zero SCI1 RDR reads
+and display `NG` starting at cycle 103,416,108. The selection-only
+control has no SCI1 TDR writes and no `NG`. Both execution streams
+match. The SCI0 SCR remains at the observed reset value.
+
+This identifies the SCI1 exchange before the display result. It does
+not establish a reply format or the exact failure condition. Next,
+follow the firmware branch between the SCI1 transmission and the
+LCD result, recording any receive flag or timeout that it tests.
+Use that evidence alongside the service schematic before modeling
+a reply or treating T6 as an SCI0 diagnostic.
+
 ## T6 executes and reports NG without MIDI loopback — 2026-11-25
 
 Use the [panel chord](#the-panel-chord-enters-test-mode-in-mame--2026-11-25)
