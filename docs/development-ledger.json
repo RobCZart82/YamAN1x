@@ -7849,6 +7849,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45501975774"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 343,
+      "title": "Record firmware continuation after the first SCI1 FE",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/343",
+      "status": "merged",
+      "head_commit": "325460648d1a004c996c4602ced8762a028f3ca3",
+      "merge_commit": "70e22a2bf8f733d9c4bafe66bb60d05e291255b3",
+      "merged_at_utc": "2026-11-24T23:52:57Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45508285946",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45508285954"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45513644923",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45513644875"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -7971,14 +8001,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci1-first-fe",
-    "base_commit": "e6f4e6004d5dc5f2492642ef0b89b1e6bbf309cc",
+    "branch": "docs/sci1-fe-caller",
+    "base_commit": "70e22a2bf8f733d9c4bafe66bb60d05e291255b3",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record matched dispatch and transmit service after the first SCI1 FE write."
+    "scope": "Record matched SCI1 FE caller and RAM branch conditions."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -8707,6 +8737,39 @@
       "daf51f8083dc6c55379f66e6a62bfc355c780c68e132e42e887d1ba24c111609",
       "2a199411e25a916a9d1874dbc09e3b7aabfb600de1c215539a708eefd0402057"
     ],
+    "hardware_validated": false
+  },
+  "sci1_fe_caller_20261125": {
+    "main_baseline": "70e22a2bf8f733d9c4bafe66bb60d05e291255b3",
+    "setup": "matched_sci1_startup_20261124",
+    "window_cycles": [
+      90576100,
+      90576444
+    ],
+    "matched_dispatches": 56,
+    "dropped_dispatches": 0,
+    "ram_reads": [
+      "0x234A63",
+      "0x234940"
+    ],
+    "branch_pcs": [
+      "0x001502",
+      "0x00150C"
+    ],
+    "branch_outcomes": [
+      "fallthrough",
+      "fallthrough"
+    ],
+    "second_mame_fe_cycle": 94770746,
+    "mame_dispatch_stream_sha256": [
+      "67b892a8ea40807d34138d4b48bca6c7e1ae757b80816621654474b18c115d10",
+      "a02957810f42c6a05a642f023d7d290b531a609a7bacc003a26113862bf4e0f2"
+    ],
+    "project_report_sha256": [
+      "9fa1b006e0a93e759a79c798177eba611a097cb5366c011094e5fdbae0a0c3bb",
+      "b3d215d187db4241d161ea901db45c042891a77154087cbfbbeabcdb5c202614"
+    ],
+    "ram_bus_values_measured": false,
     "hardware_validated": false
   }
 }

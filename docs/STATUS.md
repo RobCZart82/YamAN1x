@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [SCI1 FE caller trace](DEVELOPMENT_LOG.md#the-sci1-fe-transmit-caller-checks-two-ram-bytes--2026-11-25) identifies two RAM checks before the firmware queues the byte. Next, identify the writers and any receive dependency.
+
 The [first SCI1 FE continuation](DEVELOPMENT_LOG.md#first-sci1-fe-transmit-continuation--2026-11-25) matches 50 instruction dispatches across both controls. The next comparison follows the caller that schedules recurring FE transmissions and checks which state it tests between them.
 
 The [SCI1 comparison](DEVELOPMENT_LOG.md#matched-sci1-startup-writes-through-88-million-cycles--2026-11-24) matches all 48 startup serial writes through cycle 88 million, including the initial six SCI1 transmit bytes. The next probe should identify the firmware condition around the first SCI1 `FE` transmit with a timed read and interrupt trace.

@@ -1,3 +1,27 @@
+## The SCI1 FE transmit caller checks two RAM bytes — 2026-11-25
+
+On the controls used for [the first FE dispatch window](#first-sci1-fe-transmit-continuation--2026-11-25),
+move the instruction observer to cycles 90,576,100–90,576,444. The two MAME
+runs used six seconds and fresh NVRAM. Project runs used 90,600,000 cycles,
+4,096- and 1,000,000-cycle slices and eight zero ADC inputs. All 56 dispatches
+matched in PC, opcode, CCR and cycle across the four runs, with zero drops.
+
+The firmware at `0x0014F8` loads the byte at `0x234A63`, increments it in
+a register and compares it with 8. At `0x001502` the unsigned carry branch
+falls through. The equality flag was set. It then loads the byte at
+`0x234940`. At `0x00150C` the nonzero branch falls through with Z set.
+These conditions are inferred from the local read-only decode and matched
+CCR. This observer does not directly record the RAM data bus or its writers.
+At `0x001512` the firmware loads `FE` and calls `0x00FAB0`, before
+the SCI1 transmit handler writes TDR at cycle 90,576,448.
+
+A separate MAME window before its second FE write at cycle 94,770,746
+shows the same two fall-through decisions, the same CCR at those decisions
+and the same call. The next probe should trace the writers of the two RAM
+bytes and the scheduling entry into this path, including whether any writer
+depends on received data. The transmit cadence alone cannot establish that
+an SCI1 reply gates SCI0 startup.
+
 ## First SCI1 FE transmit continuation — 2026-11-25
 
 The paired controls from [#342](https://github.com/RobCZart82/YamAN1x/pull/342)
