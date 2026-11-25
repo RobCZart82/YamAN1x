@@ -1,3 +1,27 @@
+## SCI1 F8 selects a distinct firmware receive branch — 2026-11-25
+
+Repeat the [SCI1 receive control](#sci1-receives-a-diagnostic-byte-in-the-mame-control--2026-11-25)
+using one MAME binary with a selectable diagnostic byte. Start the
+8N1 frame at nominal cycle 91,000,000 with 512-cycle bits. Use fresh NVRAM,
+six seconds and no external MIDI for the no-frame control, one `A5` run
+and two `F8` runs. The firmware's comparison at `0x001750` motivated
+the second byte. This test does not assign protocol meaning to either byte.
+
+Both byte values reach SCI1 RDR at cycle 91,005,160. At `0x001752`,
+`F8` reaches the branch with CCR `C4` and falls through to `0x001756`.
+`A5` reaches it with CCR `E9` and branches to `0x001762`. The local
+instruction decode identifies the first F8-only instruction as a bit-2
+clear at ITU channel 0 TIER (`0xFFFF66`), followed by a call to
+`0x005072`. The dispatch trace confirms instruction execution.
+A dedicated TIER tap is needed to measure the previous value and the
+resulting IRQ behavior.
+
+The two F8 runs match all 68 dispatches in cycles 91,005,150–91,005,580.
+The A5 run records 85 and the control records 67 with no drops in any
+window. All runs record one SCI0 SCR write of `00` at reset.
+Next, measure the F8-only TIER access, request and handler continuation,
+and follow the called routine for any observed path to SCI0 enable.
+
 ## SCI1 receives a diagnostic byte in the MAME control — 2026-11-25
 
 Repeat the [matched startup controls](#matched-sci1-fe-caller-ram-accesses--2026-11-25)
