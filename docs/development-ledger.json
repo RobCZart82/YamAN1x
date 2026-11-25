@@ -8119,6 +8119,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45596046138"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 352,
+      "title": "Record SCI0 dispatcher initialization and T6 control",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/352",
+      "status": "merged",
+      "head_commit": "34b776fc387f8250d4d7ee17e50c49fdc4d07679",
+      "merge_commit": "ac72db0e71285a97f0852ff53078137bf30b0a54",
+      "merged_at_utc": "2026-11-25T11:52:59Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45602633076",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45602633255"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45608523401",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45608523321"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8241,14 +8271,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/sci0-dispatch-init",
-    "base_commit": "c98bd58e74221edfa066eca64e4c091e352dcf2e",
+    "branch": "docs/panel-service-chord",
+    "base_commit": "ac72db0e71285a97f0852ff53078137bf30b0a54",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record dispatcher RAM initialization and the documented T6 control."
+    "scope": "Record schematic-backed service-mode entry and LCD confirmation."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9225,6 +9255,26 @@
       20
     ],
     "service_test": "T6 MIDI loopback",
+    "hardware_validated": false
+  },
+  "service_panel_chord_20261125": {
+    "main_baseline": "ac72db0e71285a97f0852ff53078137bf30b0a54",
+    "mame_binary_sha256": "046db9528b6e56c37a3dd3d533e0ff81e3f0c0355eedd591b522681693df83c9",
+    "pressed_stream_sha256": "d42bcd0b8e53520d02bbb2c8bdba146d9b5b6214c24efdbe80db907d5b1d88d1",
+    "control_stream_sha256": "762beb5f543c242952d79bbc49897ebedfffa807cbabd794764da3921873e634",
+    "pressed_runs": 2,
+    "control_runs": 1,
+    "seconds": 6,
+    "pressed_selectors": {
+      "5": "F7",
+      "6": "77"
+    },
+    "panel_cycles": [
+      63380504,
+      63380764
+    ],
+    "test_mode_lcd": true,
+    "t6_executed": false,
     "hardware_validated": false
   }
 }

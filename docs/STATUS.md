@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [service panel control](DEVELOPMENT_LOG.md#the-panel-chord-enters-test-mode-in-mame--2026-11-25) reproduces Test Mode entry on pinned MAME. Next, release the boot chord and use timed panel events to select and execute T6.
+
 The [dispatcher initialization trace](DEVELOPMENT_LOG.md#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25) reproduces the startup RAM writes. The next experiment is to reproduce the documented power-on Test Mode and use T6 to locate a reachable SCI0 enable path.
 
 The [SCI0 candidate check](DEVELOPMENT_LOG.md#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25) confirms the two decoded direct writes clear SCR and that the SCI0 vectors share a dispatch routine. Next, trace how that routine is initialized and identify a boot or service-mode condition to test.
