@@ -1,7 +1,5 @@
 <img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520">
 
-# YamAN1x
-
 YamAN1x is a project to bring the Yamaha AN1x synthesizer to music software.
 The goal is a virtual instrument you can load in REAPER and other compatible
 hosts, play from a MIDI keyboard, and use in your projects.
