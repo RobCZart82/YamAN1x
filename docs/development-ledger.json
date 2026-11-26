@@ -8359,6 +8359,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45898982902"
       },
       "review": "Post-merge inspection found no review, request, thread or comment; no automated-review or quota evidence."
+    },
+    {
+      "pr": 360,
+      "title": "Record T6 SCI1 diagnostic receive handoff",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/360",
+      "status": "merged",
+      "head_commit": "9c93abf695f027514916f5cf8b63ad2e247242fc",
+      "merge_commit": "1a3608de80b6ec661ccc40766aaeba7defa48809",
+      "merged_at_utc": "2026-11-26T22:57:05Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45903973502",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45903973516"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45907957145",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45907957259"
+      },
+      "review": "No review submission, request, thread, comment, automated review result or quota error visible before head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8481,14 +8511,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/t6-diagnostic-receive",
-    "base_commit": "53c539257efb0b24bfc02d2fdf4a8a69aac1fb72",
+    "branch": "research/t6-receive-parser",
+    "base_commit": "1a3608de80b6ec661ccc40766aaeba7defa48809",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record T6 diagnostic SCI1 receive handoff and RAM observations."
+    "scope": "Record positive and negative synthetic SCI1 T6 reply controls on pinned MAME."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9582,5 +9612,35 @@
     "timeout_cycle": 103413240,
     "ng_cycle": 103416690,
     "hardware_validated": false
+  },
+  "t6_echo_20261127": {
+    "main_baseline": "1a3608de80b6ec661ccc40766aaeba7defa48809",
+    "mame_source": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_binary_sha256": "9f34903110e4c05535147e5fd8addbb3b4f2ddc2d20403299d534604b34d9f1b",
+    "input_cycle": 101000000,
+    "cycles_per_bit": 512,
+    "framing": "8N1",
+    "input_bytes": [
+      170,
+      80,
+      95
+    ],
+    "negative_bytes": [
+      170,
+      80,
+      94
+    ],
+    "positive_repeats": 2,
+    "positive_stream_sha256": "8e725b22cbe0183a43cab172cda2df7a452de4fa426e8d2b20b7123bc58fae7e",
+    "negative_stream_sha256": "c68e1fe00fdd5e4b5ddd4041731e6d5eaa9df03f07724a5ae19ec8a0a3800b5f",
+    "no_frame_stream_sha256": "2737e286c7934627f307beaa7abac218fc25780e31568022ed13109706917ec8",
+    "positive_display": "OK",
+    "negative_display": "NG",
+    "no_frame_display": "NG",
+    "positive_display_cycle": 101048102,
+    "no_frame_display_cycle": 103416108,
+    "sci_observer_drops": 0,
+    "hardware_validated": false,
+    "project_comparison": false
   }
 }

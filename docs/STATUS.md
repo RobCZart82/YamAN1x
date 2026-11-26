@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [T6 echo control](DEVELOPMENT_LOG.md#t6-accepts-a-synthetic-sci1-echo--2026-11-27) yields OK for AA 50 5F and NG for an altered reply or no input on pinned MAME. Next, reproduce the bounded controls on the project machine. Normal MIDI remains unverified.
+
 The [T6 diagnostic receive trace](DEVELOPMENT_LOG.md#t6-diagnostic-sci1-receive-handoff--2026-11-26) observes the received byte in a separate RAM buffer. Next, identify the receive parser sequence and compare state transitions.
 
 The [T6 timeout trace](DEVELOPMENT_LOG.md#t6-result-timeout-counter-measured--2026-11-26) measures the 20-count timer expiring and setting the result flag before NG. Next, observe a diagnostic byte in the service-state SCI1 receive path.
