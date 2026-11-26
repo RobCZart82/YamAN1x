@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [T6 result-state trace](DEVELOPMENT_LOG.md#t6-result-state-reads-reproduced-on-the-restored-reference--2026-11-26) reproduces the previous serial and LCD timings and identifies measured RAM result bytes. Next, locate their producers.
+
 The [T6 serial trace](DEVELOPMENT_LOG.md#t6-sends-three-bytes-on-sci1-before-ng--2026-11-25) records three SCI1 transmit bytes before NG. Next, locate the receive or timeout condition checked after transmission.
 
 The [T6 control](DEVELOPMENT_LOG.md#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25) reaches and executes the MIDI test. It reports NG without loopback while SCI0 SCR remains at reset value. Next, trace the first failure condition.
