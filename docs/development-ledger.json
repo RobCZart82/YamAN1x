@@ -8269,6 +8269,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45870169544"
       },
       "review": "Post-merge inspection found no reviews, requests, threads, automated review result or quota error."
+    },
+    {
+      "pr": 357,
+      "title": "Reconcile T6 research and README merge records",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/357",
+      "status": "merged",
+      "head_commit": "6ce5c1eb33c31bbae916c459a240a37fc3ef4f80",
+      "merge_commit": "b0d9bd846d4ee920079a73015a69f5214ffb2999",
+      "merged_at_utc": "2026-11-26T18:57:10Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45874838856",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45874838846"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45879927416",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45879927435"
+      },
+      "review": "No review, request, thread, comment or quota error visible before head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8391,14 +8421,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/reconcile-t6-and-readme",
-    "base_commit": "18fb45c5d2e3b91640a97454f07d9133fd6a468b",
+    "branch": "research/t6-reconstructed-reference",
+    "base_commit": "b0d9bd846d4ee920079a73015a69f5214ffb2999",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Reconcile #355 and #356 and restore the pinned reference experiment."
+    "scope": "Record reproduced T6 reference and measured result RAM access values."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9439,5 +9469,15 @@
       45655106842
     ],
     "final_merge": "a60a4a42254abd5aa6fd9b17688ff7d68820d316"
+  },
+  "t6_result_state_20261126": {
+    "main_baseline": "b0d9bd846d4ee920079a73015a69f5214ffb2999",
+    "mame_binary_sha256": "de5b898af50b51d743a819675ca501f98dc44300f8b56d02cdfd41a23ae83f36",
+    "execute_stream_sha256": "7830533cb1f5ae4b5c9a92412a1682a84ef0eec4fae96e9d3e1a4e4f67b8c9a9",
+    "control_stream_sha256": "6a937f47f350e8f4565d677dd052b11a6f25a7b6db133eae47d2b91688aa96d9",
+    "execute_ram_accesses": 99,
+    "control_ram_accesses": 243,
+    "first_ng_cycle": 103416108,
+    "hardware_validated": false
   }
 }

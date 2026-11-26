@@ -1,3 +1,26 @@
+## T6 result-state reads reproduced on the restored reference — 2026-11-26
+
+Rebuild the locked MAME source archive using its verified 17-patch
+chain and the local panel schedule from [T6 execution](#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25).
+Two fresh seven-second execution runs reproduce the three SCI1 TDR
+writes and NG timestamps from the previous measurement. The selection-only
+control still sends no SCI1 bytes. The rebuilt reference records dispatches
+in the service routine range 0x069000–0x06DFFF and reads and writes
+of aligned words 0x23FFA8–0x23FFAB between cycles 100,039,000 and
+103,420,000. The two execution runs have identical filtered streams,
+including 99 RAM access records. The selection-only control has 243.
+
+The final result path reads byte 0x23FFAB as 02 three times at cycles
+103,413,338, 103,413,352 and 103,413,366. The byte at 0x23FFA8 reads 40
+at 103,413,382 and is cleared at 103,413,420. Byte 0x23FFAA subsequently
+changes from 01 to 02 and is read as 02 at 103,413,630. The NG LCD
+write follows at 103,416,108. The tap masks distinguish the two byte
+lanes. These observations identify result-state processing but do not
+establish the meaning or source of the status values. Next, trace
+who produces these values before the result routine and whether the
+SCI1 receive handler can change the outcome. Do not infer a reply
+format from the result bytes alone.
+
 ## T6 documentation merge and README update — 2026-11-26
 
 The #355 squash initially returned HTTP 502 although its exact content
