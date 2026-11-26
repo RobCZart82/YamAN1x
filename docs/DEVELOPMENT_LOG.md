@@ -1,3 +1,29 @@
+## T6 diagnostic SCI1 receive handoff — 2026-11-26
+
+Extend the [T6 timeout control](#t6-result-timeout-counter-measured--2026-11-26)
+with a single synthetic A5 frame starting at nominal cycle 101,000,000,
+512 cycles per bit, driven into RXD1. Use two input runs and a same-binary
+no-frame execution control. Tap the existing result RAM words and
+0x234948–0x234949 and 0x234A64–0x234A65, applying the same cycle filter.
+The SCI1 RDR observer records A5 at cycle 101,005,004. The input dispatch
+windows at 101,005,060–101,005,360 contain 44 matching records, zero drops.
+
+| Cycle | Normalized RAM byte | Value | Reported MAME PC |
+| --- | --- | --- | --- |
+| 100,913,202 | 0x234948 | 00 | 0x06BB54 |
+| 101,005,076 | 0x234948 | 01 | 0x00181A |
+| 101,005,084 | 0x234949 | A5 | 0x001820 |
+| 101,005,094 | 0x234A64 | 02 | 0x001828 |
+
+Only the initial clear is present in the no-frame control. The two
+input runs reproduce the same handoff and still expire the timeout,
+at cycle 103,413,240. NG starts at 103,416,690 instead of the control's
+103,416,108. The test byte therefore reaches a separate receive state
+and buffer, while the measured result remains NG. SCI0 SCR stays zero.
+Next, identify the receive parser's expected sequence and observe its
+state transitions with a source-derived diagnostic input. Hardware
+reply semantics and the normal SCI0 path remain unverified.
+
 ## T6 result timeout counter measured — 2026-11-26
 
 The restored reference from [the result-state measurement](#t6-result-state-reads-reproduced-on-the-restored-reference--2026-11-26)
