@@ -1,3 +1,14 @@
+## T6 documentation merge and README update — 2026-11-26
+
+The #355 squash initially returned HTTP 502 although its exact content
+was already present on main. Both missing main workflows were dispatched
+and passed. The branch was subsequently updated from main and all four
+checks passed on that new head, allowing the normal squash merge. The
+resulting main and the subsequent #356 README simplification passed all
+four checks. The local MAME archive also passes the locked 17-patch
+preflight. The T6 receive or timeout branch remains the next research
+question.
+
 ## T6 sends three bytes on SCI1 before NG — 2026-11-25
 
 Repeat the [timed T6 execution](#t6-executes-and-reports-ng-without-midi-loopback--2026-11-25)

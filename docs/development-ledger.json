@@ -8209,6 +8209,66 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45635278704"
       },
       "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 355,
+      "title": "Record the SCI1 exchange before the T6 result",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/355",
+      "status": "merged",
+      "head_commit": "ddd02604525db7f66956368383ec91cc14bf6440",
+      "merge_commit": "a60a4a42254abd5aa6fd9b17688ff7d68820d316",
+      "merged_at_utc": "2026-11-25T22:13:11Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45706279399",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45706279391"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45711324013",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45711323917"
+      },
+      "review": "No review submission, request, thread, automated review result or quota error was visible before the head-bound merge."
+    },
+    {
+      "pr": 356,
+      "title": "Remove duplicate heading below README logo",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/356",
+      "status": "merged",
+      "head_commit": "d8112efb4542ad01477699cff1d44d80ecfe95f1",
+      "merge_commit": "18fb45c5d2e3b91640a97454f07d9133fd6a468b",
+      "merged_at_utc": "2026-11-26T17:43:43Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45866442325",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45866442385"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45870169575",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45870169544"
+      },
+      "review": "Post-merge inspection found no reviews, requests, threads, automated review result or quota error."
     }
   ],
   "pending_changes": [],
@@ -8331,14 +8391,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "docs/t6-sci1-request",
-    "base_commit": "90f7836053ef03a89e226bd768acb1c84730c3d8",
+    "branch": "docs/reconcile-t6-and-readme",
+    "base_commit": "18fb45c5d2e3b91640a97454f07d9133fd6a468b",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record SCI1 transmit activity before the T6 NG result."
+    "scope": "Reconcile #355 and #356 and restore the pinned reference experiment."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9369,5 +9429,15 @@
     "control_tdr_writes": 0,
     "first_ng_lcd_cycle": 103416108,
     "hardware_validated": false
+  },
+  "pr355_recovery": {
+    "original_head": "91c7095ba1c7833d227c8746888880cd9b3b100d",
+    "main_after_502": "a39370efa40b2b713327c673bc187bbd839b9e7c",
+    "tree_identity_verified": true,
+    "manual_main_checks": [
+      45655101007,
+      45655106842
+    ],
+    "final_merge": "a60a4a42254abd5aa6fd9b17688ff7d68820d316"
   }
 }
