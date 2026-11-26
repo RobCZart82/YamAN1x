@@ -8299,6 +8299,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45879927435"
       },
       "review": "No review, request, thread, comment or quota error visible before head-bound merge."
+    },
+    {
+      "pr": 358,
+      "title": "Record T6 result-state RAM accesses on restored reference",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/358",
+      "status": "merged",
+      "head_commit": "6fcb167597a3c8cfd3ba1bcd8e245a0870ad68b1",
+      "merge_commit": "f2108c1a27fd8fdb69afd567a651b6e237160bd3",
+      "merged_at_utc": "2026-11-26T20:17:04Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45885316101",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45885315854"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45889916235",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45889916190"
+      },
+      "review": "No review, request, thread, comment or quota error visible before head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8421,14 +8451,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/t6-reconstructed-reference",
-    "base_commit": "b0d9bd846d4ee920079a73015a69f5214ffb2999",
+    "branch": "research/t6-result-producers",
+    "base_commit": "f2108c1a27fd8fdb69afd567a651b6e237160bd3",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record reproduced T6 reference and measured result RAM access values."
+    "scope": "Record T6 countdown, zero transition and result flag."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9478,6 +9508,20 @@
     "execute_ram_accesses": 99,
     "control_ram_accesses": 243,
     "first_ng_cycle": 103416108,
+    "hardware_validated": false
+  },
+  "t6_timeout_20261126": {
+    "main_baseline": "f2108c1a27fd8fdb69afd567a651b6e237160bd3",
+    "mame_binary_sha256": "bf711ca5ca76412e16e0081aa247d2497e93f030a0b71514636bd8da7ff09b67",
+    "execute_stream_sha256": "9772e6f0a831ffee14c373a8e45701b57f4a5b289b7230ed9391b47e507bef06",
+    "control_stream_sha256": "203068d59462e06a9a252ad31aa0322709a23d2e490aa91466cefd6922e578e0",
+    "counter_address": "0x23C8DC",
+    "counter_load_cycle": 100915158,
+    "counter_load_value": 20,
+    "counter_zero_cycle": 103412658,
+    "result_flag_cycle": 103412676,
+    "counter_accesses": 45,
+    "control_counter_accesses": 52,
     "hardware_validated": false
   }
 }
