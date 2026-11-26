@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [T6 vételi nyom](DEVELOPMENT_LOG.md#t6-diagnostic-sci1-receive-handoff--2026-11-26) rögzíti a fogadott bájt átadását a RAM-ba. A következő mérés a vételi állapotgép feltételeit keresi.
+
 A [T6 időtúllépési nyom](DEVELOPMENT_LOG.md#t6-result-timeout-counter-measured--2026-11-26) rögzíti a húszról nullára számlálás végét és az NG előtti jelzőbitet. A következő mérés a szervizállapot SCI1 vételi ágát követi.
 
 A [T6 eredményállapot-mérés](DEVELOPMENT_LOG.md#t6-result-state-reads-reproduced-on-the-restored-reference--2026-11-26) reprodukálja a korábbi soros és LCD-időzítést. Következő lépés az eredménybájtok íróinak azonosítása.

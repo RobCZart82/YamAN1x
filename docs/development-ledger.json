@@ -8329,6 +8329,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45889916190"
       },
       "review": "No review, request, thread, comment or quota error visible before head-bound merge."
+    },
+    {
+      "pr": 359,
+      "title": "Record T6 timeout counter and result flag",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/359",
+      "status": "merged",
+      "head_commit": "02a66b2059321baa51ec88d529a32a0d203261ee",
+      "merge_commit": "53c539257efb0b24bfc02d2fdf4a8a69aac1fb72",
+      "merged_at_utc": "2026-11-26T21:33:41Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45894838680",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45894838767"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45898982951",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45898982902"
+      },
+      "review": "Post-merge inspection found no review, request, thread or comment; no automated-review or quota evidence."
     }
   ],
   "pending_changes": [],
@@ -8451,14 +8481,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/t6-result-producers",
-    "base_commit": "f2108c1a27fd8fdb69afd567a651b6e237160bd3",
+    "branch": "research/t6-diagnostic-receive",
+    "base_commit": "53c539257efb0b24bfc02d2fdf4a8a69aac1fb72",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record T6 countdown, zero transition and result flag."
+    "scope": "Record T6 diagnostic SCI1 receive handoff and RAM observations."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9522,6 +9552,35 @@
     "result_flag_cycle": 103412676,
     "counter_accesses": 45,
     "control_counter_accesses": 52,
+    "hardware_validated": false
+  },
+  "t6_receive_handoff_20261126": {
+    "main_baseline": "53c539257efb0b24bfc02d2fdf4a8a69aac1fb72",
+    "mame_binary_sha256": "be0d41577fd2b629edab2f0f60397bda5a378bc42c5aabe7f0b779939a227bf4",
+    "input_stream_sha256": "92043386df95679ce36fd89ac8234e0c76d2ccdfbd4372db901c9b43932db937",
+    "control_stream_sha256": "7aad55b07e7bdc7867a66d9433e0560be5c48b81134da0337447868d73f630e7",
+    "input_frame_cycle": 101000000,
+    "input_byte": 165,
+    "rdr_cycle": 101005004,
+    "buffer_writes": [
+      [
+        "0x234948",
+        1,
+        101005076
+      ],
+      [
+        "0x234949",
+        165,
+        101005084
+      ],
+      [
+        "0x234A64",
+        2,
+        101005094
+      ]
+    ],
+    "timeout_cycle": 103413240,
+    "ng_cycle": 103416690,
     "hardware_validated": false
   }
 }
