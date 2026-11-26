@@ -1,3 +1,28 @@
+## T6 result timeout counter measured — 2026-11-26
+
+The restored reference from [the result-state measurement](#t6-result-state-reads-reproduced-on-the-restored-reference--2026-11-26)
+adds a word tap at 0x23C8DC using the same cycle filter and seven-second
+panel schedules. Two T6 execution runs agree on 45 counter accesses
+and the 99 original result-state accesses. The selection-only control
+records 52 counter accesses. The three expected SCI1 transmit bytes
+and the NG display are reproduced in the execution runs.
+
+The word at 0x23C8DC receives 0014 at cycle 100,915,158, reported
+PC 0x06BB82. The related state byte 0x23FFAB changes from 01 to 02 at
+100,915,190. The recurring RAM path at 0x069F86 and 0x069F8A reads
+and decrements the counter. At cycle 103,412,652 it reads 0001;
+at 103,412,658 it writes 0000. The subsequent bit operation at
+0x069F92 sets bit 6 of 0x23FFA8 at 103,412,676. The result routine
+observes that flag before the NG LCD write. The counter control
+never loads 0014 and never reaches zero within the measured window.
+
+This establishes the observed timeout path without receive data.
+Next, inspect the SCI1 receive handler under the service-test state,
+using a single diagnostic byte and no-frame control to identify
+whether the handler writes the result bytes or a separate buffer.
+The timeout measurement does not establish the real reply protocol,
+SCI0 enable, or firmware note handling.
+
 ## T6 result-state reads reproduced on the restored reference — 2026-11-26
 
 Rebuild the locked MAME source archive using its verified 17-patch
