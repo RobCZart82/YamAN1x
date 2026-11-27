@@ -1,7 +1,7 @@
 <img src="docs/images/yaman1x-logo.svg" alt="YamAN1x" width="520">
 
-Play a virtual Yamaha AN1x from your MIDI keyboard in REAPER and other
-compatible hosts, and use it in your projects.
+A virtual synthesizer for REAPER and other compatible hosts. Play it from
+your MIDI keyboard and use it in your projects.
 
 [Magyarul](README_HUN.md)
 
