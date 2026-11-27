@@ -1,0 +1,109 @@
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -62,6 +62,11 @@
+ 
+ private:
+     void machine_start() override ATTR_COLD;
++    void panel_scan_trace_end();
++    u8 m_test_panel_port6 = 0xff;
++    memory_passthrough_handler m_panel_control_tap;
++    bool m_service_panel_profile = false, m_panel_scan_trace = false;
++    u64 m_panel_scan_first = 0, m_panel_scan_last = 0, m_panel_scan_count = 0, m_panel_scan_dropped = 0;
+     TIMER_CALLBACK_MEMBER(trace_tick);
+     void sci_state(unsigned tick);
+     void sci_access(unsigned channel, char op, offs_t address, u16 data, u16 mask);
+@@ -126,6 +131,13 @@
+ };
+ 
+ // YamANIx research instrumentation; experimental responses require explicit profiles.
++void an1x_state::panel_scan_trace_end()
++{
++    if (m_panel_scan_trace)
++        logerror("YAMANIX PANEL_SCAN_END events=%llu dropped=%llu window=%llu:%llu\n",
++            (unsigned long long)m_panel_scan_count, (unsigned long long)m_panel_scan_dropped,
++            (unsigned long long)m_panel_scan_first, (unsigned long long)m_panel_scan_last);
++}
+ void an1x_state::machine_start()
+ {
+     const char *profile = std::getenv("YAMANIX_DSP_PROFILE");
+@@ -140,7 +152,64 @@
+     logerror("YAMANIX DMS_BOARD state=%s port9_input=%02x hardware_validated=0\n",
+         m_dms_installed ? "installed" : "absent", m_dms_installed ? 0xfb : 0xff);
+     start_bridge();
++    if (const char *panel = std::getenv("YAMANIX_PANEL_PROFILE")) {
++        if (std::strcmp(panel, "service"))
++            fatalerror("Unknown YAMANIX_PANEL_PROFILE");
++        m_service_panel_profile = true;
++    }
++    const char *panel_trace = std::getenv("YAMANIX_PANEL_SCAN_TRACE");
++    if (panel_trace && std::strcmp(panel_trace, "1"))
++        fatalerror("YAMANIX_PANEL_SCAN_TRACE must be 1");
++    m_panel_scan_trace = panel_trace != nullptr;
++    if (const char *window = std::getenv("YAMANIX_PANEL_SCAN_WINDOW")) {
++        if (!m_panel_scan_trace)
++            fatalerror("Panel scan window requires trace mode");
++        const char *split = std::strchr(window, ':');
++        const char *end = window + std::strlen(window);
++        if (!split)
++            fatalerror("Expected YAMANIX_PANEL_SCAN_WINDOW=FIRST:LAST");
++        const auto first = std::from_chars(window, split, m_panel_scan_first);
++        const auto last = std::from_chars(split + 1, end, m_panel_scan_last);
++        if (first.ec != std::errc{} || first.ptr != split || last.ec != std::errc{} ||
++                last.ptr != end || m_panel_scan_first > m_panel_scan_last)
++            fatalerror("Invalid YAMANIX_PANEL_SCAN_WINDOW endpoints");
++    } else if (m_panel_scan_trace) {
++        fatalerror("Panel scan trace requires a bounded cycle window");
++    }
+     auto &space = m_maincpu->space(AS_PROGRAM);
++    if (m_service_panel_profile || m_panel_scan_trace)
++        m_panel_control_tap = space.install_read_tap(0x680000, 0x680001, "panel_control",
++        [this](offs_t, u16 &value, u16 mask) {
++            if (!(mask & 0xff00) || machine().side_effects_disabled()) return;
++            const unsigned pins = m_test_panel_port6;
++            const unsigned selector = ((pins >> 2) & 1) | (pins & 2) | ((pins & 1) << 2);
++            unsigned rows = (value >> 8) & 0xff;
++            const u64 ns = machine().time().as_ticks(1000000000);
++            if (m_service_panel_profile) {
++                rows = 0xff;
++                if (ns < 4200000000ULL) {
++                    if (selector == 5) rows &= ~0x08u;
++                    if (selector == 6) rows &= ~0x88u;
++                }
++                if (selector == 5 && ns >= 5000000000ULL && ns < 6000000000ULL &&
++                        ((ns - 5000000000ULL) % 200000000ULL < 100000000ULL))
++                    rows &= ~0x08u;
++                if (selector == 5 && ns >= 6200000000ULL && ns < 6320000000ULL)
++                    rows &= ~0x40u;
++                value = (value & 0x00ff) | (rows << 8);
++            }
++            const u64 cycle = m_maincpu->total_cycles();
++            if (m_panel_scan_trace && cycle >= m_panel_scan_first && cycle <= m_panel_scan_last) {
++                if (m_panel_scan_count < 512) {
++                    logerror("YAMANIX PANEL_SCAN cycle=%llu pc=%06x ccr=%02x selector=%u value=%02x mask=%04x\n",
++                        (unsigned long long)cycle, m_maincpu->pc(),
++                        m_maincpu->state_int(h83002_device::H8_CCR), selector, rows, mask);
++                } else {
++                    ++m_panel_scan_dropped;
++                }
++                ++m_panel_scan_count;
++            }
++        });
+     const char *boot_trace = std::getenv("YAMANIX_BOOT_IRQ_TRACE");
+     m_boot_irq_trace = boot_trace && !std::strcmp(boot_trace, "1");
+     const char *prefix_trace = std::getenv("YAMANIX_BOOT_PREFIX_TRACE");
+@@ -200,6 +266,7 @@
+         }
+     });
+     machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::dsp_trace_end, this));
++    machine().add_notifier(MACHINE_NOTIFY_EXIT, machine_notify_delegate(&an1x_state::panel_scan_trace_end, this));
+     an1x_dasm_buffer buffer(space);
+     const std::pair<offs_t, offs_t> spans[] = {{0x1fc0, 0x2030}, {0x29f0, 0x2a90}, {0x39a0, 0x39c0}, {0x3a90, 0x3b40}, {0x3f650, 0x3f68a}, {0x565dc, 0x565fc}, {0x56792, 0x567d8}, {0x565dc, 0x56d20}, {0x6c532, 0x6c654}, {0x545e8, 0x546e6}, {0x51400, 0x517c0}, {0x50cc0, 0x51100}};
+     for (const auto &span : spans) for (offs_t pc = span.first; pc < span.second;) {
+@@ -600,6 +667,7 @@
+ 	HD6305V0(config, m_pks, 8_MHz_XTAL).set_disable(); // HD63B05V0E65F
+ 
+ 	LC7985(config, m_lcd);
++    m_maincpu->write_port6().set([this](u8 value) { m_test_panel_port6 = value; });
+     m_maincpu->read_porta().set([this]() { return m_lcd_bus.input_pa(); });
+     m_maincpu->write_porta().set([this](u8 data) { m_lcd_bus.pa = data; });
+     m_maincpu->read_portb().set([this]() { return m_lcd_bus.input_pb(); });

@@ -4,9 +4,7 @@ For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_RE
 
 ## Active development plan
 
-The verified planning baseline is [main at d025f423](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37) after
-[#331](https://github.com/RobCZart82/YamAN1x/pull/331). The current [status](STATUS.md)
-and [development log](DEVELOPMENT_LOG.md) track subsequent evidence.
+The current planning baseline is [main at 102c5dbd](https://github.com/RobCZart82/YamAN1x/commit/102c5dbd1d34b411d5506f4fc63ab14b6fc44a13), after [#364](https://github.com/RobCZart82/YamAN1x/pull/364). The earlier #331 baseline remains part of the evidence history. The current [status](STATUS.md), [development log](DEVELOPMENT_LOG.md) and [structured ledger](development-ledger.json) track subsequent evidence and candidate state.
 
 The first local acceptance is one firmware-driven note in native Apple Silicon
 REAPER. A saved MIDI clip starts and releases a reproducible voice using the
@@ -21,29 +19,32 @@ See [clock and table evidence](an1x-clock-and-table-rom.md) and
 
 ### 1. Locate the first firmware divergence
 
-The startup controls now reach matching ADC, SCI1 and ITU overflow landmarks.
-The [SCI0 candidate check](DEVELOPMENT_LOG.md#sci0-enable-candidate-check-after-the-sci1-control--2026-11-25) leaves the receiver-enable condition open.
-The [dispatcher initialization trace](DEVELOPMENT_LOG.md#sci0-dispatcher-initialization-and-a-service-mode-control--2026-11-25) now points to
-a documented service-mode T6 MIDI test as a way to locate an SCI0 enable path.
+The project scan and pinned-source MAME both reach the `EA90` / `6A28` panel-read instruction, but the first measured reads occur at 92,381,680 and 63,025,100 cycles. Under the same reset-relative 4.2-second panel chord, they therefore sample different input states (`FF` and `F7`). A longer project chord still ends at Welcome. This is an observed timing/input difference, not yet an identified cause of the service-mode decision. The exact locked-source MAME repeats also differ from the older #362 reference; its executable identity was not recorded, so that discrepancy remains unresolved.
 
-Start with one bounded comparison of the project machine and the original MAME
-source locked at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Record the observer
-patch, executable, unchanged firmware identity, reset and NVRAM state, ADC inputs
-and time origin. Match inputs where the implementations permit it and disclose
-remaining differences. Reuse the `0xFFFF60` TSTR windows from #331. Observe the
-address, access width, value and cycle, ITU flags and IRQ requests, the vector
-the CPU accepts, the handler PC and raw CCR, and where execution resumes. Align
-ADC activity, SCI1 setup and transmit, and SCI0 control writes in event order.
-Record each implementation's timestamps in its own timebase.
+Continue with one bounded, reset-aligned comparison of the project machine and
+the MAME source locked at `706dbb73281320c54d7c2f16262c1c3786f2be01`. Record
+the observer patches and exact executable hashes, unchanged firmware identity,
+reset and NVRAM state, ADC inputs, panel waveform and time origin. Repeat the
+current 4.2-second chord waveform identically, then add a second matched
+control held through the later project scan so both machines sample the same
+active-low rows. Compare selector order, value, cycle, instruction context,
+branch result, panel/decision state and continuation. Keep timestamps in each
+implementation's own timebase and do not infer a machine defect from the
+different sampling times alone. If this does not expose the first firmware
+divergence, continue at the earliest common/changed state. Reuse the `0xFFFF60`
+TSTR windows from #331: observe address, width, value and cycle, ITU flags and
+IRQ request, accepted CPU vector, handler PC and raw CCR, and continuation; then
+align ADC activity, SCI1 setup/transmit and SCI0 control writes in event order.
 
-The result must reproduce across repeats and two cycle slice sizes with zero
-drops in the compared windows. It should identify the first relevant difference
-or show the last shared state and the firmware condition for leaving it. Fix
-only a demonstrated behavioral difference and test address, value, flags,
-timing and continuation with independent expectations. If both machines wait
-for a signal unavailable in their profiles, name the missing board observation
-before proposing a model change. A PKS/PKSCLK dependency needs evidence that the
-firmware is waiting for it. Another longer run needs a question it can answer.
+The result must reproduce across repeats and at least two cycle slice sizes
+with zero drops in the compared windows. It should identify the first relevant
+difference or the last shared state and firmware condition for leaving it.
+Correct only a demonstrated behavioral difference and test address, value,
+flags, timing and continuation against independent expectations. If both
+machines wait for a signal unavailable in their profiles, name the missing
+board observation before proposing a model change. A PKS/PKSCLK dependency
+needs evidence that firmware is waiting for it. Every longer run must answer a
+specific unresolved question.
 See the [active ITU contract](an1x-active-itu-contract.md) and
 [MAME source lock](../research/mame-source-lock.json).
 

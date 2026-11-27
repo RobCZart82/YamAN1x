@@ -419,6 +419,37 @@ def main(binary):
                 require(code == 0 and report["panel_counts"][selector] == 1
                         and report["panel_pressed_reads"] == int(expected != 255),
                         "Service panel selector and active-low byte")
+                code, observed = run([128, slice_size, 10000], profile=service,
+                                     extra=("--observe-panel=0:128",))
+                events = observed["panel_read_observations"]["events"]
+                require(code == 0 and observed["panel_read_observations"]["dropped"] == 0
+                        and len(events) == 1 and events[0]["selector"] == selector
+                        and events[0]["value"] == expected and events[0]["cycle"] == 28
+                        and events[0]["pc"] == 0x110 and events[0]["ppc"] == 0x10e
+                        and events[0]["instruction_state"] == 0x680a
+                        and events[0]["raw_ccr"] == 0x80,
+                        "Panel observer records selector, value, cycle and CPU context")
+        image([0xf807, 0x38c9, 0xf805, 0x38cb,
+               0x7a00, 0x68, 0, 0x680a, 0xaa77, 0x4702, 0x681a, 0x40fe])
+        for slice_size in (1, 8, 64):
+            code, report = run([128, slice_size, 10000], profile=service,
+                               extra=("--panel-rows=136:8", "--observe-panel=0:128"))
+            events = report["panel_read_observations"]["events"]
+            require(code == 0 and len(events) == 1 and events[0]["value"] == 0x77
+                    and report["panel_pressed_reads"] == 1,
+                    "Panel pressed-row masks select the expected active-low value")
+            code, report = run([128, slice_size, 10000], profile=service,
+                               extra=("--panel-rows=0:0", "--panel-window=29:128",
+                                      "--observe-panel=0:128"))
+            events = report["panel_read_observations"]["events"]
+            require(code == 0 and len(events) == 1 and events[0]["value"] == 0xff
+                    and report["panel_pressed_reads"] == 0,
+                    "Panel window releases inputs and accepts an empty pressed mask")
+            code, report = run([128, slice_size, 10000], profile=service,
+                               extra=("--observe-panel=29:128",))
+            require(code == 0 and report["panel_read_observations"]["events"] == []
+                    and report["panel_pressed_reads"] == 1,
+                    "Panel observer window filters without changing the input")
         image([0xf807, 0x38c9, 0xf805, 0x38cb,
                0x7a00, 0x68, 0, 0x680a, 0xaaff, 0x4702, 0x681a, 0x40fe])
         for slice_size in (1, 8, 64):
@@ -426,6 +457,13 @@ def main(binary):
                                extra=("--panel-chord-end=1",))
             require(code == 0 and report["panel_pressed_reads"] == 0,
                     "Released chord returns idle byte")
+        for options, profile_arg in ((("--panel-rows=1:2", "--panel-rows=3:4"), service),
+                                     (("--panel-rows=1:2",), "lcd-meg-vop3-idle-panel-experiment-16mhz"),
+                                     (("--observe-panel=9:8",), service),
+                                     (("--panel-rows=1:256",), service)):
+            code, report = run([128, 8, 10000], profile=profile_arg, extra=options)
+            require(code == 1 and report["status"] == "input_error",
+                    "Invalid or duplicate panel observer input is rejected")
         native = "lcd-meg-vop3-register-experiment-16mhz"
         # Two distinct chip coefficient writes,then the explicit upload command.
         image([0x7a00,0x44,0x16,0x7901,0x1234,0x6981,
