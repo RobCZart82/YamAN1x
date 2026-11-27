@@ -1,5 +1,7 @@
 # Development status
 
+Held-chord control: the project and pinned MAME agree on the selector-5 value and the next six dispatches through EAA6. The project still shows Welcome. The next comparison needs the same held waveform in both emulators and the downstream decision state. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
+
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
 ## Current evidence and next step — 2026-11-27

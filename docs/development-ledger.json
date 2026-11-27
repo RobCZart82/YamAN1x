@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-27",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
+  "baseline_commit": "569777745de854016656841bf977e990ed96914d",
   "entries": [
     {
       "pr": 6,
@@ -8513,6 +8513,40 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46043818314"
       },
       "review": "GitHub API inspection on 2026-11-27: 0 review submissions, 0 inline review comments and 0 issue comments. No automated-review result or quota-error evidence was visible. Active ruleset 25910947 required 0 approvals and resolved threads; no merge-bypass evidence was recorded."
+    },
+    {
+      "pr": 365,
+      "title": "research: capture bounded panel scan context",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/365",
+      "status": "merged",
+      "head_commit": "c2576a728df842b1a016bb7c797b3d09c0941499",
+      "merge_commit": "569777745de854016656841bf977e990ed96914d",
+      "merged_at_utc": "2026-11-27T20:42:11Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46061073585",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46061073598",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46061073735"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46065422119",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46065422075",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46065422038"
+      },
+      "review": "No reviews, comments or review threads observed on the final head. Ruleset 25910947 required zero approvals and resolved threads. No automated review or quota error observed."
     }
   ],
   "pending_changes": [],
@@ -8635,30 +8669,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/panel-scan-context",
-    "base_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
-    "pr": 365,
-    "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
+    "branch": "research/panel-held-control",
+    "base_commit": "569777745de854016656841bf977e990ed96914d",
+    "pr": null,
+    "head_commit": null,
     "merge_commit": null,
-    "pr_head_checks": {
-      "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
-      "platform_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037008",
-      "initial_decode_msan_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037056",
-      "mame_research_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037012",
-      "result": "all required platform checks and additional MSan/research checks passed on this exact head"
-    },
+    "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Bounded comparison of project and pinned-MAME panel scan and decision context with unchanged local firmware; no production-model change.",
-    "review_evidence": {
-      "reviews": 0,
-      "inline_comments": 0,
-      "issue_comments": 0,
-      "unresolved_threads": 0,
-      "ruleset_id": 25910947,
-      "required_approvals": 0,
-      "automated_review_or_quota_error": "none observed"
-    },
-    "mergeability": "MERGEABLE; no dependencies or conflicts observed"
+    "scope": "Record the matched selector-5 sample control and reconcile PR #365."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9797,7 +9815,7 @@
     "hardware_validated": false
   },
   "panel_scan_context_comparison_20261127": {
-    "status": "local_candidate",
+    "status": "merged",
     "base_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
     "firmware_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
     "firmware_modified_or_uploaded": false,
@@ -9984,9 +10002,43 @@
       "source_notice_coverage": "pass; 236 files; 5 license texts",
       "legal_clearance": false,
       "binary_distribution_verified": false,
-      "pr_head_checks": null,
-      "main_checks": null
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      }
     },
-    "next_question": "Compare the reset-aligned 4.2-second panel waveform in both implementations and add a matched held-through-project-scan control; inspect the complete scan decision context and continue only to the earliest demonstrated firmware difference."
+    "next_question": "Compare the reset-aligned 4.2-second panel waveform in both implementations and add a matched held-through-project-scan control; inspect the complete scan decision context and continue only to the earliest demonstrated firmware difference.",
+    "pr": 365,
+    "merge_commit": "569777745de854016656841bf977e990ed96914d"
+  },
+  "panel_held_control_20261127": {
+    "base_commit": "569777745de854016656841bf977e990ed96914d",
+    "reference": "panel_scan_context_comparison_20261127",
+    "probe_sha256": "de666ef853216a8808a8651566cdca76bbdd1bc7ff99e37c18ae8cfbeead0751",
+    "report_sha256": [
+      "a32f7cc9bc7cf58a7bdf1782c2c28dcd27c1515d2e7a03eb9fa1c0d0a8a6ac42",
+      "340de712ed7a4bf6f7a728c654d1ce12a19c657ec421879621a2603cc71c24a2"
+    ],
+    "slice_cycles": [
+      4096,
+      1000000
+    ],
+    "run_cycles": 112000000,
+    "chord_end_cycle": 112000001,
+    "selector5_cycle": 92383136,
+    "selector5_value": "F7",
+    "selector6_value": "77",
+    "ea9a_ccr": "21",
+    "hardware_validated": false
   }
 }
