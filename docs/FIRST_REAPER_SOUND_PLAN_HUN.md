@@ -1,5 +1,7 @@
 # Az első REAPER-hang terve — magyar összefoglaló
 
+A kitartott projektpróbában az 5-ös választó értéke és az EA96–EAA6 közötti hat utasítás egyezik a korábbi MAME-méréssel. A következő összevetésben azonos gombidőzítést kell használni, és az EAA6 után követni a döntést. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
+
 A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_SOUND_PLAN.md). Ez az oldal elkülönítve foglalja össze a függőségi sorrendet.
 
 ## Aktív fejlesztési terv

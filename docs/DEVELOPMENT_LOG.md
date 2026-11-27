@@ -1,3 +1,23 @@
+## Held panel chord control — 2026-11-27
+
+Two project runs built from `569777745de854016656841bf977e990ed96914d` used the
+same local firmware, swap16, eight zero ADC inputs and a chord held through the
+112-million-cycle bound. The 4,096- and 1,000,000-cycle slice reports differ only
+in callback count. Both record zero observer drops, 128 pressed reads, no CPU
+fault and a final Welcome display. The ledger records the executable and report hashes.
+
+The project now reads selector 5 as `F7` at cycle 92,383,136 and selector 6 as
+`77` at cycle 92,382,525. These values match the previously recorded pinned MAME
+samples by selector. From the selector-5 read, dispatches EA96 through EAA6 match
+the pinned trace in PC, opcode and CCR, including CCR `21` at EA9A. The read
+order still differs. This control compares sampled bytes using different chord
+release schedules. The next comparison needs an identical held waveform and
+the downstream decision state to find where the paths separate.
+
+PR #365 merged as `569777745de854016656841bf977e990ed96914d`. All five checks
+passed on its final head and on the merge commit. The ledger contains the
+check links and review observations.
+
 ## Project and pinned MAME panel scan contexts — 2026-11-27
 
 This bounded local candidate extends the experimental T6 panel profile with

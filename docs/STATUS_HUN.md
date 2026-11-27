@@ -1,5 +1,7 @@
 # Fejlesztési állapot — magyar összefoglaló
 
+Kitartott gombkombinációval az 5-ös választó beolvasott értéke és az EAA6-ig következő hat utasítás egyezik a rögzített MAME-méréssel. A projekt kijelzőjén továbbra is Welcome látható. A következő mérés mindkét emulátorban azonos gombidőzítéssel követi a szervizmód döntését. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
+
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-27

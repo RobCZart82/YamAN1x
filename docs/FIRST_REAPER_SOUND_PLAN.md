@@ -1,5 +1,7 @@
 # First REAPER Sound Plan
 
+The held project control matches the earlier MAME selector-5 sample and the six dispatches from EA96 to EAA6. Continue with an identical held waveform in both implementations and follow the decision beyond EAA6. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
+
 For a Hungarian milestone summary, see [FIRST_REAPER_SOUND_PLAN_HUN.md](FIRST_REAPER_SOUND_PLAN_HUN.md). Historical Hungarian passages moved from this file are preserved in the [Hungarian notes archive](HUNGARIAN_NOTES_HUN.md).
 
 ## Active development plan
