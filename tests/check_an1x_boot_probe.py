@@ -408,6 +408,24 @@ def main(binary):
                 expected["value"] = 0
             require(code == 2 and report["fault_access"] == expected,
                     "Panel profile maps only the observed byte read")
+        service = "lcd-meg-vop3-t6-panel-experiment-16mhz"
+        # Drive P6 selector 5, then read the upper panel lane into R0L.
+        # Branch around the invalid address only if the active-low value matches.
+        for selector, expected in ((5, 0xf7), (6, 0x77), (4, 0xff)):
+            image([0xf807, 0x38c9, 0xf800 | selector, 0x38cb,
+                   0x7a00, 0x68, 0, 0x680a, 0xaa00 | expected, 0x4702, 0x681a, 0x40fe])
+            for slice_size in (1, 8, 64):
+                code, report = run([128, slice_size, 10000], profile=service)
+                require(code == 0 and report["panel_counts"][selector] == 1
+                        and report["panel_pressed_reads"] == int(expected != 255),
+                        "Service panel selector and active-low byte")
+        image([0xf807, 0x38c9, 0xf805, 0x38cb,
+               0x7a00, 0x68, 0, 0x680a, 0xaaff, 0x4702, 0x681a, 0x40fe])
+        for slice_size in (1, 8, 64):
+            code, report = run([128, slice_size, 10000], profile=service,
+                               extra=("--panel-chord-end=1",))
+            require(code == 0 and report["panel_pressed_reads"] == 0,
+                    "Released chord returns idle byte")
         native = "lcd-meg-vop3-register-experiment-16mhz"
         # Two distinct chip coefficient writes,then the explicit upload command.
         image([0x7a00,0x44,0x16,0x7901,0x1234,0x6981,

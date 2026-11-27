@@ -236,7 +236,14 @@ private:
         }
         if (a == 0x680000) {
             if constexpr (requires { std::as_const(sink_).idle_panel_read_enabled(); })
-                if (std::as_const(sink_).idle_panel_read_enabled()) return 0xff;
+                if (std::as_const(sink_).idle_panel_read_enabled()) {
+                    if constexpr (requires { sink_.panel_read(now_); }) {
+                        const auto value = sink_.panel_read(now_);
+                        require_callback_live();
+                        return value;
+                    }
+                    return 0xff;
+                }
         }
         if(a>=0x400000&&a<=0x40003f){
             if constexpr(requires{std::as_const(sink_).meg_read_enabled();sink_.meg_read_byte(a,now_);})
