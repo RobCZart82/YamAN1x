@@ -2,9 +2,11 @@
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.
 
-## Jelenlegi eredmények és következő lépés — 2026-11-22
+## Jelenlegi eredmények és következő lépés — 2026-11-27
 
-A [projekt panelpróbája](DEVELOPMENT_LOG.md#project-panel-timing-control--2026-11-27) későbbi panelolvasásokat mér; a hosszabb gombnyomás sem indítja el a szervizüzemmódot. Következő lépés a beolvasás és a döntési ág összevetése.
+A [korlátos panelbeolvasási és utasításkörnyezeti összevetés](DEVELOPMENT_LOG.md#project-and-pinned-mame-panel-scan-contexts--2026-11-27) mindkét megvalósításban rögzíti a kiválasztott paneljelet, a visszaadott értéket, a ciklust és a CPU közeli állapotát. Azonos, resethez igazított gombütemezés mellett az első projektbeli beolvasás a 92 381 680. ciklusban történik; a rögzített forrású MAME-futásban a 63 025 100. ciklusban. Mindkettő eléri az `EA90` / `6A28` beolvasási utasítást, de a 4,2 másodperces felengedés két oldalán mintavételez: a projekt `FF`, a MAME `F7` értéket lát. A projektben a gomb hosszabb nyomva tartása sem lépteti tovább a kijelzőt a Welcome képernyőről, tehát a beolvasás késése önmagában nem magyarázza a későbbi szervizdöntést. A #362 SF/SG-időpontjai 354 392 ciklussal későbbiek az új, rögzített forrású MAME-futásokhoz képest; a régi bináris azonosító hiányzik, ezért a különbség magyarázata nyitott.
+
+Következő lépés a teljes beolvasási és döntési utasításkörnyezet összevetése egyező paneljel-alak és felengedési idő mellett. Csak a ténylegesen mért események alapján állítsunk eltérést; a gépmodellt csak elkülönített viselkedési hiba esetén módosítsuk. A firmware helyben marad és változatlan. Normál MIDI- vagy hangelfogadás még nincs.
 
 A [T6 visszhangpróba](DEVELOPMENT_LOG.md#t6-accepts-a-synthetic-sci1-echo--2026-11-27) az AA 50 5F válaszra OK, módosított vagy hiányzó válaszra NG eredményt ad a rögzített MAME-on. Következő lépés a korlátos próbák megismétlése a projekt gépén. A normál MIDI útvonal még nem igazolt.
 

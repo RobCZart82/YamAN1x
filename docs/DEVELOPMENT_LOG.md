@@ -1,3 +1,76 @@
+## Project and pinned MAME panel scan contexts — 2026-11-27
+
+This bounded local candidate extends the experimental T6 panel profile with
+per-read CPU context in the project probe and a source-only panel observer for
+the exact MAME source lock. It also makes the active-low row masks and panel
+window selectable for independent synthetic tests. The observer only installs
+in an explicit panel profile or trace run. No firmware, production host path,
+GUI, license choice or distribution behavior changes.
+
+The unchanged local firmware image SHA-256 is
+`4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe` and it
+remains outside the repository. The MAME source lock remains at commit
+`706dbb73281320c54d7c2f16262c1c3786f2be01`; its prepared research chain now
+contains 18 source-only patches. The project probe binary SHA-256 is
+`179d366c20d0ef8dc7c19733d5756c812c87396f9fcc36dcaf8fc84709b9d89d`, and the
+instrumented MAME binary SHA-256 is
+`225686e9e362c08123c81ad72ca17c1da4d4fa4adca3e574eb187d563dbc6414`.
+
+Two project runs at 112 million cycles, with 4,096- and 1,000,000-cycle slices,
+reproduce the same eight first-read records with no observer drops or CPU fault.
+The selector order is `0,4,2,6,1,5,3,7`, beginning at cycle `92381680`; the
+scan instruction context is PC `EA92`, previous PC `EA90`, opcode/state `6A28`,
+raw CCR `29`. The initial chord is already released at this point, so selector
+5 returns `FF`. The exact source-locked MAME observer produces the same eight
+events in repeated runs; its selector order is `0,1,2,3,4,5,6,7`, beginning at
+cycle `63025100`. Its selector-5 read at `63026112` returns `F7` while the
+reset-relative 4.2-second chord is still held. The CPU dispatch immediately
+before both reads is at `EA90` with opcode `6A28` and raw CCR `29`. MAME's
+read tap reports PC `EA96`; its following dispatched instructions include
+`EA96/17D0`, `EA98/1710` and `EA9A/6EE8`. In the project trace, `EA9A` has raw
+CCR `25` after the different sampled byte; MAME records `21`. This is
+consistent with the inputs being sampled on different sides of the same
+release schedule, and is not evidence of a CPU semantic defect.
+
+The first scan difference is `29,356,580` cycles (about `1.834786` seconds at
+16 MHz). A project control that held the chord to the 112-million-cycle bound
+still read the panel 128 times and left the LCD at Welcome without a CPU fault.
+That rules out the simple claim that extending the chord alone explains the
+service decision. The MAME context window contains 125 dispatches with zero
+drops; the matched project context window contains 74 with zero drops. The
+bounded JSON reports are SHA-256
+`805e1f968ab2502773cddd9e7a963d51812a4c844f29a600afc0eef304499e7c` (project,
+4,096-cycle slices) and
+`34cd43ace59ae4c971fe786eb8f0a7b4d5a83d6768a31c4f578ed958dfed003c` (project,
+1,000,000-cycle slices). Repeated MAME run G's log SHA-256 is
+`64a15db36769ff7ff9b7683897b00c182594483187934a7c97d730c99188c2e9`; run F
+is byte-identical. Earlier same-binary runs B and C also reproduce the eight
+panel events (log SHA-256 values `5f6ff35414eba6a2a3a1bc90486174829f7cc57cb490e0fc695f7e7b785f4595`
+and `8d8c8fd76c3061881e683383e7306a3532be05dfd35d38c702c624779cea07d7`).
+
+The #362 panel timing entry records SF/SG reads at `63380504` and `63380764`.
+The corresponding selector-5/6 reads in these exact-source repeats are
+`63026112` and `63026372`, exactly `354392` cycles earlier in both cases. The
+older executable identity was not recorded, so this provenance discrepancy
+remains open; neither value is silently replaced. The next
+experiment repeats the reset-aligned 4.2-second waveform and adds a matched
+held-through-project-scan control, then compares the complete scan decision
+context. No Test Mode, normal MIDI, firmware-driven audio, DSP output or REAPER
+acceptance is claimed.
+
+Validation on the submitted PR #365 head `2a9f73e962b677716d702d1494adc1aaa38d9537`:
+the focused `yamanix_an1x_boot_probe` CTest passed 1/1, the Python suite passed
+147 tests, repository audit checked 706 files and 201 upstream identities,
+license coverage checked 236 files and five license texts, and
+`git diff --check` passed. The original archive preflight matched the locked
+MAME commit, applied all 18 patches and verified 14 prepared files without
+modifying the archive. The exact PR head passed Linux, macOS, Windows,
+initial-decode MSan and MAME research checks (runs `46058037008`,
+`46058037056` and `46058037012`). The PR remains open pending exact-main
+checks after merge. No review submissions, comments or unresolved review
+threads were present; the active ruleset requires zero approvals and resolved
+threads. Legal clearance and binary distribution remain false/not verified.
+
 ## Project panel timing control — 2026-11-27
 
 The experimental T6 panel profile delivers active-low SF/SG values via

@@ -4,9 +4,8 @@ A kanonikus részletes terv az angol [FIRST_REAPER_SOUND_PLAN.md](FIRST_REAPER_S
 
 ## Aktív fejlesztési terv
 
-A terv ellenőrzött alapja a [d025f423 főági commit](https://github.com/RobCZart82/YamAN1x/commit/d025f4231c37b268ea10dd0a7c8ba5b9927eec37)
-a [#331](https://github.com/RobCZart82/YamAN1x/pull/331) beolvadása után.
-A további eredmények az [állapotoldalon](STATUS_HUN.md) és a
+A jelenlegi terv alapja a [102c5dbd főági commit](https://github.com/RobCZart82/YamAN1x/commit/102c5dbd1d34b411d5506f4fc63ab14b6fc44a13),
+a [#364](https://github.com/RobCZart82/YamAN1x/pull/364) beolvadása után. A korábbi #331 alap a bizonyítékok történetében marad. A további eredmények az [állapotoldalon](STATUS_HUN.md) és a
 [fejlesztési naplóban](DEVELOPMENT_LOG.md) követhetők.
 
 Az első helyi elfogadás egy firmware-vezérelt hang natív Apple Silicon REAPER-ben.
@@ -20,14 +19,30 @@ A gyári kimenet egyezése, a hardveróra pontossága, a teljes effektmodell, az
 
 ### 1. Az első firmware-eltérés helye
 
-A projekt gépén és a `706dbb73281320c54d7c2f16262c1c3786f2be01` forrásra
-rögzített MAME-en induljon egy párosított próba. Kerüljön a jegyzőkönyvbe a
-megfigyelőpatch, a program, a változatlan firmware azonosítója, a reset,
-a tartós memória, az ADC-bemenetek és a kezdőidő. Az eltérő profilfeltételeket
-jelöljük. A #331 `0xFFFF60` körüli ablakában rögzítsük a hozzáférés címét,
-szélességét, értékét és ciklusát, az ITU jelzőbitjeit, a megszakításkérést, a CPU
-által elfogadott vektort, a kezelő címét, a nyers CCR-t és a folytatást. Ugyanebben
-az eseménysorrendben legyen látható az ADC, a SCI1 adása és a SCI0 beállítása.
+A projekt és a `706dbb73281320c54d7c2f16262c1c3786f2be01` forrásra rögzített
+MAME egyaránt eléri az `EA90` / `6A28` panelbeolvasást, de az első mért
+beolvasás a projektben a 92 381 680., a MAME-ban a 63 025 100. ciklusban van.
+Azonos, resethez igazított 4,2 másodperces gombütemezés mellett ezért a projekt
+a felengedés után `FF`, a MAME még lenyomott gombbal `F7` értéket mintavételez.
+A projektben a hosszabb gombnyomás sem lépteti tovább a Welcome kijelzőt. Ez
+megfigyelt időzítés- és bemeneti különbség, még nem a szervizdöntés oka. A #362
+korábbi MAME-időpontjai eltérnek; az akkori programazonosító hiányzik, ezért a
+proveniencia kérdése nyitva marad.
+
+Folytassuk a resethez igazított összevetést a jelenlegi 4,2 másodperces
+gombütemezés mindkét gépen azonos futtatásával, majd egy második, a projekt
+későbbi beolvasásáig lenyomva tartott, mindkét gépen azonos kontrollal.
+Rögzítsük a beolvasási sorrendet, értéket, ciklust, utasításkörnyezetet,
+elágazást, panel- és döntési állapotot, majd a folytatást. Minden program,
+megfigyelőpatch, firmware, reset, tartós memória, ADC-bemenet és kezdőidő
+azonosítója kerüljön a naplóba; a külön időalapokat jelöljük.
+
+Ha a panelmérés nem találja meg az első firmware-eltérést, folytassuk az első
+közös vagy eltérő állapottól. A #331 `0xFFFF60` TSTR-ablakában ezután mérjük a
+címet, szélességet, értéket és ciklust, az ITU jelzőbitjeit, a megszakításkérést,
+a CPU által elfogadott vektort, a kezelő címét, a nyers CCR-t és a folytatást.
+Az eseménysorrendben legyen látható az ADC, a SCI1 beállítása és adása, valamint
+az SCI0 vezérlésének változása.
 
 Az ismétlések és két szeletméret az összevetett ablakokban eldobás nélkül adják
 ugyanazt az eredményt. Az első jelentős eltérést vagy az utolsó közös állapotból

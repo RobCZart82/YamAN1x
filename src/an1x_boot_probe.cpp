@@ -94,6 +94,37 @@ CycleWindow parse_cycle_window(std::string_view window){
  if(result.first>result.last)throw std::invalid_argument("Reversed cycle window");
  return result;
 }
+uint8_t parse_panel_pressed_mask(std::string_view token){
+ uint64_t value=0;
+ const auto [end,error]=std::from_chars(token.data(),token.data()+token.size(),value);
+ if(token.empty()||error!=std::errc{}||end!=token.data()+token.size()||value>255)
+  throw std::invalid_argument("Invalid panel pressed mask");
+ return uint8_t(value);
+}
+struct PanelReadObserver {
+ static constexpr std::size_t capacity=256;
+ struct Event {uint8_t selector,value;uint64_t cycle;CpuContext context;};
+ bool enabled=false;
+ std::optional<CycleWindow> window;
+ std::array<Event,capacity> events{};
+ std::size_t count=0,dropped=0;
+ void record(uint8_t selector,uint8_t value,uint64_t cycle,const CpuContext&context){
+  if(!enabled||(window&&!window->contains(cycle)))return;
+  if(count==capacity){++dropped;return;}
+  events[count++]={selector,value,cycle,context};
+ }
+ void write()const{
+  if(!enabled){std::cout<<"null";return;}
+  std::cout<<"{\"capacity\":"<<capacity<<",\"dropped\":"<<dropped<<",\"events\":[";
+  for(std::size_t i=0;i<count;++i){if(i)std::cout<<',';const auto&e=events[i];
+   std::cout<<"{\"selector\":"<<unsigned(e.selector)<<",\"value\":"<<unsigned(e.value)
+    <<",\"cycle\":"<<e.cycle<<",\"pc\":"<<e.context.pc<<",\"ppc\":"<<e.context.ppc
+    <<",\"instruction_state\":"<<e.context.state<<",\"instruction_substate\":"<<e.context.substate
+    <<",\"raw_ccr\":"<<unsigned(e.context.ccr)<<'}';
+  }
+  std::cout<<"]}";
+ }
+};
 struct StartupPrefix {
  struct Instruction {uint32_t pc;uint16_t opcode;uint8_t ccr;uint64_t bus_cycle;};
  std::array<Instruction,128> instructions{};
@@ -151,6 +182,8 @@ struct IrqObserver {
 };
 struct Sink {
  IrqObserver irq_observer;
+ PanelReadObserver panel_observer;
+ CpuContext panel_cpu_context{};
  std::unique_ptr<yamanix::An1xLcdResearchSink> lcd;
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
  std::unique_ptr<yamanix::An1xVop3ResearchSink> vop3;
@@ -159,19 +192,22 @@ struct Sink {
  uint64_t panel_chord_end=67200000;
  uint8_t panel_selector=7;
  std::array<uint64_t,8> panel_counts{};
+ uint8_t panel_rows5=0x08,panel_rows6=0x88;
+ std::optional<CycleWindow> panel_window;
  std::array<uint64_t,8> panel_first{};
  uint64_t panel_pressed_reads=0;
  uint8_t panel_read(uint64_t cycle) {
   if(panel_counts[panel_selector]++==0)panel_first[panel_selector]=cycle;
   const auto value=panel_value(cycle);
+  panel_observer.record(panel_selector,value,cycle,panel_cpu_context);
   if(value!=0xff)++panel_pressed_reads;
   return value;
  }
  uint8_t panel_value(uint64_t cycle) const {
-  if(!service_panel)return 0xff;
-  if(cycle<panel_chord_end)return panel_selector==5?0xf7:panel_selector==6?0x77:0xff;
+  if(!service_panel|| (panel_window&&!panel_window->contains(cycle)))return 0xff;
+  if(cycle<panel_chord_end)return panel_selector==5?uint8_t(~panel_rows5):panel_selector==6?uint8_t(~panel_rows6):0xff;
   if(cycle>=80000000&&cycle<96000000&&((cycle-80000000)%3200000)<1600000)
-   return panel_selector==5?0xf7:0xff;
+   return panel_selector==5?uint8_t(~panel_rows5):0xff;
   if(cycle>=99200000&&cycle<101120000)return panel_selector==5?0xbf:0xff;
   return 0xff;
  }
@@ -229,12 +265,15 @@ struct Host {
  An1xSciAccessObserver sci0_rx_reads,sci1_rx_reads;
  uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
  bool observe_startup_prefix=false;StartupPrefix startup_prefix;
+ bool observe_panel_reads=false;
  bool observe_tstr=false;CpuContext cpu_context{};std::array<TstrObservation,max_tstr_observations> tstr_observations{};
  std::size_t tstr_observation_count=0,tstr_observation_dropped=0;
  Host(std::span<const uint8_t>rom,Sink&s,bool observe=false,std::span<const yamanix::SciCycleTimeline::RxEvent> input={}):sink(s),bus(rom,input,s),observe_tstr(observe){}
  void observe_cpu_dispatch(uint32_t pc,uint32_t ppc,uint32_t state,uint32_t substate,uint8_t ccr){
   if(observe_startup_prefix&&state<0x10000&&substate==0)
    startup_prefix.record(ppc&0xffffff,uint16_t(state),ccr,bus.cycle());
+  if(observe_panel_reads)
+   sink.panel_cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
   if(!observe_tstr)return;
   cpu_context={pc&0xffffff,ppc&0xffffff,state,substate,ccr};
  }
@@ -344,19 +383,39 @@ std::vector<uint8_t>load(const char*path){
 #ifndef YAMANIX_AN1X_BOOT_PROBE_OBSERVER_TEST
 int main(int argc,char**argv){
  try{
-  if(argc<6||argc>16)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads] [--observe-irq] [--observe-startup-prefix[=FIRST:LAST]]");
+  if(argc<6||argc>18)throw std::invalid_argument("Usage: yamanix_an1x_boot_probe ROM cycles slice callbacks raw|swap16 [LCD_PROFILE] [--adc-an3=0..1023|--adc-scan=AN0,AN1,AN2,AN3,AN4,AN5,AN6,AN7] [--observe-tstr] [--observe-sci-tx] [--observe-sci-writes[=FIRST:LAST]] [--midi-byte=CYCLE:BYTE] [--observe-sci0-rx-reads] [--observe-sci1-rx-reads] [--observe-irq] [--observe-startup-prefix[=FIRST:LAST]] [--observe-panel=FIRST:LAST]");
   const auto cycles=number(argv[2],max_probe_cycles),slice=number(argv[3],max_probe_slice_cycles),limit=number(argv[4],max_probe_callbacks);
   const std::string view=argv[5];if(view!="raw"&&view!="swap16")throw std::invalid_argument("Expected raw or swap16 ROM view");
   std::string_view profile="disabled";bool profile_seen=false,observe_startup_prefix=false,observe_irq=false,observe_tstr=false,observe_sci_tx=false,observe_sci_writes=false;std::optional<uint16_t> adc_sample;std::optional<std::array<uint16_t,8>> adc_scan_samples;
   uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
   std::optional<CycleWindow> prefix_window;
+  std::optional<CycleWindow> panel_observation_window;
   std::optional<MidiByteSchedule> midi;
-  std::optional<uint64_t> panel_chord_end;
+  std::optional<uint64_t> panel_chord_end;uint8_t panel_rows5=8,panel_rows6=136;
+  std::optional<CycleWindow> panel_window;
+  bool panel_rows_seen=false;
   bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
+   else if(option.starts_with("--panel-window=")){
+    if(panel_window)throw std::invalid_argument("Duplicate panel window");
+    panel_window=parse_cycle_window(option.substr(std::string_view("--panel-window=").size()));
+   }
+   else if(option.starts_with("--panel-rows=")){
+    if(panel_rows_seen)throw std::invalid_argument("Duplicate panel row mask option");
+    panel_rows_seen=true;
+    const std::string fields(option.substr(13));const auto colon=fields.find(':');
+    if(colon==std::string::npos)throw std::invalid_argument("Expected --panel-rows=SF:SG");
+    const auto a=parse_panel_pressed_mask(std::string_view(fields).substr(0,colon));
+    const auto b=parse_panel_pressed_mask(std::string_view(fields).substr(colon+1));
+    panel_rows5=uint8_t(a);panel_rows6=uint8_t(b);
+   }
+   else if(option.starts_with("--observe-panel=")){
+    if(panel_observation_window)throw std::invalid_argument("Duplicate panel observer option");
+    panel_observation_window=parse_cycle_window(option.substr(std::string_view("--observe-panel=").size()));
+   }
    else if(option.starts_with("--panel-chord-end=")){
     if(panel_chord_end)throw std::invalid_argument("Duplicate panel chord end");
     panel_chord_end=number(std::string(option.substr(std::string_view("--panel-chord-end=").size())).c_str(),max_probe_cycles);
@@ -412,6 +471,8 @@ int main(int argc,char**argv){
   const bool service_panel=profile=="lcd-meg-vop3-t6-panel-experiment-16mhz";
   if(panel_chord_end&&!service_panel)throw std::invalid_argument("Panel chord requires T6 panel profile");
   const bool panel=service_panel||profile=="lcd-meg-vop3-idle-panel-experiment-16mhz";
+  if((panel_window||panel_rows_seen)&&!service_panel)throw std::invalid_argument("Panel stimulus options require the T6 panel profile");
+  if(panel_observation_window&&!panel)throw std::invalid_argument("Panel observer requires a panel profile");
   const bool level=panel||profile=="lcd-meg-vop3-level-experiment-16mhz";
   const bool native=level||profile=="lcd-meg-vop3-register-experiment-16mhz";
   const bool source_status=native||profile=="lcd-meg-source-stubs-16mhz";
@@ -420,7 +481,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.service_panel=service_panel;if(panel_chord_end)sink.panel_chord_end=*panel_chord_end;sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.service_panel=service_panel;if(panel_chord_end)sink.panel_chord_end=*panel_chord_end;sink.panel_rows5=uint8_t(panel_rows5);sink.panel_rows6=uint8_t(panel_rows6);sink.panel_window=panel_window;sink.panel_observer.enabled=panel_observation_window.has_value();sink.panel_observer.window=panel_observation_window;sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_panel_reads=panel_observation_window.has_value();host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -510,7 +571,8 @@ int main(int argc,char**argv){
    const auto& state=sink.meg_sink()->lcd_state();
    std::cout<<",\"panel_lcd_ddram\":[";
    for(unsigned i=0;i<state.ddram.size();++i){if(i)std::cout<<',';std::cout<<unsigned(state.ddram[i]);}
-   std::cout<<"]";
+   std::cout<<"],\"panel_read_observations\":";
+   sink.panel_observer.write();
   }
   std::cout<<",\"tx_edges\":"<<sink.tx_count<<",\"clock_edges\":"<<sink.clock_count<<",\"gpio_writes\":"<<sink.gpio_writes
    <<",\"error\":"<<std::quoted(error)<<"}\n";

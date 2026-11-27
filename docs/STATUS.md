@@ -2,9 +2,11 @@
 
 For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungarian notes are available in the [separate archive](HUNGARIAN_NOTES_HUN.md).
 
-## Current evidence and next step — 2026-11-22
+## Current evidence and next step — 2026-11-27
 
-The [project panel timing control](DEVELOPMENT_LOG.md#project-panel-timing-control--2026-11-27) measures later first panel reads; extending the chord does not yet produce Test Mode. Next, compare scan and decision context.
+The [bounded panel scan/context comparison](DEVELOPMENT_LOG.md#project-and-pinned-mame-panel-scan-contexts--2026-11-27) now records the selector, returned value, cycle and nearby CPU context in both implementations. Under the same reset-relative chord schedule, the first project scan is at cycle 92,381,680, versus 63,025,100 in the pinned-source MAME run. Both reach the `EA90` / `6A28` scan instruction, but they sample opposite sides of the 4.2-second chord release: the project sees `FF`, while MAME sees `F7`. Extending the project chord through its measured bound still leaves the LCD at Welcome, so scan delay alone does not explain the later service-mode decision. The #362 SF/SG reference is 354,392 cycles later than the new locked-source repeats; its MAME binary identity is missing, so that discrepancy remains unresolved.
+
+Next, compare the complete scan-decision instruction context using a matched panel waveform and release schedule in both implementations. Keep the first-difference claim bounded to measured events; do not change the machine model unless a behavioral mismatch is isolated. The firmware image remains local and unchanged. No normal MIDI or sound acceptance is claimed.
 
 The [T6 echo control](DEVELOPMENT_LOG.md#t6-accepts-a-synthetic-sci1-echo--2026-11-27) yields OK for AA 50 5F and NG for an altered reply or no input on pinned MAME. Next, reproduce the bounded controls on the project machine. Normal MIDI remains unverified.
 

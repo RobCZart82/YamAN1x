@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-22",
+  "recorded_date": "2026-11-27",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "546f3ef3e2cbb03bde28aed3b60856cc46f68034",
+  "baseline_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
   "entries": [
     {
       "pr": 6,
@@ -8419,6 +8419,100 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45917769543"
       },
       "review": "No review, request, thread, comment, automated review result or quota error visible before head-bound merge."
+    },
+    {
+      "pr": 362,
+      "title": "Add bounded service-panel timing control",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/362",
+      "status": "merged",
+      "head_commit": "5553d9daa40d2cce65ac43155dc22a8988db73e5",
+      "merge_commit": "f93f15b71d52ecd9a96a06f88b4d7da91be1de56",
+      "merged_at_utc": "2026-11-27T05:37:06Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45942925035",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45942925026",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/45942925064"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45946880085",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45946880029",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/45946880045"
+      },
+      "review": "GitHub API inspection on 2026-11-27: 0 review submissions, 0 inline review comments and 0 issue comments. No automated-review result or quota-error evidence was visible. Active ruleset 25910947 required 0 approvals and resolved threads; no merge-bypass evidence was recorded."
+    },
+    {
+      "pr": 363,
+      "title": "docs: remove duplicate project name from README intro",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/363",
+      "status": "merged",
+      "head_commit": "da9700ab03f3eed5d7d067a88a2b14f4245c6311",
+      "merge_commit": "8003c2fcce34d01e43ee3f12a5b44b2d57573da4",
+      "merged_at_utc": "2026-11-27T15:59:45Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46026765640",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46026765506"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46029752988",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46029753038"
+      },
+      "review": "GitHub API inspection on 2026-11-27: 0 review submissions, 0 inline review comments and 0 issue comments. No automated-review result or quota-error evidence was visible. Active ruleset 25910947 required 0 approvals and resolved threads; no merge-bypass evidence was recorded."
+    },
+    {
+      "pr": 364,
+      "title": "docs: avoid repeating the project name under the README logo",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/364",
+      "status": "merged",
+      "head_commit": "5af656cd3c4a3ea3bc16f61f9b6249bba173cdc4",
+      "merge_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
+      "merged_at_utc": "2026-11-27T17:41:31Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46037271054",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46037271158"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46043818292",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46043818314"
+      },
+      "review": "GitHub API inspection on 2026-11-27: 0 review submissions, 0 inline review comments and 0 issue comments. No automated-review result or quota-error evidence was visible. Active ruleset 25910947 required 0 approvals and resolved threads; no merge-bypass evidence was recorded."
     }
   ],
   "pending_changes": [],
@@ -8541,14 +8635,30 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/t6-project-panel",
-    "base_commit": "1bc76feb8455283cdfc24d52bc4aa17db827d6c3",
-    "pr": null,
-    "head_commit": null,
+    "branch": "research/panel-scan-context",
+    "base_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
+    "pr": 365,
+    "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
     "merge_commit": null,
-    "pr_head_checks": null,
+    "pr_head_checks": {
+      "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
+      "platform_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037008",
+      "initial_decode_msan_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037056",
+      "mame_research_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037012",
+      "result": "all required platform checks and additional MSan/research checks passed on this exact head"
+    },
     "main_checks": null,
-    "scope": "Experimental T6 panel schedule and project timing controls."
+    "scope": "Bounded comparison of project and pinned-MAME panel scan and decision context with unchanged local firmware; no production-model change.",
+    "review_evidence": {
+      "reviews": 0,
+      "inline_comments": 0,
+      "issue_comments": 0,
+      "unresolved_threads": 0,
+      "ruleset_id": 25910947,
+      "required_approvals": 0,
+      "automated_review_or_quota_error": "none observed"
+    },
+    "mergeability": "MERGEABLE; no dependencies or conflicts observed"
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9685,5 +9795,198 @@
     "extended_chord_pressed_reads": 128,
     "final_lcd": "Welcome",
     "hardware_validated": false
+  },
+  "panel_scan_context_comparison_20261127": {
+    "status": "local_candidate",
+    "base_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
+    "firmware_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "firmware_modified_or_uploaded": false,
+    "mame_source_commit": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_archive_sha256": "acffc3d3c4d8ffab148d07de5ab0416e54841a1ac99375cfdf641eec5eca7a6e",
+    "mame_patch_count": 18,
+    "project_probe_source_sha256": "ea3511d0b6d9c7f27f05f5f8316572f7d04117c37a7c200c661d4af1550c6f74",
+    "project_test_source_sha256": "400a22d7ffdce2eceffafe5e24235a1fa78739134d4a36ddaf3daa47081ac97b",
+    "mame_panel_observer_patch_sha256": "ad3fe869c82a1e1eb762926641988b8a2412eab35f22fe7040b0d894f2273fd9",
+    "mame_source_lock_sha256": "119b2fb8b1c6c9d5eaca10f22fb4ccd2de28eae22083a444cac25fd61626425a",
+    "source_notice_inventory_sha256": "ef1163151ba97905dd5910b01acd5e91276b1d1d56e9310c35632628d579ecc3",
+    "project_probe_binary_sha256": "179d366c20d0ef8dc7c19733d5756c812c87396f9fcc36dcaf8fc84709b9d89d",
+    "mame_instrumented_binary_sha256": "225686e9e362c08123c81ad72ca17c1da4d4fa4adca3e574eb187d563dbc6414",
+    "project_runs": [
+      {
+        "cycles": 112000000,
+        "slice_cycles": 4096,
+        "report_sha256": "805e1f968ab2502773cddd9e7a963d51812a4c844f29a600afc0eef304499e7c",
+        "observer_events": 8,
+        "observer_dropped": 0,
+        "panel_reads_total": 497,
+        "panel_pressed_reads": 5,
+        "first_scan_cycle": 92381680,
+        "selector_order": [
+          0,
+          4,
+          2,
+          6,
+          1,
+          5,
+          3,
+          7
+        ],
+        "selector5_value": 255,
+        "cpu_failed": false,
+        "lcd": "Welcome"
+      },
+      {
+        "cycles": 112000000,
+        "slice_cycles": 1000000,
+        "report_sha256": "34cd43ace59ae4c971fe786eb8f0a7b4d5a83d6768a31c4f578ed958dfed003c",
+        "observer_events": 8,
+        "observer_dropped": 0,
+        "panel_reads_total": 497,
+        "panel_pressed_reads": 5,
+        "first_scan_cycle": 92381680,
+        "selector_order": [
+          0,
+          4,
+          2,
+          6,
+          1,
+          5,
+          3,
+          7
+        ],
+        "selector5_value": 255,
+        "cpu_failed": false,
+        "lcd": "Welcome"
+      }
+    ],
+    "project_instruction_window": {
+      "first_cycle": 92383000,
+      "last_cycle": 92383500,
+      "events": 74,
+      "dropped": 0,
+      "panel_selector5_context": {
+        "pc": "0x00EA92",
+        "previous_pc": "0x00EA90",
+        "opcode": "0x6A28",
+        "raw_ccr": "0x29",
+        "sampled_value": "0xFF"
+      },
+      "following_pc_ea9a_raw_ccr": "0x25"
+    },
+    "mame_runs": [
+      {
+        "runs": [
+          "B",
+          "C"
+        ],
+        "binary_sha256": "f90ce108398b94f49bc604233675212dd93418070c6684d9202325d2cc06e7bb",
+        "log_sha256": [
+          "5f6ff35414eba6a2a3a1bc90486174829f7cc57cb490e0fc695f7e7b785f4595",
+          "8d8c8fd76c3061881e683383e7306a3532be05dfd35d38c702c624779cea07d7"
+        ],
+        "panel_events": 376,
+        "observer_dropped": 0,
+        "first_scan_cycle": 63025100
+      },
+      {
+        "runs": [
+          "F",
+          "G"
+        ],
+        "binary_sha256": "225686e9e362c08123c81ad72ca17c1da4d4fa4adca3e574eb187d563dbc6414",
+        "log_sha256": "64a15db36769ff7ff9b7683897b00c182594483187934a7c97d730c99188c2e9",
+        "scan_window": [
+          62900000,
+          63200000
+        ],
+        "context_window": [
+          63025900,
+          63026500
+        ],
+        "context_events": 125,
+        "observer_dropped": 0,
+        "events": [
+          [
+            0,
+            255,
+            63025100
+          ],
+          [
+            1,
+            255,
+            63025264
+          ],
+          [
+            2,
+            255,
+            63025524
+          ],
+          [
+            3,
+            255,
+            63025688
+          ],
+          [
+            4,
+            255,
+            63025948
+          ],
+          [
+            5,
+            247,
+            63026112
+          ],
+          [
+            6,
+            119,
+            63026372
+          ],
+          [
+            7,
+            255,
+            63026536
+          ]
+        ],
+        "selector5_context": {
+          "pc": "0x00EA96",
+          "prior_dispatch_pc": "0x00EA90",
+          "prior_opcode": "0x6A28",
+          "prior_raw_ccr": "0x29",
+          "sampled_value": "0xF7",
+          "next_pc_ea9a_raw_ccr": "0x21"
+        }
+      }
+    ],
+    "timing": {
+      "project_first_read_cycle": 92381680,
+      "mame_first_read_cycle": 63025100,
+      "cycle_delta": 29356580,
+      "at_16mhz_seconds": 1.83478625
+    },
+    "historical_reference_discrepancy": {
+      "ledger_entry": "t6_project_panel_20261127",
+      "old_reference_first_cycles": [
+        63380504,
+        63380764
+      ],
+      "new_repeated_locked_source_first_cycles": [
+        63026112,
+        63026372
+      ],
+      "old_mame_executable_sha256": null,
+      "status": "Unresolved provenance; retain both records until the old run is reproduced or explained.",
+      "cycle_delta": 354392,
+      "event_mapping": "Old and new values are selector-5/SF and selector-6/SG reads, respectively."
+    },
+    "validation": {
+      "boot_probe_ctest": "pass 1/1",
+      "mame_source_preflight": "pass; exact locked commit; 18 patches; 14 prepared files; archive unchanged",
+      "source_notice_coverage": "pass; 236 files; 5 license texts",
+      "legal_clearance": false,
+      "binary_distribution_verified": false,
+      "pr_head_checks": null,
+      "main_checks": null
+    },
+    "next_question": "Compare the reset-aligned 4.2-second panel waveform in both implementations and add a matched held-through-project-scan control; inspect the complete scan decision context and continue only to the earliest demonstrated firmware difference."
   }
 }
