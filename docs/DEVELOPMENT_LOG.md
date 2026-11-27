@@ -58,12 +58,18 @@ held-through-project-scan control, then compares the complete scan decision
 context. No Test Mode, normal MIDI, firmware-driven audio, DSP output or REAPER
 acceptance is claimed.
 
-Validation on this candidate: `yamanix_an1x_boot_probe` CTest passed 1/1;
-the original archive preflight matched the locked MAME commit, applied all 18
-patches and verified 14 prepared files without modifying the archive; source
-notice coverage passed for 236 files and five license texts. Legal clearance
-and binary distribution are still false/not verified. PR-head and main checks
-are not applicable yet; this candidate has not been submitted.
+Validation on the submitted PR #365 head `2a9f73e962b677716d702d1494adc1aaa38d9537`:
+the focused `yamanix_an1x_boot_probe` CTest passed 1/1, the Python suite passed
+147 tests, repository audit checked 706 files and 201 upstream identities,
+license coverage checked 236 files and five license texts, and
+`git diff --check` passed. The original archive preflight matched the locked
+MAME commit, applied all 18 patches and verified 14 prepared files without
+modifying the archive. The exact PR head passed Linux, macOS, Windows,
+initial-decode MSan and MAME research checks (runs `46058037008`,
+`46058037056` and `46058037012`). The PR remains open pending exact-main
+checks after merge. No review submissions, comments or unresolved review
+threads were present; the active ruleset requires zero approvals and resolved
+threads. Legal clearance and binary distribution remain false/not verified.
 
 ## Project panel timing control — 2026-11-27
 

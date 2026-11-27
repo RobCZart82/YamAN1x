@@ -8637,12 +8637,28 @@
     "status": "candidate",
     "branch": "research/panel-scan-context",
     "base_commit": "102c5dbd1d34b411d5506f4fc63ab14b6fc44a13",
-    "pr": null,
-    "head_commit": null,
+    "pr": 365,
+    "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
     "merge_commit": null,
-    "pr_head_checks": null,
+    "pr_head_checks": {
+      "head_commit": "2a9f73e962b677716d702d1494adc1aaa38d9537",
+      "platform_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037008",
+      "initial_decode_msan_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037056",
+      "mame_research_run": "https://github.com/RobCZart82/YamAN1x/actions/runs/46058037012",
+      "result": "all required platform checks and additional MSan/research checks passed on this exact head"
+    },
     "main_checks": null,
-    "scope": "Bounded comparison of project and pinned-MAME panel scan and decision context with unchanged local firmware; no production-model change."
+    "scope": "Bounded comparison of project and pinned-MAME panel scan and decision context with unchanged local firmware; no production-model change.",
+    "review_evidence": {
+      "reviews": 0,
+      "inline_comments": 0,
+      "issue_comments": 0,
+      "unresolved_threads": 0,
+      "ruleset_id": 25910947,
+      "required_approvals": 0,
+      "automated_review_or_quota_error": "none observed"
+    },
+    "mergeability": "MERGEABLE; no dependencies or conflicts observed"
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
