@@ -1,3 +1,33 @@
+## T6 accepts a synthetic SCI1 echo — 2026-11-27
+
+The pinned MAME reference used in the [receive handoff](#t6-diagnostic-sci1-receive-handoff--2026-11-26)
+was rebuilt with a local RXD1 stimulus and RAM taps. With the same seven-second
+panel schedule, fresh NVRAM and unchanged local firmware, send contiguous
+8N1 frames AA 50 5F at cycle 101,000,000 (512 cycles per bit).
+Repeat twice, change only the last byte to 5E for a negative control,
+and omit all frames for a timeout control. An initial scheduler error
+repeated a frame; those runs are discarded. The corrected binary SHA-256
+is recorded in the ledger. SCI access observer drops are zero in all four runs.
+
+| Observable | Cycle | Value |
+| --- | ---: | --- |
+| First receive buffer state | 101005076 | 0x234948 = 01 |
+| Second byte stored | 101010208 | 0x23494A = 50 |
+| Third byte stored | 101015328 | 0x23494B = 5F / 5E |
+| Receive complete | 101015346 | 0x234948 = 81 |
+| Result bytes copied | 101044190–101044222 | 0x23C8D8–DA = AA 50 5F / 5E |
+| Correct reply display | 101048102–101049242 | OK |
+| Altered reply display | 101048102–101049242 | NG |
+| No-frame display | 103416108–103417248 | NG |
+
+The two correct runs have identical filtered SCI, result-RAM and LCD
+streams. This distinguishes data acceptance from the timeout path.
+SCI0 has no RDR reads; the positive test is a synthetic SCI1 service
+response, not proof of physical MIDI loopback or normal note playback.
+Next, reproduce the bounded T6 receive/result controls on the project
+machine and compare the first differing event. Keep the normal SCI0
+enable path and first firmware-driven audio acceptance open.
+
 ## T6 diagnostic SCI1 receive handoff — 2026-11-26
 
 Extend the [T6 timeout control](#t6-result-timeout-counter-measured--2026-11-26)

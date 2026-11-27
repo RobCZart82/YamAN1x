@@ -4,6 +4,8 @@ A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a 
 
 ## Jelenlegi eredmények és következő lépés — 2026-11-22
 
+A [T6 visszhangpróba](DEVELOPMENT_LOG.md#t6-accepts-a-synthetic-sci1-echo--2026-11-27) az AA 50 5F válaszra OK, módosított vagy hiányzó válaszra NG eredményt ad a rögzített MAME-on. Következő lépés a korlátos próbák megismétlése a projekt gépén. A normál MIDI útvonal még nem igazolt.
+
 A [T6 vételi nyom](DEVELOPMENT_LOG.md#t6-diagnostic-sci1-receive-handoff--2026-11-26) rögzíti a fogadott bájt átadását a RAM-ba. A következő mérés a vételi állapotgép feltételeit keresi.
 
 A [T6 időtúllépési nyom](DEVELOPMENT_LOG.md#t6-result-timeout-counter-measured--2026-11-26) rögzíti a húszról nullára számlálás végét és az NG előtti jelzőbitet. A következő mérés a szervizállapot SCI1 vételi ágát követi.
