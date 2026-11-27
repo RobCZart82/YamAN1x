@@ -4,6 +4,8 @@ For a Hungarian summary, see [STATUS_HUN.md](STATUS_HUN.md). The original Hungar
 
 ## Current evidence and next step — 2026-11-22
 
+The [project panel timing control](DEVELOPMENT_LOG.md#project-panel-timing-control--2026-11-27) measures later first panel reads; extending the chord does not yet produce Test Mode. Next, compare scan and decision context.
+
 The [T6 echo control](DEVELOPMENT_LOG.md#t6-accepts-a-synthetic-sci1-echo--2026-11-27) yields OK for AA 50 5F and NG for an altered reply or no input on pinned MAME. Next, reproduce the bounded controls on the project machine. Normal MIDI remains unverified.
 
 The [T6 diagnostic receive trace](DEVELOPMENT_LOG.md#t6-diagnostic-sci1-receive-handoff--2026-11-26) observes the received byte in a separate RAM buffer. Next, identify the receive parser sequence and compare state transitions.

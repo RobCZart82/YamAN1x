@@ -155,6 +155,26 @@ struct Sink {
  std::unique_ptr<yamanix::An1xMegResearchSink> meg;
  std::unique_ptr<yamanix::An1xVop3ResearchSink> vop3;
  bool idle_panel;
+ bool service_panel=false;
+ uint64_t panel_chord_end=67200000;
+ uint8_t panel_selector=7;
+ std::array<uint64_t,8> panel_counts{};
+ std::array<uint64_t,8> panel_first{};
+ uint64_t panel_pressed_reads=0;
+ uint8_t panel_read(uint64_t cycle) {
+  if(panel_counts[panel_selector]++==0)panel_first[panel_selector]=cycle;
+  const auto value=panel_value(cycle);
+  if(value!=0xff)++panel_pressed_reads;
+  return value;
+ }
+ uint8_t panel_value(uint64_t cycle) const {
+  if(!service_panel)return 0xff;
+  if(cycle<panel_chord_end)return panel_selector==5?0xf7:panel_selector==6?0x77:0xff;
+  if(cycle>=80000000&&cycle<96000000&&((cycle-80000000)%3200000)<1600000)
+   return panel_selector==5?0xf7:0xff;
+  if(cycle>=99200000&&cycle<101120000)return panel_selector==5?0xbf:0xff;
+  return 0xff;
+ }
  std::optional<uint16_t> an3_sample;
  uint64_t an3_sample_count=0,an3_first_sample_cycle=0;
  std::optional<std::array<uint16_t,8>> adc_scan_samples;
@@ -197,7 +217,7 @@ struct Sink {
  void clock(unsigned,uint64_t,bool){++clock_count;}
  bool dma_request(unsigned vector,uint64_t at){irq_observer.record(vector,at);return false;}
  uint8_t gpio_read(unsigned p,uint64_t t){if(meg_sink())return meg_sink()->gpio_read(p,t);if(lcd)return lcd->gpio_read(p,t);throw std::logic_error("Unmodeled external GPIO input");}
- void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(meg_sink())meg_sink()->gpio_write(p,t,v,d);else if(lcd)lcd->gpio_write(p,t,v,d);}
+ void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(p==6)panel_selector=v&7;if(meg_sink())meg_sink()->gpio_write(p,t,v,d);else if(lcd)lcd->gpio_write(p,t,v,d);}
 };
 struct Host {
  Sink& sink;
@@ -331,11 +351,16 @@ int main(int argc,char**argv){
   uint64_t sci_first_cycle=0,sci_last_cycle=UINT64_MAX;
   std::optional<CycleWindow> prefix_window;
   std::optional<MidiByteSchedule> midi;
+  std::optional<uint64_t> panel_chord_end;
   bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
   for(int i=6;i<argc;++i){
    const std::string_view option(argv[i]);
    if(option.starts_with("--adc-an3=")){if(adc_sample)throw std::invalid_argument("Duplicate AN3 sample");adc_sample=parse_adc_an3(option);}
    else if(option.starts_with("--adc-scan=")){if(adc_scan_samples)throw std::invalid_argument("Duplicate ADC scan samples");adc_scan_samples=parse_adc_scan(option);}
+   else if(option.starts_with("--panel-chord-end=")){
+    if(panel_chord_end)throw std::invalid_argument("Duplicate panel chord end");
+    panel_chord_end=number(std::string(option.substr(std::string_view("--panel-chord-end=").size())).c_str(),max_probe_cycles);
+   }
    else if(option.starts_with("--midi-byte=")){
     if(midi)throw std::invalid_argument("Duplicate MIDI byte");
     const std::string fields(option.substr(12));
@@ -377,14 +402,16 @@ int main(int argc,char**argv){
    else if(option=="--observe-sci-tx"){if(observe_sci_tx)throw std::invalid_argument("Duplicate SCI TX observer option");observe_sci_tx=true;}
    else if(option=="lcd-16mhz"||option=="lcd-meg-observe-16mhz"||
            option=="lcd-meg-source-stubs-16mhz"||option=="lcd-meg-vop3-register-experiment-16mhz"||
-           option=="lcd-meg-vop3-level-experiment-16mhz"||option=="lcd-meg-vop3-idle-panel-experiment-16mhz"){
+           option=="lcd-meg-vop3-level-experiment-16mhz"||option=="lcd-meg-vop3-idle-panel-experiment-16mhz"||option=="lcd-meg-vop3-t6-panel-experiment-16mhz"){
     if(profile_seen)throw std::invalid_argument("Duplicate LCD profile");profile=option;profile_seen=true;
    }
    else throw std::invalid_argument("Unexpected or duplicate probe option");
   }
   if(adc_sample&&adc_scan_samples)throw std::invalid_argument("Choose either --adc-an3 or --adc-scan, not both");
   const bool lcd_enabled=profile_seen;
-  const bool panel=profile=="lcd-meg-vop3-idle-panel-experiment-16mhz";
+  const bool service_panel=profile=="lcd-meg-vop3-t6-panel-experiment-16mhz";
+  if(panel_chord_end&&!service_panel)throw std::invalid_argument("Panel chord requires T6 panel profile");
+  const bool panel=service_panel||profile=="lcd-meg-vop3-idle-panel-experiment-16mhz";
   const bool level=panel||profile=="lcd-meg-vop3-level-experiment-16mhz";
   const bool native=level||profile=="lcd-meg-vop3-register-experiment-16mhz";
   const bool source_status=native||profile=="lcd-meg-source-stubs-16mhz";
@@ -393,7 +420,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.service_panel=service_panel;if(panel_chord_end)sink.panel_chord_end=*panel_chord_end;sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;
@@ -473,6 +500,17 @@ int main(int argc,char**argv){
     std::cout<<"{\"channel\":"<<e.channel<<",\"cycle\":"<<e.cycle<<",\"level\":"<<(e.level?"true":"false")<<",\"first_observation\":"<<(e.first_observation?"true":"false")<<'}';
    }
    std::cout<<"]}";
+  }
+  if(panel){
+   std::cout<<",\"panel_pressed_reads\":"<<sink.panel_pressed_reads<<",\"panel_counts\":[";
+   for(unsigned i=0;i<8;++i){if(i)std::cout<<',';std::cout<<sink.panel_counts[i];}
+   std::cout<<"],\"panel_first_cycles\":[";
+   for(unsigned i=0;i<8;++i){if(i)std::cout<<',';if(sink.panel_counts[i])std::cout<<sink.panel_first[i];else std::cout<<"null";}
+   std::cout<<"]";
+   const auto& state=sink.meg_sink()->lcd_state();
+   std::cout<<",\"panel_lcd_ddram\":[";
+   for(unsigned i=0;i<state.ddram.size();++i){if(i)std::cout<<',';std::cout<<unsigned(state.ddram[i]);}
+   std::cout<<"]";
   }
   std::cout<<",\"tx_edges\":"<<sink.tx_count<<",\"clock_edges\":"<<sink.clock_count<<",\"gpio_writes\":"<<sink.gpio_writes
    <<",\"error\":"<<std::quoted(error)<<"}\n";

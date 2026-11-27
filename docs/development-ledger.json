@@ -8389,6 +8389,36 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45907957259"
       },
       "review": "No review submission, request, thread, comment, automated review result or quota error visible before head-bound merge."
+    },
+    {
+      "pr": 361,
+      "title": "Record synthetic SCI1 T6 echo acceptance controls",
+      "pr_url": "https://github.com/RobCZart82/YamAN1x/pull/361",
+      "status": "merged",
+      "head_commit": "5f59c53b0304545d0e4fa40b3c0f7ac745f80567",
+      "merge_commit": "1bc76feb8455283cdfc24d52bc4aa17db827d6c3",
+      "merged_at_utc": "2026-11-27T00:37:04Z",
+      "pr_head_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (windows-2025)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (ubuntu-24.04)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45913957686",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45913957578"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/45917769513",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/45917769543"
+      },
+      "review": "No review, request, thread, comment, automated review result or quota error visible before head-bound merge."
     }
   ],
   "pending_changes": [],
@@ -8511,14 +8541,14 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/t6-receive-parser",
-    "base_commit": "1a3608de80b6ec661ccc40766aaeba7defa48809",
+    "branch": "research/t6-project-panel",
+    "base_commit": "1bc76feb8455283cdfc24d52bc4aa17db827d6c3",
     "pr": null,
     "head_commit": null,
     "merge_commit": null,
     "pr_head_checks": null,
     "main_checks": null,
-    "scope": "Record positive and negative synthetic SCI1 T6 reply controls on pinned MAME."
+    "scope": "Experimental T6 panel schedule and project timing controls."
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -9642,5 +9672,18 @@
     "sci_observer_drops": 0,
     "hardware_validated": false,
     "project_comparison": false
+  },
+  "t6_project_panel_20261127": {
+    "main_baseline": "1bc76feb8455283cdfc24d52bc4aa17db827d6c3",
+    "slice_cycles": 4096,
+    "bound": 112000000,
+    "reference_sf_cycle": 63380504,
+    "reference_sg_cycle": 63380764,
+    "project_sf_cycle": 92383136,
+    "project_sg_cycle": 92382525,
+    "schedule_pressed_reads": 5,
+    "extended_chord_pressed_reads": 128,
+    "final_lcd": "Welcome",
+    "hardware_validated": false
   }
 }

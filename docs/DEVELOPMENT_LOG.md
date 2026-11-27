@@ -1,3 +1,23 @@
+## Project panel timing control — 2026-11-27
+
+The experimental T6 panel profile delivers active-low SF/SG values via
+the upper byte at 0x680000, selected by P6 output. Existing idle and
+strict profiles are retained. The bounded probe reports per-selector
+counts, first cycles, pressed reads and final LCD DDRAM. ROM-free
+instruction tests compare selector values and release behavior at
+three slice sizes.
+
+With unchanged local firmware 1.04, swap16, eight zero ADC inputs,
+112 million cycles and slice 4096, the original reference schedule
+yields five pressed reads and final LCD Welcome. First SF and SG reads
+are at 92,383,136 and 92,382,525 rather than the pinned reference's
+63,380,504 and 63,380,764. Holding the chord until the project bound
+yields 128 pressed reads but still Welcome; both complete without a
+CPU fault. This is a timing difference, not a demonstrated explanation
+of the remaining branch. Next compare the startup panel scan
+instruction locations and its result/decision before attempting T6
+selection. No normal MIDI or sound acceptance is claimed.
+
 ## T6 accepts a synthetic SCI1 echo — 2026-11-27
 
 The pinned MAME reference used in the [receive handoff](#t6-diagnostic-sci1-receive-handoff--2026-11-26)
