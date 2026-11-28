@@ -1,5 +1,7 @@
 # First REAPER Sound Plan
 
+The next service-mode comparison is the byte write to `0xFFFFE8` after the corrected P6 scan. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
+
 The matched held control reproduced the selector-order difference. Compare raw P6 writes and selector mapping before tracing the downstream service decision. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).
 
 The held project control matches the earlier MAME selector-5 sample and the six dispatches from EA96 to EAA6. Continue with an identical held waveform in both implementations and follow the decision beyond EAA6. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).

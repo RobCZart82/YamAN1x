@@ -1,3 +1,20 @@
+## Service panel P6 mapping — 2026-11-28
+
+Two runs per implementation reproduced the same raw P6 sequence
+`7C 7A 7E 79 7D 7B 7F 78` in bounded local observers. The pinned MAME
+research profile maps P6.2, P6.1 and P6.0 to selector bits 0, 1 and 2.
+The project service profile used the low bits in place. Applying the
+same mapping to the project service profile gives scan order 0–7 and
+the same active-low values at the same scan positions.
+
+Two local unchanged-firmware runs at slices of 4,096 and 1,000,000
+cycles reached the partial LCD text `Test Mod` and stopped at the same
+one-byte write of `37` to `0xFFFFE8`. They differed only in completed
+slice cycles and callback count. The focused ROM-free test passed for
+all eight selectors, checking the byte value, read cycle, CPU context
+and continuation. Next, compare the faulting write with the locked MAME
+device map and follow the service entry only after explaining it.
+
 ## Matched held panel input — 2026-11-28
 
 The project at the #366 merge and the source-locked MAME research build
