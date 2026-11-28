@@ -1,5 +1,7 @@
 # Development status
 
+The service probe now continues through the direct upper ADC scan to the cycle bound. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
+
 The corrected service panel mapping reaches partial Test Mode text before a byte write to `0xFFFFE8` stops the probe. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
 
 The matched held control reproduced the different panel scan order and matched 55 dispatches from selector 5. Next, compare raw P6 writes and selector mapping. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).

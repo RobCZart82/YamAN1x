@@ -16,16 +16,19 @@ public:
     uint16_t result_word(unsigned channel) const { return uint16_t(results_.at(channel) << 6); }
     uint8_t control() const { return uint8_t((deadline_ ? (start_bit_ ? (0x33 | first_channel_) : (0x13 | first_channel_)) : 0) | (finished_ ? 0x80 : 0)); }
 
-    void start(uint64_t cycle, uint16_t an0, uint16_t previous_an3 = 0, bool previous_adf = false) {
+    void start(uint64_t cycle, uint16_t sample, uint16_t previous_an3 = 0, bool previous_adf = false, unsigned first_channel = 0) {
         if (deadline_)
             throw std::logic_error("ADC scan already active");
         if (previous_an3 > 1023)
             throw std::invalid_argument("Previous AN3 sample exceeds ten bits");
-        const auto next = sample_deadline(cycle, 266, an0);
+        if (first_channel != 0 && first_channel != 4)
+            throw std::invalid_argument("Unsupported ADC scan bank");
+        const auto next = sample_deadline(cycle, 266, sample);
         require_time(cycle);
         deadline_ = next;
         last_cycle_ = cycle;
-        pending_sample_ = an0;
+        first_channel_ = first_channel;
+        pending_sample_ = sample;
         results_[3] = previous_an3;
         finished_ = previous_adf;
     }

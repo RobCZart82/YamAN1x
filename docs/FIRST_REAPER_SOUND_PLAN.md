@@ -1,5 +1,7 @@
 # First REAPER Sound Plan
 
+Compare the post-start ADC and LCD transactions under the matched service profile, then test chord release and selection. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
+
 The next service-mode comparison is the byte write to `0xFFFFE8` after the corrected P6 scan. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
 
 The matched held control reproduced the selector-order difference. Compare raw P6 writes and selector mapping before tracing the downstream service decision. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).

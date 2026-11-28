@@ -1,3 +1,20 @@
+## Direct upper ADC scan in service mode — 2026-11-28
+
+A local ADC tap on pinned MAME records byte writes `23` and `37` at
+`0xFFFFE8` on cycles 63,483,082 and 63,483,532, followed by continued
+conversion activity and a bank change. The project now accepts an upper
+scan directly after the AN3 single conversion, retaining ADDRD until
+the next conversion updates it. Independent ROM-free checks cover the
+byte address, previous and new results, ADF, sample deadlines and split
+execution. The three focused CTest groups passed.
+
+Two local firmware runs with the held chord reached 112 million cycles
+without an access fault. Both sampled AN4 first at cycle 92,666,318 and
+retained the same LCD bytes (`Test Mod` and version text). The unchanged
+firmware stayed local. The next comparison matches the post-start ADC
+sequence and LCD byte writes, then releases the chord and tests selection.
+The bounded service profile has yet to demonstrate T6 or normal MIDI.
+
 ## Service panel P6 mapping — 2026-11-28
 
 Two runs per implementation reproduced the same raw P6 sequence
