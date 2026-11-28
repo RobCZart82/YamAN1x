@@ -1,3 +1,21 @@
+## Project T6 request and timeout — 2026-11-28
+
+On the #369 baseline, releasing the boot chord at cycle 92,700,000
+allows the menu scan to resume at 113,004,001. The original fixed menu
+pulses finish earlier. With a 34-million-cycle menu delay, the project
+selects 06;MIDI and executes T6. Two runs through 150 million cycles
+at slices of 4,096 and 1,000,000 produce the same SCI1 TDR bytes
+`AA 50 5F` at cycles 135,643,472, 135,645,139 and 135,648,332.
+Both display NG without a reply and have zero SCI observer drops.
+A cut at 132 million cycles already shows 06;MIDI with no request yet.
+The undelayed run reaches 01;RAM.
+
+The pinned MAME no-frame control sends the same byte sequence and also
+shows NG, with different reset-relative timing. The next comparison
+schedules the diagnostic echo relative to the project request and tests
+correct and altered replies. Normal MIDI through SCI0 remains a separate
+milestone. The ROM remained local.
+
 ## Direct upper ADC scan in service mode — 2026-11-28
 
 A local ADC tap on pinned MAME records byte writes `23` and `37` at

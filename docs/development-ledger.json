@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-28",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "e2d339c75db872550231efccb102d414b3dbe1d5",
+  "baseline_commit": "92717836556c29db22d686a7cae659a45330398c",
   "entries": [
     {
       "pr": 6,
@@ -8642,6 +8642,39 @@
         "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46172123609"
       },
       "review": "Codex review completed on final head with no findings. No review threads."
+    },
+    {
+      "pr": 369,
+      "status": "merged",
+      "title": "fix: allow direct upper ADC scan after AN3",
+      "head_commit": "9052d63557fdc45c5395f3ce3c10a8a3b7035806",
+      "merge_commit": "92717836556c29db22d686a7cae659a45330398c",
+      "merged_at_utc": "2026-11-28T19:24:53Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46177632718",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46177632668",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46177632653"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46181050192",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46181050098",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46181050147"
+      },
+      "review": "Codex completed review with no findings on final head. No review threads."
     }
   ],
   "pending_changes": [],
@@ -8764,8 +8797,8 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "base_commit": "e2d339c75db872550231efccb102d414b3dbe1d5",
-    "branch": "research/service-adc",
+    "branch": "research/service-release",
+    "base_commit": "92717836556c29db22d686a7cae659a45330398c",
     "pr": null,
     "head_commit": null,
     "merge_commit": null
@@ -10185,7 +10218,7 @@
     "merge_commit": "e2d339c75db872550231efccb102d414b3dbe1d5"
   },
   "service_adc_upper_20261128": {
-    "status": "candidate",
+    "status": "merged",
     "mame_source": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "mame_log_sha256": "2a8a93268993905fe93f9e1d6b74bd0d5445fe37cb1eb6741f08eb568e3514b1",
     "mame_binary_sha256": "2d1c08a1fc948ac7723615037bf9d9eff7d809dbfc582d70d39122c7c7aeb770",
@@ -10197,6 +10230,38 @@
     ],
     "first_adcsr_37_mame_cycle": 63483532,
     "project_first_an4_cycle": 92666318,
+    "hardware_validated": false,
+    "pr": 369,
+    "merge_commit": "92717836556c29db22d686a7cae659a45330398c"
+  },
+  "service_t6_project_20261128": {
+    "status": "candidate",
+    "base_commit": "92717836556c29db22d686a7cae659a45330398c",
+    "reference": "t6_echo_20261127",
+    "menu_first_read": 113004001,
+    "chord_end": 92700000,
+    "menu_delay": 34000000,
+    "tdr_cycles": [
+      135643472,
+      135645139,
+      135648332
+    ],
+    "tdr_values": [
+      170,
+      80,
+      95
+    ],
+    "reference_tdr_cycles": [
+      100913444,
+      100914608,
+      100918222
+    ],
+    "binary_sha256": "6373c2839725255b5045f8bcf4623eb0dd3f0ffc5fdd319aff414c4dad015d65",
+    "reports_sha256": [
+      "313f3996f0c669218320990194ea8696f27d109986e33583f83d6cd0cadaaa6f",
+      "54495cb793dccbec97212eed677da52567d238cffa8f1741708ee964d2a04727",
+      "0717335947f76538ec73c08cd53bd11158777d8c439ee749db22c8e9471a276a"
+    ],
     "hardware_validated": false
   }
 }

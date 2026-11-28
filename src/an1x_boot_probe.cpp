@@ -190,6 +190,7 @@ struct Sink {
  bool idle_panel;
  bool service_panel=false;
  uint64_t panel_chord_end=67200000;
+ uint64_t panel_menu_delay=0;
  uint8_t panel_selector=7;
  std::array<uint64_t,8> panel_counts{};
  uint8_t panel_rows5=0x08,panel_rows6=0x88;
@@ -206,6 +207,8 @@ struct Sink {
  uint8_t panel_value(uint64_t cycle) const {
   if(!service_panel|| (panel_window&&!panel_window->contains(cycle)))return 0xff;
   if(cycle<panel_chord_end)return panel_selector==5?uint8_t(~panel_rows5):panel_selector==6?uint8_t(~panel_rows6):0xff;
+  if(cycle<panel_menu_delay)return 0xff;
+  cycle-=panel_menu_delay;
   if(cycle>=80000000&&cycle<96000000&&((cycle-80000000)%3200000)<1600000)
    return panel_selector==5?uint8_t(~panel_rows5):0xff;
   if(cycle>=99200000&&cycle<101120000)return panel_selector==5?0xbf:0xff;
@@ -394,7 +397,7 @@ int main(int argc,char**argv){
   std::optional<CycleWindow> prefix_window;
   std::optional<CycleWindow> panel_observation_window;
   std::optional<MidiByteSchedule> midi;
-  std::optional<uint64_t> panel_chord_end;uint8_t panel_rows5=8,panel_rows6=136;
+  std::optional<uint64_t> panel_chord_end,panel_menu_delay;uint8_t panel_rows5=8,panel_rows6=136;
   std::optional<CycleWindow> panel_window;
   bool panel_rows_seen=false;
   bool observe_sci0_rx_reads=false,observe_sci1_rx_reads=false;
@@ -418,6 +421,10 @@ int main(int argc,char**argv){
    else if(option.starts_with("--observe-panel=")){
     if(panel_observation_window)throw std::invalid_argument("Duplicate panel observer option");
     panel_observation_window=parse_cycle_window(option.substr(std::string_view("--observe-panel=").size()));
+   }
+   else if(option.starts_with("--panel-menu-delay=")){
+    if(panel_menu_delay)throw std::invalid_argument("Duplicate panel menu delay");
+    panel_menu_delay=number(std::string(option.substr(std::string_view("--panel-menu-delay=").size())).c_str(),max_probe_cycles);
    }
    else if(option.starts_with("--panel-chord-end=")){
     if(panel_chord_end)throw std::invalid_argument("Duplicate panel chord end");
@@ -472,7 +479,7 @@ int main(int argc,char**argv){
   if(adc_sample&&adc_scan_samples)throw std::invalid_argument("Choose either --adc-an3 or --adc-scan, not both");
   const bool lcd_enabled=profile_seen;
   const bool service_panel=profile=="lcd-meg-vop3-t6-panel-experiment-16mhz";
-  if(panel_chord_end&&!service_panel)throw std::invalid_argument("Panel chord requires T6 panel profile");
+  if((panel_chord_end||panel_menu_delay)&&!service_panel)throw std::invalid_argument("Panel timing requires T6 panel profile");
   const bool panel=service_panel||profile=="lcd-meg-vop3-idle-panel-experiment-16mhz";
   if((panel_window||panel_rows_seen)&&!service_panel)throw std::invalid_argument("Panel stimulus options require the T6 panel profile");
   if(panel_observation_window&&!panel)throw std::invalid_argument("Panel observer requires a panel profile");
@@ -484,7 +491,7 @@ int main(int argc,char**argv){
   auto rom=load(argv[1]);if(view=="swap16")for(std::size_t i=0;i<rom.size();i+=2)std::swap(rom[i],rom[i+1]);
   const auto reset_target=((uint32_t(rom[1])<<16)|(uint32_t(rom[2])<<8)|rom[3]);
   if(reset_target&1)throw std::invalid_argument("Odd reset target;verify explicit ROM byte order");
-  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.service_panel=service_panel;if(panel_chord_end)sink.panel_chord_end=*panel_chord_end;sink.panel_rows5=uint8_t(panel_rows5);sink.panel_rows6=uint8_t(panel_rows6);sink.panel_window=panel_window;sink.panel_observer.enabled=panel_observation_window.has_value();sink.panel_observer.window=panel_observation_window;sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_panel_reads=panel_observation_window.has_value();host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
+  Sink sink(lcd_enabled,meg_enabled,source_status,native,level,panel);sink.service_panel=service_panel;if(panel_chord_end)sink.panel_chord_end=*panel_chord_end;sink.panel_menu_delay=panel_menu_delay.value_or(0);sink.panel_rows5=uint8_t(panel_rows5);sink.panel_rows6=uint8_t(panel_rows6);sink.panel_window=panel_window;sink.panel_observer.enabled=panel_observation_window.has_value();sink.panel_observer.window=panel_observation_window;sink.irq_observer.enabled=observe_irq;sink.an3_sample=adc_sample;sink.adc_scan_samples=adc_scan_samples;sink.observe_sci_tx=observe_sci_tx;Host host(rom,sink,observe_tstr,midi ? std::span<const yamanix::SciCycleTimeline::RxEvent>(*midi) : std::span<const yamanix::SciCycleTimeline::RxEvent>{});host.observe_startup_prefix=observe_startup_prefix;host.startup_prefix.window=prefix_window;host.observe_panel_reads=panel_observation_window.has_value();host.observe_sci0_rx_reads=observe_sci0_rx_reads;host.observe_sci1_rx_reads=observe_sci1_rx_reads;host.observe_sci_writes=observe_sci_writes;host.sci_first_cycle=sci_first_cycle;host.sci_last_cycle=sci_last_cycle;yamanix::H8FirstInstructions<Host>cpu(host,0,&host.bus.irq());
   uint64_t completed=0,calls=0;std::string error;
   try{while(completed<cycles){const auto count=std::min(slice,cycles-completed);
    calls+=cpu.run(completed,int(count),std::size_t(limit-calls));completed+=count;

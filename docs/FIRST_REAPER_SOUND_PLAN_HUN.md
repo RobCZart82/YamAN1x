@@ -1,5 +1,7 @@
 # Az első REAPER-hang terve — magyar összefoglaló
 
+A következő próba a helyes és módosított SCI1 visszhangot hasonlítja össze. [2026-11-28](DEVELOPMENT_LOG.md#project-t6-request-and-timeout--2026-11-28).
+
 Következő lépés az ADC és a kijelző műveleteinek összevetése, majd a gombok elengedésének és a tesztválasztásnak a próbája. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
 
 A következő összevetés a javított panelolvasás utáni `0xFFFFE8` című írás. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).

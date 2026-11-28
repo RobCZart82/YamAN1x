@@ -1,5 +1,7 @@
 # Development status
 
+The project reaches T6, sends AA 50 5F on SCI1 and shows NG without a reply. [2026-11-28](DEVELOPMENT_LOG.md#project-t6-request-and-timeout--2026-11-28).
+
 The service probe now continues through the direct upper ADC scan to the cycle bound. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
 
 The corrected service panel mapping reaches partial Test Mode text before a byte write to `0xFFFFE8` stops the probe. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
