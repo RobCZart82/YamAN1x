@@ -1,3 +1,20 @@
+## Matched held panel input — 2026-11-28
+
+The project at the #366 merge and the source-locked MAME research build
+both held SF and SG from reset through the seven-second observation.
+The panel at 0x680000 returned F7 for selector 5, 77 for selector 6 and FF
+for the other selectors. The project scanned in order 0,4,2,6,1,5,3,7 and
+MAME in order 0,1,2,3,4,5,6,7. Project reports at 4,096 and 1,000,000
+cycles per slice differed only in callback count. Two MAME repeats used
+fresh NVRAM and produced identical logs. The ledger records their hashes.
+
+Starting at EA96 after the selector-5 read, 55 dispatches matched in PC,
+opcode and raw CCR. At the next EA96, the project had read selector 3
+(FF, cycle 92,383,513, CCR 29), while MAME had read selector 6
+(77, cycle 63,026,372, CCR 21). The compared windows had zero drops.
+Trace the raw P6 writes and selector mapping before interpreting the
+downstream service-mode decision. The project still displayed Welcome.
+
 ## Held panel chord control — 2026-11-27
 
 Two project runs built from `569777745de854016656841bf977e990ed96914d` used the
