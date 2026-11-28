@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-28",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "b4b6f8baf40218200106711c64f5f97412210614",
+  "baseline_commit": "e2d339c75db872550231efccb102d414b3dbe1d5",
   "entries": [
     {
       "pr": 6,
@@ -8609,6 +8609,39 @@
         "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46163220050"
       },
       "review": "Codex completed code review on the final head without findings. No review threads."
+    },
+    {
+      "pr": 368,
+      "status": "merged",
+      "title": "fix: align service panel P6 selector mapping",
+      "head_commit": "dd26228c6ed1baed9a8c1fabc300f55c21eba476",
+      "merge_commit": "e2d339c75db872550231efccb102d414b3dbe1d5",
+      "merged_at_utc": "2026-11-28T17:44:53Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46168639005",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46168639003",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46168639081"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46172123698",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46172123654",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46172123609"
+      },
+      "review": "Codex review completed on final head with no findings. No review threads."
     }
   ],
   "pending_changes": [],
@@ -8731,8 +8764,8 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "base_commit": "b4b6f8baf40218200106711c64f5f97412210614",
-    "branch": "research/p6-selector-mapping",
+    "base_commit": "e2d339c75db872550231efccb102d414b3dbe1d5",
+    "branch": "research/service-adc",
     "pr": null,
     "head_commit": null,
     "merge_commit": null
@@ -10124,7 +10157,7 @@
   },
   "p6_selector_mapping_20261128": {
     "base_commit": "b4b6f8baf40218200106711c64f5f97412210614",
-    "status": "candidate",
+    "status": "merged",
     "raw_p6_hex": [
       "7C",
       "7A",
@@ -10147,6 +10180,23 @@
       "width": 1,
       "value": "0x37"
     },
+    "hardware_validated": false,
+    "pr": 368,
+    "merge_commit": "e2d339c75db872550231efccb102d414b3dbe1d5"
+  },
+  "service_adc_upper_20261128": {
+    "status": "candidate",
+    "mame_source": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "mame_log_sha256": "2a8a93268993905fe93f9e1d6b74bd0d5445fe37cb1eb6741f08eb568e3514b1",
+    "mame_binary_sha256": "2d1c08a1fc948ac7723615037bf9d9eff7d809dbfc582d70d39122c7c7aeb770",
+    "firmware_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "project_binary_sha256": "1d74aedb9624465a83c90096e8d0a70617cb580fbb18d1b27a41ddea565f2e5b",
+    "project_report_sha256": [
+      "4bda3439afbd0f505121970d436b5fc74326068400a522a047864a3c570121cf",
+      "8418da4054980501df5459ea827817abdda3c8c161653c4d80ef2d7dc016c0e7"
+    ],
+    "first_adcsr_37_mame_cycle": 63483532,
+    "project_first_an4_cycle": 92666318,
     "hardware_validated": false
   }
 }

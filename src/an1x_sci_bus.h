@@ -184,13 +184,12 @@ private:
                         adc_scan_.write_adf(value & 0x80);
                     }
                 } else {
-                    if (value & 4)
-                        throw std::logic_error("Upper ADC scan requires the initial lower scan");
-                    const auto sample = sink_.adc_scan_sample(0, now_);
+                    const auto first = unsigned(value & 4);
+                    const auto sample = sink_.adc_scan_sample(first, now_);
                     require_callback_live();
                     const auto previous = uint16_t((uint16_t(adc_.result_high()) << 2) |
                                                    (adc_.result_low() >> 6));
-                    adc_scan_.start(now_, sample, previous, adc_.control() & value & 0x80);
+                    adc_scan_.start(now_, sample, previous, adc_.control() & value & 0x80, first);
                 }
                 return;
             }

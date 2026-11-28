@@ -140,6 +140,25 @@ int main(){std::vector<uint8_t>rom(0x100000);unsigned accepted=0;
   check(bus.read_byte(0xffffe8) == 0 && bus.next_bus_event() == 0 &&
         analog.events.size() == 6, "Reset cancels scan and clears ADF");
  }
+ for (uint64_t cut = 266; cut <= 1300; ++cut) {
+  ScanSink analog;
+  yamanix::An1xSciBus<ScanSink> bus(rom, {}, analog);
+  bus.write_byte(0xffffe8, 0x23);
+  bus.update(266);
+  bus.write_byte(0xffffe8, 0x37);
+  check(bus.read_byte(0xffffe8) == 0x37 && bus.read_word(0xffffe6) == 0xaac0 &&
+        bus.next_bus_event() == 532, "Direct upper scan preserves ADDRD and clears ADF");
+  bus.update(cut);
+  bus.update(1300);
+  check(analog.events == std::vector<std::pair<unsigned,uint64_t>>{
+      {4,266},{5,532},{6,788},{7,1044},{4,1300}},
+      "Direct upper scan samples AN4 through AN7 and repeats");
+  for (unsigned lane = 0; lane < 4; ++lane)
+   check(bus.read_word(0xffffe0 + 2 * lane) == (104 + lane) * 64,
+         "Direct upper scan commits each result to its shared register");
+  check(bus.read_byte(0xffffe8) == 0xb7 && bus.next_bus_event() == 1556,
+        "Direct upper scan raises ADF on completion");
+ }
  for (uint64_t cut = 300; cut <= 1334; ++cut) {
   ScanSink analog;
   yamanix::An1xSciBus<ScanSink> bus(rom, {}, analog);

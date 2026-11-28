@@ -1,5 +1,7 @@
 # Az első REAPER-hang terve — magyar összefoglaló
 
+Következő lépés az ADC és a kijelző műveleteinek összevetése, majd a gombok elengedésének és a tesztválasztásnak a próbája. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
+
 A következő összevetés a javított panelolvasás utáni `0xFFFFE8` című írás. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
 
 Az egyező kitartott gombállapotnál a választók sorrendje eltért. A szervizmód döntése előtt a P6-írásokat és a választó leképezését vizsgáljuk. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).

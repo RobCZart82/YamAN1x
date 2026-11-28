@@ -1,5 +1,7 @@
 # Fejlesztési állapot — magyar összefoglaló
 
+A szervizmód próbája a felső ADC-pásztázás után megszakítás nélkül eléri a ciklushatárt. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
+
 A javított P6-leképezéssel megjelenik a szervizmód feliratának eleje, majd a próba megáll egy `0xFFFFE8` című írásnál. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
 
 Az azonos kitartott gombállapot mellett eltért a panelolvasások sorrendje, az 5-ös választótól pedig 55 utasítás egyezett. Következő lépés a P6-írások és a választó leképezésének összevetése. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).
