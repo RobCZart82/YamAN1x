@@ -460,7 +460,9 @@ def main(binary):
                                extra=("--panel-chord-end=1",))
             require(code == 0 and report["panel_pressed_reads"] == 0,
                     "Released chord returns idle byte")
-        for options, profile_arg in ((("--panel-rows=1:2", "--panel-rows=3:4"), service),
+        for options, profile_arg in ((("--panel-menu-delay=1", "--panel-menu-delay=2"), service),
+                                     (("--panel-menu-delay=1",), "lcd-meg-vop3-idle-panel-experiment-16mhz"),
+                                     (("--panel-rows=1:2", "--panel-rows=3:4"), service),
                                      (("--panel-rows=1:2",), "lcd-meg-vop3-idle-panel-experiment-16mhz"),
                                      (("--observe-panel=9:8",), service),
                                      (("--panel-rows=1:256",), service)):

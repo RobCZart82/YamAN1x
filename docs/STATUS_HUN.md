@@ -1,5 +1,7 @@
 # Fejlesztési állapot — magyar összefoglaló
 
+A projekt eléri a T6 tesztet, SCI1-en elküldi az AA 50 5F bájtokat, majd válasz nélkül NG-t jelez. [2026-11-28](DEVELOPMENT_LOG.md#project-t6-request-and-timeout--2026-11-28).
+
 A szervizmód próbája a felső ADC-pásztázás után megszakítás nélkül eléri a ciklushatárt. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
 
 A javított P6-leképezéssel megjelenik a szervizmód feliratának eleje, majd a próba megáll egy `0xFFFFE8` című írásnál. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).

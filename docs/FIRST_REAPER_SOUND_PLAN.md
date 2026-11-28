@@ -1,5 +1,7 @@
 # First REAPER Sound Plan
 
+Next, compare the correct and altered diagnostic echo on SCI1 before advancing to normal MIDI. [2026-11-28](DEVELOPMENT_LOG.md#project-t6-request-and-timeout--2026-11-28).
+
 Compare the post-start ADC and LCD transactions under the matched service profile, then test chord release and selection. [2026-11-28](DEVELOPMENT_LOG.md#direct-upper-adc-scan-in-service-mode--2026-11-28).
 
 The next service-mode comparison is the byte write to `0xFFFFE8` after the corrected P6 scan. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
