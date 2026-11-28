@@ -3,7 +3,7 @@
   "recorded_date": "2026-11-28",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
+  "baseline_commit": "b4b6f8baf40218200106711c64f5f97412210614",
   "entries": [
     {
       "pr": 6,
@@ -8576,6 +8576,39 @@
         "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46074095019"
       },
       "review": "Codex review completed without findings on the final head (issue comment 7228404459). No unresolved review threads."
+    },
+    {
+      "pr": 367,
+      "title": "research: compare matched held panel inputs",
+      "status": "merged",
+      "head_commit": "f4da4aa19442efc78b771b15a2673266afed9024",
+      "merge_commit": "b4b6f8baf40218200106711c64f5f97412210614",
+      "merged_at_utc": "2026-11-28T16:04:52Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success",
+        "research-macos": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46159818087",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46159818100",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46159818081"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46163220052",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46163220082",
+        "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46163220050"
+      },
+      "review": "Codex completed code review on the final head without findings. No review threads."
     }
   ],
   "pending_changes": [],
@@ -8698,8 +8731,8 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/matched-held-panel",
-    "base_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
+    "base_commit": "b4b6f8baf40218200106711c64f5f97412210614",
+    "branch": "research/p6-selector-mapping",
     "pr": null,
     "head_commit": null,
     "merge_commit": null
@@ -10071,7 +10104,7 @@
     "merge_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a"
   },
   "matched_held_panel_20261128": {
-    "status": "candidate",
+    "status": "merged",
     "base_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
     "mame_source": "706dbb73281320c54d7c2f16262c1c3786f2be01",
     "firmware_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
@@ -10085,6 +10118,35 @@
     "matched_dispatches": 55,
     "mame_window_dropped": 0,
     "project_window_dropped": 0,
+    "hardware_validated": false,
+    "pr": 367,
+    "merge_commit": "b4b6f8baf40218200106711c64f5f97412210614"
+  },
+  "p6_selector_mapping_20261128": {
+    "base_commit": "b4b6f8baf40218200106711c64f5f97412210614",
+    "status": "candidate",
+    "raw_p6_hex": [
+      "7C",
+      "7A",
+      "7E",
+      "79",
+      "7D",
+      "7B",
+      "7F",
+      "78"
+    ],
+    "mame_trace_sha256": "3d2f35261d1454008ce67668e823e7372311cc0e758eb8e98a06a669d34092eb",
+    "project_p6_trace_sha256": "9d99b215fb975af4700d2fd646a8484f3aea54b10e5483841f07ac396267bd85",
+    "candidate_binary_sha256": "3bf2492f20d92b605f60f2db51017ad43c9678256e9d0eff072c9082d9a13081",
+    "candidate_report_sha256": [
+      "ea1e7b85ed574687ec2e4ea03ba04f7f318ae08d348c4ccb0627d2be74ad6e4d",
+      "cc91a7a2d7274b3770014acd32ce43c5ed5e83d7c1088fdac175a68d22012fd1"
+    ],
+    "fault": {
+      "address": "0xFFFFE8",
+      "width": 1,
+      "value": "0x37"
+    },
     "hardware_validated": false
   }
 }

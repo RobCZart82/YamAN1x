@@ -253,7 +253,10 @@ struct Sink {
  void clock(unsigned,uint64_t,bool){++clock_count;}
  bool dma_request(unsigned vector,uint64_t at){irq_observer.record(vector,at);return false;}
  uint8_t gpio_read(unsigned p,uint64_t t){if(meg_sink())return meg_sink()->gpio_read(p,t);if(lcd)return lcd->gpio_read(p,t);throw std::logic_error("Unmodeled external GPIO input");}
- void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(p==6)panel_selector=v&7;if(meg_sink())meg_sink()->gpio_write(p,t,v,d);else if(lcd)lcd->gpio_write(p,t,v,d);}
+ void gpio_write(unsigned p,uint64_t t,uint8_t v,uint8_t d){++gpio_writes;if(p==6){
+  // The pinned MAME service profile wires P6.2 to selector bit 0 and P6.0 to bit 2.
+  panel_selector=service_panel ? ((v>>2)&1)|(v&2)|((v&1)<<2) : v&7;
+ }if(meg_sink())meg_sink()->gpio_write(p,t,v,d);else if(lcd)lcd->gpio_write(p,t,v,d);}
 };
 struct Host {
  Sink& sink;

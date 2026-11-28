@@ -1,5 +1,7 @@
 # Development status
 
+The corrected service panel mapping reaches partial Test Mode text before a byte write to `0xFFFFE8` stops the probe. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
+
 The matched held control reproduced the different panel scan order and matched 55 dispatches from selector 5. Next, compare raw P6 writes and selector mapping. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).
 
 Held-chord control: the project and pinned MAME agree on the selector-5 value and the next six dispatches through EAA6. The project still shows Welcome. The next comparison needs the same held waveform in both emulators and the downstream decision state. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).

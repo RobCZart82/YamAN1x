@@ -1,5 +1,7 @@
 # Az első REAPER-hang terve — magyar összefoglaló
 
+A következő összevetés a javított panelolvasás utáni `0xFFFFE8` című írás. [2026-11-28](DEVELOPMENT_LOG.md#service-panel-p6-mapping--2026-11-28).
+
 Az egyező kitartott gombállapotnál a választók sorrendje eltért. A szervizmód döntése előtt a P6-írásokat és a választó leképezését vizsgáljuk. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).
 
 A kitartott projektpróbában az 5-ös választó értéke és az EA96–EAA6 közötti hat utasítás egyezik a korábbi MAME-méréssel. A következő összevetésben azonos gombidőzítést kell használni, és az EAA6 után követni a döntést. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
