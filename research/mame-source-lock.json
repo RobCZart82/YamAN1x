@@ -31,7 +31,8 @@
     "mame-boot-irq-observation.patch",
     "mame-boot-prefix-observation.patch",
     "mame-boot-dispatch-window.patch",
-    "mame-panel-scan-observation.patch"
+    "mame-panel-scan-observation.patch",
+    "mame-panel-held-control.patch"
   ],
   "generated_headers": {
     "src/mame/yamaha/yamanix_lcd_bus.h": "src/lcd_bus.h",

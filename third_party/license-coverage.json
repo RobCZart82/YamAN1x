@@ -1598,6 +1598,10 @@
           "required_notices": []
         },
         {
+          "path": "research/mame-panel-held-control.patch",
+          "required_notices": []
+        },
+        {
           "path": "research/mame-panel-scan-observation.patch",
           "required_notices": []
         },

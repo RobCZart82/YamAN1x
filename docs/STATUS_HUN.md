@@ -1,5 +1,7 @@
 # Fejlesztési állapot — magyar összefoglaló
 
+Az azonos kitartott gombállapot mellett eltért a panelolvasások sorrendje, az 5-ös választótól pedig 55 utasítás egyezett. Következő lépés a P6-írások és a választó leképezésének összevetése. [2026-11-28](DEVELOPMENT_LOG.md#matched-held-panel-input--2026-11-28).
+
 Kitartott gombkombinációval az 5-ös választó beolvasott értéke és az EAA6-ig következő hat utasítás egyezik a rögzített MAME-méréssel. A projekt kijelzőjén továbbra is Welcome látható. A következő mérés mindkét emulátorban azonos gombidőzítéssel követi a szervizmód döntését. [Development log](DEVELOPMENT_LOG.md#held-panel-chord-control--2026-11-27).
 
 A műszaki státusz kanonikus dokumentuma az angol [STATUS.md](STATUS.md). Ez a magyar oldal a fő eredményeket és nyitott elfogadási pontokat foglalja össze.

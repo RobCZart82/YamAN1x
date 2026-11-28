@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "recorded_date": "2026-11-27",
+  "recorded_date": "2026-11-28",
   "display_timezone": "Europe/Budapest",
   "source": "GitHub merged pull-request metadata and checks, verified against main Git history; local read-only firmware diagnostics",
-  "baseline_commit": "569777745de854016656841bf977e990ed96914d",
+  "baseline_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
   "entries": [
     {
       "pr": 6,
@@ -8547,6 +8547,35 @@
         "mame_research": "https://github.com/RobCZart82/YamAN1x/actions/runs/46065422038"
       },
       "review": "No reviews, comments or review threads observed on the final head. Ruleset 25910947 required zero approvals and resolved threads. No automated review or quota error observed."
+    },
+    {
+      "pr": 366,
+      "title": "docs: record held panel chord control",
+      "status": "merged",
+      "head_commit": "e3c55eb63c790004a85c5dadb6dfccec6dc4d0eb",
+      "merge_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
+      "merged_at_utc": "2026-11-27T22:02:11Z",
+      "pr_head_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "main_checks": {
+        "build-and-test (ubuntu-24.04)": "success",
+        "build-and-test (macos-14)": "success",
+        "build-and-test (windows-2025)": "success",
+        "initial-decode-msan": "success"
+      },
+      "pr_head_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46069998211",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46069998120"
+      },
+      "main_check_runs": {
+        "rom_free_ci": "https://github.com/RobCZart82/YamAN1x/actions/runs/46074094958",
+        "initial_decode_msan": "https://github.com/RobCZart82/YamAN1x/actions/runs/46074095019"
+      },
+      "review": "Codex review completed without findings on the final head (issue comment 7228404459). No unresolved review threads."
     }
   ],
   "pending_changes": [],
@@ -8669,14 +8698,11 @@
   },
   "current_candidate": {
     "status": "candidate",
-    "branch": "research/panel-held-control",
-    "base_commit": "569777745de854016656841bf977e990ed96914d",
+    "branch": "research/matched-held-panel",
+    "base_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
     "pr": null,
     "head_commit": null,
-    "merge_commit": null,
-    "pr_head_checks": null,
-    "main_checks": null,
-    "scope": "Record the matched selector-5 sample control and reconcile PR #365."
+    "merge_commit": null
   },
   "sci_tx_firmware_diagnostic_20261120": {
     "source_commit": "746697354478a403af47f6438e7b9d3eb58b51ce",
@@ -10039,6 +10065,26 @@
     "selector5_value": "F7",
     "selector6_value": "77",
     "ea9a_ccr": "21",
+    "hardware_validated": false,
+    "status": "merged",
+    "pr": 366,
+    "merge_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a"
+  },
+  "matched_held_panel_20261128": {
+    "status": "candidate",
+    "base_commit": "38baa0f8c7f4f181c72f833a129bf5ca9036ef5a",
+    "mame_source": "706dbb73281320c54d7c2f16262c1c3786f2be01",
+    "firmware_sha256": "4f72c8c595258ec9de83006287cc9b14f1450349a2253ebbf4d7437c22f95cbe",
+    "mame_binary_sha256": "c4fed497fce35aab23098e75c0b18d0df8ce79b0e6cd9f02a6f429eed13c270b",
+    "mame_repeated_log_sha256": "f5716c15e38226aa69c1a4fecba77c84c0feeafe80fca5bb182e2626e7d0b4b2",
+    "project_binary_sha256": "c0d4568f863445cd61982624d89ce04665271a4e23824bc3100b69514cb88869",
+    "project_report_sha256": [
+      "a8ad48e9c71f19be8bd08eec3d2e65992c43a6bd588c8b80f4451460c4af707c",
+      "4be10571c9245b7f1a243e65bf146cc28a62b37a2072092e019e9c8aaf8d7349"
+    ],
+    "matched_dispatches": 55,
+    "mame_window_dropped": 0,
+    "project_window_dropped": 0,
     "hardware_validated": false
   }
 }

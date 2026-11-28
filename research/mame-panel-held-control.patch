@@ -1,0 +1,32 @@
+--- a/src/mame/yamaha/yman1x.cpp
++++ b/src/mame/yamaha/yman1x.cpp
+@@ -177,9 +177,10 @@
+         fatalerror("Panel scan trace requires a bounded cycle window");
+     }
+     auto &space = m_maincpu->space(AS_PROGRAM);
++    const bool hold_panel = std::getenv("YAMANIX_PANEL_HELD_CONTROL") != nullptr;
+     if (m_service_panel_profile || m_panel_scan_trace)
+         m_panel_control_tap = space.install_read_tap(0x680000, 0x680001, "panel_control",
+-        [this](offs_t, u16 &value, u16 mask) {
++        [this, hold_panel](offs_t, u16 &value, u16 mask) {
+             if (!(mask & 0xff00) || machine().side_effects_disabled()) return;
+             const unsigned pins = m_test_panel_port6;
+             const unsigned selector = ((pins >> 2) & 1) | (pins & 2) | ((pins & 1) << 2);
+@@ -187,14 +188,14 @@
+             const u64 ns = machine().time().as_ticks(1000000000);
+             if (m_service_panel_profile) {
+                 rows = 0xff;
+-                if (ns < 4200000000ULL) {
++                if (hold_panel || ns < 4200000000ULL) {
+                     if (selector == 5) rows &= ~0x08u;
+                     if (selector == 6) rows &= ~0x88u;
+                 }
+-                if (selector == 5 && ns >= 5000000000ULL && ns < 6000000000ULL &&
++                if (!hold_panel && selector == 5 && ns >= 5000000000ULL && ns < 6000000000ULL &&
+                         ((ns - 5000000000ULL) % 200000000ULL < 100000000ULL))
+                     rows &= ~0x08u;
+-                if (selector == 5 && ns >= 6200000000ULL && ns < 6320000000ULL)
++                if (!hold_panel && selector == 5 && ns >= 6200000000ULL && ns < 6320000000ULL)
+                     rows &= ~0x40u;
+                 value = (value & 0x00ff) | (rows << 8);
+             }
